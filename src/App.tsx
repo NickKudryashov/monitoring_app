@@ -14,7 +14,7 @@ const App = () => {
   const {theme,toggleTheme} = useTheme()
   return (
     <div className={classNames('app',{},[theme,])}>
-      <button onClick={toggleTheme}>Сменить тему</button>
+      <button onClick={toggleTheme}>Сменить тему123</button>
       <Link to={'/'}>Главная</Link>
       <Link to={'/about'}>О странице</Link>
       <Suspense fallback={<div>Loading</div>}>
