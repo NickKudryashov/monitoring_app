@@ -6,3 +6,8 @@ export const defaultLogin = createAsyncThunk('user/defaultLogin',async (userData
     const response = await UserService.defaultLogin(userData.email,userData.password);
     return response.data
 })
+
+export const defaultAuthCheck = createAsyncThunk('user/defaultAuthCheck',async(_,thunkAPI)=>{
+    const response = await UserService.checkDefaultLogin()
+    return response.data
+})

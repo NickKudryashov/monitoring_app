@@ -1,9 +1,18 @@
-export enum AppRoutes {
+export enum AppRoutesPublic {
+    AUTH='auth',
+    REDIRECT='redir'
+};
+export enum AppRoutesAuth {
     MAIN='main',
-    AUTH='auth'
+    REDIRECT='redir'
 };
 
-export const RoutePath: Record<AppRoutes,string> = {
-    [AppRoutes.MAIN]:'/',
-    [AppRoutes.AUTH]:'auth'
+
+export const RoutePathPublic: Record<AppRoutesPublic,string> = {
+    [AppRoutesPublic.AUTH]:'auth',
+    [AppRoutesPublic.REDIRECT]:'*',
+}
+export const RoutePathAuth: Record<AppRoutesAuth,string> = {
+    [AppRoutesAuth.MAIN]:'main',
+    [AppRoutesAuth.REDIRECT]:'*',
 }

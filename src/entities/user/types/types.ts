@@ -7,3 +7,7 @@ export interface DefaultAuthRequestData {
     email:string;
     password:string;
 }
+
+export interface DefaultAuthCheckResponse {
+    access:string;
+}

@@ -1,5 +1,10 @@
 :root {
     --font-family-main : Consolas,"Times New Roman", serif;
+    
+    --font-size-xs : 10px;
+    --font-line-xs: 18px;
+    --font-xs : var(--font-size-xs) / var(--font-line-xs) var(--font-family-main);
+
 
     --font-size-s : 12px;
     --font-line-s: 20px;
@@ -18,5 +23,8 @@
     //Стили для прозрачных компонентов
     --transparent-background-color: transparent;
     --transparent-text-color: white;
+
+    --navbar-height: 20%;
+    --main-content-height: 90%;
 
 }

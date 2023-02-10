@@ -4,7 +4,6 @@ import cls from './DefaultAuth.module.scss';
 import { PropsWithChildren, useState } from 'react';
 import { AppInput } from 'shared/ui/AppInput/AppInput';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/hooks';
-import { userSlice } from 'entities/user/Store/authReducer';
 import { defaultLogin } from 'entities/user/Store/actionCreators';
 import { AppCheckbox } from 'shared/ui/AppCheckbox/AppCheckbox';
 

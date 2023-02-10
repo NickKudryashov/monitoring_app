@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DefaultAuthResponse } from "../types/types";
-import { defaultLogin } from "./actionCreators";
+import { DefaultAuthCheckResponse, DefaultAuthResponse, } from "../types/types";
+import { defaultAuthCheck, defaultLogin } from "./actionCreators";
 
 interface UserState {
     isAuth:boolean;
@@ -34,6 +34,13 @@ export const userSlice = createSlice({
         [defaultLogin.rejected.type] : (state,action) => {
             state.isAuth = false;
             alert('Авторизация неудачна!')
+        },
+        [defaultAuthCheck.fulfilled.type]: (state,action: PayloadAction<DefaultAuthCheckResponse>)=>{
+            state.isAuth = true;
+            localStorage.setItem('access_token',action.payload.access)
+        },
+        [defaultAuthCheck.rejected.type]: (state,action: PayloadAction<DefaultAuthCheckResponse>)=>{
+            state.isAuth = false;
         }
     }
 })

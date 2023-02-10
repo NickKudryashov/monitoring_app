@@ -1,9 +1,17 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import { userReducer } from "entities/user";
+import { categoryReducer } from "entities/Category";
+import { objectReducer } from "entities/Objects";
+import { heatNodeReducer } from "entities/HeatNodes";
+import { heatDeviceReducer } from "entities/Heatcounters";
 
 const rootReducer = combineReducers({
-    userReducer 
+    userReducer,
+    categoryReducer, 
+    objectReducer,
+    heatNodeReducer,
+    heatDeviceReducer,
 })
 
 

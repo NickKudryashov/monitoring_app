@@ -1,12 +1,20 @@
-import { Suspense } from "react"
+import { defaultAuthCheck } from "entities/user"
+import { Suspense, useEffect } from "react"
 import { Route, Routes } from "react-router-dom"
-import { RouteConfig } from "../config/RouteConfig"
+import { useAppDispatch, useAppSelector } from "shared/hooks/hooks"
+import { RouteConfigPublic,RouteConfigAuth } from "../config/RouteConfig"
 
 export const AppRouter = () => {
-    return (
+  const {isAuth} = useAppSelector(state=>state.userReducer) 
+  const dispatch = useAppDispatch()
+
+  useEffect(()=>{
+    dispatch(defaultAuthCheck())
+  },[])
+  return (
       <Suspense fallback={<div>Loading</div>}>
         <Routes>
-              {Object.values(RouteConfig).map(({path,element})=>(
+              {Object.values(isAuth ? RouteConfigAuth  : RouteConfigPublic).map(({path,element})=>(
               <Route 
                   key={path} 
                   path={path} 

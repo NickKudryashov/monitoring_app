@@ -1,0 +1,11 @@
+.DetailView {
+    background: var(--primary-color);
+    width:100%;
+    height:100%
+}
+
+
+.cards {
+    display:flex;
+    flex-direction: row;
+}
