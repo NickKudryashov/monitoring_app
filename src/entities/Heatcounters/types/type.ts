@@ -20,7 +20,7 @@ interface HeatSystem {
     parameters:HeatParameters[];
 }
 
-interface HeatDevice {
+export interface HeatDevice {
     id:number;
     user_object:number;
     node:number;

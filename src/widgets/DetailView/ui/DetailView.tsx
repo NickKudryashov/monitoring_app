@@ -11,11 +11,12 @@ interface DetailViewProps {
 }
 
 export function DetailView(props: PropsWithChildren<DetailViewProps>) {
- const { className } = props;
+ const { className,children } = props;
  const {categories} = useAppSelector(state=>state.categoryReducer)
  return (
 <div className={classNames(cls.DetailView,{},[className])}>
-<ObjectCategoryView/>
+    {children}
+{/* <ObjectCategoryView/> */}
 </div>
  );
 }

@@ -3,8 +3,11 @@ import cls from './DeviceListItem.module.scss';
 
 import type { PropsWithChildren } from 'react';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/hooks';
-import { categoryReducer, categorySlice } from 'entities/Category';
-import { ObjectListItem } from 'entities/Objects';
+import { categoryReducer, CategoryResponse, categorySlice } from 'entities/Category';
+import { ObjectListItem, ObjectResponse, objectSlice } from 'entities/Objects';
+import { HeatNodeListItem, HeatNodeResponse } from 'entities/HeatNodes';
+import { HeatDeviceListItem } from 'entities/Heatcounters';
+import { deviceListSlice } from '../reducers/DeviceListReducer';
 interface DeviceListItemProps {
  className?: string;
  parentID?:number;
@@ -14,21 +17,29 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
  const { className,parentID=0 } = props;
  const {categories} = useAppSelector(state=>state.categoryReducer)
  const {objects} = useAppSelector(state=>state.objectReducer)
- const {heatNodes} = useAppSelector(state=>state.heatNodeReducer)
+ const {currentDevice,currentNode,currentObject} = useAppSelector(state=>state.deviceListReducer)
  const dispatch = useAppDispatch()
- let cats:number[] = []
+ const categoryClickHandler = (cat:CategoryResponse)=>{
+    dispatch(categorySlice.actions.expand(cat.id))
+    dispatch(deviceListSlice.actions.setCategory(cat))
+ }
  return (
 <div className={classNames(cls.DeviceListItem,{},[className])}>
     {categories.map(element=>element.parentID===parentID && 
     <div>
-        <b onClick={()=>dispatch(categorySlice.actions.expand(element.id))}>{element.name}</b>
-        {element.expanded && cats.push(element.id) &&
+        <b onClick={()=>categoryClickHandler(element)}>{element.name}</b>
+        {element.expanded && 
         <DeviceListItem parentID={element.id}/>
         }
     </div>
     )}
     {/* {objects.map((object)=>object.category===parentID && <b>{object.name}</b>)} */}
-    {objects.map((object)=>object.category===parentID && <ObjectListItem id={object.id}>{heatNodes.map(el=>el.user_object===object.id && <b>{el.name}</b>)}</ObjectListItem>)}
+    {objects.map((object)=>object.category===parentID && 
+        <ObjectListItem onObjectClick={(obj:ObjectResponse)=>dispatch(deviceListSlice.actions.setObject(obj))} id={object.id}>
+                <HeatNodeListItem  onNodeClick={(node:HeatNodeResponse)=>dispatch(deviceListSlice.actions.setNode(node))} object_id={object.id}>
+                    <HeatDeviceListItem objectID={object.id}/>
+                </HeatNodeListItem>
+        </ObjectListItem>)}
 </div>
  );
 }

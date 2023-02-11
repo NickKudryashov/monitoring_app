@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { HeatDevice } from "../types/type";
 import { getDevices } from "./actionCreator";
 
 interface HeatDevicesState {

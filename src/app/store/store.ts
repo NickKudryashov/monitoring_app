@@ -5,6 +5,7 @@ import { categoryReducer } from "entities/Category";
 import { objectReducer } from "entities/Objects";
 import { heatNodeReducer } from "entities/HeatNodes";
 import { heatDeviceReducer } from "entities/Heatcounters";
+import { deviceListReducer } from "widgets/DeviceList";
 
 const rootReducer = combineReducers({
     userReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     objectReducer,
     heatNodeReducer,
     heatDeviceReducer,
+    deviceListReducer,
 })
 
 
