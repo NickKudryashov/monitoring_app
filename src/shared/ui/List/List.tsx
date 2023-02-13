@@ -1,7 +1,7 @@
-import classNames from 'shared/lib/classNames/classNames';
-import cls from './List.module.scss';
+import classNames from "shared/lib/classNames/classNames";
+import cls from "./List.module.scss";
 
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from "react";
 
 interface ListProps<T> {
  className?: string;
@@ -10,11 +10,11 @@ interface ListProps<T> {
 }
 
 export function List<T>(props: PropsWithChildren<ListProps<T>>) {
- const { className,items,renderItem,children } = props;
+    const { className,items,renderItem,children } = props;
 
- return (
-<div className={classNames(cls.List,{},[className])}>
-    {items.map(renderItem)}
-</div>
- );
+    return (
+        <div className={classNames(cls.List,{},[className])}>
+            {items.map(renderItem)}
+        </div>
+    );
 }

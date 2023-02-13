@@ -8,12 +8,12 @@ import { BrowserRouter } from "react-router-dom";
 // import ThemeProvider from "./app/providers/ThemeProvider/ui/ThemeProvider";
 const store = setupStore();
 render(
-   <Provider store={store}>
-   <BrowserRouter>
-      <ThemeProvider>
-      <App/>
-      </ThemeProvider>
-   </BrowserRouter>
-   </Provider>
-      ,document.getElementById('root')
-)
+    <Provider store={store}>
+        <BrowserRouter>
+            <ThemeProvider>
+                <App/>
+            </ThemeProvider>
+        </BrowserRouter>
+    </Provider>
+    ,document.getElementById("root")
+);

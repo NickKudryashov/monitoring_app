@@ -1,13 +1,13 @@
-import classNames from 'shared/lib/classNames/classNames';
-import cls from './AppTab.module.scss';
+import classNames from "shared/lib/classNames/classNames";
+import cls from "./AppTab.module.scss";
 
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useState } from "react";
 
 
 //Разобраться с any
 
 export enum AppTabThemes {
-    AUTH='auth',
+    AUTH="auth",
 }
 
 
@@ -20,20 +20,20 @@ interface AppTabProps {
 
 export function AppTab(props: PropsWithChildren<AppTabProps>) {
     const { className,tabs,theme=AppTabThemes.AUTH } = props;
-    const [activeTab,setActiveTab] = useState<number>(0)
- return (
-<div className={classNames(cls.AppTab,{},[className,cls[theme]])}>
+    const [activeTab,setActiveTab] = useState<number>(0);
+    return (
+        <div className={classNames(cls.AppTab,{},[className,cls[theme]])}>
  
-    <div className={cls.container}>
-        <div className={cls.buttons}>
-            {tabs.map(({name,Content,contentProps},index)=>
-            <button onClick={()=>setActiveTab(index)}>{name}</button>
-            )}
-        </div>
-        {tabs.map(({name,Content,contentProps},index)=>
-         <div>{index===activeTab && <Content {...contentProps}/>}</div>)}
-    </div>
+            <div className={cls.container}>
+                <div className={cls.buttons}>
+                    {tabs.map(({name},index)=>
+                        <button key={index} onClick={()=>setActiveTab(index)}>{name}</button>
+                    )}
+                </div>
+                {tabs.map(({Content,contentProps},index)=>
+                    <div key={index}>{index===activeTab && <Content {...contentProps}/>}</div>)}
+            </div>
 
-</div>
- );
+        </div>
+    );
 }

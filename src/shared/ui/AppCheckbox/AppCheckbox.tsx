@@ -1,11 +1,11 @@
-import classNames from 'shared/lib/classNames/classNames';
-import cls from './AppCheckbox.module.scss';
+import classNames from "shared/lib/classNames/classNames";
+import cls from "./AppCheckbox.module.scss";
 
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from "react";
 
 
 export enum AppCheckboxThemes {
-    AUTH='auth'
+    AUTH="auth"
 }
 
 
@@ -17,18 +17,18 @@ interface AppCheckboxProps {
 }
 
 export function AppCheckbox(props: PropsWithChildren<AppCheckboxProps>) {
- const { className=AppCheckboxThemes.AUTH,checked,onChange,label='' } = props;
+    const { className=AppCheckboxThemes.AUTH,checked,onChange,label="" } = props;
 
- const onChangeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>onChange(e.target.checked)
- return (
-    <div className={classNames(cls.AppCheckbox,{},[cls[className]])}>
-    <input 
+    const onChangeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>onChange(e.target.checked);
+    return (
+        <div className={classNames(cls.AppCheckbox,{},[cls[className]])}>
+            <input 
         
-        type='checkbox'
-        checked={checked}
-        onChange={onChangeHandler}
-    />{label}
-    </div>
+                type='checkbox'
+                checked={checked}
+                onChange={onChangeHandler}
+            />{label}
+        </div>
 
- );
+    );
 }

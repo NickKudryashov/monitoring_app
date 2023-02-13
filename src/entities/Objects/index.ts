@@ -5,4 +5,4 @@ import { ObjectCard } from "./ui/ObjectCard/ObjectCard";
 import { objectSlice } from "./reducers/reducers";
 import { ObjectResponse } from "./types/types";
 import { ObjectDetail } from "./ui/ObjectDetail/ObjectDetail";
-export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectResponse,ObjectDetail}
+export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectResponse,ObjectDetail};

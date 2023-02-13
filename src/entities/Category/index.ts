@@ -3,4 +3,4 @@ import { categoriesAllRequest } from "./reducers/actionCreators";
 import { categorySlice } from "./reducers/categoryReducers";
 import { CategoryCard } from "./ui/CategoryCard";
 import { CategoryResponse } from "./types/types";
-export {categoryReducer,categoriesAllRequest,categorySlice,CategoryCard,CategoryResponse}
+export {categoryReducer,categoriesAllRequest,categorySlice,CategoryCard,CategoryResponse};

@@ -22,10 +22,10 @@ const initialState:DeviceListState = {
     currentNode:undefined,
     currentObject:undefined,
     currentCategory:undefined,
-}
+};
 
 export const deviceListSlice = createSlice({
-    name:'deviceList',
+    name:"deviceList",
     initialState,
     reducers:{
         setObject(state,action:PayloadAction<CurrentObject>) {
@@ -56,6 +56,6 @@ export const deviceListSlice = createSlice({
 
         },
     }
-    })
+});
 
-export const deviceListReducer = deviceListSlice.reducer
+export const deviceListReducer = deviceListSlice.reducer;

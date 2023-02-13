@@ -1,10 +1,10 @@
-import classNames from 'shared/lib/classNames/classNames';
-import cls from './AppInput.module.scss';
+import classNames from "shared/lib/classNames/classNames";
+import cls from "./AppInput.module.scss";
 
-import type { InputHTMLAttributes, PropsWithChildren } from 'react';
+import type { InputHTMLAttributes, PropsWithChildren } from "react";
 
 export enum InputThemes {
-    AUTH='auth'
+    AUTH="auth"
 }   
 
 
@@ -14,21 +14,21 @@ interface AppInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export function AppInput(props: PropsWithChildren<AppInputProps>) {
- const { 
-    className=InputThemes.AUTH,
-    onChange,
-    value,
-    placeholder='Ввод...',
-    type='text' 
-} = props;
+    const { 
+        className=InputThemes.AUTH,
+        onChange,
+        value,
+        placeholder="Ввод...",
+        type="text" 
+    } = props;
 
 
- return (
-    <input 
-    className={classNames(cls.AppInput,{},[cls[className]])}
-    onChange={onChange}
-    placeholder={placeholder}
-    type={type}
-    />
- );
+    return (
+        <input 
+            className={classNames(cls.AppInput,{},[cls[className]])}
+            onChange={onChange}
+            placeholder={placeholder}
+            type={type}
+        />
+    );
 }

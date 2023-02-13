@@ -1,8 +1,8 @@
-import classNames from 'shared/lib/classNames/classNames';
-import cls from './HeatDeviceDetailView.module.scss';
+import classNames from "shared/lib/classNames/classNames";
+import cls from "./HeatDeviceDetailView.module.scss";
 
-import type { PropsWithChildren } from 'react';
-import { HeatDevice } from 'entities/Heatcounters/types/type';
+import type { PropsWithChildren } from "react";
+import { HeatDevice } from "entities/Heatcounters/types/type";
 
 interface DetailViewProps {
  className?: string;
@@ -10,12 +10,12 @@ interface DetailViewProps {
 }
 
 export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) {
- const { className,device,children } = props;
+    const { className,device,children } = props;
 
- return (
-<div className={classNames(cls.DetailView,{},[className])}>
-    <b>Информация по прибору {device.name}</b>
-    {children}
-</div>
- );
+    return (
+        <div className={classNames(cls.DetailView,{},[className])}>
+            <b>Информация по прибору {device.name}</b>
+            {children}
+        </div>
+    );
 }

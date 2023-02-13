@@ -11,19 +11,19 @@ interface UserState {
 const initialState: UserState = {
     users:[],
     isLoading:false,
-    error:'',
+    error:"",
     count:0
-}
+};
  
 
 export const userSlice = createSlice({
     initialState,
-    name:'user',
+    name:"user",
     reducers:{
         increment(state,action:PayloadAction<number>) {
-            state.count+=1
+            state.count+=1;
         },
     }
-})
+});
 
-export const userReducer123 = userSlice.reducer
+export const userReducer123 = userSlice.reducer;

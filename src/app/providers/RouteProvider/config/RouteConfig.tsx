@@ -13,12 +13,12 @@ export const RouteConfigPublic: Record<string,RouteProps> = {
         path:RoutePathPublic.redir,
         element:<AuthWidget/>
     }
-}
+};
 export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.MAIN]:{
         path: RoutePathAuth.main,
         element:<MainPage/>},
-        [AppRoutesAuth.REDIRECT]:{
-            path: RoutePathAuth.redir,
-            element:<MainPage/>}, 
-}
+    [AppRoutesAuth.REDIRECT]:{
+        path: RoutePathAuth.redir,
+        element:<MainPage/>}, 
+};

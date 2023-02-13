@@ -14,35 +14,35 @@ const initialState = {
     licenseAccepted:false,
     rulesAccepted: false,
     personalDataAccepted: false
-}
+};
 
 
 export const userSlice = createSlice({
-    name:'user',
+    name:"user",
     initialState,
     reducers: {
         logout(state,action:PayloadAction){
-            state.isAuth = false
+            state.isAuth = false;
         }
     },
     extraReducers:{
         [defaultLogin.fulfilled.type]: (state,action: PayloadAction<DefaultAuthResponse>) => {
             state.isAuth = true;
-            localStorage.setItem('access_token',action.payload.access)
-            localStorage.setItem('refresh_token',action.payload.refresh)
+            localStorage.setItem("access_token",action.payload.access);
+            localStorage.setItem("refresh_token",action.payload.refresh);
         },
         [defaultLogin.rejected.type] : (state,action) => {
             state.isAuth = false;
-            alert('Авторизация неудачна!')
+            alert("Авторизация неудачна!");
         },
         [defaultAuthCheck.fulfilled.type]: (state,action: PayloadAction<DefaultAuthCheckResponse>)=>{
             state.isAuth = true;
-            localStorage.setItem('access_token',action.payload.access)
+            localStorage.setItem("access_token",action.payload.access);
         },
         [defaultAuthCheck.rejected.type]: (state,action: PayloadAction<DefaultAuthCheckResponse>)=>{
             state.isAuth = false;
         }
     }
-})
+});
 
-export const userReducer = userSlice.reducer
+export const userReducer = userSlice.reducer;

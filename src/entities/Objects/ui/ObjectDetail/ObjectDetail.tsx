@@ -1,8 +1,8 @@
-import classNames from 'shared/lib/classNames/classNames';
-import cls from './ObjectDetail.module.scss';
+import classNames from "shared/lib/classNames/classNames";
+import cls from "./ObjectDetail.module.scss";
 
-import type { PropsWithChildren } from 'react';
-import { ObjectResponse } from 'entities/Objects/types/types';
+import type { PropsWithChildren } from "react";
+import { ObjectResponse } from "entities/Objects/types/types";
 
 interface ObjectDetailProps {
  className?: string;
@@ -10,12 +10,12 @@ interface ObjectDetailProps {
 }
 
 export function ObjectDetail(props: PropsWithChildren<ObjectDetailProps>) {
- const { className,obj,children } = props;
+    const { className,obj,children } = props;
 
- return (
-<div className={classNames(cls.ObjectDetail,{},[className])}>
-    <b>Информация по всем узлам объекта {obj.name}</b>
-    {children}
-</div>
- );
+    return (
+        <div className={classNames(cls.ObjectDetail,{},[className])}>
+            <b>Информация по всем узлам объекта {obj.name}</b>
+            {children}
+        </div>
+    );
 }
