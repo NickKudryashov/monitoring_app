@@ -1,8 +1,6 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./CategoryCard.module.scss";
-
 import type { PropsWithChildren } from "react";
-import { useAppSelector } from "shared/hooks/hooks";
 
 interface CategoryCardProps {
  className?: string;
@@ -11,8 +9,7 @@ interface CategoryCardProps {
 }
 
 export function CategoryCard(props: PropsWithChildren<CategoryCardProps>) {
-    const { className,name,children, onClick } = props;
-    const {categories} = useAppSelector(state=>state.categoryReducer);
+    const { className,name,onClick } = props;
     return (
         <div onClick={onClick} className={classNames(cls.CategoryCard,{},[className])}>
             <b>{name}</b>

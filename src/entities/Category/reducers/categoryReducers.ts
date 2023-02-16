@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CategoryResponse } from "../types/types";
 import { categoriesAllRequest } from "./actionCreators";
 
-interface CategoryItem {
+export interface CategoryItem {
     name:string;
     id:number;
     parentID:number;
@@ -32,7 +32,27 @@ export const categorySlice = createSlice({
                     localStorage.setItem(`category_${element.id}`,String(element.expanded || ""));
                 }
             });
-        }
+        },
+        closeCat(state,action:PayloadAction<number>) {
+            state.categories.map(element=>{
+                if (element.id === action.payload) {
+                    element.expanded=false;
+                    localStorage.setItem(`category_${element.id}`,String(element.expanded || ""));
+                }
+            });
+        },
+        closeAllCatsExceptSelected(state,action:PayloadAction<CategoryItem>) {
+            state.categories.map(element=>{
+                if (element.id === action.payload.id || element.id===action.payload.parentID) {
+                    element.expanded=true;
+                }
+                else {
+                    element.expanded=false;
+                }
+                localStorage.setItem(`category_${element.id}`,String(element.expanded || ""));
+            });
+        },
+
     },
     extraReducers:{
         [categoriesAllRequest.fulfilled.type]: (state,action:PayloadAction<CategoryResponse[]> )=>{

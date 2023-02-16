@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CategoryResponse } from "entities/Category";
+import { CategoryItem, CategoryResponse } from "entities/Category";
 import type { HeatDevice } from "entities/Heatcounters";
 import { HeatNodeResponse } from "entities/HeatNodes";
-import { ObjectResponse } from "entities/Objects";
+import { ObjectItem, ObjectResponse } from "entities/Objects";
 
 
 type CurrentDevice = HeatDevice | undefined;
 type CurrentNode = HeatNodeResponse | undefined;
-type CurrentObject = ObjectResponse | undefined;
-type CategoryInList = CategoryResponse | undefined;
+type CurrentObject = ObjectItem | undefined;
+type CategoryInList = CategoryItem | undefined;
 
 export interface DeviceListState{
     currentDevice: CurrentDevice;
@@ -48,7 +48,7 @@ export const deviceListSlice = createSlice({
             state.currentCategory = undefined;
 
         },
-        setCategory(state,action:PayloadAction<CategoryResponse>) {
+        setCategory(state,action:PayloadAction<CategoryItem>) {
             state.currentDevice=undefined;
             state.currentNode=undefined;
             state.currentObject=undefined;

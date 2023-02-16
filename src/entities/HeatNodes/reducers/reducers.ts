@@ -24,6 +24,12 @@ export const heatNodeSlice = createSlice({
                 element.expanded=!element.expanded;
                 localStorage.setItem(`heatNode_${element.id}`,String(element.expanded || ""));
             }});
+        },
+        closeNodeForObject(state,action:PayloadAction<number>) {
+            state.heatNodes.map(element=>{if (element.user_object === action.payload) {
+                element.expanded=false;
+                localStorage.setItem(`heatNode_${element.id}`,String(element.expanded || ""));
+            }});
         }
     },
     extraReducers:{

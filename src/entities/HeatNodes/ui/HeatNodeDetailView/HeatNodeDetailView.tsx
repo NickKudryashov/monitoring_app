@@ -10,11 +10,11 @@ interface DetailViewProps {
 }
 
 export function HeatNodeDetailView(props: PropsWithChildren<DetailViewProps>) {
-    const { className,heatNode,children } = props;
+    const { className,children } = props;
 
     return (
         <div className={classNames(cls.DetailView,{},[className])}>
-            <p>Здесь будет общая информация по узлам</p>
+            <p>Узел учета тепловой энергии:</p>
             {children}
         </div>
     );

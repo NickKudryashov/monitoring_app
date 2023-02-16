@@ -15,7 +15,11 @@ export function buildLoaders(options:BuildOptions):webpack.RuleSetRule[]{
             }
         }
     };
-  
+    
+    const svgLoader = {
+        test: /\.svg$/,
+        use: ["@svgr/webpack"],
+    };
   
     const typescript_loader = {
         test: /\.tsx?$/,
@@ -44,6 +48,7 @@ export function buildLoaders(options:BuildOptions):webpack.RuleSetRule[]{
         ]
     };
     return [
+        svgLoader,
         babelLoader,
         typescript_loader,
         scss_loader

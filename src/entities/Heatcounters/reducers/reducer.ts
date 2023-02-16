@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HeatDevice } from "../types/type";
-import { getDevices } from "./actionCreator";
+import { getDevice, getDevices } from "./actionCreator";
 
 interface HeatDevicesState {
     devices:HeatDevice[];
@@ -16,6 +16,10 @@ export const heatDeviceSlice = createSlice({
     extraReducers:{
         [getDevices.fulfilled.type] : (state,action:PayloadAction<HeatDevice[]>)=>{
             state.devices=action.payload;
+        },
+        [getDevice.fulfilled.type]: (state,action:PayloadAction<HeatDevice>)=>{
+            state.devices.map(device=>{device.id===action.payload.id ? {...action.payload} : {...device};});
+            console.log("состояние после: ",state.devices);
         }
     }
 });

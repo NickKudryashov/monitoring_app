@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ObjectResponse } from "../types/types";
 import { objectsAllRequest } from "./actionCreator";
-interface ObjectItem {
+export interface ObjectItem {
     name:string;
     id:number;
     category:number;
@@ -29,6 +29,29 @@ export const objectSlice = createSlice({
                 element.expanded=true;
                 localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
             }});
+        },
+        closeObj(state,action:PayloadAction<number>) {
+            state.objects.map(element=>{if (element.id === action.payload) {
+                element.expanded=false;
+                localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
+            }});
+        },
+        closeAllObjExceptSelected(state,action:PayloadAction<ObjectItem>) {
+            state.objects.map(element=>{if (element.id === action.payload.id) {
+                element.expanded=true;
+            }
+            else {
+                element.expanded=false;
+            }
+            localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
+            });
+        },
+        closeAllObjByCategoryId(state,action:PayloadAction<number>) {
+            state.objects.map(element=>{if (element.category === action.payload) {
+                element.expanded=false;
+            }
+            localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
+            });
         }
     },
     extraReducers:{

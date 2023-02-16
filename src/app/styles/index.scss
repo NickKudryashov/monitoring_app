@@ -2,6 +2,7 @@
 @import 'variables/global';
 @import 'themes/dark';
 @import 'themes/normal';
+
 .app {
     font: var(--font-m);
     background: var(--bg-color);
@@ -14,6 +15,7 @@
 .page-wrapper {
     flex-grow: 1;
 }
+
 .content-page {
     display: flex;
     width: 100%;

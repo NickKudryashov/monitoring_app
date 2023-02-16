@@ -23,8 +23,8 @@ export function DeviceList(props: PropsWithChildren<DeviceListProps>) {
     },[]);
     return (
         <div className={classNames(cls.DeviceList,{},[className])}>
-            {/* {categories.map((category)=><div>{category.name}</div>)} */}
-            <DeviceListItem  parentID={0} />
+            {/* {categories.map((category)=>category.parentID===0 && <DeviceListItem key = {category.id} parentID={category.parentID} />)} */}
+            <DeviceListItem parentID={0}/>
         </div>
     );
 }
