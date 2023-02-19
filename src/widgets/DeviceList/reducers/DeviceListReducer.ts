@@ -5,10 +5,10 @@ import { HeatNodeResponse } from "entities/HeatNodes";
 import { ObjectItem, ObjectResponse } from "entities/Objects";
 
 
-type CurrentDevice = HeatDevice | undefined;
-type CurrentNode = HeatNodeResponse | undefined;
-type CurrentObject = ObjectItem | undefined;
-type CategoryInList = CategoryItem | undefined;
+export type CurrentDevice = HeatDevice | undefined;
+export type CurrentNode = HeatNodeResponse | undefined;
+export type CurrentObject = ObjectItem | undefined;
+export type CategoryInList = CategoryItem | undefined;
 
 export interface DeviceListState{
     currentDevice: CurrentDevice;

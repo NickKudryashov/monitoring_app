@@ -18,7 +18,7 @@ export function HeatDeviceListItem(props: PropsWithChildren<ListItemProps>) {
         <div className={classNames(cls.ListItem,{},[className])}>
             {devices.map((device)=>device.user_object===objectID && 
             <div key={device.id} className={cls.deviceLabels}>
-                <i onClick={()=>onDeviceClick(device)}>{`${device.name} №${device.device_num}`}</i>
+                <i onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</i>
             </div>
             )}
         </div>

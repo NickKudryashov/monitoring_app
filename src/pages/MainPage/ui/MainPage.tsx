@@ -1,13 +1,14 @@
 
 import { CategoryItem, categorySlice } from "entities/Category";
-import { HeatDevice, HeatDeviceDetailView } from "entities/Heatcounters";
+import { HeatDevice, HeatDeviceDetailView, heatDeviceSlice } from "entities/Heatcounters";
 import { HeatNodeDetailView } from "entities/HeatNodes";
 import { ObjectDetail, ObjectItem, objectSlice } from "entities/Objects";
 import { ManualHeatPoll } from "features/ManualHeatPoll";
 import { ObjectCategoryView } from "features/ObjectCategoryCardView";
+import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import { DetailView } from "widgets/DetailView";
-import { DeviceList, deviceListSlice } from "widgets/DeviceList";
+import { CurrentDevice, DeviceList, deviceListSlice } from "widgets/DeviceList";
 import { Navbar } from "widgets/Navbar";
 import cls from "./MainPage.module.scss";
 const MainPage = () => {
@@ -15,6 +16,9 @@ const MainPage = () => {
     const dispatch = useAppDispatch();
     const {devices} = useAppSelector(state=>state.heatDeviceReducer);
     const {heatNodes}=useAppSelector(state=>state.heatNodeReducer);
+    const devRef = useRef<CurrentDevice>();
+    devRef.current=currentDevice;
+
     const objectClickHandler = (obj:ObjectItem) => {
         dispatch(objectSlice.actions.closeAllObjExceptSelected(obj));
         dispatch(deviceListSlice.actions.setObject(obj));
@@ -25,10 +29,9 @@ const MainPage = () => {
         dispatch(deviceListSlice.actions.setCategory(cat));
         dispatch(objectSlice.actions.closeAllObjByCategoryId(cat.id));
     };
-    const updateCurrentDevice = (device:HeatDevice)=>{
-        if (currentDevice.id===device.id) {
+    const updateCurrentDevice =  async (device:HeatDevice)=>{
+        if (device.id===devRef.current.id) {
             dispatch(deviceListSlice.actions.setDevice(device));
-            
         }
     };
     return (

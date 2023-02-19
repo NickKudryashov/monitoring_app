@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import {  categoriesAllRequest, CategoryItem, CategoryListItem, categorySlice } from "entities/Category";
 import { ObjectItem, ObjectListItem, objectsAllRequest, objectSlice } from "entities/Objects";
 import { heatNodeAllRequest, HeatNodeListItem, HeatNodeResponse } from "entities/HeatNodes";
-import { getDevices, HeatDevice, HeatDeviceListItem } from "entities/Heatcounters";
+import { getDevices, HeatDevice, HeatDeviceListItem, heatDeviceSlice } from "entities/Heatcounters";
 import { deviceListSlice } from "../reducers/DeviceListReducer";
 import { heatNodeSlice } from "entities/HeatNodes/reducers/reducers";
 interface DeviceListItemProps {
@@ -38,6 +38,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     const heatDeviceClickHandler = (device:HeatDevice)=>{
         dispatch(getDevices());
         dispatch(deviceListSlice.actions.setDevice(device));
+        // dispatch(heatDeviceSlice.actions.selectdevice(device));
     };
 
     const heatNodeClickHandler = (node:HeatNodeResponse)=>{

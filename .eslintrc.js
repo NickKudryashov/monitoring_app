@@ -40,5 +40,6 @@ module.exports = {
             "always"
         ],
         "react/react-in-jsx-scope":"off",
+        "react/display-name":"off"
     }
 };
