@@ -15,9 +15,10 @@ export function AuthWidget(props: PropsWithChildren<AuthWidgetProps>) {
 
     return (
         <div className={classNames(cls.AuthWidget,{},[className])}>
-            <AppTab
+            {/* <AppTab
                 tabs={[{name:"Регистрация",Content:AboutPage,contentProps:{}},{name:"Авторизация",Content:DefaultAuth,contentProps:{}}]}
-            />
+            /> */}
+            <DefaultAuth/>
         </div>
     );
 }

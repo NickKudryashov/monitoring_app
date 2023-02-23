@@ -1,17 +1,24 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./AppButton.module.scss";
-import type { PropsWithChildren } from "react";
+import type { ButtonHTMLAttributes, PropsWithChildren } from "react";
 import DarkIcon from "shared/assets/icons/darkIcon.svg";
-interface AppButonProps {
+interface AppButonProps extends  ButtonHTMLAttributes<HTMLButtonElement>{
  className?: string;
+ theme?:AppButtonTheme;
+}
+
+export enum AppButtonTheme {
+    AUTH="auth_button",
 }
 
 export function AppButon(props: PropsWithChildren<AppButonProps>) {
-    const { className,children } = props;
+    const { className,children,theme,...otherProps } = props;
 
     return (
-        <button className={classNames(cls.AppButon,{},[className])}>
-            <DarkIcon/>
+        <button 
+            className={classNames(cls.AppButon,{},[className,cls[theme]])}
+            {...otherProps}
+        >
             {children}
         </button>  
     );

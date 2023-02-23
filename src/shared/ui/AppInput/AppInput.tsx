@@ -4,18 +4,22 @@ import cls from "./AppInput.module.scss";
 import type { InputHTMLAttributes, PropsWithChildren } from "react";
 
 export enum InputThemes {
-    AUTH="auth"
+    AUTH="auth",
+    DEFAULT="default",
+    OUTLINE="outline"
 }   
 
 
 interface AppInputProps extends InputHTMLAttributes<HTMLInputElement> {
  className?: string;
+ theme?:InputThemes;
 
 }
 
 export function AppInput(props: PropsWithChildren<AppInputProps>) {
     const { 
-        className=InputThemes.AUTH,
+        className,
+        theme=InputThemes.AUTH,
         onChange,
         value,
         placeholder="Ввод...",
@@ -25,7 +29,7 @@ export function AppInput(props: PropsWithChildren<AppInputProps>) {
 
     return (
         <input 
-            className={classNames(cls.AppInput,{},[cls[className]])}
+            className={classNames(cls.AppInput,{},[cls[className],cls[theme]])}
             onChange={onChange}
             placeholder={placeholder}
             type={type}

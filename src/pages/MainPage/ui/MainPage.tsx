@@ -1,11 +1,11 @@
 
 import { CategoryItem, categorySlice } from "entities/Category";
-import { HeatDevice, HeatDeviceDetailView, heatDeviceSlice } from "entities/Heatcounters";
+import { HeatDevice, HeatDeviceDetailView } from "entities/Heatcounters";
 import { HeatNodeDetailView } from "entities/HeatNodes";
 import { ObjectDetail, ObjectItem, objectSlice } from "entities/Objects";
 import { ManualHeatPoll } from "features/ManualHeatPoll";
 import { ObjectCategoryView } from "features/ObjectCategoryCardView";
-import { useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import { DetailView } from "widgets/DetailView";
 import { CurrentDevice, DeviceList, deviceListSlice } from "widgets/DeviceList";
@@ -18,6 +18,8 @@ const MainPage = () => {
     const {heatNodes}=useAppSelector(state=>state.heatNodeReducer);
     const devRef = useRef<CurrentDevice>();
     devRef.current=currentDevice;
+
+    const [m,setM] = useState(false);
 
     const objectClickHandler = (obj:ObjectItem) => {
         dispatch(objectSlice.actions.closeAllObjExceptSelected(obj));

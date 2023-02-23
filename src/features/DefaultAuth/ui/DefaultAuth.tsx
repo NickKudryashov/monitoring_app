@@ -6,6 +6,7 @@ import { AppInput } from "shared/ui/AppInput/AppInput";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import { defaultLogin } from "entities/user/Store/actionCreators";
 import { AppCheckbox } from "shared/ui/AppCheckbox/AppCheckbox";
+import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 
 interface DefaultAuthProps {
  className?: string;
@@ -20,16 +21,16 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
     const dispatch = useAppDispatch();
     return (
         <div className={classNames(cls.DefaultAuth,{},[className])}>
-            {isAuth ? <b>АВТОРИЗОВАН</b> : <b>НЕ АВТОРИЗОВАН</b>}
-            <AppInput value={email} onChange={e=>setEmail(e.target.value)} />
-            <AppInput value={password} onChange={e=>setPassword(e.target.value)}/>
+            Авторизация
+            <AppInput value={email} placeholder="Email" onChange={e=>setEmail(e.target.value)} />
+            <AppInput value={password} type="password" placeholder="Пароль" onChange={e=>setPassword(e.target.value)}/>
             <AppCheckbox
                 checked={rememeberUser}
                 onChange={setRememberUser}
                 className={className}
                 label={"Запомнить данные"}
             />
-            <button onClick={()=>dispatch(defaultLogin({email,password}))}>АВТОРИЗАЦИЯ</button>
+            <AppButon theme={AppButtonTheme.AUTH} onClick={()=>dispatch(defaultLogin({email,password}))}>АВТОРИЗАЦИЯ</AppButon>
         </div>
     );
 }

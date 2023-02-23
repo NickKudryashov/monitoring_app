@@ -17,6 +17,18 @@ export function buildLoaders(options:BuildOptions):webpack.RuleSetRule[]{
         }
     };
     
+    const fileLoader = {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+            {
+                loader: "file-loader",
+                options:{
+                    name: "icons/[name].[ext]",
+                }
+            },
+        ],};
+
+
     const svgLoader = {
         test: /\.svg$/,
         use: ["@svgr/webpack"],
@@ -32,6 +44,8 @@ export function buildLoaders(options:BuildOptions):webpack.RuleSetRule[]{
         svgLoader,
         babelLoader,
         typescript_loader,
-        scss_loader
+        scss_loader,
+        // fileLoader,
+
     ];
 }

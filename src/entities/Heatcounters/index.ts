@@ -4,5 +4,6 @@ import { HeatDeviceListItem } from "./ui/ListItem/HeatDeviceListItem";
 import { HeatDevice } from "./types/type";
 import { HeatDeviceDetailView } from "./ui/HeatDeviceDetailView/HeatDeviceDetailView";
 import { getDevice } from "./reducers/actionCreator";
-export {heatDeviceReducer,heatDeviceSlice,getDevices,HeatDeviceListItem,HeatDeviceDetailView,getDevice};
+import { HeatSystem } from "./types/type";
+export {heatDeviceReducer,heatDeviceSlice,getDevices,HeatDeviceListItem,HeatDeviceDetailView,getDevice,HeatSystem};
 export type {HeatDevice};

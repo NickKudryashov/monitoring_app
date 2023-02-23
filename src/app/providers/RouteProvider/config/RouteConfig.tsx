@@ -1,17 +1,16 @@
-import { DefaultAuth } from "pages/AuthPage";
+import { AuthPage } from "pages/AuthPage/ui/AuthPage";
 import { MainPage } from "pages/MainPage";
 import { RouteProps } from "react-router-dom";
 import { RoutePathPublic,RoutePathAuth, AppRoutesAuth, AppRoutesPublic } from "shared/config/RouteConfig/RouteConfig";
-import { AuthWidget } from "widgets/AuthWidget/AuthWidget";
 
 export const RouteConfigPublic: Record<string,RouteProps> = {
     [AppRoutesPublic.AUTH]:{
         path:RoutePathPublic.auth,
-        element:<AuthWidget/>
+        element:<AuthPage/>
     },
     [AppRoutesPublic.REDIRECT]:{
         path:RoutePathPublic.redir,
-        element:<AuthWidget/>
+        element:<AuthPage/>
     }
 };
 export const RouteConfigAuth: Record<string,RouteProps> = {
