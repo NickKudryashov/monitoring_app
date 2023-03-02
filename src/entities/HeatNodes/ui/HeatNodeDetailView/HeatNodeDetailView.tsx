@@ -11,7 +11,6 @@ interface DetailViewProps {
 
 export function HeatNodeDetailView(props: PropsWithChildren<DetailViewProps>) {
     const { className,children } = props;
-
     return (
         <div className={classNames(cls.DetailView,{},[className])}>
             <p>Узел учета тепловой энергии:</p>

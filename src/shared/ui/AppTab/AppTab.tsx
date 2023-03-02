@@ -15,23 +15,35 @@ interface AppTabProps {
  className?: string;
  theme?:AppTabThemes;
  tabs:any[];
+ selected?:boolean;
+ setTabSelected?:(val:boolean)=>void;
 
 }
 
 export function AppTab(props: PropsWithChildren<AppTabProps>) {
-    const { className,tabs,theme=AppTabThemes.AUTH } = props;
+    const { className,tabs,theme=AppTabThemes.AUTH,children,selected,setTabSelected } = props;
     const [activeTab,setActiveTab] = useState<number>(0);
+    const mods = {
+        [cls.active]:false
+    };
+
+    const tabClickHandler = (index:number) => {
+        setActiveTab(index);
+        setTabSelected(true);
+    };
+
     return (
         <div className={classNames(cls.AppTab,{},[className,cls[theme]])}>
  
             <div className={cls.container}>
                 <div className={cls.buttons}>
                     {tabs.map(({name},index)=>
-                        <button key={index} onClick={()=>setActiveTab(index)}>{name}</button>
+                        <button className={classNames("",{[cls.active]:(index===activeTab)},[cls.tab])} key={index} onClick={()=>tabClickHandler(index)}>{name}</button>
                     )}
                 </div>
-                {tabs.map(({Content,contentProps},index)=>
-                    <div key={index}>{index===activeTab && <Content {...contentProps}/>}</div>)}
+                {children}
+                {selected && tabs.map(({Content},index)=>
+                    <div key={index}>{index===activeTab && <Content/>}</div>)}
             </div>
 
         </div>

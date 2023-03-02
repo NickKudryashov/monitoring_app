@@ -14,7 +14,7 @@ interface HeatNodeListItemProps {
 
 export function HeatNodeListItem(props: PropsWithChildren<HeatNodeListItemProps>) {
     const { className,object_id,children,onNodeClick } = props;
-    const {heatNodes} = useAppSelector(state=>state.heatNodeReducer);
+    const {heatNodes,selectedNode} = useAppSelector(state=>state.heatNodeReducer);
     const dispatch = useAppDispatch();
     const {expand} = heatNodeSlice.actions;
     const onClickHandler = (node:HeatNodeResponse)=> {
@@ -25,7 +25,7 @@ export function HeatNodeListItem(props: PropsWithChildren<HeatNodeListItemProps>
         <div className={classNames(cls.HeatNodeListItem,{},[className])}>
             {heatNodes.map((node)=>node.user_object===object_id &&
             <div key={node.id} className={cls.node}>
-                <b  onClick={()=>onClickHandler(node)}>{node.name}</b>
+                <div className={classNames("",{[cls.selected]:selectedNode && (node.id===selectedNode.id)},[])} onClick={()=>onClickHandler(node)}>{node.name}</div>
                 {node.expanded && children}
             </div>
             )}

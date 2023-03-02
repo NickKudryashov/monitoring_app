@@ -5,21 +5,25 @@ import { HeatNodeDetailView } from "entities/HeatNodes";
 import { ObjectDetail, ObjectItem, objectSlice } from "entities/Objects";
 import { ManualHeatPoll } from "features/ManualHeatPoll";
 import { ObjectCategoryView } from "features/ObjectCategoryCardView";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { Modal } from "shared/ui/Modal/Modal";
 import { DetailView } from "widgets/DetailView";
 import { CurrentDevice, DeviceList, deviceListSlice } from "widgets/DeviceList";
 import { Navbar } from "widgets/Navbar";
+import { Sidebar } from "widgets/Sidebar";
 import cls from "./MainPage.module.scss";
 const MainPage = () => {
     const {currentObject,currentDevice,currentNode,currentCategory} = useAppSelector(state=>state.deviceListReducer);
     const dispatch = useAppDispatch();
     const {devices} = useAppSelector(state=>state.heatDeviceReducer);
     const {heatNodes}=useAppSelector(state=>state.heatNodeReducer);
+    const [tabSelected,setTabSelected] = useState(true);
+    const {isAuth} = useAppSelector(state=>state.userReducer);
     const devRef = useRef<CurrentDevice>();
     devRef.current=currentDevice;
 
-    const [m,setM] = useState(false);
+
 
     const objectClickHandler = (obj:ObjectItem) => {
         dispatch(objectSlice.actions.closeAllObjExceptSelected(obj));
@@ -39,29 +43,38 @@ const MainPage = () => {
     return (
         <div className={cls.MainPage}>
             <Navbar/>
-            <div className={cls.content}>
-                <DeviceList/>
-                <DetailView>
-                    {currentObject===undefined && currentDevice===undefined && currentNode===undefined && currentCategory!==undefined && 
-                    <ObjectCategoryView 
-                        categoryClickHandler={categoryClickHandler}
-                        objectClickHandler={objectClickHandler}
-                        category={currentCategory}
-                    /> }
-                    {currentObject!==undefined && currentDevice===undefined && currentNode===undefined && currentCategory===undefined &&
-                    <ObjectDetail obj={currentObject}>
-                        {heatNodes.map(hnode=> hnode.user_object===currentObject.id &&
+            <div className={cls.sidebarwrapper}>
+                <Sidebar/>
+                <div className={cls.content}>
+                    <DeviceList
+                        onClick={()=>setTabSelected(false)}
+                    />
+                    <DetailView
+                        tabSelected={tabSelected}
+                        setTabSelected={setTabSelected}
+                    >
+                        {currentObject===undefined && currentDevice===undefined && currentNode===undefined && currentCategory===undefined && null}
+                        {currentObject===undefined && currentDevice===undefined && currentNode===undefined && currentCategory!==undefined && 
+                        <ObjectCategoryView 
+                            categoryClickHandler={categoryClickHandler}
+                            objectClickHandler={objectClickHandler}
+                            category={currentCategory}
+                        /> }
+                        {currentObject!==undefined && currentDevice===undefined && currentNode===undefined && currentCategory===undefined &&
+                        <ObjectDetail obj={currentObject}>
+                            {heatNodes.map(hnode=> hnode.user_object===currentObject.id &&
                             <HeatNodeDetailView key={hnode.id} heatNode={hnode}>
                                 {devices.map(device=> device.node===hnode.id && <HeatDeviceDetailView key={device.id} device={device}/>)}
                             </HeatNodeDetailView>)}
-                    </ObjectDetail>}
-                    {currentObject===undefined && currentDevice!==undefined && currentNode===undefined && currentCategory===undefined &&<HeatDeviceDetailView device={currentDevice}><ManualHeatPoll onUpdate={updateCurrentDevice} device={currentDevice}/></HeatDeviceDetailView> }
-                    {currentObject===undefined && currentDevice===undefined && currentNode!==undefined && currentCategory===undefined &&
-                    <HeatNodeDetailView heatNode={currentNode}>
-                        {devices.map(device=>device.node===currentNode.id && <HeatDeviceDetailView key={device.id} device={device}></HeatDeviceDetailView>)}
-                    </HeatNodeDetailView> }
-                </DetailView>
-                {/* <DetailView/> */}
+                        </ObjectDetail>}
+                        {currentObject===undefined && currentDevice!==undefined && currentNode===undefined && currentCategory===undefined &&<HeatDeviceDetailView device={currentDevice}><ManualHeatPoll onUpdate={updateCurrentDevice} device={currentDevice}/></HeatDeviceDetailView> }
+                        {currentObject===undefined && currentDevice===undefined && currentNode!==undefined && currentCategory===undefined &&
+                        <HeatNodeDetailView heatNode={currentNode}>
+                            {devices.map(device=>device.node===currentNode.id && <HeatDeviceDetailView key={device.id} device={device}></HeatDeviceDetailView>)}
+                        </HeatNodeDetailView> }
+                    </DetailView>
+                    {/* <DetailView/> */}
+                </div>
             </div>
         </div>
     );

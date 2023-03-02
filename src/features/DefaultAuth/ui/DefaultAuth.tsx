@@ -1,12 +1,13 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./DefaultAuth.module.scss";
 
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { AppInput } from "shared/ui/AppInput/AppInput";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import { defaultLogin } from "entities/user/Store/actionCreators";
 import { AppCheckbox } from "shared/ui/AppCheckbox/AppCheckbox";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { Modal } from "shared/ui/Modal/Modal";
 
 interface DefaultAuthProps {
  className?: string;
@@ -19,6 +20,7 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
     const {isAuth} = useAppSelector(state=>state.userReducer);
     const [rememeberUser,setRememberUser] = useState(false);
     const dispatch = useAppDispatch();
+
     return (
         <div className={classNames(cls.DefaultAuth,{},[className])}>
             Авторизация

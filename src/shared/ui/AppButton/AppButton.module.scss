@@ -6,3 +6,10 @@
     background: transparent;
     outline:none;
 }
+
+.primary_btn {
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid var(--navbar-background-color);
+    background-color: var(--navbar-background-color);
+}

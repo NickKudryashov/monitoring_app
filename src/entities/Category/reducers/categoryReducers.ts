@@ -52,6 +52,14 @@ export const categorySlice = createSlice({
                 localStorage.setItem(`category_${element.id}`,String(element.expanded || ""));
             });
         },
+        closeAllCatsExceptSelectedWithoutParent(state,action:PayloadAction<CategoryItem>) {
+            state.categories.map(element=>{
+                if (element.parentID === action.payload.id) {
+                    element.expanded=false;
+                }
+                localStorage.setItem(`category_${element.id}`,String(element.expanded || ""));
+            });
+        },
 
     },
     extraReducers:{
@@ -66,6 +74,3 @@ export const categorySlice = createSlice({
 });
 
 export const categoryReducer = categorySlice.reducer;
-
-const temp = "false";
-console.log(Boolean(temp));

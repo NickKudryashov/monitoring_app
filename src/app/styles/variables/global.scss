@@ -17,8 +17,12 @@
     // Стили для прозрачных компонентов
     --transparent-background-color: transparent;
     --transparent-text-color: white;
-    --navbar-height: 20%;
-    --main-content-height: 90%;
+
+    //размеры
+    --navbar-height: 5%;
+    --main-content-height: calc(100vh - 7%);
+    --sidebar-width: 100px;
+    --sidebar-width-collapsed:20px;
 
     //индексы
     --modal-z-index:10;
@@ -27,5 +31,10 @@
     //цвета
     --overlay-color:rgb(0 0 0 / 60%);
     --auth-background-image:url('../../shared/assets/images/auth_back.jpg');
+    --navbar-background-color: #d2ffd3;
+
+    //курсоры
+    --tree-cursor: default;
+    --detail-cursor: default;
 
 }

@@ -28,4 +28,5 @@ export interface HeatDevice {
     device_num:number;
     device_type:string;
     systems:HeatSystem[];
+    last_update:string | null;
 }

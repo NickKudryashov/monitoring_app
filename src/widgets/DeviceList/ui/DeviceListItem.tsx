@@ -3,7 +3,7 @@ import cls from "./DeviceListItem.module.scss";
 
 import type { PropsWithChildren } from "react";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
-import {  categoriesAllRequest, CategoryItem, CategoryListItem, categorySlice } from "entities/Category";
+import {  categoriesAllRequest, CategoryItem, CategoryListItem, categorySlice, getCategoryByID } from "entities/Category";
 import { ObjectItem, ObjectListItem, objectsAllRequest, objectSlice } from "entities/Objects";
 import { heatNodeAllRequest, HeatNodeListItem, HeatNodeResponse } from "entities/HeatNodes";
 import { getDevices, HeatDevice, HeatDeviceListItem, heatDeviceSlice } from "entities/Heatcounters";
@@ -12,10 +12,11 @@ import { heatNodeSlice } from "entities/HeatNodes/reducers/reducers";
 interface DeviceListItemProps {
  className?: string;
  parentID?:number;
+ onClick?:()=>void;
 }
 
 export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
-    const { className,parentID } = props;
+    const { className,parentID,onClick } = props;
     const {categories} = useAppSelector(state=>state.categoryReducer);
     const {objects} = useAppSelector(state=>state.objectReducer);
     const dispatch = useAppDispatch();
@@ -24,20 +25,26 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         dispatch(categorySlice.actions.openCat(cat.id));
         dispatch(categorySlice.actions.closeAllCatsExceptSelected(cat));
         dispatch(deviceListSlice.actions.setCategory(cat));
-        dispatch(objectSlice.actions.closeAllObjByCategoryId(cat.id));
+        dispatch(objectSlice.actions.closeAllObj());
+        onClick();
 
     };
     const objectClickHandler = (obj:ObjectItem) => {
         dispatch(objectsAllRequest());
         dispatch(getDevices());
         dispatch(heatNodeAllRequest());
+        dispatch(categorySlice.actions.closeAllCatsExceptSelectedWithoutParent(getCategoryByID(categories,obj.category)));
         dispatch(objectSlice.actions.closeAllObjExceptSelected(obj));
         dispatch(heatNodeSlice.actions.closeNodeForObject(obj.id));
         dispatch(deviceListSlice.actions.setObject(obj));
+        onClick();
     };
     const heatDeviceClickHandler = (device:HeatDevice)=>{
         dispatch(getDevices());
+        dispatch(heatDeviceSlice.actions.selectdevice(device));
         dispatch(deviceListSlice.actions.setDevice(device));
+        onClick();
+
         // dispatch(heatDeviceSlice.actions.selectdevice(device));
     };
 
@@ -45,6 +52,9 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         dispatch(getDevices());
         dispatch(heatNodeAllRequest());
         dispatch(deviceListSlice.actions.setNode(node));
+        dispatch(heatNodeSlice.actions.selectHeatNode(node));
+        onClick();
+
     };
     // Описать клик хэндлер по принципу:
     // Клик на прибор - ничего ( или отображение как есть)
@@ -62,7 +72,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
                                 <HeatDeviceListItem onDeviceClick={(device:HeatDevice) =>heatDeviceClickHandler(device)} objectID={object.id}/>
                             </HeatNodeListItem>
                         </ObjectListItem>)}
-                    <DeviceListItem parentID={element.id}/>
+                    <DeviceListItem onClick={onClick} parentID={element.id}/>
 
                 </CategoryListItem>
             </div>

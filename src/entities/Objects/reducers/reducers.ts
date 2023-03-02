@@ -52,6 +52,11 @@ export const objectSlice = createSlice({
             }
             localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
             });
+        },
+        closeAllObj(state) {
+            state.objects.map(element=>{element.expanded=false;
+                localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
+            });
         }
     },
     extraReducers:{

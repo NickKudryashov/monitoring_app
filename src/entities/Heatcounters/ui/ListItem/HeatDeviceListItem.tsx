@@ -13,12 +13,17 @@ interface ListItemProps {
 
 export function HeatDeviceListItem(props: PropsWithChildren<ListItemProps>) {
     const { className,objectID,onDeviceClick } = props;
-    const {devices} = useAppSelector(state=>state.heatDeviceReducer);
+    const {devices,selectedDevice} = useAppSelector(state=>state.heatDeviceReducer);
     return (
         <div className={classNames(cls.ListItem,{},[className])}>
             {devices.map((device)=>device.user_object===objectID && 
             <div key={device.id} className={cls.deviceLabels}>
-                <i onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</i>
+                { selectedDevice && selectedDevice.id===device.id ?
+                    <div className={cls.selected} onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</div>
+                    :
+                    <div  onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</div>
+
+                }
             </div>
             )}
         </div>

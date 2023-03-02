@@ -11,14 +11,19 @@ interface HeatNodeItem {
 
 interface heatNodeState{
     heatNodes:HeatNodeItem[];
+    selectedNode:HeatNodeResponse | undefined;
 }
 
-const initialState:heatNodeState = {heatNodes:[]};
+const initialState:heatNodeState = {heatNodes:[],selectedNode:undefined};
 
 export const heatNodeSlice = createSlice({
     name:"heatnodes",
     initialState,
     reducers:{
+        selectHeatNode(state,action:PayloadAction<HeatNodeResponse>) {
+            state.selectedNode=action.payload;
+        },
+
         expand(state,action:PayloadAction<number>) {
             state.heatNodes.map(element=>{if (element.id === action.payload) {
                 element.expanded=!element.expanded;
