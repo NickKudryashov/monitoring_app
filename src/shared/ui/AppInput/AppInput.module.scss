@@ -1,0 +1,21 @@
+.AppInput {
+    color: var(--primary-color)
+}
+
+.auth {
+    border: none;
+    border-bottom: 1px solid white;
+    background-color: transparent;
+    outline: none;
+    color: white;
+    font: var(--font-m)
+}
+
+.default {
+    border-radius: 5px;
+}
+
+.outline {
+    border-radius: 10px;
+    background: var(--bg-color);
+}

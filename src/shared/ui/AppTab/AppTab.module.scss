@@ -1,0 +1,43 @@
+.AppTab {
+    height: 100%;
+    display: flex;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.tab {
+    background: transparent;
+    border: 1px solid black;
+    border-top-right-radius:25px;
+    cursor: pointer;
+
+    // margin-left:1px;
+    padding:3px;
+}
+
+.active {
+    background: rgb(210 209 209);
+
+}
+
+.tab:hover {
+    background: rgb(210 209 209);
+
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width:100%;
+    height:100%;
+}
+
+.auth {
+    width:100%;
+    height:100%;
+}

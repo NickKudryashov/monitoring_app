@@ -2,9 +2,29 @@
 @import 'variables/global';
 @import 'themes/dark';
 @import 'themes/normal';
+
+
+body {
+    font: var(--font-m);
+    color: var(--font-color);
+}
+
+
 .app {
     font: var(--font-m);
+    color: var(--font-color);
     background: var(--bg-color);
-    color: var(--primary-color);
     min-height:100vh;
+    width: 100vw;
+    height: 100vh;
+}
+
+.page-wrapper {
+    flex-grow: 1;
+}
+
+.content-page {
+    display: flex;
+    width: 100%;
+    height: 100%;
 }

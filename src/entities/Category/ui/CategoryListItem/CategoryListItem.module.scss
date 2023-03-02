@@ -1,0 +1,11 @@
+.CategoryListItem {
+    padding-left:10px;
+    display: flex;
+    flex-direction: column;
+    cursor: var(--tree-cursor);
+    font-weight: normal;
+}
+
+.selected {
+    font-weight: bold;
+}

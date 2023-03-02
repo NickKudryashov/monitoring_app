@@ -1,0 +1,16 @@
+.ObjectListItem {
+    display: flex;
+    padding-left: 10px;
+    font-weight: normal;
+
+}
+
+
+.nested {
+    display: flex;
+    flex-direction: column;
+}
+
+.selected {
+    font-weight: bold;
+}

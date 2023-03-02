@@ -1,0 +1,17 @@
+.Navbar {
+    background: var(--navbar-background-color);
+    font: var(--font-m);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding:10px;
+    height:var(--navbar-height);
+}
+
+.blocks {
+    padding-right:10px;
+}
+
+.blocks_group {
+    display: flex;
+}

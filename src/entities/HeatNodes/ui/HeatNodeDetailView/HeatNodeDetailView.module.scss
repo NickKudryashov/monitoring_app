@@ -1,0 +1,11 @@
+.DetailView {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    font-weight: normal;
+
+}
+
+.active {
+    font-weight: bold;
+}
