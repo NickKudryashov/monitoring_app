@@ -1,7 +1,7 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./DeviceListItem.module.scss";
 
-import type { PropsWithChildren } from "react";
+import { PropsWithChildren, useCallback, useState } from "react";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import {  categoriesAllRequest, CategoryItem, CategoryListItem, categorySlice, getCategoryByID } from "entities/Category";
 import { ObjectItem, ObjectListItem, objectsAllRequest, objectSlice } from "entities/Objects";
@@ -9,6 +9,12 @@ import { heatNodeAllRequest, HeatNodeListItem, HeatNodeResponse } from "entities
 import { getDevices, HeatDevice, HeatDeviceListItem, heatDeviceSlice } from "entities/Heatcounters";
 import { deviceListSlice } from "../reducers/DeviceListReducer";
 import { heatNodeSlice } from "entities/HeatNodes/reducers/reducers";
+import { AddCategory } from "features/AddCategory";
+import { EditCategory } from "features/EditCategory/ui/EditCategory";
+import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
+import DottedIcon from "shared/assets/icons/dropdownDotsIcon.svg";
+import { EditObject } from "features/EditObject";
+
 interface DeviceListItemProps {
  className?: string;
  parentID?:number;
@@ -19,6 +25,8 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     const { className,parentID,onClick } = props;
     const {categories} = useAppSelector(state=>state.categoryReducer);
     const {objects} = useAppSelector(state=>state.objectReducer);
+    const [openModal,setOpenModal] = useState(false);
+    const [openObjModal,setOpenObjModal] = useState(false);
     const dispatch = useAppDispatch();
     const categoryClickHandler = (cat:CategoryItem)=>{
         dispatch(categoriesAllRequest());
@@ -54,8 +62,16 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         dispatch(deviceListSlice.actions.setNode(node));
         dispatch(heatNodeSlice.actions.selectHeatNode(node));
         onClick();
-
+    
     };
+    const ObjectDropdown =()=> <DropdownMenu
+        Icon={DottedIcon}
+        items={[{text:"Редактировать объект",onClick:()=>setOpenObjModal(false)}]}
+    />;
+    // const CategoryDropdown =useCallback(()=> <DropdownMenu
+    //     Icon={DottedIcon}
+    //     items={[{text:"Редактировать категорию",onClick:()=>setOpenModal(true)}]}
+    // />,[]);
     // Описать клик хэндлер по принципу:
     // Клик на прибор - ничего ( или отображение как есть)
     // Клик на ноду - закрывает другие ноды если они открыты (пока их нет) и открывает ноду если она закрыта
@@ -65,16 +81,26 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         <div className={classNames(cls.DeviceListItem,{},[className])}>
             {categories.map(element=>element.parentID===parentID  &&
             <div key={element.id}>
-                <CategoryListItem onCategoryClickHandler={categoryClickHandler} id={element.id}>
-                    {objects.map((object)=>object.category===element.id  &&
-                        <ObjectListItem key={object.id} onObjectClick={objectClickHandler} id={object.id}>
+                <div className={cls.textWithIcon}>
+
+                    <CategoryListItem onCategoryClickHandler={categoryClickHandler} id={element.id} Component={()=><DropdownMenu
+                        Icon={DottedIcon}
+                        items={[{text:"Редактировать категорию",onClick:()=>setOpenModal(false)}]}
+                    />}>
+                        {objects.map((object)=>object.category===element.id  &&
+                        <ObjectListItem key={object.id} onObjectClick={objectClickHandler} id={object.id} Component={ObjectDropdown}>
+                            <EditObject object={object} isOpen={openObjModal} onClose={()=>setOpenObjModal(false)} />
+
                             <HeatNodeListItem  onNodeClick={(node:HeatNodeResponse)=>heatNodeClickHandler(node)} object_id={object.id}>
                                 <HeatDeviceListItem onDeviceClick={(device:HeatDevice) =>heatDeviceClickHandler(device)} objectID={object.id}/>
                             </HeatNodeListItem>
                         </ObjectListItem>)}
-                    <DeviceListItem onClick={onClick} parentID={element.id}/>
+                        
+                        <DeviceListItem onClick={onClick} parentID={element.id}/>
 
-                </CategoryListItem>
+                    </CategoryListItem>
+                    
+                </div>
             </div>
             )}
             {/* {objects.map((object)=>object.category===parentID && 

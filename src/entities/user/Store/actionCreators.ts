@@ -11,3 +11,8 @@ export const defaultAuthCheck = createAsyncThunk("user/defaultAuthCheck",async(_
     const response = await UserService.checkDefaultLogin();
     return response.data;
 });
+
+export const getUserData = createAsyncThunk("user/userData",async(_,thunkAPI)=>{
+    const response = await UserService.getUserInfo();
+    return response.data;
+});

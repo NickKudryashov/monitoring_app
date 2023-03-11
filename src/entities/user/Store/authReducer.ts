@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserData } from "../Models/User";
 import { DefaultAuthCheckResponse, DefaultAuthResponse, } from "../types/types";
-import { defaultAuthCheck, defaultLogin } from "./actionCreators";
+import { defaultAuthCheck, defaultLogin, getUserData } from "./actionCreators";
 
 interface UserState {
     isAuth:boolean;
     licenseAccepted:boolean;
     rulesAccepted:boolean;
     personalDataAccepted:boolean;
+    userdata?:UserData;
 }
 
-const initialState = {
+const initialState:UserState = {
     isAuth:false,
     licenseAccepted:false,
     rulesAccepted: false,
@@ -41,6 +43,10 @@ export const userSlice = createSlice({
         },
         [defaultAuthCheck.rejected.type]: (state,action: PayloadAction<DefaultAuthCheckResponse>)=>{
             state.isAuth = false;
+        },
+        [getUserData.fulfilled.type]: (state,action:PayloadAction<UserData>)=>{
+            state.userdata=action.payload;
+
         }
     }
 });

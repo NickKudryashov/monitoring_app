@@ -1,4 +1,4 @@
-import { defaultAuthCheck } from "entities/user";
+import { defaultAuthCheck, getUserData } from "entities/user";
 import { Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
@@ -10,7 +10,8 @@ export const AppRouter = () => {
 
     useEffect(()=>{
         dispatch(defaultAuthCheck());
-    },[]);
+        dispatch(getUserData());
+    },[dispatch]);
     return (
         <Suspense fallback={<div>Loading</div>}>
             <Routes>

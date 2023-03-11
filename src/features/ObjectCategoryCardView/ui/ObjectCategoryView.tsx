@@ -29,8 +29,8 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
     };
     return (
         <div className={classNames(cls.ObjectCategoryView,{},[className])}>
-            <div className={cls.cards}>{categories.map(cat=> cat.parentID===category.id && <CategoryCard key={cat.id} onClick={()=>selectCat(cat)} name={cat.name} /> )}</div>
-            <div className={cls.cards}>{objects.map(obj=> obj.category===category.id && <ObjectCard key={obj.id} onClick={()=>selectObj(obj)}  name={obj.name} />)}</div>
+            <div className={cls.cards}>{categories.map(cat=> cat.parentID===category.id && <CategoryCard  key={cat.id} onClick={()=>selectCat(cat)} name={cat.name} /> )}</div>
+            <div className={cls.cards}>{objects.map(obj=> obj.category===category.id && <ObjectCard  key={obj.id} onClick={()=>selectObj(obj)}  name={obj.name} />)}</div>
         </div>
     );
 }

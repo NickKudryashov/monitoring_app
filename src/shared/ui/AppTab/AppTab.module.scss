@@ -6,13 +6,19 @@
 .buttons {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-around;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .tab {
     background: transparent;
     border: 1px solid black;
-    border-top-right-radius:25px;
+    width:16%;
+    height:100%;
+    font:var(--font-s);
+
+    // border-top-right-radius:25px;
     cursor: pointer;
 
     // margin-left:1px;

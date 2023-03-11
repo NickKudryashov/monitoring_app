@@ -14,8 +14,8 @@ export function ObjectCard(props: PropsWithChildren<ObjectCardProps>) {
     const { className,name,children, onClick } = props;
     const {categories} = useAppSelector(state=>state.categoryReducer);
     return ( 
-        <div onClick={onClick} className={classNames(cls.ObjectCard,{},[className])}>
-            <b>{name}</b>
+        <div onClick={onClick} className={classNames(cls.ObjectCard,{},[className,])}>
+            <b className={cls.cardContent}>{name}</b>
         </div>
     );
 }
