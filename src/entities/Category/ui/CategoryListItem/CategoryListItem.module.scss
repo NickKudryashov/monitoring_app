@@ -9,3 +9,11 @@
 .selected {
     font-weight: bold;
 }
+
+.textWithIcon {
+    display: flex;
+
+    // justify-content: center;
+
+    align-items: center;
+}

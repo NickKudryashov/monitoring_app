@@ -14,3 +14,9 @@
 .selected {
     font-weight: bold;
 }
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

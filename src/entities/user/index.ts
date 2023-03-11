@@ -1,3 +1,3 @@
 import { userReducer } from "./Store/authReducer";
-import { defaultAuthCheck,defaultLogin } from "./Store/actionCreators";
-export {userReducer, defaultAuthCheck, defaultLogin};
+import { defaultAuthCheck,defaultLogin,getUserData } from "./Store/actionCreators";
+export {userReducer, defaultAuthCheck, defaultLogin,getUserData};

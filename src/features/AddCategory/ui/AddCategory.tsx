@@ -1,7 +1,7 @@
 // import classNames from 'shared/lib/classNames/classNames';
 // import cls from './AddCategory.module.scss';
 
-import { categoriesAllRequest, categorySlice } from "entities/Category";
+import { categoriesAllRequest, categorySlice, getCategoryByID } from "entities/Category";
 import { PropsWithChildren, useState } from "react";
 import $api from "shared/api";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
@@ -13,13 +13,25 @@ interface AddCategoryProps {
  className?: string;
  onClose?:()=>void;
  isOpen?:boolean;
+ edit?:boolean;
+ id?:number;
 }
 
 export function AddCategory(props: PropsWithChildren<AddCategoryProps>) {
-    const { className,isOpen,onClose } = props;
+    const { className,isOpen,onClose,edit,id } = props;
     const {categories} = useAppSelector(state=>state.categoryReducer);
     const [selectedCat,setSelectedCat] = useState("");
     const [name,setName] = useState("");
+    const url = "category/add";
+    const req = $api.post;
+    // if (edit){
+    //     const currentCat = getCategoryByID(categories,id);
+    //     const parent = getCategoryByID(categories,currentCat.parentID);
+    //     console.log(currentCat);
+    //     setName(currentCat.name);
+    //     // setSelectedCat(parent.name);
+   
+    // }
     const dispatch = useAppDispatch();
     
 
@@ -28,7 +40,7 @@ export function AddCategory(props: PropsWithChildren<AddCategoryProps>) {
             name,
             parentID:Number(selectedCat)
         };
-        await $api.post("category/add",body);
+        await req(url,body);
         dispatch(categoriesAllRequest());
         onClose();
     };

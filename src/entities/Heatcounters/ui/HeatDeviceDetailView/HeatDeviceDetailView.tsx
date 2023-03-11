@@ -21,7 +21,7 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
             <div className={cls.systemsRow}>
                 {device.systems.map(element=>
                     <div className={cls.systemBox} key={element.id}>
-                        {element.name}
+                        <b>{`ТС${element.index+1}  ${element.name}`}</b>
                         <div className = {cls.parameterTable}>
                             {element.parameters.map(parameter=>
                                 <div className={cls.parameterRow} key={parameter.id}>

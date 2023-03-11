@@ -10,10 +10,11 @@ interface ObjectListItemProps {
  className?: string;
  id:number;
  onObjectClick:(obj:ObjectResponse)=>void;
+ Component?:()=>React.ReactNode
 }
 
 export function ObjectListItem(props: PropsWithChildren<ObjectListItemProps>) {
-    const { className,children,id,onObjectClick } = props;
+    const { className,children,id,onObjectClick,Component } = props;
     const {objects} = useAppSelector(state=>state.objectReducer);
     const dispatch = useAppDispatch();
     const currentObject = getObjectById(id);
@@ -27,12 +28,17 @@ export function ObjectListItem(props: PropsWithChildren<ObjectListItemProps>) {
     };
     return (
         <div className={classNames(cls.ObjectListItem,mods,[className])}>
+            
             {objects.map(obj=>obj.id===id && 
             <div key={obj.id} className={cls.nested}>
-                <div key={obj.id} onClick={()=>onClickHandler(obj)}>{obj.name}</div>
+                <div className={cls.menu}>
+                    <div onClick={()=>onClickHandler(obj)}>{obj.name}  </div>
+                    <div onClick={e=>e.stopPropagation()}>{Component()}</div>
+                </div>
                 {obj.expanded && children}
             </div>
             )}
+
         </div>
     );
 }

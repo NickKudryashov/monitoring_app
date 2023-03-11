@@ -11,7 +11,7 @@ interface CategoryCardProps {
 export function CategoryCard(props: PropsWithChildren<CategoryCardProps>) {
     const { className,name,onClick } = props;
     return (
-        <div onClick={onClick} className={classNames(cls.CategoryCard,{},[className])}>
+        <div onClick={onClick} className={classNames(cls.CategoryCard,{},[className,cls.cardContent])}>
             <b>{name}</b>
         </div>
     );

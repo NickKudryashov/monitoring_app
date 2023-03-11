@@ -13,27 +13,38 @@ interface DetailViewProps {
  className?: string;
  children?:ReactNode[];
  tabSelected?:boolean;
+ generalSelected?:boolean;
  setTabSelected?:(val:boolean)=>void;
+ setGeneralSelected?:(val:boolean)=>void;
 }
 
 export function DetailView(props: DetailViewProps) {
-    const { className,children,setTabSelected,tabSelected } = props;
+    const { className,children,setTabSelected,tabSelected,generalSelected,setGeneralSelected } = props;
     const {categories} = useAppSelector(state=>state.categoryReducer);
+    if (generalSelected && tabSelected) {
+        setTabSelected(false);
+    }
+
+    const tabHandler = (val:boolean)=> {
+        setTabSelected(val);
+        setGeneralSelected(false);
+    };
     return (
         <div className={classNames(cls.DetailView,{},[className])}>
             <AppTab
                 selected = {tabSelected} 
-                setTabSelected = {setTabSelected}
+                setTabSelected = {tabHandler}
                 tabs={
                     [
-                        {name:"Главная",index:0,Content:GeneralInformation},
-                        {name:"События",index:1,Content:MockComponent},
+                        {name:"Главная",index:0,Content:MockComponent},
+                        {name:"События",index:1,Content: MockComponent},
                         {name:"Объекты на карте",index:2,Content:MockComponent},
                         {name:"Архивы",index:3,Content:MockComponent},
                         {name:"Автоопрос",index:4,Content:MockComponent}
                     ]}
             >
-                {!tabSelected && children}
+                {generalSelected && <GeneralInformation/>}
+                {!tabSelected && !generalSelected && children}
             </AppTab>
             {/* <ObjectCategoryView/> */}
         </div>
