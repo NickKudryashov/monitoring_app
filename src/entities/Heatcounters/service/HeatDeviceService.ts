@@ -8,4 +8,7 @@ export default class HeatDeviceService{
     static async getHeatDevice(id:number){
         return $api.get<HeatDevice>(`device/${id}`);
     }
+    static async deleteHeatDevice(id:number){
+        return $api.delete<HeatDevice>(`device/${id}`);
+    }
 }

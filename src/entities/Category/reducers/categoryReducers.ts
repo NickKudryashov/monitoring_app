@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CategoryResponse } from "../types/types";
-import { categoriesAllRequest } from "./actionCreators";
+import { categoriesAllRequest, categoryDeleteRequest } from "./actionCreators";
 
 export interface CategoryItem {
     name:string;
@@ -65,10 +65,13 @@ export const categorySlice = createSlice({
     extraReducers:{
         [categoriesAllRequest.fulfilled.type]: (state,action:PayloadAction<CategoryResponse[]> )=>{
             const temp = action.payload.map(element=>({...element,expanded:Boolean(localStorage.getItem(`category_${element.id}`)) || false}));
-            state.categories=temp;
+            state.categories=temp.sort((firstCat,nextCat)=>firstCat.id-nextCat.id);
         },
         [categoriesAllRequest.rejected.type]: (state,action:PayloadAction<CategoryResponse[]> )=>{
             alert("Произошла ошибка обновления");
+        },
+        [categoryDeleteRequest.fulfilled.type]: (state,action:PayloadAction<number[]>)=>{
+            state.categories=state.categories.filter((cat)=>!action.payload.includes(cat.id));
         }
     }
 });

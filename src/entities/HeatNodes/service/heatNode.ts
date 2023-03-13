@@ -6,4 +6,8 @@ export class HeatNodeService{
         const response = await $api.get<HeatNodeResponse[]>("/heat_node");
         return response;
     }
+    static async getHeatNode(id:number) {
+        const response = await $api.get<HeatNodeResponse[]>(`heatnode/${id}`);
+        return response;
+    }
 }

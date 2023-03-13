@@ -9,6 +9,7 @@ export interface HeatParameters {
     dimension:string;
     system:number;
     device:number;
+    tag?:string;
 }
 
 export interface HeatSystem {

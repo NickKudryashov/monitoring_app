@@ -50,9 +50,9 @@ export function Modal(props: PropsWithChildren<ModalProps>) {
     },[isOpen, onKeyDown]);
     return (
         <Portal>
-            <div className={classNames(cls.Modal,mods,[className])}>
-                <div className={cls.overlay} onClick={closeHandler}>
-                    <div className={cls.content} onClick={onContentClick}>
+            <div  className={classNames(cls.Modal,mods,[className])}>
+                <div className={cls.overlay} onMouseDown={closeHandler} onMouseUp={e=>e.stopPropagation()}>
+                    <div className={cls.content}  onClick={onContentClick} onMouseDown={onContentClick} onMouseUp={onContentClick}>
                         {children}
                     </div>
                 </div>

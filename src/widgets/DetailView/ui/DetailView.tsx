@@ -20,7 +20,6 @@ interface DetailViewProps {
 
 export function DetailView(props: DetailViewProps) {
     const { className,children,setTabSelected,tabSelected,generalSelected,setGeneralSelected } = props;
-    const {categories} = useAppSelector(state=>state.categoryReducer);
     if (generalSelected && tabSelected) {
         setTabSelected(false);
     }

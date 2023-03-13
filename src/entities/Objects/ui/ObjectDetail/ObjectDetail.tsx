@@ -14,7 +14,7 @@ export function ObjectDetail(props: PropsWithChildren<ObjectDetailProps>) {
 
     return (
         <div className={classNames(cls.ObjectDetail,{},[className])}>
-            <b>{`${obj.name} общая информация:`}</b>
+            <b className={cls.title}>{`${obj.name} общая информация:`}</b>
             {children}
         </div>
     );
