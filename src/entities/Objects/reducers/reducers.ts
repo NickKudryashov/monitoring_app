@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ObjectResponse } from "../types/types";
-import { objectsAllRequest } from "./actionCreator";
+import { objectsAllRequest, objectsDelRequest } from "./actionCreator";
 export interface ObjectItem {
     name:string;
     id:number;
@@ -61,10 +61,13 @@ export const objectSlice = createSlice({
     },
     extraReducers:{
         [objectsAllRequest.fulfilled.type]: (state,action:PayloadAction<ObjectResponse[]>)=>{
-            state.objects=action.payload.map(element=>({...element,expanded:Boolean(localStorage.getItem(`object_${element.id}`)) || false}));
+            state.objects=action.payload.map(element=>({...element,expanded:Boolean(localStorage.getItem(`object_${element.id}`)) || false})).sort((a,b)=>a.id-b.id);
         },
         [objectsAllRequest.rejected.type]: (state,action:PayloadAction<ObjectResponse[]>)=>{
             alert("ошибка обновления");
+        },
+        [objectsDelRequest.fulfilled.type]:(state,action:PayloadAction<number>)=>{
+            state.objects = state.objects.filter(obj=>obj.id!==action.payload);
         }
     }
 });

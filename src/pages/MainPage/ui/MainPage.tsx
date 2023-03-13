@@ -1,7 +1,8 @@
 
 import { CategoryItem, categorySlice } from "entities/Category";
 import { HeatDevice, HeatDeviceDetailView } from "entities/Heatcounters";
-import { HeatNodeDetailView } from "entities/HeatNodes";
+import { HeatNodeDetailView, HeatNodeResponse } from "entities/HeatNodes";
+import { heatNodeSlice } from "entities/HeatNodes/reducers/reducers";
 import { ObjectDetail, ObjectItem, objectSlice } from "entities/Objects";
 import { GeneralInformation } from "features/GeneralInformation";
 import { ManualBulkHeatPolll, ManualHeatPoll } from "features/ManualHeatPoll";
@@ -10,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
+import { MockComponent } from "shared/ui/MockComponent/MockComponent";
 import { Modal } from "shared/ui/Modal/Modal";
 import { DetailView } from "widgets/DetailView";
 import { CurrentDevice, DeviceList, deviceListSlice } from "widgets/DeviceList";
@@ -25,7 +27,9 @@ const MainPage = () => {
     const [generalSelected,setGeneralSelected] = useState(false);
     const {isAuth} = useAppSelector(state=>state.userReducer);
     const devRef = useRef<CurrentDevice>();
+    const nodeRef = useRef<HeatNodeResponse>();
     devRef.current=currentDevice;
+    nodeRef.current = currentNode;
 
 
 
@@ -42,9 +46,25 @@ const MainPage = () => {
         setGeneralSelected(false);
 
     };
-    const updateCurrentDevice =  async (device:HeatDevice)=>{
-        if (device.id===devRef.current.id) {
-            dispatch(deviceListSlice.actions.setDevice(device));
+    const updateCurrentDevice =  async (device:HeatDevice | HeatNodeResponse)=>{
+        if (devRef.current) {
+            if (device.id===devRef.current.id) {
+                // @ts-ignore
+                dispatch(deviceListSlice.actions.setDevice(device));
+            }
+        }
+        if (nodeRef.current) {
+            if (device.id===nodeRef.current.id){
+                dispatch(deviceListSlice.actions.setNode(device));
+            }
+        }
+        console.log("после апдейта");
+
+    };
+    const updateCurrentNode =  async (node:HeatNodeResponse)=>{
+
+        if (node.id===nodeRef.current.id) {
+            dispatch(deviceListSlice.actions.setNode(node));
         }
     };
     return (
@@ -53,12 +73,13 @@ const MainPage = () => {
             <div className={cls.sidebarwrapper}>
                 <div className={cls.content}>
                     <div className={cls.listWithGeneral}>
-                        <AppButon theme={AppButtonTheme.PRIMARY} onClick={()=>setGeneralSelected(true)}>Общая информация</AppButon>
+                        <AppButon className={cls.generalInfoBtn} onClick={()=>setGeneralSelected(true)}>Общая информация</AppButon>
                         <DeviceList
                             onClick={()=>{setTabSelected(false);setGeneralSelected(false);}}
                         />
                     </div>
                     <DetailView
+                        className={cls.detail}
                         tabSelected={tabSelected}
                         setTabSelected={setTabSelected}
                         generalSelected={generalSelected}
@@ -74,17 +95,27 @@ const MainPage = () => {
                         /> }
                         {currentObject!==undefined && currentDevice===undefined && currentNode===undefined && currentCategory===undefined &&
                         <ObjectDetail obj={currentObject}>
-                            {heatNodes.map(hnode=> hnode.user_object===currentObject.id &&
+                            {/* {heatNodes.map(hnode=> hnode.user_object===currentObject.id &&
                             <HeatNodeDetailView key={hnode.id} heatNode={hnode}>
                                 <ManualBulkHeatPolll onUpdate={()=>console.log("обновлено")} node_id={hnode.id} />
                                 {devices.map(device=> device.node===hnode.id && <HeatDeviceDetailView key={device.id} device={device}/>)}
-                            </HeatNodeDetailView>)}
+                            </HeatNodeDetailView>)} */}
+                            <MockComponent/>
                         </ObjectDetail>}
-                        {currentObject===undefined && currentDevice!==undefined && currentNode===undefined && currentCategory===undefined &&<HeatDeviceDetailView device={currentDevice}><ManualHeatPoll onUpdate={updateCurrentDevice} device={currentDevice}/></HeatDeviceDetailView> }
+                        {currentObject===undefined && currentDevice!==undefined && currentNode===undefined && currentCategory===undefined &&
+                        <HeatDeviceDetailView device={currentDevice}>
+                            <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentDevice}/>
+                        </HeatDeviceDetailView> }
                         {currentObject===undefined && currentDevice===undefined && currentNode!==undefined && currentCategory===undefined &&
-                        <HeatNodeDetailView heatNode={currentNode}>
+                        <HeatNodeDetailView key={currentNode.id} heatNode={currentNode}>
                             <ManualBulkHeatPolll onUpdate={()=>console.log("обновлено")} node_id={currentNode.id} />
-                            {devices.map(device=>device.node===currentNode.id && <div className={cls.nodeCont} key={currentNode.id}><HeatDeviceDetailView className={cls.toDevice} key={device.id} device={device}><ManualHeatPoll onUpdate={updateCurrentDevice} device={device} /></HeatDeviceDetailView></div>)}
+
+                            {devices.map(device=>device.node===currentNode?.id && 
+                            <div className={cls.nodeCont} key={device.id}>
+                                <HeatDeviceDetailView className={cls.toDevice} key={device.id} device={device}>
+                                    <ManualHeatPoll  nodePolling onUpdate={updateCurrentDevice} device={device} />
+                                </HeatDeviceDetailView>
+                            </div>)}
                         </HeatNodeDetailView> }
                     </DetailView>
                     {/* <DetailView/> */}

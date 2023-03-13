@@ -15,8 +15,8 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
 
     return (
         <div className={classNames(cls.DetailView,{},[className])}>
-            <b>Информация по прибору {device.name}</b>
-            {`Дата последнего опроса: ${timeConvert(device.last_update)}`}
+            <b className={cls.deviceTitle}>Информация по прибору {device.name}</b>
+            <p className={cls.deviceTitle}>{`Дата последнего опроса: ${timeConvert(device.last_update)}`}</p>
             {children}
             <div className={cls.systemsRow}>
                 {device.systems.map(element=>

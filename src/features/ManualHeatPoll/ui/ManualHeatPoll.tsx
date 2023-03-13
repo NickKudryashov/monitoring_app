@@ -8,15 +8,17 @@ import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { heatNodeRequest } from "entities/HeatNodes";
 
 interface ManualHeatPollProps {
  className?: string;
  device:HeatDevice;
  onUpdate:(device:any)=>void;
+ nodePolling?:boolean;
 }
 
 export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
-    const { className,device,onUpdate } = props;
+    const { className,device,onUpdate,nodePolling=false } = props;
     const dispatch = useAppDispatch();
     const {devices,selectedDevice} = useAppSelector(state=>state.heatDeviceReducer);
     const timer_ref = useRef<ReturnType <typeof setInterval>>();
@@ -47,7 +49,14 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
                 response.data.result === true ? setStatus("Опрос завершен успешно") : setStatus("Произошла ошибка при опросе");
                 pollFlag.current=false;
                 setIsLoading(false);
-                dispatch(getDevice(device.id)).then(res=>onUpdate(res.payload));
+                if (nodePolling) {
+                    dispatch(getDevice(device.id));
+                    dispatch(heatNodeRequest(device.node))
+                        .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор по ноде",res.payload);}); }
+                else {
+                    dispatch(getDevice(device.id))
+                        .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор",res.payload);});}
+                    
                 clearInterval(timer_ref.current);
             }
             console.log(response.data);

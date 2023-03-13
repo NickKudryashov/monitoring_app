@@ -10,7 +10,7 @@ interface ObjectListItemProps {
  className?: string;
  id:number;
  onObjectClick:(obj:ObjectResponse)=>void;
- Component?:()=>React.ReactNode
+ Component?:()=>React.ReactNode;
 }
 
 export function ObjectListItem(props: PropsWithChildren<ObjectListItemProps>) {

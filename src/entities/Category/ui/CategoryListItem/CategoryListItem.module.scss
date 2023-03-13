@@ -1,5 +1,4 @@
 .CategoryListItem {
-    padding-left:10px;
     display: flex;
     flex-direction: column;
     cursor: var(--tree-cursor);
@@ -12,8 +11,9 @@
 
 .textWithIcon {
     display: flex;
+    padding-right:10px;
 
     // justify-content: center;
-
     align-items: center;
+    justify-content: space-between;
 }

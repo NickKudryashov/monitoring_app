@@ -7,4 +7,7 @@ export default class CategoryService {
     static async getAllCategories () {
         return $api.get<CategoryResponse[]>("category");
     }
+    static async deleteCategory (id:number) {
+        return $api.delete<CategoryResponse[]>(`category/${id}`);
+    }
 }

@@ -10,3 +10,8 @@ export const getDevice = createAsyncThunk("getHeatDev",async (id:number,thunkAPI
     const response = await HeatDeviceService.getHeatDevice(id);
     return response.data;
 });
+
+export const deleteDevice = createAsyncThunk("getHeatDev",async (id:number,thunkAPI)=>{
+    const response = await HeatDeviceService.deleteHeatDevice(id);
+    return  id;
+});

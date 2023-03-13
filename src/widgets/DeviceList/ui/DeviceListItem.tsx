@@ -3,8 +3,8 @@ import cls from "./DeviceListItem.module.scss";
 
 import { PropsWithChildren, useCallback, useState } from "react";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
-import {  categoriesAllRequest, CategoryItem, CategoryListItem, categorySlice, getCategoryByID } from "entities/Category";
-import { ObjectItem, ObjectListItem, objectsAllRequest, objectSlice } from "entities/Objects";
+import {  categoriesAllRequest, categoryDeleteRequest, CategoryItem, CategoryListItem, categorySlice, getCategoryByID } from "entities/Category";
+import { ObjectItem, ObjectListItem, objectsAllRequest, objectsDelRequest, objectSlice } from "entities/Objects";
 import { heatNodeAllRequest, HeatNodeListItem, HeatNodeResponse } from "entities/HeatNodes";
 import { getDevices, HeatDevice, HeatDeviceListItem, heatDeviceSlice } from "entities/Heatcounters";
 import { deviceListSlice } from "../reducers/DeviceListReducer";
@@ -14,6 +14,7 @@ import { EditCategory } from "features/EditCategory/ui/EditCategory";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import DottedIcon from "shared/assets/icons/dropdownDotsIcon.svg";
 import { EditObject } from "features/EditObject";
+import { findChildrens } from "entities/Category/lib/helpers";
 
 interface DeviceListItemProps {
  className?: string;
@@ -26,6 +27,8 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     const {categories} = useAppSelector(state=>state.categoryReducer);
     const {objects} = useAppSelector(state=>state.objectReducer);
     const [openModal,setOpenModal] = useState(false);
+    const [selectedCategory,setSelectedCategory] = useState<CategoryItem>(null);
+    const [selectedObject,setSelectedObject] = useState<ObjectItem>(null);
     const [openObjModal,setOpenObjModal] = useState(false);
     const dispatch = useAppDispatch();
     const categoryClickHandler = (cat:CategoryItem)=>{
@@ -53,7 +56,6 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         dispatch(deviceListSlice.actions.setDevice(device));
         onClick();
 
-        // dispatch(heatDeviceSlice.actions.selectdevice(device));
     };
 
     const heatNodeClickHandler = (node:HeatNodeResponse)=>{
@@ -64,51 +66,69 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         onClick();
     
     };
-    const ObjectDropdown =()=> <DropdownMenu
-        Icon={DottedIcon}
-        items={[{text:"Редактировать объект",onClick:()=>setOpenObjModal(false)}]}
-    />;
-    // const CategoryDropdown =useCallback(()=> <DropdownMenu
-    //     Icon={DottedIcon}
-    //     items={[{text:"Редактировать категорию",onClick:()=>setOpenModal(true)}]}
-    // />,[]);
-    // Описать клик хэндлер по принципу:
-    // Клик на прибор - ничего ( или отображение как есть)
-    // Клик на ноду - закрывает другие ноды если они открыты (пока их нет) и открывает ноду если она закрыта
-    // Клик на объект - свернуть все ноды (и объекты в данной категории) и открывает объект если он закрыт
-    // Клик на категорию - свернуть все нижележащие и/или открытые категории и открыть категорию если она закрыта
+
+    const categoryMenuClickHandler = (element:CategoryItem)=>{
+        setOpenModal(true);
+        setSelectedCategory(element);
+    };
+    const objectEditHandler = (element:ObjectItem)=>{
+        setOpenObjModal(true);
+        setSelectedObject(element);
+    };
+    const objectDeleteHandler=(element:ObjectItem)=>{
+        dispatch(objectsDelRequest(element.id));
+        dispatch(getDevices());
+        dispatch(heatNodeAllRequest());
+    };
+    const categoryDeleteHandler=(element:CategoryItem)=>{
+        const toDelete = findChildrens(categories,element.id);
+        dispatch(categoriesAllRequest());
+        dispatch(categoryDeleteRequest(toDelete));
+        dispatch(objectsAllRequest());
+        dispatch(getDevices());
+        dispatch(heatNodeAllRequest());
+    };
+
     return (
         <div className={classNames(cls.DeviceListItem,{},[className])}>
             {categories.map(element=>element.parentID===parentID  &&
             <div key={element.id}>
                 <div className={cls.textWithIcon}>
-
-                    <CategoryListItem onCategoryClickHandler={categoryClickHandler} id={element.id} Component={()=><DropdownMenu
-                        Icon={DottedIcon}
-                        items={[{text:"Редактировать категорию",onClick:()=>setOpenModal(false)}]}
-                    />}>
+                    <CategoryListItem  
+                        className={cls.items}
+                        onCategoryClickHandler={categoryClickHandler} 
+                        id={element.id} 
+                        Component={()=>
+                            <DropdownMenu
+                                Icon={DottedIcon}
+                                items={[
+                                    {text:"Редактировать категорию",onClick:()=>categoryMenuClickHandler(element)},
+                                    {text:"Удалить категорию",onClick:()=>categoryDeleteHandler(element)},
+                                ]}
+                            />
+                        }
+                    >
                         {objects.map((object)=>object.category===element.id  &&
-                        <ObjectListItem key={object.id} onObjectClick={objectClickHandler} id={object.id} Component={ObjectDropdown}>
-                            <EditObject object={object} isOpen={openObjModal} onClose={()=>setOpenObjModal(false)} />
-
+                        <ObjectListItem className={cls.DeviceListItem} key={object.id} onObjectClick={objectClickHandler} id={object.id} Component={()=>
+                            <DropdownMenu
+                                Icon={DottedIcon}
+                                items={[
+                                    {text:"Редактировать объект",onClick:()=>objectEditHandler(object)},
+                                    {text:"Удалить объект",onClick:()=>objectDeleteHandler(object)},
+                                ]}
+                            />}>
                             <HeatNodeListItem  onNodeClick={(node:HeatNodeResponse)=>heatNodeClickHandler(node)} object_id={object.id}>
                                 <HeatDeviceListItem onDeviceClick={(device:HeatDevice) =>heatDeviceClickHandler(device)} objectID={object.id}/>
                             </HeatNodeListItem>
                         </ObjectListItem>)}
-                        
                         <DeviceListItem onClick={onClick} parentID={element.id}/>
-
                     </CategoryListItem>
-                    
                 </div>
+                {openModal && <EditCategory isOpen={openModal} onClose={()=>setOpenModal(false)} category={selectedCategory} />}
+                {openObjModal && <EditObject object={selectedObject} isOpen={openObjModal} onClose={()=>setOpenObjModal(false)} />}
+
             </div>
             )}
-            {/* {objects.map((object)=>object.category===parentID && 
-            <ObjectListItem key={object.id} onObjectClick={(obj:ObjectResponse)=>dispatch(deviceListSlice.actions.setObject(obj))} id={object.id}>
-                <HeatNodeListItem  onNodeClick={(node:HeatNodeResponse)=>dispatch(deviceListSlice.actions.setNode(node))} object_id={object.id}>
-                    <HeatDeviceListItem objectID={object.id}/>
-                </HeatNodeListItem>
-            </ObjectListItem>)} */}
         </div>
     ); 
 }
