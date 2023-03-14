@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { sortParameters } from "../lib/parametersOrder";
-import { HeatDevice } from "../types/type";
+import { HeatDevice, HeatSystem } from "../types/type";
 import { deleteDevice, getDevice, getDevices } from "./actionCreator";
 
 type SelectedDev = HeatDevice | undefined;
@@ -22,11 +22,20 @@ export const heatDeviceSlice = createSlice({
     },
     extraReducers:{
         [getDevices.fulfilled.type] : (state,action:PayloadAction<HeatDevice[]>)=>{
-            state.devices=action.payload.sort((a,b)=>(a.id-b.id));
+            state.devices=action.payload;
+            state.devices = state.devices.map(device=>{
+                const newSystems:HeatSystem[] = device.systems.map((system)=> ({...system,parameters:sortParameters(system.parameters)}));
+                console.log(newSystems);
+                device.systems = newSystems;
+                return device;
+            });
         },
         [getDevice.fulfilled.type]: (state,action:PayloadAction<HeatDevice>)=>{
+            console.log("гет");
             const newSystems = action.payload.systems.map(system=>{
-                return {...system,parameters:sortParameters(system.parameters)};
+                const temp = {...system,parameters:sortParameters(system.parameters)};
+                console.log(temp);
+                return temp ;
             });
             state.devices = state.devices.map(device=>{
                 if (device.id===action.payload.id) {

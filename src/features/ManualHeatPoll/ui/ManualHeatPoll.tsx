@@ -3,7 +3,7 @@ import cls from "./ManualHeatPoll.module.scss";
 
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { ManualPoll } from "../service/manualPollSerivce";
-import { getDevice, getDevices, HeatDevice } from "entities/Heatcounters";
+import { getDevice, getDeviceById, getDevices, HeatDevice } from "entities/Heatcounters";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Loader } from "shared/ui/Loader/Loader";
@@ -55,7 +55,7 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
                         .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор по ноде",res.payload);}); }
                 else {
                     dispatch(getDevice(device.id))
-                        .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор",res.payload);});}
+                        .then(res=>{onUpdate(getDeviceById(devices,device.id));console.log("Обновлен прибор",res.payload);});}
                     
                 clearInterval(timer_ref.current);
             }

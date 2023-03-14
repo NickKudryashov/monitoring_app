@@ -8,3 +8,4 @@ import { HeatSystem } from "./types/type";
 export {heatDeviceReducer,heatDeviceSlice,getDevices,HeatDeviceListItem,HeatDeviceDetailView,getDevice,HeatSystem};
 export type {HeatDevice};
 export {deleteDevice} from "./reducers/actionCreator";
+export {getDeviceById} from "./lib/getBy";
