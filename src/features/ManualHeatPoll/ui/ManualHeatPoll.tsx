@@ -55,7 +55,7 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
                         .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор по ноде",res.payload);}); }
                 else {
                     dispatch(getDevice(device.id))
-                        .then(res=>{onUpdate(getDeviceById(devices,device.id));console.log("Обновлен прибор",res.payload);});}
+                        .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор",res.payload);});}
                     
                 clearInterval(timer_ref.current);
             }
