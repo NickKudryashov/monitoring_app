@@ -41,6 +41,12 @@ export const categorySlice = createSlice({
                 }
             });
         },
+        closeAllCat(state) {
+            state.categories.map(element=>{
+                element.expanded=false;
+                localStorage.setItem(`category_${element.id}`,String(element.expanded || ""));
+            });
+        },
         closeAllCatsExceptSelected(state,action:PayloadAction<CategoryItem>) {
             state.categories.map(element=>{
                 if (element.id === action.payload.id || element.id===action.payload.parentID) {
