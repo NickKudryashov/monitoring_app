@@ -1,11 +1,13 @@
 .DefaultAuth {
     background:transparent;
+    width:30%;
+    height:30%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid white;
+    border: 1px solid black;
     padding:20px;
-    color:white;
+    color:black;
     font: var(--font-l)
 } 

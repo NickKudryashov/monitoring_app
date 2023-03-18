@@ -29,7 +29,7 @@
 }
 
 .detail {
-    width:70%;
+    width:75%;
 }
 
 .toDevice {
@@ -44,9 +44,9 @@
 .generalInfoBtn {
     background: transparent;
     border: 1px solid black;
-    width:fit-content;
     font:var(--font-s);
     height:46.03px;
+    width:100%;
 
     // border-top-right-radius:25px;
     cursor: pointer;

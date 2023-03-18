@@ -6,9 +6,11 @@
 .buttons {
     display: flex;
     flex-direction: row;
+    background: white;
+    width:100%;
     justify-content: space-around;
-    margin-left: 10%;
-    margin-right: 10%;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .tab {
