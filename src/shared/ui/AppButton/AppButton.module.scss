@@ -13,3 +13,17 @@
     border: 1px solid var(--navbar-background-color);
     background-color: var(--navbar-background-color);
 }
+
+.button_outline {
+    background: transparent;
+    border: 1px solid black;
+    width:16%;
+    height:46.03px;
+    font:var(--font-s);
+
+    // border-top-right-radius:25px;
+    cursor: pointer;
+
+    // margin-left:1px;
+    padding:3px;
+}

@@ -95,11 +95,7 @@ const MainPage = () => {
                         /> }
                         {currentObject!==undefined && currentDevice===undefined && currentNode===undefined && currentCategory===undefined &&
                         <ObjectDetail obj={currentObject}>
-                            {/* {heatNodes.map(hnode=> hnode.user_object===currentObject.id &&
-                            <HeatNodeDetailView key={hnode.id} heatNode={hnode}>
-                                <ManualBulkHeatPolll onUpdate={()=>console.log("обновлено")} node_id={hnode.id} />
-                                {devices.map(device=> device.node===hnode.id && <HeatDeviceDetailView key={device.id} device={device}/>)}
-                            </HeatNodeDetailView>)} */}
+                            <AppButon theme={AppButtonTheme.OUTLINE} onClick={()=>dispatch(deviceListSlice.actions.setNode(heatNodes.filter(hnode=> hnode.user_object===currentObject.id)[0]))}>Открыть УУТЭ</AppButon>
                             <MockComponent/>
                         </ObjectDetail>}
                         {currentObject===undefined && currentDevice!==undefined && currentNode===undefined && currentCategory===undefined &&

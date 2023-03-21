@@ -10,6 +10,7 @@ interface AppButonProps extends  ButtonHTMLAttributes<HTMLButtonElement>{
 export enum AppButtonTheme {
     AUTH="auth_button",
     PRIMARY="primary_btn",
+    OUTLINE="button_outline"
 }
 
 export function AppButon(props: PropsWithChildren<AppButonProps>) {

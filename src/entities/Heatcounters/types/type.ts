@@ -19,6 +19,8 @@ export interface HeatSystem {
     is_active:boolean;
     device:number;
     parameters:HeatParameters[];
+    schema?:string;
+    formula?:string;
 }
 
 export interface HeatDevice {
@@ -30,4 +32,5 @@ export interface HeatDevice {
     device_type:string;
     systems:HeatSystem[];
     last_update:string | null;
+    device_type_verbose_name:string;
 }
