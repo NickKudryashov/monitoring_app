@@ -35,6 +35,7 @@ export function DetailView(props: DetailViewProps) {
                 setTabSelected = {tabHandler}
                 tabs={
                     [
+                        // {name:"Общее",index:0,Content:GeneralInformation},
                         {name:"Главная",index:0,Content:MockComponent},
                         {name:"События",index:1,Content: MockComponent},
                         {name:"Объекты на карте",index:2,Content:MockComponent},

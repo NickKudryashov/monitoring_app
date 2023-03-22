@@ -1,6 +1,10 @@
 .DeviceList {
     background: var(--primary-color);
-    height: 100%;
-    padding:20px;
+    border:1px solid black;
+    height: 95%;
+    padding:5%;
+    flex:1;
+    box-sizing: border-box;
+    padding-bottom: 0;
 }
 
