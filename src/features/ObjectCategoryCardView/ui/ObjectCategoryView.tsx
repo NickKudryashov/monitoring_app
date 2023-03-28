@@ -5,6 +5,8 @@ import { PropsWithChildren } from "react";
 import { useAppSelector } from "shared/hooks/hooks";
 import { CategoryCard, CategoryItem} from "entities/Category";
 import { ObjectCard, ObjectItem } from "entities/Objects";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 
 interface ObjectCategoryViewProps {
  className?: string;
@@ -16,8 +18,8 @@ interface ObjectCategoryViewProps {
 
 export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewProps>) {
     const { className,category,objectClickHandler,categoryClickHandler} = props;
-    const {categories} = useAppSelector(state=>state.categoryReducer);
-    const {objects} = useAppSelector(state=>state.objectReducer);
+    const {categories} = useSelector((state:StateSchema)=>state.category);
+    const {objects} = useSelector((state:StateSchema)=>state.objects);
     const selectCat = (cat:CategoryItem)=>{
         // setParentID(id); 
         // dispatch(openCat(id));
