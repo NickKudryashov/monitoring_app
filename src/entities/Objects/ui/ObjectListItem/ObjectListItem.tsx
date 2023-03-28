@@ -2,7 +2,7 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectListItem.module.scss";
 import type { ObjectResponse } from "entities/Objects/types/types";
 import type { PropsWithChildren } from "react";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { objectSlice } from "entities/Objects/reducers/reducers";
 import { getObjectById } from "entities/Objects/helpers/objectHelper";
 import { useSelector } from "react-redux";

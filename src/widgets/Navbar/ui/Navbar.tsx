@@ -5,7 +5,7 @@ import { PropsWithChildren, useCallback, useState } from "react";
 import { AddCategory } from "features/AddCategory";
 import { AddObject } from "features/AddObject";
 import { AddHeatDevice } from "features/AddHeatDevice";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { userSlice } from "entities/user/Store/authReducer";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import DropdownIcon from "shared/assets/icons/dropdownIcon.svg";

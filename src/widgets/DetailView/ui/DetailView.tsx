@@ -2,7 +2,6 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./DetailView.module.scss";
 
 import { PropsWithChildren, ReactNode, useState } from "react";
-import { useAppSelector } from "shared/hooks/hooks";
 import { CategoryCard } from "entities/Category";
 import { ObjectCategoryView } from "features/ObjectCategoryCardView";
 import { AppTab } from "shared/ui/AppTab/AppTab";

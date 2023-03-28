@@ -4,7 +4,6 @@ import cls from "./CategoryListItem.module.scss";
 import { PropsWithChildren, useState } from "react";
 import { CategoryResponse } from "entities/Category/types/types";
 import { getCategoryByID } from "entities/Category/lib/helpers";
-import { useAppSelector } from "shared/hooks/hooks";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";

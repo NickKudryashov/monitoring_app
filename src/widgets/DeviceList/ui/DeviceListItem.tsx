@@ -2,7 +2,7 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./DeviceListItem.module.scss";
 
 import { PropsWithChildren, useCallback, useState } from "react";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import {  categoriesAllRequest, categoryDeleteRequest, CategoryItem, CategoryListItem, categorySlice, getCategoryByID } from "entities/Category";
 import { ObjectItem, ObjectListItem, objectsAllRequest, objectsDelRequest, objectSlice } from "entities/Objects";
 import { heatNodeAllRequest, HeatNodeListItem, HeatNodeResponse } from "entities/HeatNodes";

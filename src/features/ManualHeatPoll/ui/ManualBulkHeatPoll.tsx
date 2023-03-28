@@ -4,7 +4,7 @@ import cls from "./ManualBulkHeatPoll.module.scss";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { ManualPoll } from "../service/manualPollSerivce";
 import { getDevice, getDevices, HeatDevice, refreshDevices } from "entities/Heatcounters";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";

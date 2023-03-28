@@ -2,7 +2,6 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./HeatDeviceListItem.module.scss";
 
 import type { PropsWithChildren } from "react";
-import {  useAppSelector } from "shared/hooks/hooks";
 import { HeatDevice } from "entities/Heatcounters/types/type";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";

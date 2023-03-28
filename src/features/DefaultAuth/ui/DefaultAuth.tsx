@@ -3,7 +3,7 @@ import cls from "./DefaultAuth.module.scss";
 
 import { PropsWithChildren, useEffect, useState } from "react";
 import { AppInput } from "shared/ui/AppInput/AppInput";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { defaultLogin } from "entities/user/Store/actionCreators";
 import { AppCheckbox } from "shared/ui/AppCheckbox/AppCheckbox";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";

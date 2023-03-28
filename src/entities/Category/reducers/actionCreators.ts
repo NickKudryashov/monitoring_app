@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { useAppSelector } from "shared/hooks/hooks";
 import { findChildrens } from "../lib/helpers";
 import CategoryService from "../service/CategoryService";
 

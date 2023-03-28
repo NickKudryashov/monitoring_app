@@ -2,7 +2,6 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryView.module.scss";
 
 import { PropsWithChildren } from "react";
-import { useAppSelector } from "shared/hooks/hooks";
 import { CategoryCard, CategoryItem} from "entities/Category";
 import { ObjectCard, ObjectItem } from "entities/Objects";
 import { useSelector } from "react-redux";

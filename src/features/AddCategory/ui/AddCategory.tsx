@@ -6,7 +6,7 @@ import { categoriesAllRequest, categorySlice, getCategoryByID } from "entities/C
 import { PropsWithChildren, useState } from "react";
 import { useSelector } from "react-redux";
 import $api from "shared/api";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { AppButon } from "shared/ui/AppButton/AppButton";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { Modal } from "shared/ui/Modal/Modal";

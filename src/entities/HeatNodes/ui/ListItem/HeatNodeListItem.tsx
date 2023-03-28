@@ -2,7 +2,7 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./HeatNodeListItem.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { heatNodeSlice } from "entities/HeatNodes/reducers/reducers";
 import { HeatNodeResponse } from "entities/HeatNodes/types/types";
 import { useSelector } from "react-redux";

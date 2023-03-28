@@ -12,7 +12,7 @@ import { ManualBulkHeatPolll, ManualHeatPoll } from "features/ManualHeatPoll";
 import { ObjectCategoryView } from "features/ObjectCategoryCardView";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import { MockComponent } from "shared/ui/MockComponent/MockComponent";

@@ -2,7 +2,8 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./GeneralInformation.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { useAppSelector } from "shared/hooks/hooks";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 
 interface GeneralInformationProps {
  className?: string;
@@ -10,8 +11,8 @@ interface GeneralInformationProps {
 
 export function GeneralInformation(props: PropsWithChildren<GeneralInformationProps>) {
     const { className } = props;
-    const {ids} = useAppSelector(state=>state.heatDeviceReducer);
-    const {objects} = useAppSelector(state=>state.objectReducer);
+    const {ids} = useSelector((state:StateSchema)=>state.heatDevices);
+    const {objects} = useSelector((state:StateSchema)=>state.objects);
     return (
         <div className={classNames(cls.GeneralInformation,{},[className])}>
             {`Количество объектов:${objects.length}`}
