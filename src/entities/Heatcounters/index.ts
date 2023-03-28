@@ -7,5 +7,7 @@ import { getDevice } from "./reducers/actionCreator";
 import { HeatSystem } from "./types/type";
 export {heatDeviceReducer,heatDeviceSlice,getDevices,HeatDeviceListItem,HeatDeviceDetailView,getDevice,HeatSystem};
 export type {HeatDevice};
-export {deleteDevice} from "./reducers/actionCreator";
+export {deleteDevice,refreshDevices} from "./reducers/actionCreator";
 export {getDeviceById} from "./lib/getBy";
+export {selectHeatDeviceById} from "./reducers/reducer";
+export {HeatDeviceSchema} from "./types/type";

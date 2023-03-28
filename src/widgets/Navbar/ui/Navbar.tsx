@@ -10,6 +10,8 @@ import { userSlice } from "entities/user/Store/authReducer";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import DropdownIcon from "shared/assets/icons/dropdownIcon.svg";
 import { Modal } from "shared/ui/Modal/Modal";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 
 interface NavbarProps {
  className?: string;
@@ -17,7 +19,7 @@ interface NavbarProps {
 
 export function Navbar(props: PropsWithChildren<NavbarProps>) {
     const { className } = props;
-    const email = useAppSelector(state=>state.userReducer.userdata?.name);
+    const email = useSelector((state:StateSchema)=>state.user.userdata?.name);
     const [settingsDropdownOpened,setSettingsDropdownOpened] = useState(false);
     const [categoryFormOpened,setCategoryFormOpened] = useState(false);
     const [objectFormOpened,setObjectFormOpened] = useState(false);

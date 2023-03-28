@@ -9,7 +9,7 @@ export interface CategoryItem {
     expanded:boolean;
 }
 
-interface categoryState{
+export interface categoryState{
     categories:CategoryItem[];
 }
 

@@ -3,7 +3,7 @@ import { UserData } from "../Models/User";
 import { DefaultAuthCheckResponse, DefaultAuthResponse, } from "../types/types";
 import { defaultAuthCheck, defaultLogin, getUserData } from "./actionCreators";
 
-interface UserState {
+export interface UserState {
     isAuth:boolean;
     licenseAccepted:boolean;
     rulesAccepted:boolean;
@@ -51,4 +51,5 @@ export const userSlice = createSlice({
     }
 });
 
-export const userReducer = userSlice.reducer;
+// export const userReducer = userSlice.reducer;
+export const {reducer:userReducer} = userSlice;

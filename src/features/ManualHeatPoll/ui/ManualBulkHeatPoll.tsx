@@ -3,11 +3,14 @@ import cls from "./ManualBulkHeatPoll.module.scss";
 
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { ManualPoll } from "../service/manualPollSerivce";
-import { getDevice, getDevices, HeatDevice } from "entities/Heatcounters";
+import { getDevice, getDevices, HeatDevice, refreshDevices } from "entities/Heatcounters";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { heatNodeRequest } from "entities/HeatNodes";
 
 interface ManualBulkHeatPolllProps {
  className?: string;
@@ -18,18 +21,18 @@ interface ManualBulkHeatPolllProps {
 export function ManualBulkHeatPolll(props: PropsWithChildren<ManualBulkHeatPolllProps>) {
     const { className,node_id,onUpdate } = props;
     const dispatch = useAppDispatch();
-    const {devices,selectedDevice} = useAppSelector(state=>state.heatDeviceReducer);
+    const {entities,selectedDeviceID} = useSelector((state:StateSchema)=>state.heatDevices);
     const timer_ref = useRef<ReturnType <typeof setInterval>>();
     const pollFlag = useRef<boolean>();
     pollFlag.current=false;
     const [loading,setIsLoading] = useState(pollFlag.current);
     const [status,setStatus] = useState<string>("");
-    const dev_ids = devices.map((dev=> {if (dev.node===node_id) {return dev.id;}}));
+    const dev_ids = Object.values(entities).map((dev=> {if (dev.node===node_id) {return dev.id;}}));
     useEffect(()=>{
         setIsLoading(pollFlag.current);
     },[node_id]);
 
-    useEffect(()=>{setStatus("");},[selectedDevice]);
+    useEffect(()=>{setStatus("");},[selectedDeviceID]);
 
     
     const  poll =  async ()=>{
@@ -48,7 +51,9 @@ export function ManualBulkHeatPolll(props: PropsWithChildren<ManualBulkHeatPolll
                 pollFlag.current=false;
                 setIsLoading(false);
                 // dispatch(getDevices()).then(res=>onUpdate(res.payload));
-                dispatch(getDevices());
+                dispatch(refreshDevices());
+                dispatch(heatNodeRequest(node_id))
+                    .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор по ноде",res.payload);}); 
                 clearInterval(timer_ref.current);
             }
             console.log(response.data);

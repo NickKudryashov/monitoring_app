@@ -10,13 +10,13 @@ interface GeneralInformationProps {
 
 export function GeneralInformation(props: PropsWithChildren<GeneralInformationProps>) {
     const { className } = props;
-    const {devices} = useAppSelector(state=>state.heatDeviceReducer);
+    const {ids} = useAppSelector(state=>state.heatDeviceReducer);
     const {objects} = useAppSelector(state=>state.objectReducer);
     return (
         <div className={classNames(cls.GeneralInformation,{},[className])}>
             {`Количество объектов:${objects.length}`}
             <br/>
-            {`Количество приборов УУТЭ:${devices.length}`}
+            {`Количество приборов УУТЭ:${ids.length}`}
         </div>
     );
 }

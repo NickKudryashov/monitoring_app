@@ -15,6 +15,8 @@ import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import DottedIcon from "shared/assets/icons/dropdownDotsIcon.svg";
 import { EditObject } from "features/EditObject";
 import { findChildrens } from "entities/Category/lib/helpers";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 
 interface DeviceListItemProps {
  className?: string;
@@ -24,8 +26,8 @@ interface DeviceListItemProps {
 
 export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     const { className,parentID,onClick } = props;
-    const {categories} = useAppSelector(state=>state.categoryReducer);
-    const {objects} = useAppSelector(state=>state.objectReducer);
+    const {categories} = useSelector((state:StateSchema)=>state.category);
+    const {objects} = useSelector((state:StateSchema)=>state.objects);
     const [openModal,setOpenModal] = useState(false);
     const [selectedCategory,setSelectedCategory] = useState<CategoryItem>(null);
     const [selectedObject,setSelectedObject] = useState<ObjectItem>(null);
@@ -33,6 +35,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     const dispatch = useAppDispatch();
     const categoryClickHandler = (cat:CategoryItem)=>{
         dispatch(categoriesAllRequest());
+        dispatch(heatDeviceSlice.actions.unselectdevice());
         dispatch(categorySlice.actions.openCat(cat.id));
         dispatch(categorySlice.actions.closeAllCatsExceptSelected(cat));
         dispatch(deviceListSlice.actions.setCategory(cat));
@@ -42,6 +45,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     };
     const objectClickHandler = (obj:ObjectItem) => {
         dispatch(objectsAllRequest());
+        dispatch(heatDeviceSlice.actions.unselectdevice());
         dispatch(getDevices());
         dispatch(heatNodeAllRequest());
         dispatch(categorySlice.actions.closeAllCatsExceptSelectedWithoutParent(getCategoryByID(categories,obj.category)));
@@ -60,6 +64,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
 
     const heatNodeClickHandler = (node:HeatNodeResponse)=>{
         dispatch(getDevices());
+        dispatch(heatDeviceSlice.actions.unselectdevice());
         dispatch(heatNodeAllRequest());
         dispatch(deviceListSlice.actions.setNode(node));
         dispatch(heatNodeSlice.actions.selectHeatNode(node));

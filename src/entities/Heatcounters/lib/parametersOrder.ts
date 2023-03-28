@@ -28,8 +28,18 @@ const paramTemplate:Record<string,number> = {};
 for (let i = 0;i<paramList.length;i++) {
     paramTemplate[paramList[i]] = i;
 }
+export const bulkSortParameters = (devices:HeatDevice[])=> {
+    const result = devices.map(device=>sortParameters(device));
+    return result;
+};
 
-export const sortParameters = (parameters:HeatParameters[])=>{
+export const sortParameters = (device:HeatDevice)=>{
+    const newSystems = device.systems.map(system=>({...system,parameters:sortParameters1(system.parameters)}));
+    device.systems=newSystems;
+    return device;
+};
+
+export const sortParameters1 = (parameters:HeatParameters[])=>{
     const result = parameters.sort((a, b) => paramTemplate[a.tag] - paramTemplate[b.tag]);
     return result;
 };

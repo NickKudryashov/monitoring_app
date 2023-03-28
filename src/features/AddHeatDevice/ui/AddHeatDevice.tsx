@@ -1,9 +1,11 @@
 // import classNames from 'shared/lib/classNames/classNames';
 // import cls from './AddHeatDevice.module.scss';
 
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { getDevices, HeatSystem } from "entities/Heatcounters";
 import { objectsAllRequest } from "entities/Objects";
 import { PropsWithChildren, useState } from "react";
+import { useSelector } from "react-redux";
 import $api from "shared/api";
 import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
 import { AppButon } from "shared/ui/AppButton/AppButton";
@@ -34,8 +36,8 @@ const ST20_238="st20_238";
 const ST20_239="st20_239";
 export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const { className,isOpen,onClose } = props;
-    const {objects} = useAppSelector(state=>state.objectReducer);
-    const {heatNodes} = useAppSelector(state=>state.heatNodeReducer);
+    const {objects} = useSelector((state:StateSchema)=>state.objects);
+    const {heatNodes} = useSelector((state:StateSchema)=>state.heatNodes);
     const [selectedObj,setSelectedObj] = useState("-1");
     const [name,setName] = useState("");
     const dispatch = useAppDispatch();

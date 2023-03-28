@@ -5,5 +5,5 @@ import { ObjectCard } from "./ui/ObjectCard/ObjectCard";
 import { objectSlice } from "./reducers/reducers";
 import { ObjectResponse } from "./types/types";
 import { ObjectDetail } from "./ui/ObjectDetail/ObjectDetail";
-import { ObjectItem } from "./reducers/reducers";
-export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectResponse,ObjectDetail,ObjectItem,objectsDelRequest};
+import { ObjectItem,objectState } from "./reducers/reducers";
+export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectResponse,ObjectDetail,ObjectItem,objectsDelRequest,objectState};

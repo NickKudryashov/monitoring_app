@@ -8,6 +8,9 @@ import { defaultLogin } from "entities/user/Store/actionCreators";
 import { AppCheckbox } from "shared/ui/AppCheckbox/AppCheckbox";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { Modal } from "shared/ui/Modal/Modal";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { userReducer } from "entities/user";
+import { useSelector } from "react-redux";
 
 interface DefaultAuthProps {
  className?: string;
@@ -17,7 +20,7 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
     const { className } = props;
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
-    const {isAuth} = useAppSelector(state=>state.userReducer);
+    const isAuth = useSelector((state:StateSchema)=>state.user.isAuth);
     const [rememeberUser,setRememberUser] = useState(false);
     const dispatch = useAppDispatch();
 
