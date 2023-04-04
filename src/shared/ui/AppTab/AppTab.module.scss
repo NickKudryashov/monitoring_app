@@ -9,6 +9,8 @@
     background: white;
     width:100%;
     padding-left: 30px;
+
+    // padding-bottom: 10px;
     border:none;
 
     // justify-content: space-around;
@@ -17,14 +19,25 @@
 }
 
 .tab {
-    border: 1px solid black;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    border: none;
     width:16%;
     height:var(--tab-height);
     font:var(--font-s);
-    background: var(--navbar-background-color);
-    border-top-right-radius: 40px;
-    border-top-left-radius: 35px;
-    margin-left: -30px;
+    box-shadow: 0 2px rgb(0 0 0 / 20%);
+    background: white;
+    background: var(--primary-color);
+    transition: 0.3s all;
+
+    // background: #bdcbe5;
+    border-radius: 5px;
+    margin:5px;
+
+    // border-top-right-radius: 40px;
+    // border-top-left-radius: 35px;
+    // margin-left: -30px;
 
     // border-top-right-radius:25px;
     cursor: pointer;
@@ -35,7 +48,12 @@
 
 .active {
     border: none;
-    z-index: 20;
+    height:150%;
+    box-shadow: 0 2px rgb(0 0 0 / 20%);
+    transition: 0.3s all;
+    color:rgb(56 102 226);
+
+    // z-index: 20;
 
 }
 
@@ -55,7 +73,8 @@
 .content{
     height: 100%;
     display: flex;
-    border: 1px solid black;
+
+    // border: 1px solid black;
     background: var(--primary-color);
 }
 

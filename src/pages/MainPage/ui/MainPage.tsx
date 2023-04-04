@@ -80,7 +80,7 @@ const MainPage = () => {
             <div className={cls.sidebarwrapper}>
                 <div className={cls.content}>
                     <div className={cls.listWithGeneral}>
-                        <AppButon className={cls.generalInfoBtn} onClick={()=>{dispatch(categorySlice.actions.closeAllCat());setGeneralSelected(true);}}>Общая информация</AppButon>
+                        {/* <AppButon className={cls.generalInfoBtn} onClick={()=>{dispatch(categorySlice.actions.closeAllCat());setGeneralSelected(true);}}>Общая информация</AppButon> */}
                         <DeviceList
                             onClick={()=>{setTabSelected(false);setGeneralSelected(false);}}
                         />

@@ -32,6 +32,8 @@
     flex-direction: column;
     width:25% ;
     height:100%;
+    padding-top: calc(var(--tab-height) + 10px);
+
 }
 
 .detail {
