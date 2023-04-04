@@ -1,3 +1,5 @@
+
+
 .auth_button {
     border:none;
     border-bottom: 1px solid black;
@@ -26,4 +28,43 @@
 
     // margin-left:1px;
     padding:3px;
+}
+
+.shadow_btn {
+    height:var(--tab-height);
+    font:var(--font-s);
+    box-shadow: 0 2px rgb(0 0 0 / 20%);
+    background: var(--primary-color);
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    position: relative;
+
+}
+
+.shadow_btn::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 5px;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.5s;
+    box-shadow: 0 10px 20px rgb(0 0 0 / 40%);
+
+}
+
+.shadow_btn:active::after {
+    // box-shadow: 0 0 0 0 white;
+    box-shadow: 0 2px rgb(0 0 0 / 20%);
+    position: absolute;
+    border-radius: 5px;
+    left: 0;
+    top:0;
+    opacity: 1;
+    transition: 0s;
 }

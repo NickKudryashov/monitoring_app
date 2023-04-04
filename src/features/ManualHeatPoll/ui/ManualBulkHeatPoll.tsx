@@ -62,7 +62,7 @@ export function ManualBulkHeatPolll(props: PropsWithChildren<ManualBulkHeatPolll
     };
     return (
         <div className={cls.container}>
-            <AppButon theme={AppButtonTheme.OUTLINE} onClick={poll} className={classNames(cls.ManualBulkHeatPolll,{},[className,cls.btn])}>
+            <AppButon theme={AppButtonTheme.SHADOW} onClick={poll} className={classNames(cls.ManualBulkHeatPolll,{},[className,cls.btn])}>
                 {"Опросить узел"}
             </AppButon>
             <div className={cls.loadbox}>
