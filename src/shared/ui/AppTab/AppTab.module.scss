@@ -6,7 +6,7 @@
 .buttons {
     display: flex;
     flex-direction: row;
-    background: white;
+    background: var(--bg-color);
     width:100%;
     padding-left: 30px;
 
@@ -72,6 +72,7 @@
 .content{
     height: 100%;
     display: flex;
+    padding-top: 20px;
 
     // border: 1px solid black;
     background: var(--primary-color);
