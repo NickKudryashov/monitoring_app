@@ -1,4 +1,6 @@
 import { categoryState } from "entities/Category";
+import { ElectroDeviceSchema } from "entities/ElectroDevice";
+import { ElectroNodesSchema } from "entities/ElectroNodes";
 import { HeatDeviceSchema } from "entities/Heatcounters";
 import { HeatNodeResponse } from "entities/HeatNodes";
 import { heatNodeState } from "entities/HeatNodes/reducers/reducers";
@@ -13,7 +15,12 @@ export interface StateSchema {
     user:UserState;
     objects:objectState;
     deviceList:DeviceListState;
+    electroNodes:ElectroNodesSchema;
+    electroDevices:ElectroDeviceSchema;
 }
 
-
+export interface ThunkConfig<T> {
+    rejectValue:T;
+    state:StateSchema
+}
 //     deviceListReducer,

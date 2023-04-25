@@ -23,7 +23,9 @@ export const heatNodeSlice = createSlice({
         selectHeatNode(state,action:PayloadAction<HeatNodeResponse>) {
             state.selectedNode=action.payload;
         },
-
+        unselectHeatNode(state) {
+            state.selectedNode=undefined;
+        },
         expand(state,action:PayloadAction<number>) {
             state.heatNodes.map(element=>{if (element.id === action.payload) {
                 element.expanded=!element.expanded;

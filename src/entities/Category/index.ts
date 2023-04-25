@@ -7,5 +7,6 @@ import { CategoryListItem } from "./ui/CategoryListItem/CategoryListItem";
 import { getCategoryByID,findChildrens } from "./lib/helpers";
 import { CategoryItem } from "./reducers/categoryReducers";
 import {categoryState} from "./reducers/categoryReducers";
-export {categoryReducer,categoriesAllRequest,categorySlice,CategoryCard,CategoryResponse,CategoryListItem,getCategoryByID,CategoryItem,categoryState};
+export {categoryReducer,categoriesAllRequest,categorySlice,CategoryCard,CategoryListItem,getCategoryByID};
 export {categoryDeleteRequest} from "./reducers/actionCreators";
+export type {CategoryResponse,CategoryItem,categoryState};

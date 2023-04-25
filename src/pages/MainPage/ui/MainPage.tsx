@@ -3,38 +3,40 @@ import { EntityId } from "@reduxjs/toolkit";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { CategoryItem, categorySlice } from "entities/Category";
 import {  HeatDevice, HeatDeviceDetailView } from "entities/Heatcounters";
-import { heatDeviceSlice, selectHeatDeviceById } from "entities/Heatcounters/reducers/reducer";
+import { heatDeviceSlice } from "entities/Heatcounters/reducers/reducer";
 import { HeatNodeDetailView, HeatNodeResponse } from "entities/HeatNodes";
-import { heatNodeSlice } from "entities/HeatNodes/reducers/reducers";
 import { ObjectDetail, ObjectItem, objectSlice } from "entities/Objects";
 import { GeneralInformation } from "features/GeneralInformation";
 import { ManualBulkHeatPolll, ManualHeatPoll } from "features/ManualHeatPoll";
 import { ObjectCategoryView } from "features/ObjectCategoryCardView";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import { MockComponent } from "shared/ui/MockComponent/MockComponent";
-import { Modal } from "shared/ui/Modal/Modal";
 import { DetailView } from "widgets/DetailView";
-import { CurrentDevice, DeviceList, deviceListSlice } from "widgets/DeviceList";
+import {  DeviceList, deviceListSlice } from "widgets/DeviceList";
 import { Navbar } from "widgets/Navbar";
-import { Sidebar } from "widgets/Sidebar";
 import cls from "./MainPage.module.scss";
+import { ElectroCounterDeviceDetail, electroDeviceActions } from "entities/ElectroDevice";
+import { ElectroNodeData, ElectroNodeDetail } from "entities/ElectroNodes";
+import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
+import { ElectroDevicePoll } from "features/ElectroDevicePoll";
 const MainPage = () => {
-    const {currentObject,currentNode,currentCategory} = useSelector((state:StateSchema)=>state.deviceList);
+    const {currentObject,currentHeatNode,currentCategory,currentElectroDevice,currentHeatDevice,currentElectroNode,isElectroDevice,isElectroNode,isHeatDevice,isHeatNode} = useSelector((state:StateSchema)=>state.deviceList);
     const dispatch = useAppDispatch();
     const {entities,selectedDeviceID} = useSelector((state:StateSchema)=>state.heatDevices);
+    const {selectedDevice:selectedElectroDevice,data:electroData} = useSelector((state:StateSchema)=>state.electroDevices);
     const {heatNodes}=useSelector((state:StateSchema)=>state.heatNodes);
     const [tabSelected,setTabSelected] = useState(true);
     const [generalSelected,setGeneralSelected] = useState(false);
     const {isAuth} = useSelector((state:StateSchema)=>state.user);
-    const devRef = useRef<EntityId>();
+    const heatDevRef = useRef<HeatDevice>();
+    const electroDevRef = useRef<TopLevelElectroDevice>();
     const nodeRef = useRef<HeatNodeResponse>();
-    devRef.current=selectedDeviceID;
-    nodeRef.current = currentNode;
-    const currentDevice = useSelector((state:StateSchema)=>selectHeatDeviceById(state,selectedDeviceID));
+    heatDevRef.current=currentHeatDevice;
+    electroDevRef.current=currentElectroDevice;
+    nodeRef.current = currentHeatNode ?? currentElectroNode ;
     // const currentDevice:HeatDevice = undefined;
 
     const objectClickHandler = (obj:ObjectItem) => {
@@ -50,29 +52,35 @@ const MainPage = () => {
         setGeneralSelected(false);
 
     };
-    const updateCurrentDevice =  async (device:HeatDevice | HeatNodeResponse)=>{
-        if (devRef.current) {
-            if (device.id===devRef.current) {
-                // @ts-ignore
-
+    const updateCurrentDevice =  async (device:HeatDevice)=>{
+        if (heatDevRef?.current?.id) {
+            if (device.id===heatDevRef.current.id) {
                 dispatch(heatDeviceSlice.actions.updateOne(device));
-                // @ts-ignore
-                dispatch(deviceListSlice.actions.setDevice(device));
+                dispatch(deviceListSlice.actions.setHeatDevice(device));
             }
         }
         if (nodeRef.current) {
             if (device.id===nodeRef.current.id){
-                dispatch(deviceListSlice.actions.setNode(device));
+                dispatch(deviceListSlice.actions.setHeatNode(device));
             }
         }
         console.log("после апдейта");
 
     };
-    const updateCurrentNode =  async (node:HeatNodeResponse)=>{
-
-        if (node.id===nodeRef.current.id) {
-            dispatch(deviceListSlice.actions.setNode(node));
+    const updateCurrentElectroDevice =  async (device:ElectroNodeData)=>{
+        if (electroDevRef?.current?.id) {
+            if (device.id===electroDevRef.current.id) {
+                // dispatch(electroDeviceActions.updateOne(device));
+                dispatch(deviceListSlice.actions.setElectroNode(device));
+            }
         }
+        if (nodeRef.current) {
+            if (device.id===nodeRef.current.id){
+                dispatch(deviceListSlice.actions.setElectroNode(device));
+            }
+        }
+        console.log("после апдейта");
+
     };
     return (
         <div className={cls.MainPage}>
@@ -93,33 +101,50 @@ const MainPage = () => {
                         setGeneralSelected={setGeneralSelected}
                     >
                         {generalSelected && <GeneralInformation/>}
-                        {currentObject===undefined && currentDevice===undefined && currentNode===undefined && currentCategory===undefined && null}
-                        {currentObject===undefined && currentDevice===undefined && currentNode===undefined && currentCategory!==undefined && 
+                        {currentObject===undefined && !isElectroDevice && !isHeatDevice && !isElectroNode && !isHeatNode && currentCategory===undefined && null}
+                        {currentCategory!==undefined && 
                         <ObjectCategoryView 
                             categoryClickHandler={categoryClickHandler}
                             objectClickHandler={objectClickHandler}
                             category={currentCategory}
                         /> }
-                        {currentObject!==undefined && currentDevice===undefined && currentNode===undefined && currentCategory===undefined &&
+                        {currentObject!==undefined &&
                         <ObjectDetail obj={currentObject}>
-                            <AppButon theme={AppButtonTheme.OUTLINE} onClick={()=>dispatch(deviceListSlice.actions.setNode(heatNodes.filter(hnode=> hnode.user_object===currentObject.id)[0]))}>Открыть УУТЭ</AppButon>
+                            <AppButon theme={AppButtonTheme.OUTLINE} onClick={()=>dispatch(deviceListSlice.actions.setHeatNode(heatNodes.filter(hnode=> hnode.user_object===currentObject.id)[0]))}>Открыть УУТЭ</AppButon>
                             <MockComponent/>
                         </ObjectDetail>}
-                        {currentObject===undefined && currentDevice!==undefined && currentNode===undefined && currentCategory===undefined &&
-                        <HeatDeviceDetailView device={currentDevice}>
-                            <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentDevice}/>
+                        {isHeatDevice &&  
+                        <HeatDeviceDetailView device={currentHeatDevice}>
+                            <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentHeatDevice}/>
                         </HeatDeviceDetailView> }
-                        {currentObject===undefined && currentDevice===undefined && currentNode!==undefined && currentCategory===undefined &&
-                        <HeatNodeDetailView key={currentNode.id} heatNode={currentNode}>
-                            <ManualBulkHeatPolll onUpdate={()=>console.log("обновлено")} node_id={currentNode.id} />
+                        {isElectroDevice &&  
+                        <ElectroCounterDeviceDetail device={currentElectroDevice}>
+                            <ElectroDevicePoll device={currentElectroDevice} onUpdate={updateCurrentElectroDevice}  />
 
-                            {Object.values(entities).map(device=>device.node===currentNode?.id && 
-                            <div className={cls.nodeCont} key={device.id}>
-                                <HeatDeviceDetailView className={cls.toDevice} key={device.id} device={device}>
-                                    <ManualHeatPoll  nodePolling onUpdate={updateCurrentDevice} device={device} />
-                                </HeatDeviceDetailView>
-                            </div>)}
-                        </HeatNodeDetailView> }
+                            {/* <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentElectroDevice}/> */}
+                        </ElectroCounterDeviceDetail> }
+                        {isElectroNode &&  
+                        <ElectroNodeDetail>
+                            {
+                                electroData.topLevelDevices.map((el)=>
+                                    <ElectroCounterDeviceDetail key={el.id} device={el}>
+                                        <ElectroDevicePoll device={el} onUpdate={updateCurrentElectroDevice}  />
+                                        {/* <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentElectroDevice}/> */}
+                                    </ElectroCounterDeviceDetail>)
+                            }
+                            
+                        </ElectroNodeDetail> }
+                        {isHeatNode &&
+                            <HeatNodeDetailView key={currentHeatNode.id} heatNode={currentHeatNode}>
+                                <ManualBulkHeatPolll onUpdate={()=>console.log("обновлено")} node_id={currentHeatNode.id} />
+
+                                {Object.values(entities).map(device=>device.node===currentHeatNode?.id && 
+                                <div className={cls.nodeCont} key={device.id}>
+                                    <HeatDeviceDetailView className={cls.toDevice} key={device.id} device={device}>
+                                        <ManualHeatPoll  nodePolling onUpdate={updateCurrentDevice} device={device} />
+                                    </HeatDeviceDetailView>
+                                </div>)}
+                            </HeatNodeDetailView> }
                     </DetailView>
                     {/* <DetailView/> */}
                 </div>

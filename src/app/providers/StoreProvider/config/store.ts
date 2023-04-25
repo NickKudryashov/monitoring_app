@@ -6,6 +6,8 @@ import { objectReducer } from "entities/Objects";
 import { userReducer } from "entities/user";
 import { deviceListReducer } from "widgets/DeviceList";
 import { StateSchema } from "./stateSchema";
+import { electroNodesReducer } from "entities/ElectroNodes/model/slice/electroNodes";
+import { electroDeviceReducer } from "entities/ElectroDevice";
 
 
 
@@ -16,11 +18,19 @@ export function createReduxStore(initialState?:StateSchema) {
         objects:objectReducer,
         heatNodes:heatNodeReducer,
         heatDevices:heatDeviceReducer,
+        electroNodes:electroNodesReducer,
         deviceList:deviceListReducer,
+        electroDevices:electroDeviceReducer
+
     };
     return configureStore<StateSchema>({
         reducer:rootReducer,
         devTools:__IS_DEV__,
-        preloadedState:initialState
+        preloadedState:initialState,
     });
 }
+
+
+export type RootState = ReturnType<typeof createReduxStore>
+export type AppStore = ReturnType<typeof createReduxStore>
+export type AppDispatch = ReturnType<typeof createReduxStore>["dispatch"]

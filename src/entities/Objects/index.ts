@@ -6,4 +6,5 @@ import { objectSlice } from "./reducers/reducers";
 import { ObjectResponse } from "./types/types";
 import { ObjectDetail } from "./ui/ObjectDetail/ObjectDetail";
 import { ObjectItem,objectState } from "./reducers/reducers";
-export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectResponse,ObjectDetail,ObjectItem,objectsDelRequest,objectState};
+export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectDetail,objectsDelRequest};
+export type {ObjectResponse,ObjectItem,objectState};

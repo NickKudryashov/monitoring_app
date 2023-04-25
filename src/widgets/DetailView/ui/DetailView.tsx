@@ -42,7 +42,7 @@ export function DetailView(props: DetailViewProps) {
                         {name:"Объекты на карте",index:2,Content:MockComponent},
                         {name:"Архивы",index:3,Content:MockComponent},
                         {name:"Автоопрос",index:4,Content:MockComponent},
-                        {name:"Главная",index:5,Content:MockComponent},
+                        // {name:"Главная",index:5,Content:MockComponent},
                     ]}
             >
                 {generalSelected && <GeneralInformation/>}

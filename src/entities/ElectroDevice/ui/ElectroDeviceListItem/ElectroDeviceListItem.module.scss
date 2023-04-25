@@ -1,0 +1,10 @@
+.deviceLabels{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    font-weight: normal;
+}
+
+.selected {
+    font-weight: bold;
+}

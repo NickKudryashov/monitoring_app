@@ -17,6 +17,10 @@ import { EditObject } from "features/EditObject";
 import { findChildrens } from "entities/Category/lib/helpers";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { ElectroNodeData, ElectroNodeListItem, fetchElectroNodes } from "entities/ElectroNodes";
+import { electroNodesActions } from "entities/ElectroNodes/model/slice/electroNodes";
+import { ElectroDeviceListItem, electroDeviceActions } from "entities/ElectroDevice";
+import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
 
 interface DeviceListItemProps {
  className?: string;
@@ -57,19 +61,40 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     const heatDeviceClickHandler = (device:HeatDevice)=>{
         dispatch(getDevices());
         dispatch(heatDeviceSlice.actions.selectdevice(device));
-        dispatch(deviceListSlice.actions.setDevice(device));
+        dispatch(deviceListSlice.actions.setHeatDevice(device));
+        dispatch(heatNodeSlice.actions.unselectHeatNode());
+        dispatch(electroDeviceActions.unselectdevice());
         onClick();
-
     };
 
     const heatNodeClickHandler = (node:HeatNodeResponse)=>{
         dispatch(getDevices());
         dispatch(heatDeviceSlice.actions.unselectdevice());
+        dispatch(electroNodesActions.unselectElectroNode());
         dispatch(heatNodeAllRequest());
-        dispatch(deviceListSlice.actions.setNode(node));
+        dispatch(deviceListSlice.actions.setHeatNode(node));
         dispatch(heatNodeSlice.actions.selectHeatNode(node));
+        dispatch(electroNodesActions.closeNodeForObject(node.user_object));
         onClick();
-    
+    };
+
+    const electroNodeClickHandler = (node:ElectroNodeData)=>{
+        dispatch(getDevices());
+        dispatch(electroDeviceActions.unselectdevice());
+        dispatch(fetchElectroNodes());
+        dispatch(heatNodeSlice.actions.closeNodeForObject(node.user_object));
+        dispatch(deviceListSlice.actions.setElectroNode(node));
+        dispatch(electroNodesActions.selectElectroNode(node));
+        dispatch(heatNodeSlice.actions.unselectHeatNode());
+        onClick();
+    };
+
+    const electroDeviceClickHandler = (device:TopLevelElectroDevice)=>{
+        dispatch(getDevices());
+        dispatch(electroDeviceActions.selectdevice(device));
+        dispatch(heatDeviceSlice.actions.unselectdevice());
+        dispatch(deviceListSlice.actions.setElectroDevice(device));
+        onClick();
     };
 
     const categoryMenuClickHandler = (element:CategoryItem)=>{
@@ -114,17 +139,25 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
                         }
                     >
                         {objects.map((object)=>object.category===element.id  &&
-                        <ObjectListItem className={cls.DeviceListItem} key={object.id} onObjectClick={objectClickHandler} id={object.id} Component={()=>
-                            <DropdownMenu
-                                Icon={DottedIcon}
-                                items={[
-                                    {text:"Редактировать объект",onClick:()=>objectEditHandler(object)},
-                                    {text:"Удалить объект",onClick:()=>objectDeleteHandler(object)},
-                                ]}
-                            />}>
+                        <ObjectListItem 
+                            className={cls.DeviceListItem} 
+                            key={object.id} 
+                            onObjectClick={objectClickHandler} 
+                            id={object.id} 
+                            Component={()=>
+                                <DropdownMenu
+                                    Icon={DottedIcon}
+                                    items={[
+                                        {text:"Редактировать объект",onClick:()=>objectEditHandler(object)},
+                                        {text:"Удалить объект",onClick:()=>objectDeleteHandler(object)},
+                                    ]}
+                                />}>
                             <HeatNodeListItem  onNodeClick={(node:HeatNodeResponse)=>heatNodeClickHandler(node)} object_id={object.id}>
                                 <HeatDeviceListItem onDeviceClick={(device:HeatDevice) =>heatDeviceClickHandler(device)} objectID={object.id}/>
                             </HeatNodeListItem>
+                            <ElectroNodeListItem object_id={object.id} onNodeClick={electroNodeClickHandler}>
+                                <ElectroDeviceListItem objectID={object.id} onDeviceClick={electroDeviceClickHandler}  />
+                            </ElectroNodeListItem>
                         </ObjectListItem>)}
                         <DeviceListItem onClick={onClick} parentID={element.id}/>
                     </CategoryListItem>
