@@ -14,6 +14,7 @@ interface GeneralInformationProps {
 export function GeneralInformation(props: PropsWithChildren<GeneralInformationProps>) {
     const { className } = props;
     const {ids} = useSelector((state:StateSchema)=>state.heatDevices);
+    const {data} = useSelector((state:StateSchema)=>state.electroDevices);
     const {objects} = useSelector((state:StateSchema)=>state.objects);
     const dispatch = useAppDispatch();
     dispatch(categorySlice.actions.closeAllCat());
@@ -22,6 +23,8 @@ export function GeneralInformation(props: PropsWithChildren<GeneralInformationPr
             {`Количество объектов:${objects.length}`}
             <br/>
             {`Количество приборов УУТЭ:${ids.length}`}
+            <br/>
+            {`Количество приборов АСКУЭ:${data?.topLevelDevices.length ?? "Загрузка..."}`}
         </div>
     );
 }

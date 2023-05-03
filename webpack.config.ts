@@ -18,7 +18,7 @@ export default (env:BuildEnv)=>{
     const mode= env.mode || "development";
     const isDev = mode==="development";
     const PORT = env.port || 3000;
-    const API = env.api || "http://localhost:8000/api/v1/";
+    const API = env.api || "http://avs.eco:8000/api/v1/";
     const config:webpack.Configuration = buildWebpackConfig({
         mode,
         paths:paths,

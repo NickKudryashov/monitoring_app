@@ -7,22 +7,25 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { fetchElectroDevices } from "entities/ElectroDevice";
-import { fetchElectroNodeById } from "entities/ElectroNodes";
+import { ElectroNodeData, fetchElectroNodeById } from "entities/ElectroNodes";
 import { ManualPoll } from "../service/Polling";
 import { Loader } from "shared/ui/Loader/Loader";
 
 export interface ElectroDevicePollProps {
     className?: string;
-    device:TopLevelElectroDevice;
+    device?:TopLevelElectroDevice;
+    node?:ElectroNodeData;
     onUpdate:(device:any)=>void;
     nodePolling?:boolean;
+    bulk?:boolean;
 }
 
 const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
-    const { className,device,onUpdate,nodePolling=false } = props;
+    const { className,device,onUpdate,nodePolling=false,bulk=false,node } = props;
     const dispatch = useAppDispatch();
     // const selectedDeviceID = useSelector((state:StateSchema)=>state.electroDevices.selectedDevice.id);
-    const selectedDeviceID = device.id;
+    const selectedDeviceID = device===undefined ? node.id : device.id;
+    console.log("eeee",selectedDeviceID);
     const timer_ref = useRef<ReturnType <typeof setInterval>>();
     const pollFlag = useRef<boolean>();
     pollFlag.current=false;
@@ -31,29 +34,52 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
 
     useEffect(()=>{
         setIsLoading(pollFlag.current);
-    },[device]);
+    },[]);
 
     useEffect(()=>{setStatus("");},[selectedDeviceID]);
 
     const  poll =  async ()=>{
         pollFlag.current=true;
-        const response = await  ManualPoll.pollDevice(device.id);
+        let response;
+        if (device!==undefined){
+            response = await  ManualPoll.pollDevice(selectedDeviceID);
+            console.log(device);
+        }
+        else {
+            response = await  ManualPoll.bulkPollDevice(selectedDeviceID);
+            console.log(device);
+
+        }
         setIsLoading(true);
         setStatus("Идет опрос");
-        const task_id = response.data.task_id;
+        const task_id = response?.data?.task_id ?? undefined;
+        
         // setTimeout(()=>{
         //     dispatch(getDevice(device.id)).then(res=>onUpdate(res.payload));
         // },10000);
         timer_ref.current = setInterval(async ()=>{
-            const response = await ManualPoll.getTaskStatus(device.id,task_id);
-            if  (response.data.result!==null) {
+            let response;
+            if (device) {
+                response = await ManualPoll.getTaskStatus(selectedDeviceID,task_id);
+            }
+            else {
+                response = await ManualPoll.getTaskStatusBulk(selectedDeviceID,task_id);
+            }
+            if (response.status===500) {
+                setIsLoading(false);
+                setStatus("Произошла ошибка при опросе");
+                pollFlag.current=false;
+                clearInterval(timer_ref.current);
+                return;
+            }
+            if  (response.data?.result!==null) {
                 response.data.result === true ? setStatus("Опрос завершен успешно") : setStatus("Произошла ошибка при опросе");
                 pollFlag.current=false;
                 setIsLoading(false);
                 
-                if (nodePolling) {
+                if (bulk) {
                     dispatch(fetchElectroDevices());
-                    dispatch(fetchElectroNodeById(device.node))
+                    dispatch(fetchElectroNodeById(selectedDeviceID))
                         .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор по ноде",res.payload);}); }
                 else {
                     dispatch(fetchElectroDevices())
@@ -62,14 +88,13 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
                     
                 clearInterval(timer_ref.current);
             }
-            console.log(response.data);
         },2000);
 
     };
     return (
         <div className={cls.container}>
             <AppButon theme={AppButtonTheme.SHADOW} onClick={poll} className={classNames(cls.ManualHeatPoll,{},[className,cls.btn])}>
-                {"Опросить прибор"}
+                {!bulk ? "Опросить прибор" : "Опросить узел"}
             </AppButon>
             <div className={cls.loadbox}>
                 {loading && <Loader/>}

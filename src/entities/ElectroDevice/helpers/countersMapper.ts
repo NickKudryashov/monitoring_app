@@ -1,11 +1,11 @@
-import { CANMapper, CounterByCAN, DeviceRecord, ElectroCounter } from "../model/types/electroDevice";
+import { CANMapper, CounterByCAN, CounterIdByCAN, DeviceRecord, ElectroCounter, TopLevelElectroDevice } from "../model/types/electroDevice";
 
 export const createDeviceDict = (counters:ElectroCounter[])=>{
     const result:DeviceRecord = {};
     Object.keys(result);
     counters.forEach((counter)=>{
         if (result[counter.device]) {
-            result[counter.device].push(counter);
+            result[counter.device].push({...counter});
         }
         else {
             result[counter.device] = [counter,];
@@ -15,9 +15,20 @@ export const createDeviceDict = (counters:ElectroCounter[])=>{
 };
 
 export const createCanDict = (counters:ElectroCounter[])=>{
-    const result:CounterByCAN = {"CAN1":[],"CAN2":[],"CAN3":[],"CAN4":[],"RS485":[]};
+    const result:CounterIdByCAN = {};
     counters.forEach((counter)=>{
-        result[counter.interface].push(counter);
+        if (result[counter.device]) {
+            if(result[counter.device][counter.interface]) {
+                result[counter.device][counter.interface].push(counter);
+            }
+            else {
+                result[counter.device][counter.interface] = [counter,];
+            }
+        }
+        else {
+            result[counter.device] = {};
+            result[counter.device][counter.interface] = [counter,];
+        }
     });
     return result;
 };

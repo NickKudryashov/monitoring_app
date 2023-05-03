@@ -11,10 +11,13 @@ export class ManualPoll {
         return $api.post<TaskRequest>(`electropoll/${id}`);
     }
 
-    static async bulkPollDevice(ids:number[]){
-        return $api.post<TaskRequest>("heatpoll",{dev_ids:ids});
+    static async bulkPollDevice(node_id:number){
+        return $api.post<TaskRequest>("bulk_electropoll/"+node_id,{node_id});
     }
 
+    static async getTaskStatusBulk(id:number,task_id:string) {
+        return $api.put<TaskResponse>(`bulk_electropoll/${id}`,{task_id:task_id});
+    }
     static async getTaskStatus(id:number,task_id:string) {
         return $api.put<TaskResponse>(`electropoll/${id}`,{task_id:task_id});
     }

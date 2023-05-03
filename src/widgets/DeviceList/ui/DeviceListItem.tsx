@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { ElectroNodeData, ElectroNodeListItem, fetchElectroNodes } from "entities/ElectroNodes";
 import { electroNodesActions } from "entities/ElectroNodes/model/slice/electroNodes";
-import { ElectroDeviceListItem, electroDeviceActions } from "entities/ElectroDevice";
+import { ElectroDeviceListItem, electroDeviceActions, fetchElectroDevices } from "entities/ElectroDevice";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
 
 interface DeviceListItemProps {
@@ -79,7 +79,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     };
 
     const electroNodeClickHandler = (node:ElectroNodeData)=>{
-        dispatch(getDevices());
+        dispatch(fetchElectroDevices());
         dispatch(electroDeviceActions.unselectdevice());
         dispatch(fetchElectroNodes());
         dispatch(heatNodeSlice.actions.closeNodeForObject(node.user_object));
@@ -90,7 +90,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     };
 
     const electroDeviceClickHandler = (device:TopLevelElectroDevice)=>{
-        dispatch(getDevices());
+        dispatch(fetchElectroDevices());
         dispatch(electroDeviceActions.selectdevice(device));
         dispatch(heatDeviceSlice.actions.unselectdevice());
         dispatch(deviceListSlice.actions.setElectroDevice(device));

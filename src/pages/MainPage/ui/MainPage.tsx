@@ -125,12 +125,17 @@ const MainPage = () => {
                         </ElectroCounterDeviceDetail> }
                         {isElectroNode &&  
                         <ElectroNodeDetail>
+                            <ElectroDevicePoll node={currentElectroNode} onUpdate={updateCurrentElectroDevice} bulk={true} />
                             {
-                                electroData.topLevelDevices.map((el)=>
+                                
+                                electroData.topLevelDevices.map((el)=> el.node===currentElectroNode.id &&
+                                <div key={el.id} className={cls.nodeCont}>
                                     <ElectroCounterDeviceDetail key={el.id} device={el}>
-                                        <ElectroDevicePoll device={el} onUpdate={updateCurrentElectroDevice}  />
+                                        <ElectroDevicePoll bulk={false} key={el.id} device={el} onUpdate={updateCurrentElectroDevice}  />
                                         {/* <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentElectroDevice}/> */}
-                                    </ElectroCounterDeviceDetail>)
+                                    </ElectroCounterDeviceDetail>
+                                </div>
+                                )
                             }
                             
                         </ElectroNodeDetail> }

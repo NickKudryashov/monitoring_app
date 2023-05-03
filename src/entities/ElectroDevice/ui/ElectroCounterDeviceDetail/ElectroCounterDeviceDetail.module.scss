@@ -1,15 +1,21 @@
 .ElectroCounterDeviceDetail {
     display:flex;
     width:100%;
-    height:100%;    
-    overflow:auto;
+    height:95%;    
+
+    // overflow:auto;
     flex-direction: column;
     white-space: nowrap;
 }
 
+.interface_btn {
+    cursor: pointer;
+}
+
 .interface_panel {
-    width:40%;
+    width:100%;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 
@@ -31,6 +37,15 @@
 
 .parameter_line {
     display: flex;
+    white-space: nowrap;
+    width:100%;
+}
+
+.interface_list_item {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    width:100%;
 }
 
 .rowElement {

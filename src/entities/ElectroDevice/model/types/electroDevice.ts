@@ -7,8 +7,12 @@ export const CANMapper = {
 } as const;
 
 export type CANMapper = typeof CANMapper [keyof typeof CANMapper]
+
 export interface CounterByCAN {
     [CAN:string]:ElectroCounter[];
+}
+export interface CounterIdByCAN {
+    [id:number]:CounterByCAN;
 }
 interface BaseElectroDevice {
     user_object:number;
@@ -17,6 +21,7 @@ interface BaseElectroDevice {
     device_type:string;
     device_type_verbose_name:string;
     last_update:string;
+
 }
 
 export interface ElectroCounterParameters {
@@ -30,7 +35,7 @@ export interface ElectroCounterParameters {
 
 export interface ElectroCounter extends BaseElectroDevice {
     device:number;
-    interface:string;
+    interface:CANMapper;
     device_num:number;
     inner_id:number;
     inner_adress:number;
@@ -43,6 +48,7 @@ export interface TopLevelElectroDevice extends BaseElectroDevice {
     node:number;
     device_num:number;
     password:string;
+
 }
 
 export interface DeviceRecord {
@@ -51,8 +57,7 @@ export interface DeviceRecord {
 export interface ElectroData {
     topLevelDevices:TopLevelElectroDevice[];
     countersById:DeviceRecord;
-devicesByCan?:CounterByCAN
-
+    devicesByCan?:CounterIdByCAN
 }
 export interface ElectroDeviceSchema {
 isLoading?: boolean;

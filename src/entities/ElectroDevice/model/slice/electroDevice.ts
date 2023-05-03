@@ -34,6 +34,9 @@ export const electroDeviceSlice = createSlice({
                 (state, action) => {
                     state.isLoading = false;
                     state.data = action.payload;
+                    if (state.selectedDevice!==undefined){
+                        state.selectedDevice = action.payload.topLevelDevices.filter((dev)=>dev.id===state.selectedDevice.id)[0];
+                    }
                 }
             )
             .addCase(fetchElectroDevices.rejected, (state, action) => {

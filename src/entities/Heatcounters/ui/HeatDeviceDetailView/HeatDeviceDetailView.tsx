@@ -3,7 +3,7 @@ import cls from "./HeatDeviceDetailView.module.scss";
 
 import type { PropsWithChildren } from "react";
 import { HeatDevice } from "entities/Heatcounters/types/type";
-import { timeConvert } from "entities/Heatcounters/lib/timeConvert";
+import { timeConvert } from "shared/lib/helpers/datetimeConvert";
 
 interface DetailViewProps {
  className?: string;

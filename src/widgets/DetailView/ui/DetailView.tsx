@@ -45,8 +45,10 @@ export function DetailView(props: DetailViewProps) {
                         // {name:"Главная",index:5,Content:MockComponent},
                     ]}
             >
-                {generalSelected && <GeneralInformation/>}
-                {!tabSelected && !generalSelected && children}
+                <div className={cls.expandable}>
+                    {generalSelected && <GeneralInformation/>}
+                    {!tabSelected && !generalSelected && children}
+                </div>
             </AppTab>
             {/* <ObjectCategoryView/> */}
         </div>
