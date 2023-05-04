@@ -31,6 +31,7 @@ export interface ElectroCounterParameters {
     dimension:string;
     tag:string;
     device:number;
+    id:number;
 }
 
 export interface ElectroCounter extends BaseElectroDevice {

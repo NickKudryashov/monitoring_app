@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchElectroDevices } from "../services/fetchElectroDevice/fetchElectroDevice";
-import { ElectroDeviceSchema, TopLevelElectroDevice } from "../types/electroDevice";
+import { CANMapper, ElectroDeviceSchema, TopLevelElectroDevice } from "../types/electroDevice";
+import { editElectroCounter } from "../services/editCounter/editCounter";
 
 const initialState: ElectroDeviceSchema = {
     isLoading: false,
@@ -42,6 +43,13 @@ export const electroDeviceSlice = createSlice({
             .addCase(fetchElectroDevices.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
+            })
+            .addCase(editElectroCounter.fulfilled,(state,action)=>{
+                const topLevelId = action.payload.device;
+                const interfaceDev = action.payload.interface;
+                const counterId = action.payload.id;
+                state.data.devicesByCan[topLevelId][interfaceDev as CANMapper] = state.data.devicesByCan[topLevelId][interfaceDev as CANMapper].map((el)=>{ if (el.id===counterId) return {...el,...action.payload}; else {return el;} });
+                state.data.countersById[topLevelId] = state.data.countersById[topLevelId].map((el)=>{ if (el.id===counterId) return {...el,...action.payload}; else {return el;} });
             });
     }
 });

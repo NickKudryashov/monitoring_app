@@ -1,12 +1,13 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import cls from "./ElectroCounterDeviceDetail.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { CANMapper, TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
+import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { timeConvert } from "shared/lib/helpers/datetimeConvert";
+import { ElectroCounterDetailView } from "../ElectroCounterDetailView/ElectroCounterDetailView";
 
 interface ElectroCounterDeviceDetailProps {
  className?: string;
@@ -16,37 +17,32 @@ interface ElectroCounterDeviceDetailProps {
 export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<ElectroCounterDeviceDetailProps>) => {
     const { className,device,children } = props;
     const {data} = useSelector((state:StateSchema)=>state.electroDevices);
-    const [currentCan,setCurrentCan] = useState<CANMapper>(undefined);
-    const canChangeHandler = (can:CANMapper)=>{
+    // const [currentCan,setCurrentCan] = useState<CANMapper>(undefined);
+    const [currentCans,setCurrentCan] = useState<string[]>([]);
+    const canChangeHandler = (can:string)=>{
         setCurrentCan((prev)=>{
-            if(prev===can) {
-                return undefined;
+            if(prev.includes(can)) {
+                return prev.filter(el=>can!==el);
             }
-            return can;
+            return [...prev,can];
         });
     };
-    const content = (<div className={cls.container}>
-        {
-            currentCan!==undefined && 
-         data.devicesByCan[device.id][currentCan].map((counter)=>
-             counter.device === device.id && 
-             <div className={cls.counter_line} key={counter.id}>
-                 <b className={cls.rowElement}>{`${counter.device_type_verbose_name}`}</b>
-                 <p className={cls.rowElement}>{`№${counter.device_num}`}</p>
-                 <p className={cls.rowElement}>{`ID:${counter.inner_id}`}</p>
-                 {counter.parameters.map((parameter)=>
-                     <div className={cls.parameter_line} key={parameter.name}>
-                         <b>{`${parameter.name}:    `}</b>
-                         <p className={cls.rowElement}>{parameter.value}</p>
-                         <p className={cls.rowElement}>{parameter.dimension}</p>
-                     </div>
-                 )
-                 }   
-             </div>
-         )
-         
-        }
-    </div>);
+    useEffect(()=>{
+        setCurrentCan([]);
+    },[device]);
+    const content = (
+        <div className={cls.container}>
+            {
+                currentCans.length && 
+            currentCans.map(
+                (currentCan)=>data.devicesByCan[device.id][currentCan]?.map(
+                    (counter)=>
+                        <ElectroCounterDetailView key={counter.id} counter={counter} device={device}/> 
+                )
+            )
+            }
+        </div>
+    );
     return (
         <div className={classNames(cls.ElectroCounterDeviceDetail,{},[className])}>
             {children}
@@ -56,45 +52,14 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
                 <p>{"Доступные интерфейсы:"}</p>
                 {
                     data.devicesByCan[device.id]!==undefined && 
-                    Object.keys(data.devicesByCan[device.id]).map((can)=>(
+                    Object.keys(data.devicesByCan[device.id])?.map((can)=>(
                         <div key={can} className={cls.interface_list_item}>
-                            <b className={cls.interface_btn} onClick={()=>canChangeHandler(can as CANMapper)}>{can}</b>
-                            {currentCan===can && content}
+                            <b className={cls.interface_btn} onClick={()=>canChangeHandler(can)}>{can}</b>
+                            {currentCans.includes(can) && content}
                         </div>
                     ))
                 }
-                {/* {
-                    data.devicesByCan[device.id][CANMapper.CAN1] &&
-                    (<div className={cls.interface_list_item}>
-                        <b className={cls.interface_btn} onClick={()=>canChangeHandler(CANMapper.CAN1)}>{CANMapper.CAN1}</b>
-                        {currentCan===CANMapper.CAN1 && content}
-                    </div>)
-                }
-                {
-                    data.devicesByCan[device.id][CANMapper.CAN2] &&
-                    <div className={cls.interface_list_item}>
-                        <b className={cls.interface_btn} onClick={()=>canChangeHandler(CANMapper.CAN2)}>{CANMapper.CAN2}</b>
-                        {currentCan===CANMapper.CAN2 && content}
-
-                    </div>
-                }
-                {
-                    data.devicesByCan[device.id][CANMapper.CAN3] &&
-                    <div className={cls.interface_list_item}>
-                        <b className={cls.interface_btn} onClick={()=>canChangeHandler(CANMapper.CAN3)}>{CANMapper.CAN3}</b>
-                        {currentCan===CANMapper.CAN3 && content}
-
-                    </div>
-                }
-                {
-                    data.devicesByCan[device.id][CANMapper.CAN4] &&
-                    <div className={cls.interface_list_item}>
-                        <b className={cls.interface_btn} onClick={()=>canChangeHandler(CANMapper.CAN4)}>{CANMapper.CAN4}</b>
-                        {currentCan===CANMapper.CAN4 && content}
-                    </div>
-                } */}
             </div>
-            
         </div>
     );
 });

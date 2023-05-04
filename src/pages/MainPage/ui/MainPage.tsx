@@ -28,6 +28,7 @@ const MainPage = () => {
     const {entities,selectedDeviceID} = useSelector((state:StateSchema)=>state.heatDevices);
     const {selectedDevice:selectedElectroDevice,data:electroData} = useSelector((state:StateSchema)=>state.electroDevices);
     const {heatNodes}=useSelector((state:StateSchema)=>state.heatNodes);
+    const {data:electroNodesData}=useSelector((state:StateSchema)=>state.electroNodes);
     const [tabSelected,setTabSelected] = useState(true);
     const [generalSelected,setGeneralSelected] = useState(false);
     const {isAuth} = useSelector((state:StateSchema)=>state.user);
@@ -111,6 +112,7 @@ const MainPage = () => {
                         {currentObject!==undefined &&
                         <ObjectDetail obj={currentObject}>
                             <AppButon theme={AppButtonTheme.OUTLINE} onClick={()=>dispatch(deviceListSlice.actions.setHeatNode(heatNodes.filter(hnode=> hnode.user_object===currentObject.id)[0]))}>Открыть УУТЭ</AppButon>
+                            <AppButon theme={AppButtonTheme.OUTLINE} onClick={()=>dispatch(deviceListSlice.actions.setElectroNode(electroNodesData.filter(hnode=> hnode.user_object===currentObject.id)[0]))}>Открыть АСКУЭ</AppButon>
                             <MockComponent/>
                         </ObjectDetail>}
                         {isHeatDevice &&  
