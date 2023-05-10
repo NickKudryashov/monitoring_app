@@ -60,7 +60,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
         <div className={classNames(cls.ElectroCounterDeviceDetail,{},[className])}>
             {children}
             <b>{`${device.name} ${device.device_type_verbose_name} №${device.device_num}`}</b>
-            {`Дата последнего опроса ${timeConvert(selectedDevice?.last_update)}`}
+            {`Дата последнего опроса ${timeConvert(selectedDevice?.last_update ?? device.last_update)}`}
             <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(device.id)}>Отчет</AppButon>
             <div className={cls.interface_panel}>
                 <p>{"Доступные интерфейсы:"}</p>
