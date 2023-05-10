@@ -8,6 +8,10 @@ import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { timeConvert } from "shared/lib/helpers/datetimeConvert";
 import { ElectroCounterDetailView } from "../ElectroCounterDetailView/ElectroCounterDetailView";
+import $api from "shared/api";
+import api from "shared/api";
+import axios, { AxiosRequestConfig } from "axios";
+import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 
 interface ElectroCounterDeviceDetailProps {
  className?: string;
@@ -16,9 +20,10 @@ interface ElectroCounterDeviceDetailProps {
 
 export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<ElectroCounterDeviceDetailProps>) => {
     const { className,device,children } = props;
-    const {data} = useSelector((state:StateSchema)=>state.electroDevices);
+    const {data,selectedDevice} = useSelector((state:StateSchema)=>state.electroDevices);
     // const [currentCan,setCurrentCan] = useState<CANMapper>(undefined);
     const [currentCans,setCurrentCan] = useState<string[]>([]);
+    console.log(currentCans);
     const canChangeHandler = (can:string)=>{
         setCurrentCan((prev)=>{
             if(prev.includes(can)) {
@@ -29,25 +34,34 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
     };
     useEffect(()=>{
         setCurrentCan([]);
-    },[device]);
-    const content = (
-        <div className={cls.container}>
-            {
-                currentCans.length && 
-            currentCans.map(
-                (currentCan)=>data.devicesByCan[device.id][currentCan]?.map(
-                    (counter)=>
-                        <ElectroCounterDetailView key={counter.id} counter={counter} device={device}/> 
-                )
-            )
-            }
-        </div>
-    );
+        return ()=>{
+            setCurrentCan([]);
+        };
+    },[selectedDevice]);
+    // const content = (
+    //     <div className={cls.container}>
+    //         {
+    //             currentCans.length && 
+    //         currentCans.map(
+    //             (currentCan)=>data.devicesByCan[device.id][currentCan] && data.devicesByCan[device.id][currentCan]?.map(
+    //                 (counter)=>
+    //                     <ElectroCounterDetailView key={counter.id} counter={counter} device={device}/> 
+    //             )
+    //         )
+    //         }
+    //     </div>
+    // );
+    const downloadXLSFile = async (id:number) => {
+        const response = api.post(`electro_report/${id}`);
+    };
+
+    
     return (
         <div className={classNames(cls.ElectroCounterDeviceDetail,{},[className])}>
             {children}
             <b>{`${device.name} ${device.device_type_verbose_name} №${device.device_num}`}</b>
-            {`Дата последнего опроса ${timeConvert(device.last_update)}`}
+            {`Дата последнего опроса ${timeConvert(selectedDevice?.last_update)}`}
+            <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(device.id)}>Отчет</AppButon>
             <div className={cls.interface_panel}>
                 <p>{"Доступные интерфейсы:"}</p>
                 {
@@ -55,7 +69,18 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
                     Object.keys(data.devicesByCan[device.id])?.map((can)=>(
                         <div key={can} className={cls.interface_list_item}>
                             <b className={cls.interface_btn} onClick={()=>canChangeHandler(can)}>{can}</b>
-                            {currentCans.includes(can) && content}
+                            {currentCans.includes(can) && 
+                            <div className={cls.container}>
+                                {
+                                    currentCans.length && 
+                            currentCans.map(
+                                (currentCan)=>data.devicesByCan[device.id]!==undefined && data.devicesByCan[device.id][currentCan]?.map(
+                                    (counter)=> can===counter.interface &&
+                                        <ElectroCounterDetailView key={counter.id} counter={counter} device={device}/> 
+                                )
+                            )
+                                }
+                            </div>}
                         </div>
                     ))
                 }

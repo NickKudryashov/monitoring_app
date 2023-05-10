@@ -37,11 +37,12 @@ export interface ElectroCounterParameters {
 export interface ElectroCounter extends BaseElectroDevice {
     device:number;
     interface:CANMapper;
-    device_num:number;
+    device_num?:number;
     inner_id:number;
     inner_adress:number;
     user:number;
-    parameters:ElectroCounterParameters[];
+    parameters?:ElectroCounterParameters[];
+    delta_error?:boolean;
     
 }
 

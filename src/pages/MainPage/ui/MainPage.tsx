@@ -68,16 +68,16 @@ const MainPage = () => {
         console.log("после апдейта");
 
     };
-    const updateCurrentElectroDevice =  async (device:ElectroNodeData)=>{
+    const updateCurrentElectroDevice =  async (device:ElectroNodeData | TopLevelElectroDevice)=>{
         if (electroDevRef?.current?.id) {
             if (device.id===electroDevRef.current.id) {
                 // dispatch(electroDeviceActions.updateOne(device));
-                dispatch(deviceListSlice.actions.setElectroNode(device));
+                dispatch(deviceListSlice.actions.setElectroDevice(device as TopLevelElectroDevice));
             }
         }
         if (nodeRef.current) {
             if (device.id===nodeRef.current.id){
-                dispatch(deviceListSlice.actions.setElectroNode(device));
+                dispatch(deviceListSlice.actions.setElectroNode(device as ElectroNodeData));
             }
         }
         console.log("после апдейта");

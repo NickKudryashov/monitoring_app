@@ -30,16 +30,18 @@ export const ElectroCounterDetailView = memo((props: PropsWithChildren<ElectroCo
         debouncedEditHandler(devId,name);
         setDevName(name);
     };
-    
+    const mods = {
+        [cls.deltaError]:counter.delta_error
+    };
     return (
         <div>
             {counter.device === device.id && 
-            <div className={cls.counter_line} key={counter.id}>
+            <div className={classNames(cls.counter_line,mods,[])} key={counter.inner_id}>
                 <b className={cls.rowElement}>{`${counter.device_type_verbose_name}`}</b>
                 <p className={cls.rowElement}>{`ID:${counter.inner_id}`}</p>
-                <p className={cls.rowElement}>{`№${counter.device_num}`}</p>
-                <input className={cls.rowElement} value={devName} onChange={(e)=>editHandler(e.target.value,counter.id)}/>
-                {counter.parameters.map((parameter)=>
+                <p className={cls.rowElement}>{`№${counter.device_num ?? " Н/О"}`}</p>
+                <input className={classNames(cls.rowElement,mods,[])} value={devName} onChange={(e)=>editHandler(e.target.value,counter.id)}/>
+                {counter.parameters?.map((parameter)=>
                     <div className={cls.parameter_line} key={parameter.id}>
                         <b>{`${parameter.name}:    `}</b>
                         <p className={cls.rowElement}>{parameter.value}</p>

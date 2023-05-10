@@ -41,7 +41,7 @@ export function DetailView(props: DetailViewProps) {
                         {name:"События",index:1,Content: MockComponent},
                         {name:"Объекты на карте",index:2,Content:MockComponent},
                         {name:"Архивы",index:3,Content:MockComponent},
-                        {name:"Автоопрос",index:4,Content:MockComponent},
+                        {name:"Обслуживание",index:4,Content:MockComponent},
                         // {name:"Главная",index:5,Content:MockComponent},
                     ]}
             >
