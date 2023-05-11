@@ -56,7 +56,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
     // );
     const downloadXLSFile = async (id:number) => {
         const response = api.post(`electro_report/${id}`);
-        fetch(`http://127.0.0.1:8000/api/v1/electro_report/${id}`,{method:"PUT",headers:{"Authorization":"Bearer "+localStorage.getItem("access_token")}}).then(
+        fetch(`http://avs.eco:8000/api/v1/electro_report/${id}`,{method:"PUT",headers:{"Authorization":"Bearer "+localStorage.getItem("access_token")}}).then(
             response => {
                 response.blob().then(blob => {
                     const url = window.URL.createObjectURL(blob);
