@@ -50,6 +50,7 @@ export interface TopLevelElectroDevice extends BaseElectroDevice {
     node:number;
     device_num:number;
     password:string;
+    is_busy?:boolean
 
 }
 

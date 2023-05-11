@@ -22,6 +22,12 @@ export const electroDeviceSlice = createSlice({
         },
         updateOne:(state,action:PayloadAction<TopLevelElectroDevice>)=>{
             state.data.topLevelDevices = state.data.topLevelDevices.map((element)=>element.id===action.payload.id ? {...action.payload} : {...element});
+        },
+        setBusy:(state,action:PayloadAction<number>)=>{
+            state.data.topLevelDevices = state.data.topLevelDevices.map((dev)=>{if (dev.id===action.payload) {return {...dev,is_busy:true};} else {return {...dev};}});
+        },
+        unsetBusy:(state,action:PayloadAction<number>)=>{
+            state.data.topLevelDevices = state.data.topLevelDevices.map((dev)=>{if (dev.id===action.payload) {return {...dev,is_busy:false};} else {return {...dev};}});
         }
     },
     extraReducers: (builder) => {
@@ -40,10 +46,10 @@ export const electroDeviceSlice = createSlice({
                     }
                 }
             )
-            .addCase(fetchElectroDevices.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload;
-            })
+            // .addCase(fetchElectroDevices.rejected, (state, action) => {
+            //     state.isLoading = false;
+            //     state.error = action.payload;
+            // })
             .addCase(editElectroCounter.fulfilled,(state,action)=>{
                 const topLevelId = action.payload.device;
                 const interfaceDev = action.payload.interface;

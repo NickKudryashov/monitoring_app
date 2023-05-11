@@ -120,7 +120,7 @@ const MainPage = () => {
                             <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentHeatDevice}/>
                         </HeatDeviceDetailView> }
                         {isElectroDevice &&  
-                        <ElectroCounterDeviceDetail device={currentElectroDevice}>
+                        <ElectroCounterDeviceDetail id={currentElectroDevice.id}>
                             <ElectroDevicePoll device={currentElectroDevice} onUpdate={updateCurrentElectroDevice}  />
 
                             {/* <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentElectroDevice}/> */}
@@ -132,7 +132,7 @@ const MainPage = () => {
                                 
                                 electroData.topLevelDevices.map((el)=> el.node===currentElectroNode.id &&
                                 <div key={el.id} className={cls.nodeCont}>
-                                    <ElectroCounterDeviceDetail key={el.id} device={el}>
+                                    <ElectroCounterDeviceDetail key={el.id} id={el.id}>
                                         <ElectroDevicePoll bulk={false} key={el.id} device={el} onUpdate={updateCurrentElectroDevice}  />
                                         {/* <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentElectroDevice}/> */}
                                     </ElectroCounterDeviceDetail>
