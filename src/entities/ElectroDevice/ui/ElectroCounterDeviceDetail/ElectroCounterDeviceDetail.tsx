@@ -9,7 +9,6 @@ import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { timeConvert } from "shared/lib/helpers/datetimeConvert";
 import { ElectroCounterDetailView } from "../ElectroCounterDetailView/ElectroCounterDetailView";
 import $api, { API_URL } from "shared/api";
-import api from "shared/api";
 import axios, { AxiosRequestConfig } from "axios";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { useAppDispatch } from "shared/hooks/hooks";
@@ -55,7 +54,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
     //     </div>
     // );
     const downloadXLSFile = async (id:number) => {
-        const response = api.post(`electro_report/${id}`);
+        const response = $api.post(`electro_report/${id}`);
         fetch(`${API_URL}electro_report/${id}`,{method:"PUT",headers:{"Authorization":"Bearer "+localStorage.getItem("access_token")}}).then(
             response => {
                 response.blob().then(blob => {

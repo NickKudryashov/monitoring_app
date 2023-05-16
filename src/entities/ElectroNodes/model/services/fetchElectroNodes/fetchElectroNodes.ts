@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "shared/api";
+import $api from "shared/api";
 import { ElectroNodeData } from "../../types/electroNodes";
 import { ThunkConfig } from "app/providers/StoreProvider/config/stateSchema";
 
@@ -8,7 +8,7 @@ export const fetchElectroNodes = createAsyncThunk<ElectroNodeData[],void,ThunkCo
     const {rejectWithValue } = thunkApi;
 
     try {
-        const response = await api.get<ElectroNodeData[]>("electro_node", {});
+        const response = await $api.get<ElectroNodeData[]>("electro_node", {});
         if (!response.data) throw new Error();
 
         return response.data;
@@ -22,7 +22,7 @@ export const fetchElectroNodeById = createAsyncThunk<ElectroNodeData, number,Thu
     const { rejectWithValue } = thunkApi;
 
     try {
-        const response = await api.get<ElectroNodeData>(`electro_node/${id}`, {});
+        const response = await $api.get<ElectroNodeData>(`electro_node/${id}`, {});
         if (!response.data) throw new Error();
 
         return response.data;

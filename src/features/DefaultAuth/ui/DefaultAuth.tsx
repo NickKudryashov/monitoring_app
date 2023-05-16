@@ -4,7 +4,7 @@ import cls from "./DefaultAuth.module.scss";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { AppInput } from "shared/ui/AppInput/AppInput";
 import { useAppDispatch } from "shared/hooks/hooks";
-import { defaultLogin } from "entities/user/Store/actionCreators";
+import { defaultLogin, getUserData } from "entities/user/Store/actionCreators";
 import { AppCheckbox } from "shared/ui/AppCheckbox/AppCheckbox";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { Modal } from "shared/ui/Modal/Modal";
@@ -35,7 +35,7 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
                 className={className}
                 label={"Запомнить данные"}
             />
-            <AppButon theme={AppButtonTheme.AUTH} onClick={()=>dispatch(defaultLogin({email,password}))}>АВТОРИЗАЦИЯ</AppButon>
+            <AppButon theme={AppButtonTheme.AUTH} onClick={()=>{dispatch(defaultLogin({email,password}));dispatch(getUserData());}}>АВТОРИЗАЦИЯ</AppButon>
         </div>
     );
 }
