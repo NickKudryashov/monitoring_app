@@ -41,9 +41,12 @@ export function AppTab(props: PropsWithChildren<AppTabProps>) {
                         <button className={classNames("",{[cls.active]:(index===activeTab && selected)},[cls.tab])} key={index} onClick={()=>tabClickHandler(index)}>{name}</button>
                     )}
                 </div>
-                {children}
-                {selected && tabs.map(({Content},index)=>
-                    <div key={index}>{index===activeTab && <Content/>}</div>)}
+                
+                <div className={cls.content}>
+                    {!selected && children}
+                    {selected && tabs.map(({Content},index)=>
+                        <div key={index}>{index===activeTab && <Content/>}</div>)}
+                </div>
             </div>
 
         </div>

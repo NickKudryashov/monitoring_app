@@ -2,8 +2,9 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./HeatDeviceListItem.module.scss";
 
 import type { PropsWithChildren } from "react";
-import {  useAppSelector } from "shared/hooks/hooks";
 import { HeatDevice } from "entities/Heatcounters/types/type";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 
 interface ListItemProps {
  className?: string;
@@ -13,12 +14,12 @@ interface ListItemProps {
 
 export function HeatDeviceListItem(props: PropsWithChildren<ListItemProps>) {
     const { className,objectID,onDeviceClick } = props;
-    const {devices,selectedDevice} = useAppSelector(state=>state.heatDeviceReducer);
+    const {entities,selectedDeviceID} = useSelector((state:StateSchema)=>state.heatDevices);
     return (
         <div className={classNames(cls.ListItem,{},[className])}>
-            {devices.map((device)=>device.user_object===objectID && 
+            {Object.values(entities).map((device)=>device.user_object===objectID && 
             <div key={device.id} className={cls.deviceLabels}>
-                { selectedDevice && selectedDevice.id===device.id ?
+                { selectedDeviceID && selectedDeviceID===device.id ?
                     <div className={cls.selected} onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</div>
                     :
                     <div  onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</div>

@@ -2,7 +2,8 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectCard.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { useAppSelector } from "shared/hooks/hooks";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { useSelector } from "react-redux";
 
 interface ObjectCardProps {
  className?: string;
@@ -12,7 +13,7 @@ interface ObjectCardProps {
 
 export function ObjectCard(props: PropsWithChildren<ObjectCardProps>) {
     const { className,name,children, onClick } = props;
-    const {categories} = useAppSelector(state=>state.categoryReducer);
+    const {categories} = useSelector((state:StateSchema)=>state.category);
     return ( 
         <div onClick={onClick} className={classNames(cls.ObjectCard,{},[className,])}>
             <b className={cls.cardContent}>{name}</b>

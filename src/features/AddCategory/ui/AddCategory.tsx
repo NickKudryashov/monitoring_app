@@ -1,10 +1,12 @@
 // import classNames from 'shared/lib/classNames/classNames';
 // import cls from './AddCategory.module.scss';
 
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { categoriesAllRequest, categorySlice, getCategoryByID } from "entities/Category";
 import { PropsWithChildren, useState } from "react";
+import { useSelector } from "react-redux";
 import $api from "shared/api";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { AppButon } from "shared/ui/AppButton/AppButton";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { Modal } from "shared/ui/Modal/Modal";
@@ -19,7 +21,7 @@ interface AddCategoryProps {
 
 export function AddCategory(props: PropsWithChildren<AddCategoryProps>) {
     const { className,isOpen,onClose,edit,id } = props;
-    const {categories} = useAppSelector(state=>state.categoryReducer);
+    const {categories} = useSelector((state:StateSchema)=>state.category);
     const [selectedCat,setSelectedCat] = useState("");
     const [name,setName] = useState("");
     const url = "category/add";

@@ -1,11 +1,13 @@
 // import classNames from 'shared/lib/classNames/classNames';
 // import cls from './AddHeatDevice.module.scss';
 
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { getDevices, HeatSystem } from "entities/Heatcounters";
 import { objectsAllRequest } from "entities/Objects";
 import { PropsWithChildren, useState } from "react";
+import { useSelector } from "react-redux";
 import $api from "shared/api";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { AppButon } from "shared/ui/AppButton/AppButton";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { Modal } from "shared/ui/Modal/Modal";
@@ -27,14 +29,20 @@ const DeviceConnection:DevCon =  {
 } as const;
 
 const TEROSS_TYPE="teross";
+const ST10_229="st10_229";
+const ST10_234="st10_234";
+const ST10_236="st10_236";
+const ST20_238="st20_238";
+const ST20_239="st20_239";
 export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const { className,isOpen,onClose } = props;
-    const {objects} = useAppSelector(state=>state.objectReducer);
-    const {heatNodes} = useAppSelector(state=>state.heatNodeReducer);
+    const {objects} = useSelector((state:StateSchema)=>state.objects);
+    const {heatNodes} = useSelector((state:StateSchema)=>state.heatNodes);
     const [selectedObj,setSelectedObj] = useState("-1");
     const [name,setName] = useState("");
     const dispatch = useAppDispatch();
     const [deviceNum,setDeviceNum]=useState("");
+    const [deviceType,setDeviceType] = useState(TEROSS_TYPE);
     const [ip,setIp] = useState("");
     const [port,setPort]=useState("");
     const [connectionProtocol,setConenctionProtocol] = useState(DeviceConnection.TCP);
@@ -51,7 +59,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
             user_object:Number(selectedObj),
             connection_info,
             device_num:Number(deviceNum),
-            device_type:TEROSS_TYPE,
+            device_type:deviceType,
             systems,
             node
         };
@@ -91,6 +99,14 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                 <select value={connectionProtocol} onChange={e=>setConenctionProtocol(e.target.value)}>
                     <option value={DeviceConnection.TCP}>{DeviceConnection.TCP}</option>
                     <option value={DeviceConnection.UDP}>{DeviceConnection.UDP}</option>
+                </select>
+                <select value={deviceType} onChange={e=>setDeviceType(e.target.value)}>
+                    <option value={ST10_229}>{"ВТЭ-1П140(141) тип 229"}</option>
+                    <option value={ST10_234}>{"ВТЭ-1П140(141) тип 234"}</option>
+                    <option value={ST10_236}>{"ВТЭ-1П140(141) тип 236"}</option>
+                    <option value={ST20_238}>{"ВТЭ-2П14хМ тип 238"}</option>
+                    <option value={ST20_239}>{"ВТЭ-2П15хМ тип 239"}</option>
+                    <option value={TEROSS_TYPE}>{"Теросс-ТМ"}</option>
                 </select>
                 <select value={selectedObj} onChange={e=>setSelectedObj(e.target.value)}>
                     <option disabled={true} value="-1">Выберите объект</option>

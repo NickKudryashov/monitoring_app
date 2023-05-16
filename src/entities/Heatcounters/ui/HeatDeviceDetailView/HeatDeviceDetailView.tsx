@@ -3,7 +3,7 @@ import cls from "./HeatDeviceDetailView.module.scss";
 
 import type { PropsWithChildren } from "react";
 import { HeatDevice } from "entities/Heatcounters/types/type";
-import { timeConvert } from "entities/Heatcounters/lib/timeConvert";
+import { timeConvert } from "shared/lib/helpers/datetimeConvert";
 
 interface DetailViewProps {
  className?: string;
@@ -15,13 +15,13 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
 
     return (
         <div className={classNames(cls.DetailView,{},[className])}>
-            <b className={cls.deviceTitle}>Информация по прибору {device.name}</b>
+            <b className={cls.deviceTitle}>Информация по прибору {`${device.name} ${device.device_type_verbose_name} №${device.device_num} `}</b>
             <p className={cls.deviceTitle}>{`Дата последнего опроса: ${timeConvert(device.last_update)}`}</p>
             {children}
             <div className={cls.systemsRow}>
                 {device.systems.map(element=>
                     <div className={cls.systemBox} key={element.id}>
-                        <b>{`ТС${element.index+1}  ${element.name}`}</b>
+                        <b>{`ТС${element.index+1}  ${element.name} ${element.schema ?? ""} ${element.formula ?? ""} `}</b>
                         <div className = {cls.parameterTable}>
                             {element.parameters.map(parameter=>
                                 <div className={cls.parameterRow} key={parameter.id}>

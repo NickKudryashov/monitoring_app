@@ -8,7 +8,7 @@ export interface ObjectItem {
     expanded:boolean;
 }
 
-interface objectState {
+export interface objectState {
     objects:ObjectItem[]
 }
 

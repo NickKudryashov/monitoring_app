@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HeatNodeResponse } from "../types/types";
-import { heatNodeAllRequest } from "./actionCreators";
+import { heatNodeAllRequest, heatNodeRequest } from "./actionCreators";
 
 interface HeatNodeItem {
     name:string;
@@ -9,7 +9,7 @@ interface HeatNodeItem {
     expanded:boolean;
 }
 
-interface heatNodeState{
+export interface heatNodeState{
     heatNodes:HeatNodeItem[];
     selectedNode:HeatNodeResponse | undefined;
 }
@@ -23,7 +23,9 @@ export const heatNodeSlice = createSlice({
         selectHeatNode(state,action:PayloadAction<HeatNodeResponse>) {
             state.selectedNode=action.payload;
         },
-
+        unselectHeatNode(state) {
+            state.selectedNode=undefined;
+        },
         expand(state,action:PayloadAction<number>) {
             state.heatNodes.map(element=>{if (element.id === action.payload) {
                 element.expanded=!element.expanded;
@@ -41,6 +43,14 @@ export const heatNodeSlice = createSlice({
         [heatNodeAllRequest.fulfilled.type]: (state,action:PayloadAction<HeatNodeResponse[]> )=>{
             const temp = action.payload.map(element=>({...element,expanded:Boolean(localStorage.getItem(`heatNode_${element.id}`)) || false}));
             state.heatNodes=temp;
+        },
+        [heatNodeRequest.fulfilled.type]: (state,action:PayloadAction<HeatNodeResponse> )=>{
+            state.heatNodes = state.heatNodes.map(element=> {
+                if (element.id===action.payload.id){
+                    return {...element,expanded:Boolean(localStorage.getItem(`heatNode_${element.id}`)) || false};
+                }
+                return element;
+            });
         },
         [heatNodeAllRequest.rejected.type]: (state,action:PayloadAction<HeatNodeResponse[]> )=>{
             alert("Произошла ошибка обновления");

@@ -5,11 +5,14 @@ import { PropsWithChildren, useCallback, useState } from "react";
 import { AddCategory } from "features/AddCategory";
 import { AddObject } from "features/AddObject";
 import { AddHeatDevice } from "features/AddHeatDevice";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { userSlice } from "entities/user/Store/authReducer";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import DropdownIcon from "shared/assets/icons/dropdownIcon.svg";
 import { Modal } from "shared/ui/Modal/Modal";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { AddElectroDevice } from "features/AddElectroDevice";
 
 interface NavbarProps {
  className?: string;
@@ -17,16 +20,18 @@ interface NavbarProps {
 
 export function Navbar(props: PropsWithChildren<NavbarProps>) {
     const { className } = props;
-    const email = useAppSelector(state=>state.userReducer.userdata?.name);
+    const email = useSelector((state:StateSchema)=>state.user.userdata?.name);
     const [settingsDropdownOpened,setSettingsDropdownOpened] = useState(false);
     const [categoryFormOpened,setCategoryFormOpened] = useState(false);
     const [objectFormOpened,setObjectFormOpened] = useState(false);
     const [heatDeviceFormOpened,setHeatDeviceFormOpened] = useState(false);
+    const [electroDeviceFormOpened,setElectroDeviceFormOpened] = useState(false);
     const dispatch = useAppDispatch();
     const items = [
         {text:"Добавить категорию",onClick:()=>setCategoryFormOpened(true)},
         {text:"Добавить объект",onClick:()=>setObjectFormOpened(true)},
-        {text:"Добавить прибор",onClick:()=>setHeatDeviceFormOpened(true)}
+        {text:"Добавить прибор УУТЭ",onClick:()=>setHeatDeviceFormOpened(true)},
+        {text:"Добавить прибор АСКУЭ",onClick:()=>setElectroDeviceFormOpened(true)},
     ];
     const acceptCategory = useCallback(() => {
         setCategoryFormOpened(false);
@@ -58,6 +63,7 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                 <AddCategory onClose={acceptCategory} isOpen={categoryFormOpened}/>
                 <AddObject onClose={acceptObject} isOpen={objectFormOpened}/>
                 <AddHeatDevice onClose={acceptHeatDevice} isOpen={heatDeviceFormOpened}/>
+                <AddElectroDevice lazy={true} onClose={()=>setElectroDeviceFormOpened(false)} isOpen={electroDeviceFormOpened}/>
                 <div onClick={()=>dispatch(userSlice.actions.logout())}  className={cls.blocks}>Выход</div>
             </div>
         </div>

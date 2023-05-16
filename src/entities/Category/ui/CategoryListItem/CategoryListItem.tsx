@@ -4,8 +4,9 @@ import cls from "./CategoryListItem.module.scss";
 import { PropsWithChildren, useState } from "react";
 import { CategoryResponse } from "entities/Category/types/types";
 import { getCategoryByID } from "entities/Category/lib/helpers";
-import { useAppSelector } from "shared/hooks/hooks";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 interface CategoryListItemProps {
  className?: string;
  id?:number;
@@ -15,7 +16,7 @@ interface CategoryListItemProps {
 
 export function CategoryListItem(props: PropsWithChildren<CategoryListItemProps>) {
     const { className,id,children,onCategoryClickHandler,Component } = props;
-    const {categories} = useAppSelector(state=>state.categoryReducer);
+    const {categories} = useSelector((state:StateSchema)=>state.category);
     const currentCategory = getCategoryByID(categories,id);
     const [menu,setMenu] = useState(false);
     const mods:Record<string,boolean> = {

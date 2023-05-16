@@ -7,6 +7,11 @@ import { objectsAllRequest } from "entities/Objects";
 import { DeviceListItem } from "./DeviceListItem";
 import { heatNodeAllRequest } from "entities/HeatNodes";
 import { getDevices } from "entities/Heatcounters";
+import { fetchElectroNodes } from "entities/ElectroNodes";
+import { electroDeviceActions, fetchElectroDevices } from "entities/ElectroDevice";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { deviceListActions } from "../reducers/DeviceListReducer";
 interface DeviceListProps {
  className?: string;
  parentID?:number;
@@ -16,11 +21,18 @@ interface DeviceListProps {
 export function DeviceList(props: PropsWithChildren<DeviceListProps>) {
     const {className,onClick} = props;
     const dispatch = useAppDispatch();
+    const {selectedDevice,data} = useSelector((state:StateSchema)=>state.electroDevices);
+    const {selectedNode:heatNode} = useSelector((state:StateSchema)=>state.electroNodes);
+    const {selectedDeviceID,entities} = useSelector((state:StateSchema)=>state.heatDevices);
+    const {selectedNode:electroNode} = useSelector((state:StateSchema)=>state.heatNodes);
+
     useEffect(()=>{
         dispatch(categoriesAllRequest());
         dispatch(objectsAllRequest());
         dispatch(heatNodeAllRequest());
         dispatch(getDevices());
+        dispatch(fetchElectroNodes());
+        dispatch(fetchElectroDevices());
     },[dispatch]);
     return (
         <div className={classNames(cls.DeviceList,{},[className])}>

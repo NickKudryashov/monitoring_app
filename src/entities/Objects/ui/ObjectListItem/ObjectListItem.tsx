@@ -2,9 +2,11 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectListItem.module.scss";
 import type { ObjectResponse } from "entities/Objects/types/types";
 import type { PropsWithChildren } from "react";
-import { useAppDispatch, useAppSelector } from "shared/hooks/hooks";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { objectSlice } from "entities/Objects/reducers/reducers";
 import { getObjectById } from "entities/Objects/helpers/objectHelper";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 
 interface ObjectListItemProps {
  className?: string;
@@ -15,7 +17,7 @@ interface ObjectListItemProps {
 
 export function ObjectListItem(props: PropsWithChildren<ObjectListItemProps>) {
     const { className,children,id,onObjectClick,Component } = props;
-    const {objects} = useAppSelector(state=>state.objectReducer);
+    const {objects} = useSelector((state:StateSchema)=>state.objects);
     const dispatch = useAppDispatch();
     const currentObject = getObjectById(id);
     const onClickHandler = (obj:ObjectResponse) => {
