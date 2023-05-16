@@ -35,7 +35,7 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
                 className={className}
                 label={"Запомнить данные"}
             />
-            <AppButon theme={AppButtonTheme.AUTH} onClick={()=>{dispatch(defaultLogin({email,password}));}}>АВТОРИЗАЦИЯ</AppButon>
+            <AppButon theme={AppButtonTheme.AUTH} onClick={()=>{dispatch(defaultLogin({email,password})).then(res=>dispatch(getUserData()));}}>АВТОРИЗАЦИЯ</AppButon>
         </div>
     );
 }
