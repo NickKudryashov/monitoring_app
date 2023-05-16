@@ -13,7 +13,7 @@ export const $apiClear = axios.create({
 
 
 $api.interceptors.request.use((config)=>{
-    config.headers.Authorization = `Bearer ${localStorage.getItem("access-token")}`;
+    config.headers.Authorization = `Bearer ${localStorage.getItem("access_token")}`;
     return config;
 });
 
