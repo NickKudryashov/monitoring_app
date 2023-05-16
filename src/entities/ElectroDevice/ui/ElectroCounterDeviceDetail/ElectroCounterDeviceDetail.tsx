@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { timeConvert } from "shared/lib/helpers/datetimeConvert";
 import { ElectroCounterDetailView } from "../ElectroCounterDetailView/ElectroCounterDetailView";
-import $api from "shared/api";
+import $api, { API_URL } from "shared/api";
 import api from "shared/api";
 import axios, { AxiosRequestConfig } from "axios";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
@@ -56,7 +56,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
     // );
     const downloadXLSFile = async (id:number) => {
         const response = api.post(`electro_report/${id}`);
-        fetch(`http://avs.eco:8000/api/v1/electro_report/${id}`,{method:"PUT",headers:{"Authorization":"Bearer "+localStorage.getItem("access_token")}}).then(
+        fetch(`${API_URL}electro_report/${id}`,{method:"PUT",headers:{"Authorization":"Bearer "+localStorage.getItem("access-token")}}).then(
             response => {
                 response.blob().then(blob => {
                     const url = window.URL.createObjectURL(blob);

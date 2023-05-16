@@ -35,6 +35,7 @@ export const bulkSortParameters = (devices:HeatDevice[])=> {
 
 export const sortParameters = (device:HeatDevice)=>{
     const newSystems = device.systems.map(system=>({...system,parameters:sortParameters1(system.parameters)}));
+    newSystems.sort((a,b)=>(a.index- b.index));
     device.systems=newSystems;
     return device;
 };

@@ -25,6 +25,8 @@ export const userSlice = createSlice({
     reducers: {
         logout(state,action:PayloadAction){
             state.isAuth = false;
+            localStorage.setItem("access_token","");
+            localStorage.setItem("refresh_token","");
         }
     },
     extraReducers:{

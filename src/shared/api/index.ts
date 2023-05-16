@@ -13,7 +13,7 @@ export const $apiClear = axios.create({
 
 
 $api.interceptors.request.use((config)=>{
-    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+    config.headers.Authorization = `Bearer ${localStorage.getItem("access-token")}`;
     return config;
 });
 
@@ -29,7 +29,7 @@ $api.interceptors.response.use(
             try{
                 const refresh = localStorage.getItem("refresh_token");
                 const response = await axios.post(`${API_URL}auth-refresh/`,{withCredentials:true,refresh});
-                localStorage.setItem("token",response.data.access);
+                localStorage.setItem("access-token",response.data.access);
                 return $api.request(originalRequest);
             }catch(e) {
                 console.log(e);
