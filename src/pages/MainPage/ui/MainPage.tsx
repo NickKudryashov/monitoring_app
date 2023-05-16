@@ -9,7 +9,7 @@ import { ObjectDetail, ObjectItem, objectSlice } from "entities/Objects";
 import { GeneralInformation } from "features/GeneralInformation";
 import { ManualBulkHeatPolll, ManualHeatPoll } from "features/ManualHeatPoll";
 import { ObjectCategoryView } from "features/ObjectCategoryCardView";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
@@ -22,6 +22,7 @@ import { ElectroCounterDeviceDetail, electroDeviceActions } from "entities/Elect
 import { ElectroNodeData, ElectroNodeDetail } from "entities/ElectroNodes";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
 import { ElectroDevicePoll } from "features/ElectroDevicePoll";
+import { getUserData } from "entities/user";
 const MainPage = () => {
     const {currentObject,currentHeatNode,currentCategory,currentElectroDevice,currentHeatDevice,currentElectroNode,isElectroDevice,isElectroNode,isHeatDevice,isHeatNode} = useSelector((state:StateSchema)=>state.deviceList);
     const dispatch = useAppDispatch();
@@ -53,6 +54,7 @@ const MainPage = () => {
         setGeneralSelected(false);
 
     };
+    useEffect(()=>{dispatch(getUserData());},[dispatch]);
     const updateCurrentDevice =  async (device:HeatDevice)=>{
         if (heatDevRef?.current?.id) {
             if (device.id===heatDevRef.current.id) {
