@@ -27,6 +27,7 @@ export const userSlice = createSlice({
             state.isAuth = false;
             localStorage.setItem("access_token","");
             localStorage.setItem("refresh_token","");
+            state.userdata = undefined;
         }
     },
     extraReducers:{
