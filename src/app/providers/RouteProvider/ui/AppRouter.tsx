@@ -12,8 +12,8 @@ export const AppRouter = () => {
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
-        dispatch(defaultAuthCheck());
-        dispatch(getUserData());
+        dispatch(defaultAuthCheck()).then(res=>dispatch(getUserData()))
+        ;
     },[dispatch]);
     return (
         <Suspense fallback={<div>Loading</div>}>
