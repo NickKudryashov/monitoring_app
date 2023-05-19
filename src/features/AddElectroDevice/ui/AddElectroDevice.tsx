@@ -42,7 +42,7 @@ export const AddElectroDeviceContent = memo((props: PropsWithChildren<AddElectro
             name,
             device_type:UM_31_TYPE,
             device_type_verbose_name:UM_31_VERBOSE,
-            node:data.map((el)=>{
+            node:data.filter((el)=>{
                 if (el.user_object===Number(selectedObj)) {
                     return el.id;
                 }
