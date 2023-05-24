@@ -20,6 +20,9 @@
     "test:ui:report": "node scripts/generate-visual-json-report.js && reg-cli --from .loki/report.json --report .loki/report.html"
   },
   "keywords": [],
+  "browser": {
+    "fs": false
+ },
   "author": "",
   "license": "ISC",
   "devDependencies": {
