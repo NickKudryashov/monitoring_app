@@ -12,7 +12,7 @@ interface DetailViewProps {
 
 export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) {
     const { className,device,children } = props;
-
+    console.log("device rendered");
     return (
         <div className={classNames(cls.DetailView,{},[className])}>
             <b className={cls.deviceTitle}>Информация по прибору {`${device.name} ${device.device_type_verbose_name} №${device.device_num} `}</b>

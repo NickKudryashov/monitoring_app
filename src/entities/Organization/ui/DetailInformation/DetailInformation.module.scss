@@ -1,0 +1,46 @@
+.DetailInformation{
+    display: flex;  
+    width:100%;
+    height:100%;
+}
+
+.rowData {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+}
+
+.orgData {
+    padding:10px;
+    display: flex;
+    border-top:1px solid black;
+    border-left:1px solid black;
+    border-bottom:1px solid black;
+    align-self: center;
+    gap:10px;   
+    width:50%;
+    height:100%;
+    overflow-y: auto;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.addInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width:50%;
+}
+
+.addBlock {
+    display: flex;
+    text-align: center;
+    height:50%;
+    width: 50%;
+    border: 1px solid black;
+}

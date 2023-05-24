@@ -7,6 +7,8 @@ import { objectSlice } from "entities/Objects/reducers/reducers";
 import { getObjectById } from "entities/Objects/helpers/objectHelper";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { AppLink } from "shared/ui/AppLink/AppLink";
+import { AppRoutesAuth, RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 interface ObjectListItemProps {
  className?: string;
@@ -34,7 +36,9 @@ export function ObjectListItem(props: PropsWithChildren<ObjectListItemProps>) {
             {objects.map(obj=>obj.id===id && 
             <div key={obj.id} className={cls.nested}>
                 <div className={cls.menu}>
-                    <div onClick={()=>onClickHandler(obj)}>{obj.name}  </div>
+                    <AppLink to={RoutePathAuth.object+currentObject.id}>
+                        <div onClick={()=>onClickHandler(obj)}>{obj.name}  </div>
+                    </AppLink>
                     <div onClick={e=>e.stopPropagation()}>{Component()}</div>
                 </div>
                 {obj.expanded && children}

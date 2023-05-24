@@ -5,6 +5,8 @@ import type { PropsWithChildren } from "react";
 import { HeatDevice } from "entities/Heatcounters/types/type";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { AppLink } from "shared/ui/AppLink/AppLink";
+import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 interface ListItemProps {
  className?: string;
@@ -22,7 +24,13 @@ export function HeatDeviceListItem(props: PropsWithChildren<ListItemProps>) {
                 { selectedDeviceID && selectedDeviceID===device.id ?
                     <div className={cls.selected} onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</div>
                     :
-                    <div  onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</div>
+                    <AppLink to={RoutePathAuth.heatdevice+device.id}>
+                        <div  onClick={()=>{onDeviceClick(device);}}>
+                            {`${device.name} №${device.device_num}`}
+                    
+                        </div>
+                    </AppLink>
+
 
                 }
             </div>

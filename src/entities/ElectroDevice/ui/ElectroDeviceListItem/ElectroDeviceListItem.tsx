@@ -6,6 +6,8 @@ import type { PropsWithChildren } from "react";
 import { CANMapper, TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { AppLink } from "shared/ui/AppLink/AppLink";
+import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 interface ElectroDeviceListItemProps {
  className?: string;
@@ -24,10 +26,14 @@ export const ElectroDeviceListItem = memo((props: PropsWithChildren<ElectroDevic
                     { 
                         selectedDevice && selectedDevice.id===device.id  ?
                             <div className={cls.selected} onClick={()=>{onDeviceClick(device);}}>
-                                {`${device.name} №${device.device_num}`}
+                                <AppLink to={RoutePathAuth.electrodevice+device.id}>
+                                    {`${device.name} №${device.device_num}`}
+                                </AppLink>
                             </div>:
                             <div  onClick={()=>{onDeviceClick(device);}}>
-                                {`${device.name} №${device.device_num}`}
+                                <AppLink to={RoutePathAuth.electrodevice+device.id}>
+                                    {`${device.name} №${device.device_num}`}
+                                </AppLink>
                             </div>
 
                     }

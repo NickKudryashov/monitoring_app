@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { electroNodesActions } from "entities/ElectroNodes/model/slice/electroNodes";
 import { ElectroNodeData } from "entities/ElectroNodes/model/types/electroNodes";
+import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { AppLink } from "shared/ui/AppLink/AppLink";
 
 interface ElectroNodeListItemProps {
  className?: string;
@@ -27,7 +29,14 @@ export function ElectroNodeListItem(props: PropsWithChildren<ElectroNodeListItem
         <div className={classNames(cls.ElectroNodeListItem,{},[className])}>
             {data!==undefined && data.map((node)=>node.user_object===object_id &&
             <div key={node.id} className={cls.node}>
-                <div className={classNames("",{[cls.selected]:selectedNode && (node.id===selectedNode.id)},[])} onClick={()=>onClickHandler(node)}>{node.name}</div>
+                <div 
+                    className={classNames("",{[cls.selected]:selectedNode && (node.id===selectedNode.id)},[])} 
+                    onClick={()=>onClickHandler(node)}
+                >
+                    <AppLink to={RoutePathAuth.electronode+node.id} >
+                        {node.name}
+                    </AppLink>
+                </div>
                 {node.expanded && children}
             </div>
             )}

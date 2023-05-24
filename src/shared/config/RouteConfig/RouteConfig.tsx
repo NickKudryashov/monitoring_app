@@ -4,7 +4,15 @@ export enum AppRoutesPublic {
 }
 export enum AppRoutesAuth {
     MAIN="main",
-    REDIRECT="redir"
+    CATEGORY="category",
+    OBJECT="object",
+    HEATNODE="heatnode",
+    HEATDEVICE="heatdevice",
+    ELECTRONODE="electronode",
+    ELECTRODEVICE="electrodevice",
+    ADMINISTRATION="administration",
+    GENERALINFO="general",
+    REDIRECT="redir",
 }
 
 
@@ -13,6 +21,14 @@ export const RoutePathPublic: Record<AppRoutesPublic,string> = {
     [AppRoutesPublic.REDIRECT]:"*",
 };
 export const RoutePathAuth: Record<AppRoutesAuth,string> = {
-    [AppRoutesAuth.MAIN]:"main",
+    [AppRoutesAuth.CATEGORY]:"/category/",
+    [AppRoutesAuth.OBJECT]:"/object/",
+    [AppRoutesAuth.HEATNODE]:"/heatnode/",
+    [AppRoutesAuth.HEATDEVICE]:"/heatdevice/",
+    [AppRoutesAuth.ELECTRONODE]:"/electronode/",
+    [AppRoutesAuth.ELECTRODEVICE]:"/electrodevice/",
+    [AppRoutesAuth.GENERALINFO]:"/general/",
+    [AppRoutesAuth.ADMINISTRATION]:"/administration/",
+    [AppRoutesAuth.MAIN]:"/",
     [AppRoutesAuth.REDIRECT]:"*",
 };

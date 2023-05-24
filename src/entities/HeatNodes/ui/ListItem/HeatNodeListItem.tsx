@@ -7,6 +7,8 @@ import { heatNodeSlice } from "entities/HeatNodes/reducers/reducers";
 import { HeatNodeResponse } from "entities/HeatNodes/types/types";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { AppLink } from "shared/ui/AppLink/AppLink";
+import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 interface HeatNodeListItemProps {
  className?: string;
@@ -27,7 +29,13 @@ export function HeatNodeListItem(props: PropsWithChildren<HeatNodeListItemProps>
         <div className={classNames(cls.HeatNodeListItem,{},[className])}>
             {heatNodes.map((node)=>node.user_object===object_id &&
             <div key={node.id} className={cls.node}>
-                <div className={classNames("",{[cls.selected]:selectedNode && (node.id===selectedNode.id)},[])} onClick={()=>onClickHandler(node)}>{node.name}</div>
+                <div className={classNames("",{[cls.selected]:selectedNode && (node.id===selectedNode.id)},[])}
+                    onClick={()=>onClickHandler(node)}
+                >
+                    <AppLink to={RoutePathAuth.heatnode+node.id} replace>
+                        {node.name}
+                    </AppLink>
+                </div>
                 {node.expanded && children}
             </div>
             )}

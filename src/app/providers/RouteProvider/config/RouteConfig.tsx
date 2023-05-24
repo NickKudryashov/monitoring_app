@@ -1,7 +1,15 @@
+import {  AdministrationPage } from "pages/AdministrationPage";
 import { AuthPage } from "pages/AuthPage/ui/AuthPage";
+import { CategoryPage } from "pages/CategoryPage";
+import { ElectroDevicePage } from "pages/ElectroDevicePage";
+import { ElectroNodePage } from "pages/ElectroNodePage";
+import { GeneralInfoPage } from "pages/GeneralInfoPage";
+import { HeatDevicePage } from "pages/HeatDevicePage";
+import { HeatNodePage } from "pages/HeatNodePage";
 import { MainPage } from "pages/MainPage";
+import { ObjectPage } from "pages/ObjectPage";
 import { RouteProps } from "react-router-dom";
-import { RoutePathPublic,RoutePathAuth, AppRoutesAuth, AppRoutesPublic } from "shared/config/RouteConfig/RouteConfig";
+import { RoutePathPublic, AppRoutesAuth, AppRoutesPublic,RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 export const RouteConfigPublic: Record<string,RouteProps> = {
     [AppRoutesPublic.AUTH]:{
@@ -14,10 +22,35 @@ export const RouteConfigPublic: Record<string,RouteProps> = {
     }
 };
 export const RouteConfigAuth: Record<string,RouteProps> = {
+    
+    [AppRoutesAuth.CATEGORY]:{
+        path:`${RoutePathAuth.category}:id`,
+        element:<CategoryPage/>},
+    [AppRoutesAuth.OBJECT]:{
+        path:`${RoutePathAuth.object}:id`,
+        element:<ObjectPage/>},
+    [AppRoutesAuth.HEATNODE]:{
+        path:`${RoutePathAuth.heatnode}:id`,
+        element:<HeatNodePage/>},
+    [AppRoutesAuth.HEATDEVICE]:{
+        path:`${RoutePathAuth.heatdevice}:id`,
+        element:<HeatDevicePage/>},
+    [AppRoutesAuth.ELECTRONODE]:{
+        path:`${RoutePathAuth.electronode}:id`,
+        element:<ElectroNodePage/>},
+    [AppRoutesAuth.ELECTRODEVICE]:{
+        path:`${RoutePathAuth.electrodevice}:id`,
+        element:<ElectroDevicePage/>},
+    [AppRoutesAuth.ADMINISTRATION]:{
+        path:RoutePathAuth.administration,
+        element:<AdministrationPage/>},
+    [AppRoutesAuth.GENERALINFO]:{
+        path:RoutePathAuth.general,
+        element:<GeneralInfoPage/>},
     [AppRoutesAuth.MAIN]:{
         path: RoutePathAuth.main,
         element:<MainPage/>},
     [AppRoutesAuth.REDIRECT]:{
         path: RoutePathAuth.redir,
-        element:<MainPage/>}, 
+        element:<MainPage/>} 
 };

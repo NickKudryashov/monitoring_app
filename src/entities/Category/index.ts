@@ -10,3 +10,4 @@ import {categoryState} from "./reducers/categoryReducers";
 export {categoryReducer,categoriesAllRequest,categorySlice,CategoryCard,CategoryListItem,getCategoryByID};
 export {categoryDeleteRequest} from "./reducers/actionCreators";
 export type {CategoryResponse,CategoryItem,categoryState};
+export {CategoryRow} from "./ui/CategoryRow/CategoryRow";

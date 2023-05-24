@@ -7,6 +7,8 @@ import { getCategoryByID } from "entities/Category/lib/helpers";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { AppLink } from "shared/ui/AppLink/AppLink";
+import { RoutePathAuth, RoutePathPublic } from "shared/config/RouteConfig/RouteConfig";
 interface CategoryListItemProps {
  className?: string;
  id?:number;
@@ -28,7 +30,11 @@ export function CategoryListItem(props: PropsWithChildren<CategoryListItemProps>
             {/* {categories.map(element=>element.parentID===parentID &&  */}
             <div  key={id}>
                 <div className={cls.textWithIcon} >
-                    <div onClick={()=>onCategoryClickHandler(currentCategory)} >{currentCategory.name}</div>
+                    <div onClick={()=>onCategoryClickHandler(currentCategory)} >
+                        <AppLink to={RoutePathAuth.category+id}>
+                            {currentCategory.name}
+                        </AppLink>
+                    </div>
                     {Component()}
 
                 </div>

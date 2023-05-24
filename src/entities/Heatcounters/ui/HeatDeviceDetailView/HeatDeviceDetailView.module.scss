@@ -1,9 +1,10 @@
 .DetailView {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: min-content;
     width: 100%;
-    overflow: auto;
+
+    // overflow: auto;
     padding-left: 4.1%;
 
 }

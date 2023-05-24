@@ -18,3 +18,4 @@ export function HeatNodeDetailView(props: PropsWithChildren<DetailViewProps>) {
         </div>
     );
 }
+

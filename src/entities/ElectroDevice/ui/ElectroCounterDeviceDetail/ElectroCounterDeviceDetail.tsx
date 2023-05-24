@@ -34,12 +34,12 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
         });
     };
 
-    useEffect(()=>{
-        setCurrentCan([]);
-        return ()=>{
-            setCurrentCan([]);
-        };
-    },[selectedDevice]);
+    // useEffect(()=>{
+    //     setCurrentCan([]);
+    //     return ()=>{
+    //         setCurrentCan([]);
+    //     };
+    // },[selectedDevice]);
     // const content = (
     //     <div className={cls.container}>
     //         {
@@ -75,7 +75,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
             {children}
             <b>{`${device.name} ${device.device_type_verbose_name} №${device.device_num}`}</b>
             {`Дата последнего опроса ${timeConvert(selectedDevice?.last_update ?? device.last_update)}`}
-            <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(device.id)}>Отчет</AppButon>
+            {/* <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(device.id)}>Отчет</AppButon> */}
             <div className={cls.interface_panel}>
                 <p>{"Доступные интерфейсы:"}</p>
                 {

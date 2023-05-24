@@ -21,10 +21,6 @@ interface DeviceListProps {
 export function DeviceList(props: PropsWithChildren<DeviceListProps>) {
     const {className,onClick} = props;
     const dispatch = useAppDispatch();
-    const {selectedDevice,data} = useSelector((state:StateSchema)=>state.electroDevices);
-    const {selectedNode:heatNode} = useSelector((state:StateSchema)=>state.electroNodes);
-    const {selectedDeviceID,entities} = useSelector((state:StateSchema)=>state.heatDevices);
-    const {selectedNode:electroNode} = useSelector((state:StateSchema)=>state.heatNodes);
 
     useEffect(()=>{
         dispatch(categoriesAllRequest());

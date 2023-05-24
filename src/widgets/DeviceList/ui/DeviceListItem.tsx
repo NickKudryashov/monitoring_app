@@ -21,6 +21,7 @@ import { ElectroNodeData, ElectroNodeListItem, fetchElectroNodes } from "entitie
 import { electroNodesActions } from "entities/ElectroNodes/model/slice/electroNodes";
 import { ElectroDeviceListItem, electroDeviceActions, fetchElectroDevices } from "entities/ElectroDevice";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
+import { AppLink } from "shared/ui/AppLink/AppLink";
 
 interface DeviceListItemProps {
  className?: string;
@@ -29,7 +30,7 @@ interface DeviceListItemProps {
 }
 
 export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
-    const { className,parentID,onClick } = props;
+    const { className,parentID,onClick=()=>{console.log("ff");} } = props;
     const {categories} = useSelector((state:StateSchema)=>state.category);
     const {objects} = useSelector((state:StateSchema)=>state.objects);
     const [openModal,setOpenModal] = useState(false);

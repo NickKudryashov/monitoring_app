@@ -87,3 +87,15 @@
     width:100%;
     height:100%;
 }
+
+.inner {
+    background: var(--primary-color);
+
+    .buttons {
+        background: var(--primary-color);
+    }
+
+    .tab {
+        height:44.03px;
+    }
+}
