@@ -12,6 +12,7 @@ export enum AppRoutesAuth {
     ELECTRODEVICE="electrodevice",
     ADMINISTRATION="administration",
     GENERALINFO="general",
+    MOCK="mock",
     REDIRECT="redir",
 }
 
@@ -29,6 +30,7 @@ export const RoutePathAuth: Record<AppRoutesAuth,string> = {
     [AppRoutesAuth.ELECTRODEVICE]:"/electrodevice/",
     [AppRoutesAuth.GENERALINFO]:"/general/",
     [AppRoutesAuth.ADMINISTRATION]:"/administration/",
+    [AppRoutesAuth.MOCK]:"/mock/",
     [AppRoutesAuth.MAIN]:"/",
     [AppRoutesAuth.REDIRECT]:"*",
 };

@@ -1,8 +1,8 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./AppTab.module.scss";
 
-import { PropsWithChildren, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { PropsWithChildren, memo, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 
@@ -10,7 +10,8 @@ import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 export enum AppTabThemes {
     AUTH="auth",
-    INNER="inner"
+    INNER="inner",
+    GREYBTNS="shadow_btn"
 }
 
 
@@ -26,20 +27,41 @@ interface AppTabProps {
 
 }
 
-export function AppTab(props: PropsWithChildren<AppTabProps>) {
+const checkUrl = (path:string)=>{
+    const urlList = path.split("/");
+    console.log(urlList);
+    if (urlList.includes(RoutePathAuth.administration.slice(1,-1)) ||
+    urlList.includes(RoutePathAuth.general.slice(1,-1)) ||
+    urlList.includes(RoutePathAuth.mock.slice(1,-1)) 
+    ){
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+
+export const  AppTab = memo((props: PropsWithChildren<AppTabProps>) => {
     const { className,tabs,theme=AppTabThemes.AUTH,children,selected,onSaveSelecting,getSelected,initialIndex=0 } = props;
     const [activeTab,setActiveTab] = useState<number>(getSelected());
     const navigate = useNavigate();
+    console.log("Таб номер:",activeTab);
     const mods = {
         [cls.active]:false
     };
 
+    const tabFlag = checkUrl(useLocation().pathname);
+    if (!tabFlag) {
+        onSaveSelecting(-1);
+    }
+    console.log(tabFlag);
     useEffect(()=>{
         setActiveTab(getSelected());
-        return ()=>{
-            onSaveSelecting(-1);
-        };
-    },[getSelected, onSaveSelecting]);
+        // return ()=>{
+        //     onSaveSelecting(-1);
+            
+        // };
+    },[getSelected, onSaveSelecting, tabFlag]);
 
     const tabClickHandler = (index:number) => {
         setActiveTab(index);
@@ -47,6 +69,9 @@ export function AppTab(props: PropsWithChildren<AppTabProps>) {
         // setTabSelected(true);
         if (index===5){
             navigate(RoutePathAuth.administration);
+        }
+        if (index>=1 && index<=4) {
+            navigate(RoutePathAuth.mock);
         }
 
     };
@@ -70,4 +95,4 @@ export function AppTab(props: PropsWithChildren<AppTabProps>) {
 
         </div>
     );
-}
+});

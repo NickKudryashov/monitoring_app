@@ -36,9 +36,11 @@
 
 .systemsRow {
     display: flex;
-    flex-basis: 50%;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
+
+    // flex-basis: 50%;
+    // flex-wrap: wrap;
+    // justify-content: space-between;
 
 
     // flex: 0 0 33.333333%;

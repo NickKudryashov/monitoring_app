@@ -21,9 +21,16 @@
 
 .tabs {
     display: flex;
+    flex-basis: 20%;
     flex-wrap: wrap;
     gap:16px;
+    margin-bottom: 10px;
 }
+
+.btn {
+    width:200px;
+}
+
 
 .cards {
     display: flex;

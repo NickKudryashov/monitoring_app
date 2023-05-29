@@ -7,9 +7,11 @@ import { GeneralInfoPage } from "pages/GeneralInfoPage";
 import { HeatDevicePage } from "pages/HeatDevicePage";
 import { HeatNodePage } from "pages/HeatNodePage";
 import { MainPage } from "pages/MainPage";
+import { MockPage } from "pages/MockPage";
 import { ObjectPage } from "pages/ObjectPage";
 import { RouteProps } from "react-router-dom";
 import { RoutePathPublic, AppRoutesAuth, AppRoutesPublic,RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { MockComponent } from "shared/ui/MockComponent/MockComponent";
 
 export const RouteConfigPublic: Record<string,RouteProps> = {
     [AppRoutesPublic.AUTH]:{
@@ -47,6 +49,9 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.GENERALINFO]:{
         path:RoutePathAuth.general,
         element:<GeneralInfoPage/>},
+    [AppRoutesAuth.MOCK]:{
+        path:RoutePathAuth.mock,
+        element:<MockPage/>},
     [AppRoutesAuth.MAIN]:{
         path: RoutePathAuth.main,
         element:<MainPage/>},

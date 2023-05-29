@@ -12,6 +12,7 @@ import { MockComponent } from "shared/ui/MockComponent/MockComponent";
 import { AddCard, DetailInformation, OrganisationCard } from "entities/Organization";
 import { StaffRow, StaffRowAdd } from "entities/Staff";
 import { CategoryRow } from "entities/Category";
+import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 
 interface AdministrationPageProps {
  className?: string;
@@ -57,84 +58,68 @@ const AdministrationPage = memo((props: PropsWithChildren<AdministrationPageProp
         const index = localStorage.getItem(ADMINISTRATIONPAGETABSKEY) || 0;
         return Number(index);
     };
+
+    const buttonContent = (
+        <div className={cls.tabs}>
+            <AppButon className={cls.btn} onClick={()=>changeTabIndex(0)} theme={AppButtonTheme.SHADOW}>Организация</AppButon>
+            <AppButon className={cls.btn} onClick={()=>changeTabIndex(1)} theme={AppButtonTheme.SHADOW}>Пользователи и роли</AppButon>
+            <AppButon className={cls.btn} onClick={()=>changeTabIndex(2)} theme={AppButtonTheme.SHADOW}>Управление категориями</AppButon>
+            <AppButon className={cls.btn} onClick={()=>changeTabIndex(3)} theme={AppButtonTheme.SHADOW}>Управление объектами</AppButon>
+            <AppButon className={cls.btn} onClick={()=>changeTabIndex(4)} theme={AppButtonTheme.SHADOW}>Управление отчетами</AppButon>
+        </div>
+    );
+
+
     if (selectedFeature===0){
         content = (
             <DetailView className={cls.detail}>
-                <AppTab
-                    getSelected={getTabIndex}
-                    onSaveSelecting={changeTabIndex}
-                    theme={AppTabThemes.INNER}
-                    tabs={mockTabs}
-                    className={cls.tabs}
-                >
-                    <div className={cls.cards} onClick={()=>setSelectedFeature(1)}>
-                        <OrganisationCard/>
-                        <OrganisationCard/>
-                        <OrganisationCard/>
-                        <OrganisationCard/>
-                        <AddCard/>
-                    </div>
-                </AppTab>
+                {buttonContent}
+                <div className={cls.cards} onClick={()=>setSelectedFeature(1)}>
+                    <OrganisationCard/>
+                    <OrganisationCard/>
+                    <OrganisationCard/>
+                    <OrganisationCard/>
+                    <AddCard/>
+                </div>
             </DetailView>
         );}
     if (selectedFeature===1){
         content = (
             <DetailView className={cls.detail}>
-                <AppTab
-                    getSelected={getTabIndex}
-                    onSaveSelecting={changeTabIndex}
-                    theme={AppTabThemes.INNER}
-                    tabs={mockTabs}
-                    className={cls.tabs}
-                >
-                    <div className={cls.orgData} onClick={()=>setSelectedFeature(1)}>
-                        <DetailInformation/>
-                    </div>
-                </AppTab>
+                {buttonContent}
+                <div className={cls.orgData} onClick={()=>setSelectedFeature(1)}>
+                    <DetailInformation/>
+                </div>
             </DetailView>
         );}
 
     if (selectedFeature===2){
         content = (
             <DetailView className={cls.detail}>
-                <AppTab
-                    getSelected={getTabIndex}
-                    onSaveSelecting={changeTabIndex}
-                    theme={AppTabThemes.INNER}
-                    tabs={mockTabs}
-                    className={cls.tabs}
-                >
-                    <div className={cls.orgData}>
-                        <StaffRowAdd/>
-                        <StaffRow/>
-                    </div>
-                </AppTab>
+                {buttonContent}
+                <div className={cls.orgData}>
+                    <StaffRowAdd/>
+                    <StaffRow/>
+                </div>
             </DetailView>
         );}
     if (selectedFeature===3){
         content = (
             <DetailView className={cls.detail}>
-                <AppTab
-                    getSelected={getTabIndex}
-                    onSaveSelecting={changeTabIndex}
-                    theme={AppTabThemes.INNER}
-                    tabs={mockTabs}
-                    className={cls.tabs}
-                >
-                    <div className={cls.orgData}>
-                        {MOCK_TREE.map((el)=>{
-                            if (el.pid===prev_id) {
-                                return <CategoryRow key={el.id} className={cls.offset} name={el.name}/>;
-                            }
-                            else {
-                                prev_id=el.id;
-                                return <CategoryRow key={el.id}name={el.name}/>;
-                            }
+                {buttonContent}
+                <div className={cls.orgData}>
+                    {MOCK_TREE.map((el)=>{
+                        if (el.pid===prev_id) {
+                            return <CategoryRow key={el.id} className={cls.offset} name={el.name}/>;
                         }
-                        )
+                        else {
+                            prev_id=el.id;
+                            return <CategoryRow key={el.id}name={el.name}/>;
                         }
-                    </div>
-                </AppTab>
+                    }
+                    )
+                    }
+                </div>
             </DetailView>
         );}
     return (

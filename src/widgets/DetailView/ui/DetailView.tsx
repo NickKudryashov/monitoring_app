@@ -1,7 +1,7 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./DetailView.module.scss";
 
-import { PropsWithChildren, ReactNode, useState } from "react";
+import { PropsWithChildren, ReactNode, useCallback, useState } from "react";
 import { CategoryCard, categorySlice } from "entities/Category";
 import { ObjectCategoryView } from "features/ObjectCategoryCardView";
 import { AppTab } from "shared/ui/AppTab/AppTab";
@@ -28,22 +28,23 @@ export function DetailView(props: DetailViewProps) {
         setTabSelected(false);
     }
 
-    const tabHandler = (val:boolean)=> {
+    const tabHandler = useCallback((val:boolean)=> {
         setTabSelected(val);
         setGeneralSelected(false);
-    };
+    },[setGeneralSelected, setTabSelected]);
 
-    const saveSelecting = (index:number)=>{
+
+    const saveSelecting = useCallback((index:number)=>{
         localStorage.setItem(GENERALTABSELECTEDKEY,String(index));
         if (index===0){
             navigate(RoutePathAuth.general);
         }
-    };
-    const getSelecting = ()=>{
+    },[navigate]);
+    const getSelecting = useCallback(()=>{
         const index = localStorage.getItem(GENERALTABSELECTEDKEY) || 0;
         return Number(index);
         
-    };
+    },[]);
 
     return (
         <div className={classNames(cls.DetailView,{},[className])}>

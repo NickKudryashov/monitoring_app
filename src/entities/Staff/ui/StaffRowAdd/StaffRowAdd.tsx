@@ -13,7 +13,7 @@ export const StaffRowAdd = memo((props: PropsWithChildren<StaffRowAddProps>) => 
 
     return (
         <div className={classNames(cls.StaffRowAdd,{},[className])}>
-            <AddIcon width={"10%"}  />
+            <AddIcon width={"10%"} height={"70%"}  />
         </div>
     );
 });

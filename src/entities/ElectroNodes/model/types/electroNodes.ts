@@ -4,6 +4,8 @@ export interface ElectroNodeData {
     user:number;
     name:string;
     expanded?:boolean;
+    electro_node_device?:any [];
+
 }
 
 

@@ -13,7 +13,7 @@ export const AddCard = memo((props: PropsWithChildren<AddCardProps>) => {
 
     return (
         <div className={classNames(cls.AddCard,{},[className])}>
-            <AddIcon width={"100%"}/>
+            <AddIcon  width={"70%"} height={"70%"}/>
         </div>
     );
 });

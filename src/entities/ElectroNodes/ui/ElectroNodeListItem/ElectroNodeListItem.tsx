@@ -27,18 +27,20 @@ export function ElectroNodeListItem(props: PropsWithChildren<ElectroNodeListItem
     };
     return (
         <div className={classNames(cls.ElectroNodeListItem,{},[className])}>
-            {data!==undefined && data.map((node)=>node.user_object===object_id &&
-            <div key={node.id} className={cls.node}>
-                <div 
-                    className={classNames("",{[cls.selected]:selectedNode && (node.id===selectedNode.id)},[])} 
-                    onClick={()=>onClickHandler(node)}
-                >
-                    <AppLink to={RoutePathAuth.electronode+node.id} >
-                        {node.name}
-                    </AppLink>
+            {data!==undefined && data.map((node)=>node.user_object===object_id && node.electro_node_device.length ?
+                <div key={node.id} className={cls.node}>
+                    <div 
+                        className={classNames("",{[cls.selected]:selectedNode && (node.id===selectedNode.id)},[])} 
+                        onClick={()=>onClickHandler(node)}
+                    >
+                        <AppLink to={RoutePathAuth.electronode+node.id} >
+                            {node.name}
+                        </AppLink>
+                    </div>
+                    {node.expanded && node.electro_node_device && children}
                 </div>
-                {node.expanded && children}
-            </div>
+                :
+                null
             )}
         </div>
     );
