@@ -2,11 +2,13 @@
     display: flex;
     width:99%;
     height: min-content;
+    justify-content: center;
     align-items: center;
     border:none;
     border-radius: 5px;
     margin-top: 10px;
     margin-bottom: 10px;
+    gap:16px;
 
     // border: 1px solid black;
     box-shadow: 0 2px rgb(0 0 0 / 20%);

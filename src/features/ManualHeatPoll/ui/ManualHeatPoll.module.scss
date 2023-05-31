@@ -1,18 +1,25 @@
 .container {
     display: flex;
-    padding-left: 8.05%;
-    flex-direction: column;
+
+    // padding-left: 8.05%;
+    flex-direction: row-reverse;
     align-items: flex-start;
+    height:min-content;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .loadbox {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: row-reverse;
 }
 
 .btn {
-    width:200px;
+    min-width:200px;
     height:40px;
-    margin-top: 15px;
+
+    // margin-top: 15px;
 
 }

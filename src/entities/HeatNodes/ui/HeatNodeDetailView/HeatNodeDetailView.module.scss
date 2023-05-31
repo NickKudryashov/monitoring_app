@@ -13,3 +13,21 @@
 .active {
     font-weight: bold;
 }
+
+.textinfo {
+    padding-left: 5.1%;
+    font-size: var(--font-size-l);
+}
+
+
+.countersBlock {
+    margin-left: 3%;
+}
+
+.featureBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: auto;
+    padding:0;
+}

@@ -47,14 +47,14 @@ const HeatNodePage = (props: PropsWithChildren<HeatNodePageProps>) => {
     if (selectedNode && heatNodes && entities){
         content = (
             <DetailView className={cls.detail}>
-                <HeatNodeDetailView heatNode={selectedNode[0]}>
-                    <ManualBulkHeatPolll onUpdate={updateCurrentDevice} node_id={Number(id)} />
+                <HeatNodeDetailView heatNode={selectedNode[0]} pollFeature={<ManualBulkHeatPolll className={cls.nodeBtn} onUpdate={updateCurrentDevice} node_id={Number(id)} />}>
+                    
     
                     {Object.values(entities).map((device)=>
                         device.node===Number(id) &&
                         <div className={cls.nodeCont} key={device.id}>
                             <HeatDeviceDetailView className={cls.toDevice} key={device.id} device={device}>
-                                <ManualHeatPoll onUpdate={updateCurrentDevice} device={device} />
+                                <ManualHeatPoll className={cls.nodeBtn} onUpdate={updateCurrentDevice} device={device} />
                             </HeatDeviceDetailView>
                         </div>
                     )}

@@ -6,7 +6,8 @@ import type { InputHTMLAttributes, PropsWithChildren } from "react";
 export enum InputThemes {
     AUTH="auth",
     DEFAULT="default",
-    OUTLINE="outline"
+    OUTLINE="outline",
+    CLEAR = "clear"
 }   
 
 
@@ -29,7 +30,7 @@ export function AppInput(props: PropsWithChildren<AppInputProps>) {
 
     return (
         <input 
-            className={classNames(cls.AppInput,{},[cls[className],cls[theme]])}
+            className={classNames(cls.AppInput,{},[className,cls[theme]])}
             onChange={onChange}
             placeholder={placeholder}
             type={type}
