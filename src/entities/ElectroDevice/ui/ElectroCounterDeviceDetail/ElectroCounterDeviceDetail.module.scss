@@ -1,8 +1,10 @@
 .ElectroCounterDeviceDetail {
     display:flex;
     width:100%;
-    height:95%;    
+    height:95%;
     height: min-content;
+    margin-left:5%;
+    margin-top:2%;
 
     // overflow:auto;
     flex-direction: column;
@@ -11,6 +13,9 @@
 
 .interface_btn {
     cursor: pointer;
+    font-size: var(--font-line-s);
+    margin-left:20px;
+    margin-bottom: 5px;
 }
 
 .interface_panel {
@@ -63,6 +68,7 @@
 .container {
     width:100%;
     display: flex;
+    padding-left: 30px;
 
     // text-align: center;
     flex-direction: column;
@@ -72,4 +78,20 @@
 
 .btn {
     width:133.8px;
+}
+
+.devTitle {
+    font-size: var(--font-line-s);
+}
+
+.features{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.titleBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
 }

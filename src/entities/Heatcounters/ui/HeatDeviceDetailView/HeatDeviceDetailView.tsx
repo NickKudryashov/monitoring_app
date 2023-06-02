@@ -26,18 +26,17 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
 
     return (
         <div className={classNames(cls.DetailView,{},[className])}>
-            <div className={cls.pollBtn}>
+            <div className={cls.content}>
                 <div className={cls.generalInfo}>
                     <b className={cls.deviceTitle}>Информация по прибору {`${device.name} ${device.device_type_verbose_name} №${device.device_num} `}</b>
                     <p className={cls.dateRow}>{`Дата последнего опроса: ${timeConvert(device.last_update)}`}</p>
+                
                 </div>
-                {children}
-            </div>
-            <div className={cls.systemsRow}>
-                {device.systems.map(element=>
-                    <div className={cls.systemBox} key={element.id}>
-                        <b className={cls.deviceTitle} onClick={()=>conturChangeHandler(element.name)}>{`ТС${element.index+1}  ${element.name} ${element.schema ?`Схема:${element.schema}` :""} ${element.formula ?`Формула:${element.formula}` :""} `}</b>
-                        {   currentConturs.includes(element.name) && 
+                <div className={cls.systemsRow}>
+                    {device.systems.map(element=>
+                        <div className={cls.systemBox} key={element.id}>
+                            <b className={cls.deviceTitle} onClick={()=>conturChangeHandler(element.name)}>{`ТС${element.index+1}  ${element.name} ${element.schema ?`Схема:${element.schema}` :""} ${element.formula ?`Формула:${element.formula}` :""} `}</b>
+                            {   currentConturs.includes(element.name) && 
                             <div className = {cls.parameterTable}>
                                 {element.parameters.map(parameter=>
                                     <div className={cls.parameterRow} key={parameter.id}>
@@ -55,10 +54,14 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
                                     </div>
                                 )}
                             </div>
-                        }
+                            }
 
-                    </div>
-                )}
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div className={cls.featureBox}>
+                {children}
             </div>
         </div>
     );

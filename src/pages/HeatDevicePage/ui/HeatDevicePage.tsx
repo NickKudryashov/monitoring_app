@@ -14,6 +14,7 @@ import { HeatDeviceDetailView } from "entities/Heatcounters";
 import { DetailView } from "widgets/DetailView";
 import { ManualHeatPoll } from "features/ManualHeatPoll";
 import { Loader } from "shared/ui/Loader/Loader";
+import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 
 interface HeatDevicePageProps {
  className?: string;
@@ -37,6 +38,10 @@ const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
             <DetailView className={cls.detail}>
                 <HeatDeviceDetailView device={dev[0]}>
                     <ManualHeatPoll onUpdate={()=>console.log("")} device={dev[0]} />
+                    <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Снять архив</AppButon>
+                    <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Сформировать архив</AppButon>
+                    <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Скачать архив</AppButon>
+                    <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Выбрать сохраненный архив</AppButon>
                 </HeatDeviceDetailView>
             </DetailView>
         );

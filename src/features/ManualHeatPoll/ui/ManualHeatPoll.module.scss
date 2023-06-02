@@ -11,13 +11,15 @@
 
 .loadbox {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     flex-direction: row-reverse;
+    white-space: nowrap;
 }
 
 .btn {
-    min-width:200px;
+    width: var(--device-buttons);
+    min-width: var(--device-buttons);
     height:40px;
 
     // margin-top: 15px;

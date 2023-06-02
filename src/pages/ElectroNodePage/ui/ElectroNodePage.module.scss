@@ -16,10 +16,17 @@
 
 .deviceBtns{
     display: flex;
+    margin-left: auto;
+    margin-right: 6%;
+    text-align: center;
     gap:16px;
 }
 
 .btnsWithDevice {
     display: flex;
     flex-direction: column;
+}
+
+.btn {
+    width:var(--device-buttons);
 }

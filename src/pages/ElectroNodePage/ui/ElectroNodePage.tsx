@@ -48,17 +48,21 @@ const ElectroNodePage = (props: PropsWithChildren<ElectroNodePageProps>) => {
     else {
         content = (
             <DetailView className={cls.detail}>
-                <ElectroNodeDetail>
-                    <ElectroDevicePoll bulk node={filteredNodes[0]} onUpdate={()=>console.log("")}  />
+                <ElectroNodeDetail polLFeature={<ElectroDevicePoll className={cls.deviceBtns} bulk node={filteredNodes[0]} onUpdate={()=>console.log("")}  />}>
+                    
                     {
                         electroDevData.topLevelDevices.map((dev)=> dev.node===filteredNodes[0].id &&
                             <div className={cls.btnsWithDevice} key={dev.id}>
-                                <div className={cls.deviceBtns}>
-                                    <ElectroDevicePoll device={dev} onUpdate={()=>console.log("")}  />
-                                    <AppButon theme={AppButtonTheme.SHADOW} onClick={()=>downloadXLSFile(dev)}>Сформировать отчет</AppButon>
-                                    <AppButon theme={AppButtonTheme.SHADOW}>Выбрать сформированный отчет</AppButon>
-                                </div>
-                                <ElectroCounterDeviceDetail  key={dev.id} id={dev.id}  />
+                                
+                                <ElectroCounterDeviceDetail  
+                                    key={dev.id} 
+                                    id={dev.id} 
+                                    featuresBlock={
+                                        <div className={cls.deviceBtns}>
+                                            <ElectroDevicePoll device={dev} onUpdate={()=>console.log("")}  />
+                                            <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>downloadXLSFile(dev)}>Сформировать отчет</AppButon>
+                                            <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW}>Выбрать сформированный отчет</AppButon>
+                                        </div>}  />
                             </div>
                         )
                     }

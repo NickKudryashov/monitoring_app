@@ -11,6 +11,9 @@
 .loadbox {
     display: flex;
     flex-direction: row-reverse;
+    white-space: nowrap;
+
+    // gap:100px;
 
     // gap:50px;   
     align-items: flex-end;
@@ -19,7 +22,8 @@
 }
 
 .btn {
-    min-width:200px;
+    width:var((--device-buttons));
+    min-width: var(--device-buttons);
     height:40px;
 
     // margin-top: 10px;

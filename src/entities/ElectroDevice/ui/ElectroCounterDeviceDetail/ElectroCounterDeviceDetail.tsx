@@ -1,5 +1,5 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo, useEffect, useRef, useState } from "react";
+import { ReactNode, memo, useEffect, useRef, useState } from "react";
 import cls from "./ElectroCounterDeviceDetail.module.scss";
 
 import type { PropsWithChildren } from "react";
@@ -17,10 +17,11 @@ import { fetchElectroDevices } from "entities/ElectroDevice/model/services/fetch
 interface ElectroCounterDeviceDetailProps {
  className?: string;
  id?:number;
+ featuresBlock?:ReactNode;
 }
 
 export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<ElectroCounterDeviceDetailProps>) => {
-    const { className,id,children } = props;
+    const { className,id,children,featuresBlock } = props;
     const {data,selectedDevice} = useSelector((state:StateSchema)=>state.electroDevices);
     const device = data.topLevelDevices.filter((d)=>d.id===id)[0];
     // const [currentCan,setCurrentCan] = useState<CANMapper>(undefined);
@@ -73,8 +74,13 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
     return (
         <div className={classNames(cls.ElectroCounterDeviceDetail,{},[className])}>
             {children}
-            <b>{`${device.name} ${device.device_type_verbose_name} №${device.device_num}`}</b>
-            {`Дата последнего опроса ${timeConvert(selectedDevice?.last_update ?? device.last_update)}`}
+            <div className={cls.features}>
+                <div className={cls.titleBlock}>
+                    <b className={cls.devTitle}>{`${device.name} ${device.device_type_verbose_name} №${device.device_num}`}</b>
+                    {`Дата последнего опроса ${timeConvert(selectedDevice?.last_update ?? device.last_update)}`}
+                </div>
+                {featuresBlock}
+            </div>
             {/* <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(device.id)}>Отчет</AppButon> */}
             <div className={cls.interface_panel}>
                 <p>{"Доступные интерфейсы:"}</p>

@@ -1,3 +1,10 @@
 .electroDevicePoll {
-    display: block;
+    display: flex;
+    margin-left: auto;
+}
+
+.btn {
+    width:var(--device-buttons);
+    align-items: center;
+    justify-content: center;
 }
