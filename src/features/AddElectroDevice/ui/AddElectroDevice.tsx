@@ -46,7 +46,7 @@ export const AddElectroDeviceContent = memo((props: PropsWithChildren<AddElectro
                 if (el.user_object===Number(selectedObj)) {
                     return el.id;
                 }
-            })[0],
+            })[0].id,
             device_num:Number(dnum),
             connection_info:{
                 ip:ip,
