@@ -26,7 +26,9 @@ interface RecordInfoProps {
 
 }
 
-type TaskStatus = boolean | null
+interface TaskStatus {
+    result: boolean | null;
+}
 
 export const request_archives = async (props:RequestProps)=>{
     const {archive_type,device_id,end_date,start_date} = props;
@@ -35,7 +37,7 @@ export const request_archives = async (props:RequestProps)=>{
 };
 
 export const request_polling_status = async (task_id:string)=>{
-    const response = await $api.put<{status:TaskStatus}>("heat_reports/request/0",{task_id});
+    const response = await $api.put<TaskStatus>("heat_reports/request/0",{task_id});
     return response.data;
 };
 
