@@ -80,12 +80,12 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     };
 
     const changeSysName = (index:number,name:string)=>{
-        systems.map(sys=>{
+        setSystems(systems.map(sys=>{
             if (sys.index===index) {
                 return {...sys,name};
             }
             return {...sys};
-        });
+        }));
     };
 
     return (

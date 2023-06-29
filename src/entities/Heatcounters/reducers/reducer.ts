@@ -20,7 +20,6 @@ const initialState = heatCounterAdapter.getInitialState<HeatDeviceSchema>({selec
 export const {selectById:selectHeatDeviceById } = heatCounterAdapter.getSelectors<StateSchema>(
     (state) => state.heatDevices || heatCounterAdapter.getInitialState(),
 );
-
 export const heatDeviceSlice = createSlice({
     name:"heatDevice",
     initialState,

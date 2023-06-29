@@ -1,5 +1,5 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo } from "react";
+import { memo, useState } from "react";
 import cls from "./HeatDevicePage.module.scss";
 
 import type { PropsWithChildren } from "react";
@@ -15,6 +15,7 @@ import { DetailView } from "widgets/DetailView";
 import { ManualHeatPoll } from "features/ManualHeatPoll";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { HeatArchives } from "features/HeatArchives";
 
 interface HeatDevicePageProps {
  className?: string;
@@ -25,6 +26,13 @@ const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
     const {id} = useParams<{id:string}>();
     const {entities} = useSelector((state:StateSchema)=>state.heatDevices);
     const navigate = useNavigate();
+    const [open,setIsOpen] = useState(false);
+
+
+    const onClose = ()=>{
+        setIsOpen(false);
+    };
+
     let content;
     if (!id) {
         navigate(RoutePathAuth.main);
@@ -37,9 +45,10 @@ const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
         content = (
             <DetailView className={cls.detail}>
                 <HeatDeviceDetailView device={dev[0]}>
+                    <HeatArchives is_open={open} onClose={onClose} dev_id={Number(id)}/>
                     <ManualHeatPoll onUpdate={()=>console.log("")} device={dev[0]} />
-                    <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Снять архив</AppButon>
-                    <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Сформировать архив</AppButon>
+                    {/* <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Снять архив</AppButon> */}
+                    <AppButon onClick={()=>setIsOpen(true)} className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Управление архивами</AppButon>
                     <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Скачать архив</AppButon>
                     <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Выбрать сохраненный архив</AppButon>
                 </HeatDeviceDetailView>

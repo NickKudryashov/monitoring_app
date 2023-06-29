@@ -68,12 +68,12 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
     };
     return (
         <div className={classNames(className,{},[cls.container])}>
-            <AppButon theme={AppButtonTheme.SHADOW} onClick={poll} className={classNames(cls.ManualHeatPoll,{},[className,cls.btn])}>
-                {"Опросить прибор"}
+            <AppButon disabled={loading} theme={AppButtonTheme.SHADOW} onClick={poll} className={classNames(cls.ManualHeatPoll,{},[className,cls.btn])}>
+                {loading ?"Идет опрос..." :"Опросить прибор"}
             </AppButon>
             <div className={cls.loadbox}>
-                {loading && <Loader/>}
-                {status}
+                {/* {loading && <Loader/>} */}
+                {/* {status} */}
             </div>
             <br/>
         </div>

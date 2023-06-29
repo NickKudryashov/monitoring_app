@@ -129,11 +129,11 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
     return (
         <div className={cls.container}>
             <AppButon theme={AppButtonTheme.SHADOW} onClick={poll} disabled={loading} className={classNames(cls.ManualHeatPoll,{},[className,cls.btn])}>
-                {!bulk ? "Опросить прибор" : "Опросить узел"}
+                {loading? "Идет опрос.." : !bulk ? "Опросить прибор" : "Опросить узел"}
             </AppButon>
             <div className={cls.loadbox}>
-                {loading && <Loader/>}
-                {status}
+                {/* {loading && <Loader/>} */}
+                {/* {status} */}
             </div>
             <br/>
         </div>
