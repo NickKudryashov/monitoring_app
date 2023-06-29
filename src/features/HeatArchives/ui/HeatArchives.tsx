@@ -1,8 +1,8 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import cls from "./HeatArchives.module.scss";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import classNames from "shared/lib/classNames/classNames";
-import { fetchArchData, request_archives, request_system_date } from "../model/services/fetchHeatArchives/fetchHeatArchives";
+import { fetchArchData, request_archives, request_polling_status, request_system_date } from "../model/services/fetchHeatArchives/fetchHeatArchives";
 import $api, { API_URL } from "shared/api";
 import { selectHeatDeviceById } from "entities/Heatcounters";
 import { useSelector } from "react-redux";
@@ -44,16 +44,27 @@ export const HeatArchives = memo((props:HeatArchivesProps) => {
     const [endDateReport,setEndDateReport] = useState("");
     const {entities}  = useSelector((state:StateSchema)=>state.heatDevices);
     const dev = entities[dev_id];
+    const timeoutRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const systems = dev.systems.map(system=>(system.id));
     const [systemArray,setSystemArray] = useState([]);
-    const prepareDate = ()=>{   
+    const prepareDate = async ()=>{   
         const testObj = {
             device_id:Number(dev_id),
             start_date:startDate,
             archive_type:Number(archType),
             end_date:endDate
         };
-        const response = request_archives(testObj);
+        const response = await request_archives(testObj);
+        if (response) {
+            timeoutRef.current = setInterval(async ()=>{
+                const res =  await request_polling_status(response.task_id);
+                if (res.result!==undefined && res.result!==null) {
+                    systems.map((sys)=>dispatch(fetchArchData(sys)));
+                    clearInterval(timeoutRef.current);
+                    alert(`Снятие архивов ${dev.name} завершено`);
+                }
+            },2000);
+        }
     };
 
     useEffect(()=>{
