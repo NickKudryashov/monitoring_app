@@ -136,7 +136,7 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
             </AppButon>
             <div className={cls.loadbox}>
                 {/* {loading && <Loader/>} */}
-                {/* {status} */}
+                {status}
             </div>
             <br/>
         </div>
