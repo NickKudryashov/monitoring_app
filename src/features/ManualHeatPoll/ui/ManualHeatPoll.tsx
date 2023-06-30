@@ -76,7 +76,7 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
             </AppButon>
             <div className={cls.loadbox}>
                 {/* {loading && <Loader/>} */}
-                {status}
+                {/* {status} */}
             </div>
             <br/>
         </div>
