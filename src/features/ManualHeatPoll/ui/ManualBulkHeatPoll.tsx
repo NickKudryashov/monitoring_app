@@ -70,7 +70,7 @@ export function ManualBulkHeatPolll(props: PropsWithChildren<ManualBulkHeatPolll
             </AppButon>
             <div className={cls.loadbox}>
                 {/* {loading && <Loader/>} */}
-                {/* {status} */}
+                {status}
             </div>
             <br/>
         </div>
