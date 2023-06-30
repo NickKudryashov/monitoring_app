@@ -62,6 +62,9 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
                     
                 clearInterval(timer_ref.current);
             }
+            else {
+                setIsLoading(true);
+            }
             console.log(response.data);
         },2000);
 

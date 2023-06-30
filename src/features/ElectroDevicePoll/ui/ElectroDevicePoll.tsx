@@ -123,6 +123,9 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
                 }
                     
             }
+            else {
+                setIsLoading(true);
+            }
         },2000);
 
     };

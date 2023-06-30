@@ -33,11 +33,13 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
                 
                 </div>
                 <div className={cls.systemsRow}>
+                    <br/>
                     {device.systems.map(element=>
                         <div className={cls.systemBox} key={element.id}>
                             <b className={cls.deviceTitle} onClick={()=>conturChangeHandler(element.name)}>{`ТС${element.index+1}  ${element.name} ${element.schema ?`Схема:${element.schema}` :""} ${element.formula ?`Формула:${element.formula}` :""} `}</b>
                             {   currentConturs.includes(element.name) && 
                             <div className = {cls.parameterTable}>
+                                <br/>
                                 {element.parameters.map(parameter=>
                                     <div className={cls.parameterRow} key={parameter.id}>
                                         <div className={cls.parameterName}>

@@ -56,6 +56,9 @@ export function ManualBulkHeatPolll(props: PropsWithChildren<ManualBulkHeatPolll
                     .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор по ноде",res.payload);}); 
                 clearInterval(timer_ref.current);
             }
+            else {
+                setIsLoading(true);
+            }
             console.log(response.data);
         },2000);
 
