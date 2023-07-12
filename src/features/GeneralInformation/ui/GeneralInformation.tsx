@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { categorySlice } from "entities/Category";
+import { PumpDevice } from "entities/PumpDevice";
 
 interface GeneralInformationProps {
  className?: string;
@@ -25,6 +26,7 @@ export function GeneralInformation(props: PropsWithChildren<GeneralInformationPr
             {`Количество приборов УУТЭ:${ids.length}`}
             <br/>
             {`Количество приборов АСКУЭ:${data?.topLevelDevices.length ?? "Загрузка..."}`}
+            <PumpDevice id={1}/>
         </div>
     );
 }

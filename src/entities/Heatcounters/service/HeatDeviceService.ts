@@ -11,4 +11,7 @@ export default class HeatDeviceService{
     static async deleteHeatDevice(id:number){
         return $api.delete<HeatDevice>(`device/${id}`);
     }
+    static async renameParameter(id:number,comment:string){
+        return $api.post("heat_parameter/"+id,{comment});
+    }
 }

@@ -13,6 +13,7 @@ import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { MainLayout } from "shared/ui/MainLayout/MainLayout";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { Loader } from "shared/ui/Loader/Loader";
+import { Footer } from "shared/ui/Footer/Footer";
 
 export interface CategoryPageProps {
  className?: string;
@@ -52,6 +53,7 @@ const CategoryPage = memo((props:CategoryPageProps) => {
                 DetailView={content}
                 deviceList={<DeviceList />}
                 navbar={<Navbar/>}
+                footer={<Footer/>}
             />
         </div>
     );

@@ -23,6 +23,7 @@ import { ElectroNodeData, ElectroNodeDetail } from "entities/ElectroNodes";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
 import { ElectroDevicePoll } from "features/ElectroDevicePoll";
 import { getUserData } from "entities/user";
+import { Footer } from "shared/ui/Footer/Footer";
 const MainPage = () => {
     const {currentObject,currentHeatNode,currentCategory,currentElectroDevice,currentHeatDevice,currentElectroNode,isElectroDevice,isElectroNode,isHeatDevice,isHeatNode} = useSelector((state:StateSchema)=>state.deviceList);
     const dispatch = useAppDispatch();
@@ -158,6 +159,7 @@ const MainPage = () => {
                     {/* <DetailView/> */}
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 };

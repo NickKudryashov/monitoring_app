@@ -18,6 +18,7 @@ import $api, { API_URL } from "shared/api";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { ElectroDevicePoll } from "features/ElectroDevicePoll";
+import { Footer } from "shared/ui/Footer/Footer";
 
 interface ElectroNodePageProps {
  className?: string;
@@ -91,6 +92,7 @@ const ElectroNodePage = (props: PropsWithChildren<ElectroNodePageProps>) => {
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
+            footer={<Footer/>}
         />
     );
 };

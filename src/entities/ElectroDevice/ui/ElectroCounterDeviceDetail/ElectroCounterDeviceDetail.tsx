@@ -26,6 +26,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
     const device = data.topLevelDevices.filter((d)=>d.id===id)[0];
     // const [currentCan,setCurrentCan] = useState<CANMapper>(undefined);
     const [currentCans,setCurrentCan] = useState<string[]>([]);
+    console.log(device.statistic);
     const canChangeHandler = (can:string)=>{
         setCurrentCan((prev)=>{
             if(prev.includes(can)) {
@@ -34,7 +35,15 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
             return [...prev,can];
         });
     };
-
+    const statisticBlock = (
+        <div>
+            {Object.values(device.statistic).map((el,i)=>
+                <p key={i}>
+                    {`${el.verbose} всего: ${el.count} опрошены: ${el.success} не опрошены: ${el.failed}`}
+                </p>
+            )}
+        </div>
+    );
     // useEffect(()=>{
     //     setCurrentCan([]);
     //     return ()=>{
@@ -78,6 +87,8 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
                 <div className={cls.titleBlock}>
                     <b className={cls.devTitle}>{`${device.name} ${device.device_type_verbose_name} №${device.device_num}`}</b>
                     {`Дата последнего опроса ${timeConvert(selectedDevice?.last_update ?? device.last_update)}`}
+                    {device.last_poll_seconds!==undefined && <br/>}
+                    {device.last_poll_seconds!==undefined && `Длительность предыдущего опроса: ${device?.last_poll_seconds / 60} минут`}
                 </div>
                 {featuresBlock}
             </div>
@@ -105,6 +116,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
                     ))
                 }
             </div>
+            {statisticBlock}
         </div>
     );
 });

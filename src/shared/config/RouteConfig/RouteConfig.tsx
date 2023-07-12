@@ -10,6 +10,8 @@ export enum AppRoutesAuth {
     HEATDEVICE="heatdevice",
     ELECTRONODE="electronode",
     ELECTRODEVICE="electrodevice",
+    PUMPDEVICE="pumpdevice",
+    PUMPNODE="pumpnode",
     ADMINISTRATION="administration",
     GENERALINFO="general",
     MOCK="mock",
@@ -23,6 +25,8 @@ export const RoutePathPublic: Record<AppRoutesPublic,string> = {
 };
 export const RoutePathAuth: Record<AppRoutesAuth,string> = {
     [AppRoutesAuth.CATEGORY]:"/category/",
+    [AppRoutesAuth.PUMPDEVICE]:"/pump/",
+    [AppRoutesAuth.PUMPNODE]:"/pumpnode/",
     [AppRoutesAuth.OBJECT]:"/object/",
     [AppRoutesAuth.HEATNODE]:"/heatnode/",
     [AppRoutesAuth.HEATDEVICE]:"/heatdevice/",

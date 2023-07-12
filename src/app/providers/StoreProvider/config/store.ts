@@ -9,6 +9,8 @@ import { StateSchema } from "./stateSchema";
 import { electroNodesReducer } from "entities/ElectroNodes/model/slice/electroNodes";
 import { electroDeviceReducer } from "entities/ElectroDevice";
 import { heatArchivesReducer } from "features/HeatArchives/model/slice/heatArchives";
+import { pumpDeviceReducer } from "entities/PumpDevice";
+import { pumpStationNodeReducer } from "entities/PumpStationNode";
 
 
 
@@ -22,7 +24,9 @@ export function createReduxStore(initialState?:StateSchema) {
         electroNodes:electroNodesReducer,
         deviceList:deviceListReducer,
         electroDevices:electroDeviceReducer,
-        archives:heatArchivesReducer
+        archives:heatArchivesReducer,
+        pumpDevices:pumpDeviceReducer,
+        pumpNodes:pumpStationNodeReducer
 
     };
     return configureStore<StateSchema>({

@@ -5,6 +5,8 @@ import { HeatDeviceSchema } from "entities/Heatcounters";
 import { HeatNodeResponse } from "entities/HeatNodes";
 import { heatNodeState } from "entities/HeatNodes/reducers/reducers";
 import { objectState } from "entities/Objects";
+import { PumpDeviceSchema } from "entities/PumpDevice";
+import { PumpStationNodeSchema } from "entities/PumpStationNode";
 import { UserState } from "entities/user";
 import { HeatArchivesSchema } from "features/HeatArchives";
 import { DeviceListState } from "widgets/DeviceList";
@@ -19,6 +21,8 @@ export interface StateSchema {
     electroNodes:ElectroNodesSchema;
     electroDevices:ElectroDeviceSchema;
     archives:HeatArchivesSchema;
+    pumpDevices:PumpDeviceSchema;
+    pumpNodes:PumpStationNodeSchema
 }
 
 export interface ThunkConfig<T> {

@@ -16,6 +16,7 @@ import { ManualHeatPoll } from "features/ManualHeatPoll";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { HeatArchives } from "features/HeatArchives";
+import { Footer } from "shared/ui/Footer/Footer";
 
 interface HeatDevicePageProps {
  className?: string;
@@ -49,8 +50,6 @@ const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
                     <ManualHeatPoll onUpdate={()=>console.log("")} device={dev[0]} />
                     {/* <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Снять архив</AppButon> */}
                     <AppButon onClick={()=>setIsOpen(true)} className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Управление архивами</AppButon>
-                    <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Скачать архив</AppButon>
-                    <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Выбрать сохраненный архив</AppButon>
                 </HeatDeviceDetailView>
             </DetailView>
         );
@@ -69,6 +68,7 @@ const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
+            footer={<Footer/>}
         />
     );
 };

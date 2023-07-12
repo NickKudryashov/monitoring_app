@@ -32,6 +32,23 @@ export const heatDeviceSlice = createSlice({
         },
         updateOne(state,action:PayloadAction<HeatDevice>) {
             state.entities[action.payload.id] = action.payload;
+        },
+        renameParameterAction(state,action:PayloadAction<{dev_id:number,system_id:number,parameter_id:number,comment:string}>) {
+            const {comment,dev_id,parameter_id,system_id} = action.payload;
+            state.entities[dev_id].systems  = state.entities[dev_id].systems.map(system=>{
+                if (system.id===system_id) {
+                    system.parameters=system.parameters.map((param)=>{
+                        if (param.id === parameter_id) {
+                            return {...param,comment};
+                        }
+                        return {...param};
+                    });
+                }
+                return {...system};
+                
+            
+            });
+
         }
     },
     extraReducers:{
@@ -73,6 +90,7 @@ export const heatDeviceSlice = createSlice({
 });
 
 export const heatDeviceReducer = heatDeviceSlice.reducer;
+export const {actions:HeatActions} = heatDeviceSlice;
 // export const getHeatDevices = heatCounterAdapter.getSelectors(
 //     (state) => state.articleDetailsComments || commentsAdapter.getInitialState(),
 // );

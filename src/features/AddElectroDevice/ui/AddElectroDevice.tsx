@@ -17,7 +17,9 @@ interface AddElectroDeviceProps {
  onClose?:()=>void;
 }
 const UM_31_TYPE = "um_31";
-const UM_31_VERBOSE = "УМ-31";
+const UM_31_VERBOSE = "УМ-31 GPRS";
+const UM_31_RTU_TYPE = "um_31_rtu";
+const UM_31_RTU_VERBOSE = "УМ-31 RTU";
 const DeviceConnection = {
     TCP:"TCP",
     UDP:"UDP"
@@ -40,7 +42,7 @@ export const AddElectroDeviceContent = memo((props: PropsWithChildren<AddElectro
         const requestData = {
             user_object:Number(selectedObj),
             name,
-            device_type:UM_31_TYPE,
+            device_type:devType,
             device_type_verbose_name:UM_31_VERBOSE,
             node:data.filter((el)=>{
                 if (el.user_object===Number(selectedObj)) {
@@ -66,6 +68,7 @@ export const AddElectroDeviceContent = memo((props: PropsWithChildren<AddElectro
             <select value={devType} onChange={e=>setDevType(e.target.value)}>
                 <option disabled={true} value="-1">Тип прибора</option>
                 <option key={UM_31_TYPE}  value={UM_31_TYPE}>{UM_31_VERBOSE}</option>
+                <option key={UM_31_RTU_TYPE}  value={UM_31_RTU_TYPE}>{UM_31_RTU_VERBOSE}</option>
             </select>
             <select value={selectedObj} onChange={e=>setSelectedObj(e.target.value)}>
                 <option disabled={true} value="-1">Выберите объект</option>

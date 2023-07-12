@@ -18,6 +18,12 @@ import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { AppLink } from "shared/ui/AppLink/AppLink";
 import { Loader } from "shared/ui/Loader/Loader";
 import { heatNodeAllRequest } from "entities/HeatNodes";
+import { Footer } from "shared/ui/Footer/Footer";
+import { fetchPumpStationNode } from "entities/PumpStationNode";
+import { fetchPumpDevice } from "entities/PumpDevice";
+import { fetchElectroDevices } from "entities/ElectroDevice";
+import HeatDeviceService from "entities/Heatcounters/service/HeatDeviceService";
+import { getDevices } from "entities/Heatcounters";
 
 interface ObjectPageProps {
  className?: string;
@@ -31,12 +37,16 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
     const selectedObj = objects.filter((obj)=>obj.id===Number(id))[0];
     const {heatNodes} = useSelector((state:StateSchema)=>state.heatNodes);
     const {data} = useSelector((state:StateSchema)=>state.electroNodes);
-    const objectNode = heatNodes.filter((node)=>node.user_object===Number(id))[0];
+    const {data:pumpData} = useSelector((state:StateSchema)=>state.pumpNodes);
+    const objectNode = heatNodes?.filter((node)=>node.user_object===Number(id))[0];
     const objectElNode = data?.filter((node)=>node.user_object===Number(id))[0];
+    const objectPumpNode = pumpData?.filter((node)=>node?.user_object===Number(id))[0];
     const dispatch = useAppDispatch();
     useEffect(()=>{
         dispatch(objectsAllRequest());
+        dispatch(fetchPumpStationNode());
         dispatch(heatNodeAllRequest());
+        dispatch(fetchPumpStationNode());
 
     },[dispatch]);
     let content;
@@ -51,13 +61,15 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
     if (objectNode && objectElNode){
         content = (
             <DetailView className={cls.detail}>
-                <ObjectDetail obj={selectedObj}>
-                    <MockComponent/>
+                <ObjectDetail className={cls.obj} obj={selectedObj}>
                     <AppLink to={RoutePathAuth.heatnode+objectNode.id}>
-                        <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть УУТЭ</AppButon>
+                        <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть ИТП</AppButon>
                     </AppLink>
                     <AppLink to={RoutePathAuth.electronode+objectElNode.id}>
-                        <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть АСКУЭ</AppButon>
+                        <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть УУЭ</AppButon>
+                    </AppLink>
+                    <AppLink to={RoutePathAuth.pumpnode+objectPumpNode?.id}>
+                        <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть насосный узел</AppButon>
                     </AppLink>
                 </ObjectDetail>
             </DetailView>
@@ -69,6 +81,7 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
             deviceList={<DeviceList/>}
             navbar={<Navbar/>}
             DetailView={content}
+            footer={<Footer/>}
         />
     );
 });

@@ -12,6 +12,8 @@ import { electroDeviceActions, fetchElectroDevices } from "entities/ElectroDevic
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { deviceListActions } from "../reducers/DeviceListReducer";
+import { fetchPumpStationNode } from "entities/PumpStationNode";
+import { fetchPumpDevice } from "entities/PumpDevice";
 interface DeviceListProps {
  className?: string;
  parentID?:number;
@@ -29,6 +31,8 @@ export function DeviceList(props: PropsWithChildren<DeviceListProps>) {
         dispatch(getDevices());
         dispatch(fetchElectroNodes());
         dispatch(fetchElectroDevices());
+        dispatch(fetchPumpStationNode());
+        dispatch(fetchPumpDevice());
     },[dispatch]);
     return (
         <div className={classNames(cls.DeviceList,{},[className])}>

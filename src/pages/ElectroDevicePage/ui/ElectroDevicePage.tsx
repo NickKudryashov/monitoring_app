@@ -17,6 +17,7 @@ import { ElectroDevicePoll } from "features/ElectroDevicePoll";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import $api, { API_URL } from "shared/api";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
+import { Footer } from "shared/ui/Footer/Footer";
 
 interface ElectroDevicePageProps {
  className?: string;
@@ -77,6 +78,7 @@ const ElectroDevicePage = memo((props: PropsWithChildren<ElectroDevicePageProps>
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
+            footer={<Footer/>}
         />
     );
 });

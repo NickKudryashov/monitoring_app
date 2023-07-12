@@ -8,6 +8,7 @@ import { DetailView } from "widgets/DetailView";
 import { Navbar } from "widgets/Navbar";
 import { DeviceList } from "widgets/DeviceList";
 import { Loader } from "shared/ui/Loader/Loader";
+import { Footer } from "shared/ui/Footer/Footer";
 
 interface MainLayoutPageLoaderProps {
  className?: string;
@@ -26,6 +27,7 @@ export const MainLayoutPageLoader = memo((props: PropsWithChildren<MainLayoutPag
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
+            footer={<Footer/>}
         />
     );
 });

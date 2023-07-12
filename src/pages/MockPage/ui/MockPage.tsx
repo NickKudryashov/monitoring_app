@@ -8,6 +8,7 @@ import { Navbar } from "widgets/Navbar";
 import { DeviceList } from "widgets/DeviceList";
 import { DetailView } from "widgets/DetailView";
 import { MockComponent } from "shared/ui/MockComponent/MockComponent";
+import { Footer } from "shared/ui/Footer/Footer";
 
 interface MockPageProps {
  className?: string;
@@ -26,6 +27,7 @@ export const MockPage = memo((props: PropsWithChildren<MockPageProps>) => {
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
+            footer={<Footer/>}
         />
     );
 });

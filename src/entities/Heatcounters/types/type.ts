@@ -14,6 +14,7 @@ export interface HeatParameters {
     system:number;
     device:number;
     tag?:string;
+    comment?:string;
 }
 
 export interface HeatSystem {

@@ -9,6 +9,8 @@ import { HeatNodePage } from "pages/HeatNodePage";
 import { MainPage } from "pages/MainPage";
 import { MockPage } from "pages/MockPage";
 import { ObjectPage } from "pages/ObjectPage";
+import { PumpDevicePage } from "pages/PumpDevicePage";
+import { PumpStationNodePage } from "pages/PumpStationNodePage";
 import { RouteProps } from "react-router-dom";
 import { RoutePathPublic, AppRoutesAuth, AppRoutesPublic,RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { MockComponent } from "shared/ui/MockComponent/MockComponent";
@@ -49,6 +51,12 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.GENERALINFO]:{
         path:RoutePathAuth.general,
         element:<GeneralInfoPage/>},
+    [AppRoutesAuth.PUMPDEVICE]:{
+        path: `${RoutePathAuth.pumpdevice}:id`,
+        element:<PumpDevicePage/>},
+    [AppRoutesAuth.PUMPNODE]:{
+        path: `${RoutePathAuth.pumpnode}:id`,
+        element:<PumpStationNodePage/>},
     [AppRoutesAuth.MOCK]:{
         path:RoutePathAuth.mock,
         element:<MockPage/>},

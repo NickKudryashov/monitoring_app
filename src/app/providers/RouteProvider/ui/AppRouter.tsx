@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { RouteConfigPublic,RouteConfigAuth } from "../config/RouteConfig";
 import { MainLayoutPageLoader } from "pages/MainLayoutPageLoader";
+import { Footer } from "shared/ui/Footer/Footer";
 
 export const AppRouter = () => {
 

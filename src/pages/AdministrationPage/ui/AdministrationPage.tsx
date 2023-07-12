@@ -13,6 +13,7 @@ import { AddCard, DetailInformation, OrganisationCard } from "entities/Organizat
 import { StaffRow, StaffRowAdd } from "entities/Staff";
 import { CategoryRow } from "entities/Category";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { Footer } from "shared/ui/Footer/Footer";
 
 interface AdministrationPageProps {
  className?: string;
@@ -128,6 +129,7 @@ const AdministrationPage = memo((props: PropsWithChildren<AdministrationPageProp
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
+            footer={<Footer/>}
         />
 
     );

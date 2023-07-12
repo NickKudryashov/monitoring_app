@@ -1,5 +1,5 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import cls from "./HeatNodePage.module.scss";
 
 import type { PropsWithChildren } from "react";
@@ -17,6 +17,8 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { ManualBulkHeatPolll, ManualHeatPoll } from "features/ManualHeatPoll";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { HeatArchives } from "features/HeatArchives";
+import { Footer } from "shared/ui/Footer/Footer";
 
 interface HeatNodePageProps {
  className?: string;
@@ -28,6 +30,8 @@ const HeatNodePage = (props: PropsWithChildren<HeatNodePageProps>) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {heatNodes} = useSelector((state:StateSchema)=>state.heatNodes);
+    const [archivesOpen,setArchivesOpen] = useState(false);
+    const [currentDevice,setCurrentDevice] = useState<number>();
     useEffect(()=>{
         dispatch(heatNodeAllRequest());
     },[dispatch]);
@@ -49,17 +53,13 @@ const HeatNodePage = (props: PropsWithChildren<HeatNodePageProps>) => {
         content = (
             <DetailView className={cls.detail}>
                 <HeatNodeDetailView heatNode={selectedNode[0]} pollFeature={<ManualBulkHeatPolll className={cls.nodeBtn} onUpdate={updateCurrentDevice} node_id={Number(id)} />}>
-                    
-    
+                    {currentDevice && <HeatArchives is_open={archivesOpen} onClose={()=>setArchivesOpen(false)} dev_id={currentDevice}/>}
                     {Object.values(entities).map((device)=>
                         device.node===Number(id) &&
                         <div className={cls.nodeCont} key={device.id}>
                             <HeatDeviceDetailView className={cls.toDevice} key={device.id} device={device}>
                                 <ManualHeatPoll className={cls.nodeBtn} onUpdate={updateCurrentDevice} device={device} />
-                                <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Снять архив</AppButon>
-                                <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Сформировать архив</AppButon>
-                                <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Скачать архив</AppButon>
-                                <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Выбрать сохраненный архив</AppButon>
+                                <AppButon onClick={()=>{setCurrentDevice(device.id);setArchivesOpen(true);}} className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Управление архивами</AppButon>
                             </HeatDeviceDetailView>
                         </div>
                     )}
@@ -79,6 +79,7 @@ const HeatNodePage = (props: PropsWithChildren<HeatNodePageProps>) => {
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
+            footer={<Footer/>}
         />
     );
 };

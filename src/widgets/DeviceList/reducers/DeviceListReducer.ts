@@ -5,6 +5,8 @@ import { ElectroNodeData } from "entities/ElectroNodes";
 import type { HeatDevice } from "entities/Heatcounters";
 import { HeatNodeResponse } from "entities/HeatNodes";
 import { ObjectItem, ObjectResponse } from "entities/Objects";
+import { PumpDeviceData } from "entities/PumpDevice/model/types/pumpDevice";
+import { PumpNode } from "entities/PumpStationNode";
 
 
 export type CurrentHeatDevice = HeatDevice |undefined;
@@ -21,10 +23,14 @@ export interface DeviceListState{
     currentHeatNode: CurrentHeatNode;
     currentObject: CurrentObject ;
     currentCategory: CategoryInList;
+    currentPumpDevice:PumpDeviceData;
+    currentPumpNode:PumpNode;
     isElectroNode?:SelectedItem;
     isElectroDevice?:SelectedItem;
     isHeatDevice?:SelectedItem;
     isHeatNode?:SelectedItem;
+    isPumpDevice?:SelectedItem;
+    isPumpNode?:SelectedItem;
 }
 
 const initialState:DeviceListState = {
@@ -34,6 +40,8 @@ const initialState:DeviceListState = {
     currentHeatNode:undefined,
     currentObject:undefined,
     currentCategory:undefined,
+    currentPumpDevice:undefined,
+    currentPumpNode:undefined
 };
 
 export const deviceListSlice = createSlice({
@@ -45,12 +53,16 @@ export const deviceListSlice = createSlice({
             state.currentElectroNode=undefined;
             state.currentHeatDevice=undefined;
             state.currentHeatNode=undefined;
+            state.currentPumpDevice=undefined;
+            state.currentPumpNode=undefined;
             state.currentObject=action.payload;
             state.currentCategory = undefined;
             state.isHeatDevice=false;
             state.isElectroDevice=false;
             state.isElectroNode=false;
             state.isHeatNode=false;
+            state.isPumpDevice=false;
+            state.isPumpNode = false;
         },
         setHeatNode(state,action:PayloadAction<HeatNodeResponse>) {
             state.currentElectroDevice=undefined;
@@ -63,6 +75,11 @@ export const deviceListSlice = createSlice({
             state.isElectroDevice=false;
             state.isElectroNode=false;
             state.isHeatNode=true;
+            state.currentPumpDevice=undefined;
+            state.currentPumpNode=undefined;
+            state.isPumpDevice=false;
+            state.isPumpNode = false;
+
 
         },
         setElectroNode(state,action:PayloadAction<ElectroNodeData>) {
@@ -76,6 +93,11 @@ export const deviceListSlice = createSlice({
             state.isElectroDevice=false;
             state.isElectroNode=true;
             state.isHeatNode=false;
+            state.currentPumpDevice=undefined;
+            state.currentPumpNode=undefined;
+            state.isPumpDevice=false;
+            state.isPumpNode = false;
+
 
         },
         setElectroDevice(state,action:PayloadAction<TopLevelElectroDevice>) {
@@ -89,6 +111,11 @@ export const deviceListSlice = createSlice({
             state.isElectroDevice=true;
             state.isElectroNode=false;
             state.isHeatNode=false;
+            state.currentPumpDevice=undefined;
+            state.currentPumpNode=undefined;
+            state.isPumpDevice=false;
+            state.isPumpNode = false;
+
 
         },
         setHeatDevice(state,action:PayloadAction<HeatDevice>) {
@@ -102,7 +129,42 @@ export const deviceListSlice = createSlice({
             state.isElectroDevice=false;
             state.isElectroNode=false;
             state.isHeatNode=false;
+            state.currentPumpDevice=undefined;
+            state.currentPumpNode=undefined;
+            state.isPumpDevice=false;
+            state.isPumpNode = false;
 
+        },
+        setPumpDevice(state,action:PayloadAction<PumpDeviceData>) {
+            state.currentElectroDevice=undefined;
+            state.currentElectroNode=undefined;
+            state.currentPumpDevice=action.payload;
+            state.currentHeatDevice=undefined;
+            state.currentHeatNode=undefined;
+            state.currentObject=undefined;
+            state.currentCategory = undefined;
+            state.isHeatDevice=true;
+            state.isElectroDevice=false;
+            state.isElectroNode=false;
+            state.isHeatNode=false;
+            state.isPumpDevice=true;
+            state.isPumpNode = false;
+        },
+        setPumpNode(state,action:PayloadAction<PumpNode>) {
+            state.currentElectroDevice=undefined;
+            state.currentElectroNode=undefined;
+            state.currentPumpNode=action.payload;
+            state.currentPumpDevice=undefined;
+            state.currentHeatDevice=undefined;
+            state.currentHeatNode=undefined;
+            state.currentObject=undefined;
+            state.currentCategory = undefined;
+            state.isHeatDevice=true;
+            state.isElectroDevice=false;
+            state.isElectroNode=false;
+            state.isHeatNode=false;
+            state.isPumpDevice=false;
+            state.isPumpNode = true;
         },
         setCategory(state,action:PayloadAction<CategoryItem>) {
             state.currentElectroDevice=undefined;
@@ -115,36 +177,73 @@ export const deviceListSlice = createSlice({
             state.isElectroDevice=false;
             state.isElectroNode=false;
             state.isHeatNode=false;
+            state.currentPumpDevice=undefined;
+            state.currentPumpNode=undefined;
+            state.isPumpDevice=false;
+            state.isPumpNode = false;
+
         },
         setIsHeatDev(state) {
             state.isHeatDevice=true;
             state.isElectroDevice=false;
             state.isElectroNode=false;
             state.isHeatNode=false;
+            state.isPumpNode=false;
+            state.isPumpDevice=false;
         },
         setIsHeatNode(state) {
             state.isHeatDevice=false;
             state.isElectroDevice=false;
             state.isElectroNode=false;
             state.isHeatNode=true;
+            state.isPumpNode=false;
+            state.isPumpDevice=false;
+
+        },
+        setIsPumpDev(state) {
+            state.isHeatDevice=false;
+            state.isElectroDevice=false;
+            state.isElectroNode=false;
+            state.isHeatNode=false;
+            state.isPumpNode=false;
+            state.isPumpDevice=true;
+
+        },
+        setIsPumpNode(state) {
+            state.isHeatDevice=false;
+            state.isElectroDevice=false;
+            state.isElectroNode=false;
+            state.isHeatNode=false;
+            state.isPumpNode=true;
+            state.isPumpDevice=false;
+
         },
         setIsElNode(state) {
             state.isHeatDevice=false;
             state.isElectroDevice=false;
             state.isElectroNode=true;
             state.isHeatNode=false;
+            state.isPumpNode=false;
+            state.isPumpDevice=false;
+
         },
         setIsElDev(state) {
             state.isHeatDevice=false;
             state.isElectroDevice=true;
             state.isElectroNode=false;
             state.isHeatNode=false;
+            state.isPumpNode=false;
+            state.isPumpDevice=false;
+
         },
         setNotSelected(state) {
             state.isHeatDevice=false;
             state.isElectroDevice=false;
             state.isElectroNode=false;
             state.isHeatNode=false;
+            state.isPumpNode=false;
+            state.isPumpDevice=false;
+
         },
     }
 });

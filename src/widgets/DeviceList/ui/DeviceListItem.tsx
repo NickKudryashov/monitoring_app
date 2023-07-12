@@ -22,6 +22,10 @@ import { electroNodesActions } from "entities/ElectroNodes/model/slice/electroNo
 import { ElectroDeviceListItem, electroDeviceActions, fetchElectroDevices } from "entities/ElectroDevice";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
 import { AppLink } from "shared/ui/AppLink/AppLink";
+import { PumpListItem, PumpNode, fetchPumpStationNode, pumpStationNodeActions } from "entities/PumpStationNode";
+import { PumpDevListItem, fetchPumpDevice } from "entities/PumpDevice";
+import { PumpDeviceData } from "entities/PumpDevice/model/types/pumpDevice";
+import { pumpDeviceActions } from "entities/PumpDevice/model/slice/pumpDevice";
 
 interface DeviceListItemProps {
  className?: string;
@@ -71,11 +75,25 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     const heatNodeClickHandler = (node:HeatNodeResponse)=>{
         dispatch(getDevices());
         dispatch(heatDeviceSlice.actions.unselectdevice());
+        dispatch(pumpDeviceActions.closeAll());
+        dispatch(pumpStationNodeActions.closeAll());
         dispatch(electroNodesActions.unselectElectroNode());
         dispatch(heatNodeAllRequest());
         dispatch(deviceListSlice.actions.setHeatNode(node));
         dispatch(heatNodeSlice.actions.selectHeatNode(node));
         dispatch(electroNodesActions.closeNodeForObject(node.user_object));
+        onClick();
+    };
+
+    const pumpNodeClickHandler = (node:PumpNode)=>{
+        dispatch(fetchPumpDevice());
+        dispatch(fetchPumpStationNode());
+        dispatch(deviceListSlice.actions.setPumpNode(node));
+        dispatch(heatDeviceSlice.actions.unselectdevice());
+        dispatch(electroNodesActions.unselectElectroNode());
+        dispatch(electroNodesActions.closeNodeForObject(node.user_object));
+        dispatch(heatNodeSlice.actions.closeNodeForObject(node.user_object));
+        dispatch(pumpStationNodeActions.expandNode(node.id));
         onClick();
     };
 
@@ -87,6 +105,9 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         dispatch(deviceListSlice.actions.setElectroNode(node));
         dispatch(electroNodesActions.selectElectroNode(node));
         dispatch(heatNodeSlice.actions.unselectHeatNode());
+        dispatch(pumpDeviceActions.closeAll());
+        dispatch(pumpStationNodeActions.closeAll());
+
         onClick();
     };
 
@@ -97,6 +118,17 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         dispatch(deviceListSlice.actions.setElectroDevice(device));
         onClick();
     };
+
+    const pumpDeviceClickHandler = (device:PumpDeviceData)=>{
+        dispatch(fetchPumpDevice());
+        dispatch(heatNodeSlice.actions.unselectHeatNode());
+        dispatch(deviceListSlice.actions.setPumpDevice(device));
+        dispatch(electroDeviceActions.unselectdevice());
+        dispatch(heatDeviceSlice.actions.unselectdevice());
+        dispatch(pumpDeviceActions.expandDev(device.id));
+        onClick();
+    };
+
 
     const categoryMenuClickHandler = (element:CategoryItem)=>{
         setOpenModal(true);
@@ -159,6 +191,9 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
                             <ElectroNodeListItem object_id={object.id} onNodeClick={electroNodeClickHandler}>
                                 <ElectroDeviceListItem objectID={object.id} onDeviceClick={electroDeviceClickHandler}  />
                             </ElectroNodeListItem>
+                            <PumpListItem object_id={object.id} onNodeClick={pumpNodeClickHandler}>
+                                <PumpDevListItem objectID={object.id} onDeviceClick={pumpDeviceClickHandler} />
+                            </PumpListItem>
                         </ObjectListItem>)}
                         <DeviceListItem onClick={onClick} parentID={element.id}/>
                     </CategoryListItem>

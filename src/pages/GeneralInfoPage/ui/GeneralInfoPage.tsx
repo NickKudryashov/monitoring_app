@@ -8,6 +8,7 @@ import { Navbar } from "widgets/Navbar";
 import { DeviceList } from "widgets/DeviceList";
 import { DetailView } from "widgets/DetailView";
 import { GeneralInformation } from "features/GeneralInformation";
+import { Footer } from "shared/ui/Footer/Footer";
 
 interface GeneralInfoPageProps {
  className?: string;
@@ -26,6 +27,7 @@ const GeneralInfoPage = memo((props: PropsWithChildren<GeneralInfoPageProps>) =>
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
+            footer={<Footer/>}
         />
     );
 });

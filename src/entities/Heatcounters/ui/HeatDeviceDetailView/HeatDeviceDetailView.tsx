@@ -5,6 +5,10 @@ import { PropsWithChildren, useState } from "react";
 import { HeatDevice } from "entities/Heatcounters/types/type";
 import { timeConvert } from "shared/lib/helpers/datetimeConvert";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
+import HeatDeviceService from "entities/Heatcounters/service/HeatDeviceService";
+import { useDebounce } from "shared/hooks/useDebounce";
+import { useAppDispatch } from "shared/hooks/hooks";
+import { HeatActions } from "entities/Heatcounters/reducers/reducer";
 
 interface DetailViewProps {
  className?: string;
@@ -14,7 +18,7 @@ interface DetailViewProps {
 export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) {
     const { className,device,children } = props;
     const [currentConturs,setCurrentConturs] = useState<string[]>([]);
-
+    const dispatch = useAppDispatch();
     const conturChangeHandler = (conturName:string)=>{
         setCurrentConturs((prev)=>{
             if (prev.includes(conturName)) {
@@ -23,6 +27,12 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
             return [...prev,conturName];
         });
     };
+
+    const renameParameter = async (id:number,comment:string)=> {
+        const response = await HeatDeviceService.renameParameter(id,comment);
+    };
+    const debouncedRename = useDebounce(renameParameter,1500);
+
 
     return (
         <div className={classNames(cls.DetailView,{},[className])}>
@@ -49,7 +59,7 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
                                         <div className={cls.valueWithDimension}>
                                             <div className={cls.parameterVal}>{parameter.value}</div>
                                             <div>{parameter.dimension}</div>
-                                            <AppInput className={cls.parameterComment} placeholder="Примечание..." theme={InputThemes.CLEAR} />
+                                            <AppInput className={cls.parameterComment} onChange={(e)=>{dispatch(HeatActions.renameParameterAction({dev_id:device.id,system_id:element.id,parameter_id:parameter.id,comment:e.target.value}));debouncedRename(parameter.id,e.target.value);}} placeholder={parameter?.comment ? parameter.comment : "Примечание"} value={parameter?.comment} theme={InputThemes.CLEAR} />
 
                                         </div>
 
