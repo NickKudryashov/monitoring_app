@@ -9,4 +9,5 @@ export interface PumpNode {
     user_object:number;
     name:string;
     expanded?:boolean;
+    count:number;
 } 

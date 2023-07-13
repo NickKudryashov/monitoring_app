@@ -7,6 +7,7 @@ interface HeatNodeItem {
     id:number;
     user_object:number;
     expanded:boolean;
+    count?:number;
 }
 
 export interface heatNodeState{

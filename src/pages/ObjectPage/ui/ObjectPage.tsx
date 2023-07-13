@@ -62,15 +62,23 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
         content = (
             <DetailView className={cls.detail}>
                 <ObjectDetail className={cls.obj} obj={selectedObj}>
-                    <AppLink to={RoutePathAuth.heatnode+objectNode.id}>
-                        <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть ИТП</AppButon>
-                    </AppLink>
-                    <AppLink to={RoutePathAuth.electronode+objectElNode.id}>
-                        <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть УУЭ</AppButon>
-                    </AppLink>
-                    <AppLink to={RoutePathAuth.pumpnode+objectPumpNode?.id}>
-                        <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть насосный узел</AppButon>
-                    </AppLink>
+                    {objectNode?.count > 0 &&
+                        <AppLink to={RoutePathAuth.heatnode+objectNode.id}>
+                            <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть ИТП</AppButon>
+                        </AppLink>}
+                    {
+                        objectElNode?.count>0 && 
+                        <AppLink to={RoutePathAuth.electronode+objectElNode.id}>
+                            <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть УУЭ</AppButon>
+                        </AppLink>
+                    }
+                    {
+                        objectPumpNode?.count>0 && 
+                        <AppLink to={RoutePathAuth.pumpnode+objectPumpNode?.id}>
+                            <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть насосный узел</AppButon>
+                        </AppLink>
+                    }
+                    
                 </ObjectDetail>
             </DetailView>
         );

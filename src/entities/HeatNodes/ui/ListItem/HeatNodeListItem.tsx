@@ -27,7 +27,7 @@ export function HeatNodeListItem(props: PropsWithChildren<HeatNodeListItemProps>
     };
     return (
         <div className={classNames(cls.HeatNodeListItem,{},[className])}>
-            {heatNodes.map((node)=>node.user_object===object_id &&
+            {heatNodes.map((node)=>node.user_object===object_id && node?.count >0 && 
             <div key={node.id} className={cls.node}>
                 <div className={classNames("",{[cls.selected]:selectedNode && (node.id===selectedNode.id)},[])}
                     onClick={()=>onClickHandler(node)}

@@ -23,6 +23,7 @@ export interface PumpParameter {
     id:number;
     value:number;
     device:number;
+    tag:string;
     verbose_name:string;
     parameter_group:string;
     parameter_verbose_group:string;

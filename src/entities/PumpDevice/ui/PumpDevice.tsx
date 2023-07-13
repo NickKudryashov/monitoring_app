@@ -38,6 +38,10 @@ const VERBOSE:Record<string,string> = {
     "pump_6_group" : "Параметры насоса №6",
 };
 
+const VIEW_1= "system_general_error";
+const VIEW_2 =  "system_ready_auto_mode";
+const VIEW_3=   "out_pressure";
+
 interface ExpandedDict {
     [Key : string]:boolean;
 }
@@ -84,7 +88,16 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
                     <br/>
                 </div>
                 }
-
+                {
+                    device?.parameters?.length>0 && 
+                    device?.parameters?.map((param)=> (param.tag===VIEW_1 || param.tag===VIEW_2 || param.tag===VIEW_3) && 
+                        <div className={cls.groupBox} key={param.id}>
+                            <p key={param.id}>
+                                {param.verbose_name + "  " + param.value}
+                            </p>
+                        </div>
+                    )
+                }
                 {
                     Object.values(orderedParams) &&
                     GROUP_ORDER.map((el)=>(
@@ -100,12 +113,19 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
                                     <p key={par.id}>
                                         {par.verbose_name + "  " + par.value}
                                     </p>)}
+                                {orderedParams[el]?.map(par=>
+                                    <p key={par.id}>
+                                        {par.verbose_name + "  " + par.value}
+                                    </p>)}
                             </div>}
                             <br/>
                         </div>
                     ))
                 }
+                <p>Параметры с суффиксом * доступны только для приборов SK-712/d,/sd/w</p>
+                <p>Параметры с суффиксом * доступны только для приборов SK-712/w</p>
             </div>
+            
             <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>{dispatch(pollPumpDevice(device.id));}} >Опросить</AppButon>
         </div>
     );
