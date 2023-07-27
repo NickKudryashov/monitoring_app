@@ -1,0 +1,1 @@
+export {ObjectPageLazy as ObjectPage} from "./ui/ObjectPageAsync";

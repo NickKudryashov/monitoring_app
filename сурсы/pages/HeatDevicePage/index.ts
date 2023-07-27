@@ -1,0 +1,1 @@
+export {HeatDevicePageAsync as HeatDevicePage} from "./ui/HeatDevicePage.async";

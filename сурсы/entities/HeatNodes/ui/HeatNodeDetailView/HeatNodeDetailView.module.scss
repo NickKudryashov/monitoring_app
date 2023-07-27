@@ -1,0 +1,33 @@
+.DetailView {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    font-weight: normal;
+    height: 100%;
+    flex:1;
+
+    // padding-left:20px;
+
+}
+
+.active {
+    font-weight: bold;
+}
+
+.textinfo {
+    padding-left: 5.1%;
+    font-size: var(--font-size-l);
+}
+
+
+.countersBlock {
+    margin-left: 3%;
+}
+
+.featureBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 4%;
+    padding:0;
+}

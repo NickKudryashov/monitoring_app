@@ -1,0 +1,44 @@
+.CategoryRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: flex-start;
+    border:none;
+    border-radius: 5px;
+    width:500px;
+
+    // border: 1px solid black;
+    box-shadow: 0 2px rgb(0 0 0 / 20%);
+    background: rgb(235 226 226 / 43.2%);
+    margin:10px;
+}
+
+.btns {
+    display: flex;
+    align-items: center;
+    gap:0;
+}
+
+.name {
+    white-space: nowrap;
+    text-decoration: none;
+    user-select: none;
+}
+
+
+.inner {
+    display: flex;
+    height: max-content;
+    flex-direction: column; 
+    padding-left:20px
+}
+
+.main {
+    display: flex;
+    height:fit-content;
+
+    // flex-direction: column;
+
+    // margin-left: 10px;
+
+}

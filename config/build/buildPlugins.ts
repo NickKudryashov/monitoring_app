@@ -5,7 +5,7 @@ import path from "path";
 import { BuildOptions } from "./types/config";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 
-export function buildPLugins({paths,api,isDev}:BuildOptions):webpack.WebpackPluginInstance[]{
+export function buildPLugins({paths,api,isDev,staticFiles}:BuildOptions):webpack.WebpackPluginInstance[]{
     return [
         new HTMLWebpackPlugin({
             template:paths.html
@@ -17,7 +17,8 @@ export function buildPLugins({paths,api,isDev}:BuildOptions):webpack.WebpackPlug
         }),
         new webpack.DefinePlugin({
             __API__:JSON.stringify(api),
-            __IS_DEV__:JSON.stringify(isDev)
+            __IS_DEV__:JSON.stringify(isDev),
+            __STATIC__:JSON.stringify(staticFiles),
         }),
         new ForkTsCheckerWebpackPlugin({
             typescript: {

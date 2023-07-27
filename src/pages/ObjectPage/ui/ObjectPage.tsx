@@ -24,6 +24,9 @@ import { fetchPumpDevice } from "entities/PumpDevice";
 import { fetchElectroDevices } from "entities/ElectroDevice";
 import HeatDeviceService from "entities/Heatcounters/service/HeatDeviceService";
 import { getDevices } from "entities/Heatcounters";
+import { TelegramChat } from "entities/TelegramChat/model/types/ChatSchema";
+import { Chat, chatActions } from "entities/TelegramChat";
+import { fetchMessages } from "entities/TelegramChat/model/services/telegramChatActions";
 
 interface ObjectPageProps {
  className?: string;
@@ -41,14 +44,23 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
     const objectNode = heatNodes?.filter((node)=>node.user_object===Number(id))[0];
     const objectElNode = data?.filter((node)=>node.user_object===Number(id))[0];
     const objectPumpNode = pumpData?.filter((node)=>node?.user_object===Number(id))[0];
+    const {chats,isLoading} = useSelector((state:StateSchema)=>state.chats);
+    let currentChat:TelegramChat;
+    const chatArray = chats.filter((el)=>el.objects.includes(Number(id)));
+    const chatAvailable = chatArray.length;
+    if (chatAvailable) {
+        currentChat = chats.filter((el)=>el.objects.includes(Number(id)))[0];
+    }
+    console.log(chatArray,chatAvailable,currentChat);
+
     const dispatch = useAppDispatch();
     useEffect(()=>{
         dispatch(objectsAllRequest());
         dispatch(fetchPumpStationNode());
         dispatch(heatNodeAllRequest());
         dispatch(fetchPumpStationNode());
-
-    },[dispatch]);
+        // dispatch(chatActions.setIsLoading(true));
+    },[ dispatch]);
     let content;
     if (!objectNode || !objectElNode){
         content = (
@@ -78,8 +90,10 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
                             <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть насосный узел</AppButon>
                         </AppLink>
                     }
-                    
+                    {currentChat && chatAvailable && <Chat obj_id={Number(id)} />}
+
                 </ObjectDetail>
+
             </DetailView>
         );
     }

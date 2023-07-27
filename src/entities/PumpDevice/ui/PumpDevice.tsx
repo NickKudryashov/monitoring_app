@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import cls from "./PumpDevice.module.scss";
 import classNames from "shared/lib/classNames/classNames";
 import { useAppDispatch } from "shared/hooks/hooks";
@@ -10,6 +10,7 @@ import { pumpDeviceActions } from "../model/slice/pumpDevice";
 import { createParameterGroups } from "../model/helpers/sortParametersByGroup";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { useInfinityScroll } from "shared/hooks/useInfinityScroll";
 
 const GROUP_ORDER = [
     "general_group",
@@ -59,8 +60,12 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
     const device = useSelector((state:StateSchema)=>state.pumpDevices.data).filter(el=>el?.id===id)[0];
     const task_id = useSelector((state:StateSchema)=>state.pumpDevices.task_id);
     const orderedParams = createParameterGroups(device?.parameters ?? []);
-    
-
+    const wr = useRef<HTMLDivElement | null>();
+    const tr = useRef<HTMLDivElement | null>();
+    const callback = ()=>{
+        console.log("callbackkkkk");
+    };
+    useInfinityScroll({callback,wrapperRef:wr,triggerRef:tr});
 
     useEffect(()=>{
         dispatch(fetchPumpDevice());
@@ -78,7 +83,7 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
         },2000);
     }
     return (
-        <div className={classNames(cls.pumpDevice, {}, [className])}>
+        <div ref={wr} className={classNames(cls.pumpDevice, {}, [className])}>
             <div>
                 {device && 
                 <div>
@@ -125,7 +130,7 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
                 <p>Параметры с суффиксом * доступны только для приборов SK-712/d,/sd/w</p>
                 <p>Параметры с суффиксом * доступны только для приборов SK-712/w</p>
             </div>
-            
+            <div ref={tr}/>
             <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>{dispatch(pollPumpDevice(device.id));}} >Опросить</AppButon>
         </div>
     );

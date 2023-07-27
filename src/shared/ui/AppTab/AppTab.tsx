@@ -29,7 +29,7 @@ interface AppTabProps {
 
 const checkUrl = (path:string)=>{
     const urlList = path.split("/");
-    console.log(urlList);
+    // console.log(urlList);
     if (urlList.includes(RoutePathAuth.administration.slice(1,-1)) ||
     urlList.includes(RoutePathAuth.general.slice(1,-1)) ||
     urlList.includes(RoutePathAuth.mock.slice(1,-1)) 
@@ -45,7 +45,7 @@ export const  AppTab = memo((props: PropsWithChildren<AppTabProps>) => {
     const { className,tabs,theme=AppTabThemes.AUTH,children,selected,onSaveSelecting,getSelected,initialIndex=0 } = props;
     const [activeTab,setActiveTab] = useState<number>(getSelected());
     const navigate = useNavigate();
-    console.log("Таб номер:",activeTab);
+    // console.log("Таб номер:",activeTab);
     const mods = {
         [cls.active]:false
     };
@@ -54,7 +54,7 @@ export const  AppTab = memo((props: PropsWithChildren<AppTabProps>) => {
     if (!tabFlag) {
         onSaveSelecting(-1);
     }
-    console.log(tabFlag);
+    // console.log(tabFlag);
     useEffect(()=>{
         setActiveTab(getSelected());
         // return ()=>{

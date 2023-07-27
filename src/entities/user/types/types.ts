@@ -6,6 +6,7 @@ export interface DefaultAuthResponse {
 export interface DefaultAuthRequestData {
     email:string;
     password:string;
+    is_chat_enabled?:boolean;
 }
 
 export interface DefaultAuthCheckResponse {

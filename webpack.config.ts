@@ -19,12 +19,14 @@ export default (env:BuildEnv)=>{
     const isDev = mode==="development";
     const PORT = env.port || 3000;
     const API = env.api || "http://avs.eco:8000/api/v1/";
+    const STATIC = isDev ? "http://localhost:8000" : "http://avs.eco:8000";
     const config:webpack.Configuration = buildWebpackConfig({
         mode,
         paths:paths,
         isDev,
         port:PORT,
-        api:API
+        api:API,
+        staticFiles:STATIC
     });
     return config;
 };
