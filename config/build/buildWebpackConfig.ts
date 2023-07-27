@@ -11,6 +11,11 @@ export function buildWebpackConfig(options:BuildOptions):webpack.Configuration {
     return {
         mode,
         entry:paths.entry,
+        performance:{
+            hints: false,
+            maxEntrypointSize: 512000,
+            maxAssetSize: 512000
+        },
         output: {
             filename:"[name].[contenthash].js",
             path: paths.build,

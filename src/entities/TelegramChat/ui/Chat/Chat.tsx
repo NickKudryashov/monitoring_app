@@ -15,7 +15,7 @@ import { Modal } from "shared/ui/Modal/Modal";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { AppInput } from "shared/ui/AppInput/AppInput";
-
+const STATIC = __IS_DEV__ ? "http://localhost:8000" : "http://avs.eco:8000";
 interface ChatProps {
  className?: string;
  obj_id:number;
@@ -93,8 +93,8 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                         messagesById[currentChat?.id] && messagesById[currentChat?.id].map((el)=>
                             <div key={el.message_id}>
                                 <div className={cls.msg}  key={el.message_id}>
-                                    {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(__STATIC__+el.photo.filepath)}   src={__STATIC__+el.photo.filepath}  />}
-                                    {el.video && showMedia && <video className={cls.media}  controls src={__STATIC__+el.video.filepath}  />}
+                                    {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(STATIC+el.photo.filepath)}   src={STATIC+el.photo.filepath}  />}
+                                    {el.video && showMedia && <video className={cls.media}  controls src={STATIC+el.video.filepath}  />}
                                 </div>
                             </div>
                         )
@@ -112,8 +112,8 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                         <div key={el.message_id}>
                             { checkMessageToRender(el,currentDate) && 
                             <div className={cls.msg}  key={el.message_id}>
-                                {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(__STATIC__+el.photo.filepath)}  src={__STATIC__+el.photo.filepath}  />}
-                                {el.video && showMedia && <video className={cls.media}  controls src={__STATIC__+el.video.filepath}  />}
+                                {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(STATIC+el.photo.filepath)}  src={STATIC+el.photo.filepath}  />}
+                                {el.video && showMedia && <video className={cls.media}  controls src={STATIC+el.video.filepath}  />}
                                 {el.text && <b>{el.text}</b>}
                             </div>
                             }

@@ -15,18 +15,18 @@ export default (env:BuildEnv)=>{
         src:path.resolve(__dirname,"src")
     };
   
-    const mode= env.mode || "development";
-    const isDev = mode==="development";
+    const mode= env.mode || "production";
+    const isDev = env.dev;
     const PORT = env.port || 3000;
     const API = env.api || "http://avs.eco:8000/api/v1/";
-    const STATIC = isDev ? "http://localhost:8000" : "http://avs.eco:8000";
+    // const STATIC = isDev ? "http://localhost:8000" : "http://avs.eco:8000";
     const config:webpack.Configuration = buildWebpackConfig({
         mode,
         paths:paths,
         isDev,
         port:PORT,
         api:API,
-        staticFiles:STATIC
+        // staticFiles:STATIC
     });
     return config;
 };
