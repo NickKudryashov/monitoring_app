@@ -16,7 +16,7 @@ export default (env:BuildEnv)=>{
     };
   
     const mode= env.mode || "production";
-    const isDev = env.dev;
+    const isDev = env.mode !== "production";
     const PORT = env.port || 3000;
     const API = env.api || "http://avs.eco:8000/api/v1/";
     // const STATIC = isDev ? "http://localhost:8000" : "http://avs.eco:8000";

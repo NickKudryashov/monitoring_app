@@ -20,5 +20,5 @@ export interface BuildEnv {
     mode:BuildMode;
     port:number;
     api:string;
-    dev:boolean;
+    staticDir:string;
 }

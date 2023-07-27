@@ -24,6 +24,7 @@ interface ChatProps {
 export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const { className,obj_id } = props;
     const dispatch = useAppDispatch();
+    console.log("DEV MODE: ",__IS_DEV__);
     const {chats,isLoading} = useSelector((state:StateSchema)=>state.chats);
     const messagesById = useSelector((state:StateSchema)=>state.chats.messagesByChat);
     const [startOffset,setStartOffset] = useState(0);
