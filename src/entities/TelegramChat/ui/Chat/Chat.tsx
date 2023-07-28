@@ -51,7 +51,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
 
                 console.log("перерисовка и оффсет 0");
             }
-        }},[]);
+        }},[currentChat?.id, dispatch, obj_id]);
     const photoClickHandler = (path:string)=>{
         setImagePath(path);
         setPhotoModal(true);
