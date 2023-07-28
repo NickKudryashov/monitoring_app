@@ -28,7 +28,6 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const {chats,isLoading} = useSelector((state:StateSchema)=>state.chats);
     const messagesById = useSelector((state:StateSchema)=>state.chats.messagesByChat);
     const [startOffset,setStartOffset] = useState(0);
-    let currentChat:TelegramChat;
     const chatArray = chats.filter((el)=>el.objects.includes(obj_id));
     const chatAvailable = chatArray.length;
     const wrapRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -38,18 +37,21 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const [allMediaModal,setAllMediaModal] = useState(false); 
     const [imagePath,setImagePath] = useState("");
     const [currentDate,setCurrentDate] = useState("");
-    if (chatAvailable) {
-        currentChat = chats.filter((el)=>el.objects.includes(obj_id))[0];
-    }
+    const [currentChat,setCurrentChat] = useState<TelegramChat | null>();
+    
+
     useEffect(()=>{
         dispatch(chatActions.setIsLoading(true));
-        if (currentChat?.id) {
-            dispatch(fetchMessages({chat_id:currentChat.id,offset:startOffset}));
-            setStartOffset(prev=>prev+15);
+        if (chatAvailable) {
+            const temp = chats.filter((el)=>el.objects.includes(obj_id))[0];
+            setCurrentChat(temp);
+            if (currentChat?.id) {
+                dispatch(fetchMessages({chat_id:currentChat.id,offset:startOffset}));
+                setStartOffset(prev=>prev+15);
 
-            console.log("перерисовка и оффсет 0");
-        }
-    },[]);
+                console.log("перерисовка и оффсет 0");
+            }
+        }},[]);
     const photoClickHandler = (path:string)=>{
         setImagePath(path);
         setPhotoModal(true);

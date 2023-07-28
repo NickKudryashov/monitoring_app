@@ -74,24 +74,27 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
         content = (
             <DetailView className={cls.detail}>
                 <ObjectDetail className={cls.obj} obj={selectedObj}>
-                    {objectNode?.count > 0 &&
-                        <AppLink to={RoutePathAuth.heatnode+objectNode.id}>
-                            <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть ИТП</AppButon>
-                        </AppLink>}
-                    {
-                        objectElNode?.count>0 && 
-                        <AppLink to={RoutePathAuth.electronode+objectElNode.id}>
-                            <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть УУЭ</AppButon>
-                        </AppLink>
-                    }
-                    {
-                        objectPumpNode?.count>0 && 
-                        <AppLink to={RoutePathAuth.pumpnode+objectPumpNode?.id}>
-                            <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.SHADOW}>Открыть насосный узел</AppButon>
-                        </AppLink>
-                    }
-                    {currentChat && chatAvailable && <Chat obj_id={Number(id)} />}
-
+                    <div className={cls.chatWithBtns}>
+                        <div className={cls.objBtns}>
+                            {objectNode?.count > 0 &&
+                            <AppLink to={RoutePathAuth.heatnode+objectNode.id}>
+                                <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.OUTLINE}>ИТП</AppButon>
+                            </AppLink>}
+                            {
+                                objectPumpNode?.count>0 && 
+                                <AppLink to={RoutePathAuth.pumpnode+objectPumpNode?.id}>
+                                    <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.OUTLINE}>ПНС ХВС</AppButon>
+                                </AppLink>
+                            }
+                            {
+                                objectElNode?.count>0 && 
+                                <AppLink to={RoutePathAuth.electronode+objectElNode.id}>
+                                    <AppButon className={cls.nodeRedirectBtn} theme={AppButtonTheme.OUTLINE}>АСКУЭ</AppButon>
+                                </AppLink>
+                            }
+                        </div>
+                        {currentChat && chatAvailable && <Chat obj_id={Number(id)} />}
+                    </div>
                 </ObjectDetail>
 
             </DetailView>
