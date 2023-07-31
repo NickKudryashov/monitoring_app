@@ -15,7 +15,8 @@
 
 
 .nodeRedirectBtn {
-    width:var(--device-buttons);
+    // width:var(--device-buttons);
+    width:100%;
     margin-top: 15px;
     height:46.03px;
 }
@@ -23,6 +24,9 @@
 .objBtns {
     display: flex;
     flex-direction: column;
+    width:38%;
+    margin-right: 2%;
+    padding-top: 6px;
 }
 
 .chatWithBtns {

@@ -21,6 +21,17 @@ interface ChatProps {
  obj_id:number;
 }
 
+const returnDay = (date:string)=> {
+    const dateString = date.split("T")[0];
+    const day = dateString.split("-")[2];
+    return day;
+};
+const returnDate = (date:string):string=> {
+    const dateString = date.split("T")[0].split("-");
+    const day = dateString[2]+"."+dateString[1]+"."+dateString[0];
+    return day;
+};
+
 export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const { className,obj_id } = props;
     const dispatch = useAppDispatch();
@@ -93,7 +104,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
             <Modal isOpen={allMediaModal} onClose={()=>setAllMediaModal(false)}>
                 <div className={cls.allMedia}>
                     { 
-                        messagesById[currentChat?.id] && messagesById[currentChat?.id].map((el)=>
+                        messagesById[currentChat?.id] && messagesById[currentChat?.id].map((el,i)=>
                             <div key={el.message_id}>
                                 <div className={cls.msg}  key={el.message_id}>
                                     {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(STATIC+el.photo.filepath)}   src={STATIC+el.photo.filepath}  />}
@@ -111,13 +122,24 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                 
                 {/* {`Доступен чат: ${currentChat.title}`} */}
                 { 
-                    messagesById[currentChat?.id] && messagesById[currentChat?.id].map((el)=>
+                    messagesById[currentChat?.id] && messagesById[currentChat?.id].map((el,i)=>
                         <div key={el.message_id}>
                             { checkMessageToRender(el,currentDate) && 
-                            <div className={cls.msg}  key={el.message_id}>
-                                {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(STATIC+el.photo.filepath)}  src={STATIC+el.photo.filepath}  />}
-                                {el.video && showMedia && <video className={cls.media}  controls src={STATIC+el.video.filepath}  />}
-                                {el.text && <b>{el.text}</b>}
+                            <div>
+                                {i===0 &&
+                                    <p className={cls.dateMarker}>{returnDate(el?.message_datetime)}</p>
+                                }
+                                {i!==0 && messagesById[currentChat?.id][i-1] && 
+                                returnDay(messagesById[currentChat?.id][i].message_datetime)!==returnDay(messagesById[currentChat?.id][i-1].message_datetime) && 
+                                <p className={cls.dateMarker}>{returnDate(el?.message_datetime)}</p>
+                                }
+                                <div className={cls.msg}  key={el.message_id}>
+                                    
+
+                                    {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(STATIC+el.photo.filepath)}  src={STATIC+el.photo.filepath}  />}
+                                    {el.video && showMedia && <video className={cls.media}  controls src={STATIC+el.video.filepath}  />}
+                                    {el.text && <b>{el.text}</b>}
+                                </div>
                             </div>
                             }
                         </div>

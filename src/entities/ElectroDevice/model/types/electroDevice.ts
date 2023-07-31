@@ -45,7 +45,6 @@ export interface ElectroCounter extends BaseElectroDevice {
     
 }
 
-
 export interface TopLevelDeviceStatistic {
     // "mercury_200":{"count":210,"success":210,"failed":0,"verbose":"Меркурий 200"
     count:number;

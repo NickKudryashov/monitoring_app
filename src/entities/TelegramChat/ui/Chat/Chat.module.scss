@@ -1,6 +1,6 @@
 .Chat {
     width:60%;
-    height:60%;
+    height:90%;
     display: flex;
     margin-top: 20px;
     flex-direction: row;
@@ -72,3 +72,14 @@
     max-height: 85vh;
     overflow-y: auto;
 }
+
+
+.dateMarker {
+    background: rgb(255 255 255 / 80.4%);
+    font-weight: bold;
+    text-align: center;
+    width:max-content;
+    margin-left: 40%;
+    padding:3px;
+    border-radius: 10px;
+} 
