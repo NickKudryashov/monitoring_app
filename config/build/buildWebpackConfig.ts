@@ -11,17 +11,23 @@ export function buildWebpackConfig(options:BuildOptions):webpack.Configuration {
     return {
         mode,
         entry:paths.entry,
+        performance:{
+            hints: false,
+            maxEntrypointSize: 512000,
+            maxAssetSize: 512000
+        },
         output: {
             filename:"[name].[contenthash].js",
             path: paths.build,
-            clean:true
+            clean:true,
+            publicPath: "/",
         },
         module: {
             rules: buildLoaders(options) ,
         },
         resolve: buildResolvers(options),
         plugins: buildPLugins(options),
-        devtool:isDev ? "inline-source-map" : undefined,
-        devServer:isDev ? buildDevServer(options) : undefined
+        devtool: "inline-source-map" ,
+        devServer:buildDevServer(options)
     };
 }

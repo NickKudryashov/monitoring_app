@@ -5,7 +5,11 @@ import { HeatDeviceSchema } from "entities/Heatcounters";
 import { HeatNodeResponse } from "entities/HeatNodes";
 import { heatNodeState } from "entities/HeatNodes/reducers/reducers";
 import { objectState } from "entities/Objects";
+import { PumpDeviceSchema } from "entities/PumpDevice";
+import { PumpStationNodeSchema } from "entities/PumpStationNode";
+import { TelegramChatSchema } from "entities/TelegramChat";
 import { UserState } from "entities/user";
+import { HeatArchivesSchema } from "features/HeatArchives";
 import { DeviceListState } from "widgets/DeviceList";
 
 export interface StateSchema {
@@ -17,6 +21,10 @@ export interface StateSchema {
     deviceList:DeviceListState;
     electroNodes:ElectroNodesSchema;
     electroDevices:ElectroDeviceSchema;
+    archives:HeatArchivesSchema;
+    pumpDevices:PumpDeviceSchema;
+    pumpNodes:PumpStationNodeSchema;
+    chats:TelegramChatSchema;
 }
 
 export interface ThunkConfig<T> {

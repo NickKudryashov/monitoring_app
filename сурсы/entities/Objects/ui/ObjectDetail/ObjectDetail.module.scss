@@ -1,0 +1,12 @@
+.ObjectDetail{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height:100%;
+    overflow:auto;
+    padding-left: 11.5%;
+}
+
+.title {
+    font: var(--font-l);
+}

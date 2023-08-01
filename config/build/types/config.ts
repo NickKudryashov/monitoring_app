@@ -13,10 +13,12 @@ export interface BuildOptions {
     isDev:boolean;
     port:number;
     api:string;
+    // staticFiles:string;
 }
 
 export interface BuildEnv {
     mode:BuildMode;
     port:number;
     api:string;
+    staticDir:string;
 }

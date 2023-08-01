@@ -1,0 +1,19 @@
+.Navbar {
+    // background: var(--navbar-background-color);
+    background: var(--primary-color);
+    font: var(--font-m);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding:10px;
+    height:var(--navbar-height);
+}
+
+.blocks {
+    margin-right:20px;
+    margin-left:20px;
+}
+
+.blocks_group {
+    display: flex;
+}

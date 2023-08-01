@@ -21,7 +21,6 @@ interface BaseElectroDevice {
     device_type:string;
     device_type_verbose_name:string;
     last_update:string;
-
 }
 
 export interface ElectroCounterParameters {
@@ -46,12 +45,21 @@ export interface ElectroCounter extends BaseElectroDevice {
     
 }
 
+export interface TopLevelDeviceStatistic {
+    // "mercury_200":{"count":210,"success":210,"failed":0,"verbose":"Меркурий 200"
+    count:number;
+    success:number;
+    failed:number;
+    verbose:string;
+}
+
 export interface TopLevelElectroDevice extends BaseElectroDevice {
     node:number;
     device_num:number;
     password:string;
-    is_busy?:boolean
-
+    is_busy?:boolean;
+    last_poll_seconds?:number;
+    statistic?:Dictionary<TopLevelDeviceStatistic>
 }
 
 export interface DeviceRecord {
@@ -67,4 +75,8 @@ isLoading?: boolean;
 selectedDevice?:TopLevelElectroDevice;
 data?: ElectroData;
 error?:string;
+}
+
+interface Dictionary<T> {
+    [Key: string]: T;
 }

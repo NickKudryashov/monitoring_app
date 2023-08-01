@@ -1,0 +1,1 @@
+export {ElectroDevicePage as ElectroDevicePage} from "./ui/ElectroDevicePage.async";

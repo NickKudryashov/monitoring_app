@@ -17,7 +17,7 @@ export function buildPLugins({paths,api,isDev}:BuildOptions):webpack.WebpackPlug
         }),
         new webpack.DefinePlugin({
             __API__:JSON.stringify(api),
-            __IS_DEV__:JSON.stringify(isDev)
+            __IS_DEV__:JSON.stringify(isDev),
         }),
         new ForkTsCheckerWebpackPlugin({
             typescript: {

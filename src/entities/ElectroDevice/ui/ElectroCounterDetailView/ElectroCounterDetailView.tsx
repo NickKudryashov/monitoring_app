@@ -31,7 +31,7 @@ export const ElectroCounterDetailView = memo((props: PropsWithChildren<ElectroCo
         setDevName(name);
     };
     const mods = {
-        [cls.deltaError]:counter.delta_error
+        [cls.deltaError]:(counter.delta_error) && (counter?.parameters?.filter((el)=>el.tag==="A+0" && el.value).length>0)
     };
     return (
         <div>
