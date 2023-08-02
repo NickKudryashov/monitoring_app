@@ -1,5 +1,5 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useReducer, useRef, useState } from "react";
 import cls from "./Chat.module.scss";
 
 import type { MutableRefObject, PropsWithChildren } from "react";
@@ -15,10 +15,12 @@ import { Modal } from "shared/ui/Modal/Modal";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { AppInput } from "shared/ui/AppInput/AppInput";
+import { forceReRender } from "@storybook/react";
 const STATIC = __IS_DEV__ ? "http://localhost:8000" : "http://avs.eco:8000";
 interface ChatProps {
  className?: string;
  obj_id:number;
+ currentChat:TelegramChat
 }
 
 const returnDay = (date:string)=> {
@@ -33,9 +35,9 @@ const returnDate = (date:string):string=> {
 };
 
 export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
-    const { className,obj_id } = props;
+    const { className,obj_id,currentChat } = props;
     const dispatch = useAppDispatch();
-    console.log("DEV MODE: ",__IS_DEV__);
+    const [_, forceUpdate] = useReducer((x) => x + 1, 0);
     const {chats,isLoading} = useSelector((state:StateSchema)=>state.chats);
     const messagesById = useSelector((state:StateSchema)=>state.chats.messagesByChat);
     const [startOffset,setStartOffset] = useState(0);
@@ -48,27 +50,50 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const [allMediaModal,setAllMediaModal] = useState(false); 
     const [imagePath,setImagePath] = useState("");
     const [currentDate,setCurrentDate] = useState("");
-    const [currentChat,setCurrentChat] = useState<TelegramChat | null>();
-    
+    // const [currentChat,setCurrentChat] = useState<TelegramChat | null>();
+    console.log("Айди обхекта: ",obj_id);
+    console.log("Текущий чат: ",currentChat);
+
+    useEffect(()=>{
+        // setStartOffset(0);
+        forceUpdate();
+    },[currentChat]);
 
     useEffect(()=>{
         dispatch(chatActions.setIsLoading(true));
-        if (chatAvailable) {
-            const temp = chats.filter((el)=>el.objects.includes(obj_id))[0];
-            setCurrentChat(temp);
-            if (currentChat?.id) {
-                dispatch(fetchMessages({chat_id:currentChat.id,offset:startOffset}));
-                setStartOffset(prev=>prev+15);
 
-                console.log("перерисовка и оффсет 0");
+        if (chatAvailable && currentChat) {
+            const temp = chats.filter((el)=>el.objects.includes(obj_id))[0];
+            if (currentChat.id && !messagesById[currentChat.id]?.length) {
+                // console.log("запрашиваем сообщения на чат ",currentChat.id);
+                dispatch(fetchMessages({chat_id:currentChat.id,offset:0}));
+                setStartOffset(prev=>prev+15);
+                // console.log("перерисовка и оффсет 0");
             }
-        }},[currentChat?.id, dispatch, obj_id]);
+            else {
+                dispatch(chatActions.setIsLoading(false));
+            }
+        }},[chatAvailable, chats, currentChat, currentChat.id, dispatch, messagesById, obj_id]);
     const photoClickHandler = (path:string)=>{
         setImagePath(path);
         setPhotoModal(true);
     };
+
+    const checker = (id:number)=>{
+        // console.log( messagesById[currentChat.id]);
+        // console.log("Айди чата в рендере: ",currentChat.id);
+        return true;
+    };
+
     const scrollCallback = useCallback(() => {
-        if (!isLoading && currentChat?.id && !currentDate && chatAvailable) {
+        const temp = {
+            isLoading,
+            chat_id: currentChat?.id,
+            currentDate,
+            chatAvailable
+        };
+        console.log(temp);
+        if (!isLoading && currentChat.id && !currentDate && chatAvailable) {
             dispatch(chatActions.setIsLoading(true));
             dispatch(fetchMessages({chat_id:currentChat.id,offset:startOffset}));
             setStartOffset(prev=>prev+15);
@@ -76,7 +101,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
             wrapRef.current.scrollTop-=50;
             console.log("CALLBACK SCROLL");
         }
-    },[chatAvailable, currentChat?.id, currentDate, dispatch, isLoading, startOffset]);
+    },[chatAvailable, currentChat.id, currentDate, dispatch, isLoading, startOffset]);
     const debouncedScrollCallback = useDebounce(scrollCallback,1000);
     useInfinityScroll({callback:debouncedScrollCallback,triggerRef:triggerRef,wrapperRef:wrapRef});
 
@@ -97,6 +122,32 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
             return false;
         }
     };
+    const content = (
+        
+        messagesById[currentChat.id] && messagesById[currentChat.id].map((el,i)=>
+            <div key={el.message_id}>
+                { checkMessageToRender(el,currentDate) &&  checker(0) &&
+                    <div>
+                        {i===0 &&
+                            <p className={cls.dateMarker}>{returnDate(el?.message_datetime)}</p>
+                        }
+                        {i!==0 && messagesById[currentChat.id][i-1] && 
+                        returnDay(messagesById[currentChat.id][i].message_datetime)!==returnDay(messagesById[currentChat.id][i-1].message_datetime) && 
+                        <p className={cls.dateMarker}>{returnDate(el?.message_datetime)}</p>
+                        }
+                        <div className={cls.msg}  key={el.message_id}>
+                            
+
+                            {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(STATIC+el.photo.filepath)}  src={STATIC+el.photo.filepath}  />}
+                            {el.video && showMedia && <video className={cls.media}  controls src={STATIC+el.video.filepath}  />}
+                            {el.text && <b>{el.text}</b>}
+                        </div>
+                    </div>
+                }
+            </div>
+        )
+    
+    );
     return (
         <div ref={wrapRef} className={classNames(cls.Chat,{},[className])}>
             
@@ -104,7 +155,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
             <Modal isOpen={allMediaModal} onClose={()=>setAllMediaModal(false)}>
                 <div className={cls.allMedia}>
                     { 
-                        messagesById[currentChat?.id] && messagesById[currentChat?.id].map((el,i)=>
+                        messagesById[currentChat.id] && checker(0) && messagesById[currentChat.id].map((el,i)=>
                             <div key={el.message_id}>
                                 <div className={cls.msg}  key={el.message_id}>
                                     {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(STATIC+el.photo.filepath)}   src={STATIC+el.photo.filepath}  />}
@@ -121,30 +172,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
             <div className={cls.chatBox}>
                 
                 {/* {`Доступен чат: ${currentChat.title}`} */}
-                { 
-                    messagesById[currentChat?.id] && messagesById[currentChat?.id].map((el,i)=>
-                        <div key={el.message_id}>
-                            { checkMessageToRender(el,currentDate) && 
-                            <div>
-                                {i===0 &&
-                                    <p className={cls.dateMarker}>{returnDate(el?.message_datetime)}</p>
-                                }
-                                {i!==0 && messagesById[currentChat?.id][i-1] && 
-                                returnDay(messagesById[currentChat?.id][i].message_datetime)!==returnDay(messagesById[currentChat?.id][i-1].message_datetime) && 
-                                <p className={cls.dateMarker}>{returnDate(el?.message_datetime)}</p>
-                                }
-                                <div className={cls.msg}  key={el.message_id}>
-                                    
-
-                                    {el.photo && showMedia && <img className={cls.media} onClick={()=>photoClickHandler(STATIC+el.photo.filepath)}  src={STATIC+el.photo.filepath}  />}
-                                    {el.video && showMedia && <video className={cls.media}  controls src={STATIC+el.video.filepath}  />}
-                                    {el.text && <b>{el.text}</b>}
-                                </div>
-                            </div>
-                            }
-                        </div>
-                    )
-                }
+                {content}
                 {isLoading && <Loader/>}
                 <div ref={triggerRef} />
 

@@ -1,5 +1,5 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useRef } from "react";
 import cls from "./ObjectPage.module.scss";
 
 import type { PropsWithChildren } from "react";
@@ -46,12 +46,9 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
     const objectPumpNode = pumpData?.filter((node)=>node?.user_object===Number(id))[0];
     const {chats,isLoading} = useSelector((state:StateSchema)=>state.chats);
     let currentChat:TelegramChat;
-    const chatArray = chats.filter((el)=>el.objects.includes(Number(id)));
-    const chatAvailable = chatArray.length;
-    if (chatAvailable) {
-        currentChat = chats.filter((el)=>el.objects.includes(Number(id)))[0];
-    }
-    console.log(chatArray,chatAvailable,currentChat);
+    const chatRef = useRef<TelegramChat | null>();
+    
+    // console.log(chatArray,chatAvailable,currentChat);
 
     const dispatch = useAppDispatch();
     useEffect(()=>{
@@ -59,8 +56,14 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
         dispatch(fetchPumpStationNode());
         dispatch(heatNodeAllRequest());
         dispatch(fetchPumpStationNode());
+        const chatArray = chats.filter((el)=>el.objects.includes(Number(id)));
+        const chatAvailable = chatArray.length;
+        if (chatAvailable) {
+            chatRef.current = chats.filter((el)=>el.objects.includes(Number(id)))[0];
+            console.log("чат сменился на ",chatRef.current.id);
+        }
         // dispatch(chatActions.setIsLoading(true));
-    },[ dispatch]);
+    },[chats, dispatch, id]);
     let content;
     if (!objectNode || !objectElNode){
         content = (
@@ -93,7 +96,7 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
                                 </AppLink>
                             }
                         </div>
-                        {currentChat && chatAvailable && <Chat obj_id={Number(id)} />}
+                        {chatRef.current && <Chat currentChat={chatRef.current} obj_id={Number(id)} />}
                     </div>
                 </ObjectDetail>
 

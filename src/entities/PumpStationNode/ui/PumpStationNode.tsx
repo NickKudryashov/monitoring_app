@@ -12,7 +12,7 @@ export const PumpStationNode = memo((props:PumpStationNodeProps) => {
 
     return (
         <div className={classNames(cls.PumpNodeDetail,{},[className])}>
-            <b className={cls.title}>Узел насосной станции</b>
+            <b className={cls.title}>ПНС</b>
             <br/>
             <br/>
             <div className={cls.content}>

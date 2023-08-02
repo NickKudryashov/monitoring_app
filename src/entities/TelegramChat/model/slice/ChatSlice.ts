@@ -30,7 +30,7 @@ export const telegramChatSlice = createSlice({
             .addCase(fetchMessages.fulfilled, (state, action) => {
                 state.isLoading = false;
                 const {chat_id,messages} = action.payload;
-                console.log(messages);
+                // console.log(messages);
                 if (state.messagesByChat[chat_id]?.length){
                     state.messagesByChat[chat_id]=state.messagesByChat[chat_id].concat(messages);
                 }
