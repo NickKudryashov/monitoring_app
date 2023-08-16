@@ -96,7 +96,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
                 </div>
                 {featuresBlock}
             </div>
-            {/* <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(device.id)}>Отчет</AppButon> */}
+            <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(device.id)}>Отчет</AppButon>
             <div className={cls.interface_panel}>
                 <p>{"Доступные интерфейсы:"}</p>
                 {
