@@ -31,13 +31,13 @@ export interface HeatSystem {
 export interface HeatDevice {
     id:number;
     user_object:number;
-    node:number;
     name:string;
     device_num:number;
     device_type:string;
     systems:HeatSystem[];
     last_update:string | null;
     device_type_verbose_name:string;
+    subcategory:number;
 }
 interface HeatCounterState {
     devices:HeatDevice[];

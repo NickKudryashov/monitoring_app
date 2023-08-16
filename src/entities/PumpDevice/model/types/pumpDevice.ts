@@ -13,10 +13,10 @@ export interface PumpDeviceData {
     device_type:string;
     device_type_verbose_name:string;
     slave_adress:number;
-    node:number;
     id:number;
     last_update:string;
     parameters: PumpParameter[]
+    subcategory:number;
 }
 
 export interface PumpParameter {

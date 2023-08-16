@@ -35,7 +35,7 @@ const returnDate = (date:string):string=> {
 export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const { className,obj_id } = props;
     const dispatch = useAppDispatch();
-    console.log("DEV MODE: ",__IS_DEV__);
+    // console.log("DEV MODE: ",__IS_DEV__);
     const {chats,isLoading} = useSelector((state:StateSchema)=>state.chats);
     const messagesById = useSelector((state:StateSchema)=>state.chats.messagesByChat);
     const [startOffset,setStartOffset] = useState(0);
@@ -60,7 +60,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                 dispatch(fetchMessages({chat_id:currentChat.id,offset:startOffset}));
                 setStartOffset(prev=>prev+15);
 
-                console.log("перерисовка и оффсет 0");
+                // console.log("перерисовка и оффсет 0");
             }
         }},[currentChat?.id, dispatch, obj_id]);
     const photoClickHandler = (path:string)=>{
@@ -74,7 +74,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
             setStartOffset(prev=>prev+15);
 
             wrapRef.current.scrollTop-=50;
-            console.log("CALLBACK SCROLL");
+            // console.log("CALLBACK SCROLL");
         }
     },[chatAvailable, currentChat?.id, currentDate, dispatch, isLoading, startOffset]);
     const debouncedScrollCallback = useDebounce(scrollCallback,1000);

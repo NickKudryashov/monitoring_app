@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import HeatDeviceService from "../service/HeatDeviceService";
+import { HeatDevice } from "../types/type";
 
-export const getDevices = createAsyncThunk("getHeatDevs",async (_,thunkAPI)=>{
+export const getDevices = createAsyncThunk<HeatDevice[],void>("getHeatDevs",async (_,thunkAPI)=>{
     const response = await HeatDeviceService.getAllHeatDevices();
     return response.data;
 });
@@ -11,7 +12,7 @@ export const refreshDevices = createAsyncThunk("refreshHeatDevs",async (_,thunkA
     return response.data;
 });
 
-export const getDevice = createAsyncThunk("getHeatDev",async (id:number,thunkAPI)=>{
+export const getDevice = createAsyncThunk<HeatDevice,number>("getHeatDev",async (id:number,thunkAPI)=>{
     const response = await HeatDeviceService.getHeatDevice(id);
     return response.data;
 });

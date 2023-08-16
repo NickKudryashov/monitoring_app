@@ -9,6 +9,7 @@ import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { AppButon } from "shared/ui/AppButton/AppButton";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { ObjectResponse, objectsAllRequest } from "entities/Objects";
+import { ObjectSubCategoryType, fetchByObjId } from "entities/ObjectSubCategory";
 
 interface EditObjectProps {
  className?: string;
@@ -34,6 +35,8 @@ export function EditObject(props: PropsWithChildren<EditObjectProps>) {
         dispatch(objectsAllRequest());
         onClose();
     };
+
+
 
     return (
         <div className={classNames(cls.EditObject,{},[className])}>

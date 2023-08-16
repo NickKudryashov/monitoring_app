@@ -56,6 +56,7 @@ export interface TopLevelDeviceStatistic {
 export interface TopLevelElectroDevice extends BaseElectroDevice {
     node:number;
     device_num:number;
+    subcategory:number;
     password:string;
     is_busy?:boolean;
     last_poll_seconds?:number;

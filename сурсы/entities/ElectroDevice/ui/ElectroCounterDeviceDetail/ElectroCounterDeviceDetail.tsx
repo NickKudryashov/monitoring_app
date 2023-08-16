@@ -26,7 +26,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
     const device = data.topLevelDevices.filter((d)=>d.id===id)[0];
     // const [currentCan,setCurrentCan] = useState<CANMapper>(undefined);
     const [currentCans,setCurrentCan] = useState<string[]>([]);
-    console.log(device.statistic);
+    // console.log(device.statistic);
     const canChangeHandler = (can:string)=>{
         setCurrentCan((prev)=>{
             if(prev.includes(can)) {

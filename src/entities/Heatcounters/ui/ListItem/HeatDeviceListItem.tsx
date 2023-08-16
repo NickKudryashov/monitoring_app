@@ -11,15 +11,16 @@ import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 interface ListItemProps {
  className?: string;
  objectID:number;
+ catID:number
  onDeviceClick: (device:HeatDevice)=>void;
 }
 
 export function HeatDeviceListItem(props: PropsWithChildren<ListItemProps>) {
-    const { className,objectID,onDeviceClick } = props;
+    const { className,objectID,onDeviceClick,catID } = props;
     const {entities,selectedDeviceID} = useSelector((state:StateSchema)=>state.heatDevices);
     return (
         <div className={classNames(cls.ListItem,{},[className])}>
-            {Object.values(entities).map((device)=>device.user_object===objectID && 
+            {Object.values(entities).map((device)=>device.user_object===objectID && device.subcategory===catID && 
             <div key={device.id} className={cls.deviceLabels}>
                 { selectedDeviceID && selectedDeviceID===device.id ?
                     <div className={cls.selected} onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</div>

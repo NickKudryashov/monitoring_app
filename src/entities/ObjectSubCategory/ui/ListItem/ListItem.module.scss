@@ -1,0 +1,16 @@
+.ListItem {
+    margin-left:10px;
+}
+
+.selected {
+    font-weight: bold;
+}
+
+.unselected {
+    font-weight: normal;
+}
+
+.linkWithIcon {
+    display: flex;
+    justify-content: space-between;
+}

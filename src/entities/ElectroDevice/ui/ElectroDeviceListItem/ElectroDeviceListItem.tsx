@@ -12,16 +12,17 @@ import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 interface ElectroDeviceListItemProps {
  className?: string;
  objectID:number;
+ catID:number;
  onDeviceClick: (device:TopLevelElectroDevice)=>void;
 }
 
 export const ElectroDeviceListItem = memo((props: PropsWithChildren<ElectroDeviceListItemProps>) => {
-    const { className,objectID,onDeviceClick } = props;
+    const { className,objectID,onDeviceClick,catID } = props;
     const {data,selectedDevice} = useSelector((state:StateSchema)=>state.electroDevices);
     return (
         <div className={classNames(cls.ListItem,{},[className])}>
             {
-                data!==undefined && data.topLevelDevices.map((device)=>device.user_object===objectID && 
+                data!==undefined && data.topLevelDevices.map((device)=>device.user_object===objectID && device.subcategory===catID && 
                 <div key={device.id} className={cls.deviceLabels}>
                     { 
                         selectedDevice && selectedDevice.id===device.id  ?

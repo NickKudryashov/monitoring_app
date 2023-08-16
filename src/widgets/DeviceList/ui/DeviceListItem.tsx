@@ -1,15 +1,12 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./DeviceListItem.module.scss";
 
-import { PropsWithChildren, useCallback, useState } from "react";
+import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "shared/hooks/hooks";
 import {  categoriesAllRequest, categoryDeleteRequest, CategoryItem, CategoryListItem, categorySlice, getCategoryByID } from "entities/Category";
-import { ObjectItem, ObjectListItem, objectsAllRequest, objectsDelRequest, objectSlice } from "entities/Objects";
-import { heatNodeAllRequest, HeatNodeListItem, HeatNodeResponse } from "entities/HeatNodes";
-import { getDevices, HeatDevice, HeatDeviceListItem, heatDeviceSlice } from "entities/Heatcounters";
+import { ObjectItem, ObjectListItem, objectReducer, objectsAllRequest, objectsDelRequest, objectSlice } from "entities/Objects";
+import { getDevices, HeatDevice, HeatDeviceDetailView, HeatDeviceListItem, heatDeviceSlice } from "entities/Heatcounters";
 import { deviceListSlice } from "../reducers/DeviceListReducer";
-import { heatNodeSlice } from "entities/HeatNodes/reducers/reducers";
-import { AddCategory } from "features/AddCategory";
 import { EditCategory } from "features/EditCategory/ui/EditCategory";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import DottedIcon from "shared/assets/icons/dropdownDotsIcon.svg";
@@ -17,30 +14,36 @@ import { EditObject } from "features/EditObject";
 import { findChildrens } from "entities/Category/lib/helpers";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { ElectroNodeData, ElectroNodeListItem, fetchElectroNodes } from "entities/ElectroNodes";
-import { electroNodesActions } from "entities/ElectroNodes/model/slice/electroNodes";
-import { ElectroDeviceListItem, electroDeviceActions, fetchElectroDevices } from "entities/ElectroDevice";
+import { ElectroCounterDeviceDetail, ElectroDeviceListItem, electroDeviceActions, fetchElectroDevices } from "entities/ElectroDevice";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
-import { AppLink } from "shared/ui/AppLink/AppLink";
-import { PumpListItem, PumpNode, fetchPumpStationNode, pumpStationNodeActions } from "entities/PumpStationNode";
 import { PumpDevListItem, fetchPumpDevice } from "entities/PumpDevice";
 import { PumpDeviceData } from "entities/PumpDevice/model/types/pumpDevice";
 import { pumpDeviceActions } from "entities/PumpDevice/model/slice/pumpDevice";
+import { ListItem, ObjectSubCategoryType, fetchByObjId, objSubCategoryActions } from "entities/ObjectSubCategory";
+import { useNavigate } from "react-router-dom";
+import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import $api from "shared/api";
 
 interface DeviceListItemProps {
  className?: string;
  parentID?:number;
+ onSubCatMove?:()=>void;
  onClick?:()=>void;
 }
 
 export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
-    const { className,parentID,onClick=()=>{console.log("ff");} } = props;
+    const { className,parentID,onClick=()=>{console.log("ff");},onSubCatMove } = props;
     const {categories} = useSelector((state:StateSchema)=>state.category);
     const {objects} = useSelector((state:StateSchema)=>state.objects);
     const [openModal,setOpenModal] = useState(false);
     const [selectedCategory,setSelectedCategory] = useState<CategoryItem>(null);
-    const [selectedObject,setSelectedObject] = useState<ObjectItem>(null);
+    const {electrocounter,heatcounters,pumps,current} = useSelector((state:StateSchema)=>state.subCatPage);
+    const {entities:subcatEntities,ids} = useSelector((state:StateSchema)=>state.objSubCat);
+    // const [selectedObject,setSelectedObject] = useState<ObjectItem>(null);
+    const {currentObject:selectedObject,currentSubcat,objectThroughSubcat} = useSelector((state:StateSchema)=>state.deviceList);
+    const {entities} = useSelector((state:StateSchema)=>state.heatDevices);
     const [openObjModal,setOpenObjModal] = useState(false);
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const categoryClickHandler = (cat:CategoryItem)=>{
         dispatch(categoriesAllRequest());
@@ -52,82 +55,60 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         onClick();
 
     };
+    useEffect(()=>{
+        if (selectedObject) {
+            dispatch(fetchByObjId(selectedObject.id));
+            console.log("запрос из юзэффекта девайс лист айтема на фетч");
+        }
+        if (currentSubcat) {
+            const reqId = objects.filter((el)=>el.id===subcatEntities[currentSubcat]?.user_object)[0];
+            console.log("сет прокси в юзэффекте");
+            dispatch(deviceListSlice.actions.setProxyObject(reqId));
+            dispatch(deviceListSlice.actions.setObject(reqId));
+            // onSubCatMove();
+            // dispatch(deviceListSlice.actions.setSubcat(currentSubcat));
+        }
+    },[currentSubcat, dispatch, objects, selectedObject]);
     const objectClickHandler = (obj:ObjectItem) => {
-        dispatch(objectsAllRequest());
+        // dispatch(objectsAllRequest());
+        dispatch(fetchByObjId(obj.id));
         dispatch(heatDeviceSlice.actions.unselectdevice());
         dispatch(getDevices());
-        dispatch(heatNodeAllRequest());
+        for (const dd of ids) {
+            localStorage.removeItem("subcategory_"+dd);
+        }
         dispatch(categorySlice.actions.closeAllCatsExceptSelectedWithoutParent(getCategoryByID(categories,obj.category)));
         dispatch(objectSlice.actions.closeAllObjExceptSelected(obj));
-        dispatch(heatNodeSlice.actions.closeNodeForObject(obj.id));
         dispatch(deviceListSlice.actions.setObject(obj));
         onClick();
     };
-    const heatDeviceClickHandler = (device:HeatDevice)=>{
+    const heatDeviceClickHandler = useCallback((device:HeatDevice)=>{
         dispatch(getDevices());
         dispatch(heatDeviceSlice.actions.selectdevice(device));
         dispatch(deviceListSlice.actions.setHeatDevice(device));
-        dispatch(heatNodeSlice.actions.unselectHeatNode());
         dispatch(electroDeviceActions.unselectdevice());
         onClick();
-    };
+    },[dispatch, onClick]);
 
-    const heatNodeClickHandler = (node:HeatNodeResponse)=>{
-        dispatch(getDevices());
-        dispatch(heatDeviceSlice.actions.unselectdevice());
-        dispatch(pumpDeviceActions.closeAll());
-        dispatch(pumpStationNodeActions.closeAll());
-        dispatch(electroNodesActions.unselectElectroNode());
-        dispatch(heatNodeAllRequest());
-        dispatch(deviceListSlice.actions.setHeatNode(node));
-        dispatch(heatNodeSlice.actions.selectHeatNode(node));
-        dispatch(electroNodesActions.closeNodeForObject(node.user_object));
-        onClick();
-    };
 
-    const pumpNodeClickHandler = (node:PumpNode)=>{
-        dispatch(fetchPumpDevice());
-        dispatch(fetchPumpStationNode());
-        dispatch(deviceListSlice.actions.setPumpNode(node));
-        dispatch(heatDeviceSlice.actions.unselectdevice());
-        dispatch(electroNodesActions.unselectElectroNode());
-        dispatch(electroNodesActions.closeNodeForObject(node.user_object));
-        dispatch(heatNodeSlice.actions.closeNodeForObject(node.user_object));
-        dispatch(pumpStationNodeActions.expandNode(node.id));
-        onClick();
-    };
 
-    const electroNodeClickHandler = (node:ElectroNodeData)=>{
-        dispatch(fetchElectroDevices());
-        dispatch(electroDeviceActions.unselectdevice());
-        dispatch(fetchElectroNodes());
-        dispatch(heatNodeSlice.actions.closeNodeForObject(node.user_object));
-        dispatch(deviceListSlice.actions.setElectroNode(node));
-        dispatch(electroNodesActions.selectElectroNode(node));
-        dispatch(heatNodeSlice.actions.unselectHeatNode());
-        dispatch(pumpDeviceActions.closeAll());
-        dispatch(pumpStationNodeActions.closeAll());
-
-        onClick();
-    };
-
-    const electroDeviceClickHandler = (device:TopLevelElectroDevice)=>{
+    const electroDeviceClickHandler = useCallback((device:TopLevelElectroDevice)=>{
         dispatch(fetchElectroDevices());
         dispatch(electroDeviceActions.selectdevice(device));
         dispatch(heatDeviceSlice.actions.unselectdevice());
         dispatch(deviceListSlice.actions.setElectroDevice(device));
         onClick();
-    };
+    },[dispatch, onClick]);
 
-    const pumpDeviceClickHandler = (device:PumpDeviceData)=>{
+    const pumpDeviceClickHandler = useCallback((device:PumpDeviceData)=>{
         dispatch(fetchPumpDevice());
-        dispatch(heatNodeSlice.actions.unselectHeatNode());
         dispatch(deviceListSlice.actions.setPumpDevice(device));
         dispatch(electroDeviceActions.unselectdevice());
         dispatch(heatDeviceSlice.actions.unselectdevice());
-        dispatch(pumpDeviceActions.expandDev(device.id));
+        // dispatch(pumpDeviceActions.expandDev(device.id));
+        // dispatch(objSubCategoryActions.changeExpand(undefined));
         onClick();
-    };
+    },[dispatch, onClick]);
 
 
     const categoryMenuClickHandler = (element:CategoryItem)=>{
@@ -136,12 +117,10 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     };
     const objectEditHandler = (element:ObjectItem)=>{
         setOpenObjModal(true);
-        setSelectedObject(element);
     };
     const objectDeleteHandler=(element:ObjectItem)=>{
         dispatch(objectsDelRequest(element.id));
         dispatch(getDevices());
-        dispatch(heatNodeAllRequest());
     };
     const categoryDeleteHandler=(element:CategoryItem)=>{
         const toDelete = findChildrens(categories,element.id);
@@ -149,7 +128,52 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         dispatch(categoryDeleteRequest(toDelete));
         dispatch(objectsAllRequest());
         dispatch(getDevices());
-        dispatch(heatNodeAllRequest());
+    };
+
+    const onSubClick =useCallback((sub:ObjectSubCategoryType)=>{
+        dispatch(deviceListSlice.actions.setSubcat(sub.id));
+        dispatch(deviceListSlice.actions.setPumpDevice(undefined));
+        dispatch(electroDeviceActions.unselectdevice());
+        dispatch(heatDeviceSlice.actions.unselectdevice());
+        // dispatch(objSubCategoryActions.changeExpand(undefined));
+    },[dispatch]);
+
+    //не перерисовывается список и возможно карточки
+    const onMove = ()=>{
+        currentSubcat ? dispatch(fetchByObjId(subcatEntities[currentSubcat].user_object)) : dispatch(fetchByObjId(selectedObject.id));
+        dispatch(fetchPumpDevice());
+        dispatch(fetchElectroDevices());
+        dispatch(getDevices());
+        dispatch(objectsAllRequest());
+        const tempInstance = selectedObject ? selectedObject.id : subcatEntities[currentSubcat].user_object;
+        const objArr = objects.filter((el)=>el.id===tempInstance);
+        dispatch(deviceListSlice.actions.setProxyObject(objArr[0]));
+        dispatch(deviceListSlice.actions.setObject(objArr[0]));
+        onSubCatMove();
+        console.log("on move");
+        // dispatch(deviceListSlice.actions.setSubcat(currentSubcat));
+    };
+    const onMoveHandler = (obj:ObjectItem) => {
+        console.log("move handler called");
+    };
+
+    const renderDevs = useCallback((objID:number,catID:number)=>(
+        <div>
+            {localStorage.getItem("subcategory_"+catID) && 
+                <HeatDeviceListItem catID={catID}  onDeviceClick={heatDeviceClickHandler} objectID={objID}/>}
+            {localStorage.getItem("subcategory_"+catID) && 
+                <ElectroDeviceListItem catID={catID} onDeviceClick={electroDeviceClickHandler}  objectID={objID}/>}
+            {localStorage.getItem("subcategory_"+catID) && 
+                <PumpDevListItem catID={catID} onDeviceClick={pumpDeviceClickHandler}  objectID={objID} />}
+        </div>
+    ),[electroDeviceClickHandler, heatDeviceClickHandler, pumpDeviceClickHandler]);
+    
+
+    const addSubcatHandler = async (object:ObjectItem)=>{
+        const response = await $api.post<ObjectSubCategoryType>("subcategory/create",{name:"Новая категория",user_object:object.id});
+        dispatch(objectsAllRequest());
+        dispatch(fetchByObjId(object.id));
+
     };
 
     return (
@@ -183,17 +207,26 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
                                     items={[
                                         {text:"Редактировать объект",onClick:()=>objectEditHandler(object)},
                                         {text:"Удалить объект",onClick:()=>objectDeleteHandler(object)},
+                                        {text:"Добавить подпапку",onClick:()=>addSubcatHandler(object)},
                                     ]}
-                                />}>
-                            <HeatNodeListItem  onNodeClick={(node:HeatNodeResponse)=>heatNodeClickHandler(node)} object_id={object.id}>
-                                <HeatDeviceListItem onDeviceClick={(device:HeatDevice) =>heatDeviceClickHandler(device)} objectID={object.id}/>
-                            </HeatNodeListItem>
-                            <ElectroNodeListItem object_id={object.id} onNodeClick={electroNodeClickHandler}>
-                                <ElectroDeviceListItem objectID={object.id} onDeviceClick={electroDeviceClickHandler}  />
-                            </ElectroNodeListItem>
-                            <PumpListItem object_id={object.id} onNodeClick={pumpNodeClickHandler}>
-                                <PumpDevListItem objectID={object.id} onDeviceClick={pumpDeviceClickHandler} />
-                            </PumpListItem>
+                                />}> 
+                            {
+                                selectedObject && selectedObject?.pids_with_ids && selectedObject?.pids_with_ids["0"] && 
+                                selectedObject?.pids_with_ids["0"].map((id)=>
+                                    <div  key={id}>
+                                        <ListItem onClick={()=>onSubClick(subcatEntities[id])}  objID={selectedObject.id} renderCallback={renderDevs} pidMapper={selectedObject?.pids_with_ids} catID={id} onMove={()=>onMove()} />
+                                    </div>
+                                )
+                            }
+                            {
+                                !selectedObject && currentSubcat && objectThroughSubcat && objectThroughSubcat?.pids_with_ids["0"] && 
+                                objectThroughSubcat?.pids_with_ids["0"].map((id)=>
+                                    <div key={id}>
+                                        <ListItem onClick={()=>onSubClick(subcatEntities[id])}  objID={objectThroughSubcat.id} onMove={()=>onMove()} renderCallback={renderDevs} pidMapper={objectThroughSubcat?.pids_with_ids}  catID={id} />
+                                    </div>
+                                )
+                            }
+                            {/* <PumpDevListItem objectID={object.id} onDeviceClick={pumpDeviceClickHandler} /> */}
                         </ObjectListItem>)}
                         <DeviceListItem onClick={onClick} parentID={element.id}/>
                     </CategoryListItem>

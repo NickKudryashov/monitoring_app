@@ -17,7 +17,7 @@ export const useInfinityScroll = ({callback,triggerRef,wrapperRef}:InfinityScrol
         })
     ,[wrapperRef]); 
     useEffect(()=>{
-        console.log("INF SCROLL");
+        // console.log("INF SCROLL");
         if (callback) {
             const observer = new IntersectionObserver(([entry])=>{
                 if (entry.isIntersecting) {

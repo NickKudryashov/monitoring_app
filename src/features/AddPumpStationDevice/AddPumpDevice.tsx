@@ -8,6 +8,8 @@ import { AppInput } from "shared/ui/AppInput/AppInput";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { Modal } from "shared/ui/Modal/Modal";
+import { useAppDispatch } from "shared/hooks/hooks";
+import { fetchPumpDevice } from "entities/PumpDevice";
 
 interface AddPumpDeviceProps {
  className?: string;
@@ -27,11 +29,11 @@ interface AddRequestProps {
     name:string;
     device_type:string;
     device_type_verbose_name:string;
-    node:number;
     device_num:number;
     connection_info:ConnectionInfoProps;
     slave_adress:number;
     template_num:number;
+    subcategory:number;
 }
 
 const AVAILABLE_TYPE = "sk_712";
@@ -47,7 +49,8 @@ export const AddPumpDevice = memo((props: PropsWithChildren<AddPumpDeviceProps>)
     const { className,isOpen,onClose,lazy=true } = props;
     const [devType,setDevType] = useState(AVAILABLE_TYPE);
     const {objects} = useSelector((state:StateSchema)=>state.objects);
-    const {data} = useSelector((state:StateSchema)=>state.pumpNodes);
+    const {entities} = useSelector((state:StateSchema)=>state.objSubCat);
+    const [selectedSubcat,setSelectedSubcat] = useState("-1");
     const [dnum,setDnum] = useState("");
     const [name,setName] = useState("");
     const [selectedObj,setSelectedObj] = useState("-1");
@@ -56,6 +59,7 @@ export const AddPumpDevice = memo((props: PropsWithChildren<AddPumpDeviceProps>)
     const [port,setPort] = useState("");
     const [slave,setSlave] = useState("");
     const [templ,setTempl] = useState("2");
+    const dispatch = useAppDispatch();
     if (!isOpen && lazy) {
         return null;
     }
@@ -78,15 +82,17 @@ export const AddPumpDevice = memo((props: PropsWithChildren<AddPumpDeviceProps>)
             name,
             device_type:devType,
             device_type_verbose_name:AVAILABLE_TYPE_VERBOSE,
-            node:data.filter((el)=>el.user_object===Number(selectedObj))[0].id,
             device_num:Number(dnum),
             connection_info,
+            subcategory:Number(selectedSubcat),
             slave_adress:Number(slave),
             template_num:Number(templ)
         };
         console.log(requestData);
         const result = await addRequest(requestData);
         console.log(result);
+        dispatch(fetchPumpDevice());
+        onClose();
     };
 
     return (
@@ -101,6 +107,10 @@ export const AddPumpDevice = memo((props: PropsWithChildren<AddPumpDeviceProps>)
                 <select value={selectedObj} onChange={e=>setSelectedObj(e.target.value)}>
                     <option disabled={true} value="-1">Выберите объект</option>
                     {objects.map(obj=><option key={obj.id}  value={obj.id}>{obj.name}</option>)}
+                </select>
+                <select value={selectedSubcat} onChange={e=>setSelectedSubcat(e.target.value)}>
+                    <option disabled={true} value="-1">Выберите подкатегорию</option>
+                    {Object.values(entities).map(obj=>obj.user_object===Number(selectedObj)&&<option key={obj.id}  value={obj.id}>{obj.name}</option>)}
                 </select>
                 <select value={connectionProtocol} onChange={e=>setConenctionProtocol(e.target.value)}>
                     <option value={DeviceConnection.TCP}>{DeviceConnection.TCP}</option>

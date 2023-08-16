@@ -12,17 +12,18 @@ import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 interface PumpDevListItemProps {
  className?: string;
  objectID:number;
+ catID:number;
  onDeviceClick: (device:PumpDeviceData)=>void;
 
 }
 
 export const PumpDevListItem = memo((props: PropsWithChildren<PumpDevListItemProps>) => {
-    const { className,objectID,onDeviceClick } = props;
+    const { className,objectID,onDeviceClick,catID } = props;
     const devlist = useSelector((state:StateSchema)=>state.pumpDevices.data);
     return (
         <div className={classNames(cls.ListItem,{},[className])}>
             {
-                devlist.map((device)=>device?.user_object===objectID && 
+                devlist.map((device)=>device?.user_object===objectID && device.subcategory===catID && 
                 <div key={device.id} className={cls.deviceLabels}>
                     {/* <div className={cls.selected} onClick={()=>{onDeviceClick(device);}}>{`${device.name} №${device.device_num}`}</div> */}
                     <AppLink to={RoutePathAuth.pumpdevice+device.id}>

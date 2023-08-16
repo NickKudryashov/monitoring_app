@@ -7,27 +7,23 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { electroDeviceActions, fetchElectroDevices } from "entities/ElectroDevice";
-import { ElectroNodeData, fetchElectroNodeById } from "entities/ElectroNodes";
 import { ManualPoll } from "../service/Polling";
-import { Loader } from "shared/ui/Loader/Loader";
 
 export interface ElectroDevicePollProps {
     className?: string;
     device?:TopLevelElectroDevice;
-    node?:ElectroNodeData;
-    onUpdate:(device:any)=>void;
-    nodePolling?:boolean;
+    onUpdate:()=>void;
+    catID?:number;
     bulk?:boolean;
 }
 
 const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
-    const { className,device,onUpdate,nodePolling=false,bulk=false,node } = props;
+    const { className,device,onUpdate,catID,bulk=false } = props;
     const dispatch = useAppDispatch();
     // const selectedDeviceID = useSelector((state:StateSchema)=>state.electroDevices.selectedDevice.id);
-    const selectedDeviceID = device===undefined ? node.id : device.id;
-    const {selectedNode} = useSelector((state:StateSchema)=>state.electroNodes);
+    const selectedDeviceID =  device?.id;
     const {selectedDevice} = useSelector((state:StateSchema)=>state.electroDevices);
-    const {topLevelDevices} = useSelector((state:StateSchema)=>state.electroDevices.data);
+    const {data} = useSelector((state:StateSchema)=>state.electroDevices);
     const timer_ref = useRef<ReturnType <typeof setInterval>>();
     const pollFlag = useRef<boolean>();
     if (selectedDevice){
@@ -38,9 +34,8 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
 
 
     useEffect(()=>{
-        dispatch(fetchElectroDevices());
         // setIsLoading(selectedDevice?.is_busy ?? device?.is_busy );
-    },[pollFlag.current]);
+    },[dispatch]);
 
     useEffect(()=>{
         setIsLoading(selectedDevice?.is_busy ?? device?.is_busy );
@@ -54,14 +49,14 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
         }
         pollFlag.current=true;
         let response;
-        if (device!==undefined){
+        if (device!==undefined && !bulk){
             dispatch(electroDeviceActions.setBusy(device.id));
             response = await  ManualPoll.pollDevice(selectedDeviceID);
             console.log(device);
         }
         else {
-            response = await  ManualPoll.bulkPollDevice(selectedDeviceID);
-            topLevelDevices.forEach((topdev)=>dispatch(electroDeviceActions.setBusy(topdev.id)));
+            response = await  ManualPoll.bulkPollDevice(catID);
+            data?.topLevelDevices.forEach((topdev)=>dispatch(electroDeviceActions.setBusy(topdev.id)));
         }
         setIsLoading(true);
         setStatus("Идет опрос");
@@ -76,7 +71,7 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
                 response = await ManualPoll.getTaskStatus(selectedDeviceID,task_id);
             }
             else {
-                response = await ManualPoll.getTaskStatusBulk(selectedDeviceID,task_id);
+                response = await ManualPoll.getTaskStatusBulk(catID,task_id);
                 // dispatch(fetchElectroDevices());
             }
             if (response.status===500) {
@@ -87,7 +82,7 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
                 }
                 else {
                     console.log("UNSET!!!!!");
-                    topLevelDevices.forEach((topdev)=>dispatch(electroDeviceActions.unsetBusy(topdev.id)));
+                    data?.topLevelDevices.forEach((topdev)=>dispatch(electroDeviceActions.unsetBusy(topdev.id)));
                 }
                 setStatus("Произошла ошибка при опросе");
                 pollFlag.current=false;
@@ -101,25 +96,10 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
                     dispatch(electroDeviceActions.unsetBusy(device.id));
                 }
                 else {
-                    // data.topLevelDevices.forEach((topdev)=>dispatch(electroDeviceActions.unsetBusy(topdev.id)));
-                    dispatch(fetchElectroDevices()); 
-                }
-                if (bulk) {
-                    dispatch(fetchElectroNodeById(selectedDeviceID))
-                        .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор по ноде",res.payload);});
-                    const {data} = await ManualPoll.getBusyStatus(selectedNode.id);
-                    if (!data.busy) {
-                        clearInterval(timer_ref.current);
-                        pollFlag.current=false;
-                        setIsLoading(false);
-                    }
-                }
-                
-                else {
+                    data?.topLevelDevices.forEach((topdev)=>dispatch(electroDeviceActions.unsetBusy(topdev.id)));                
                     dispatch(fetchElectroDevices())
-                        .then(res=>{onUpdate(res.payload);console.log("Обновлен прибор",res.payload);});
+                        .then(res=>onUpdate());
                     clearInterval(timer_ref.current);
-                    
                 }
                     
             }

@@ -19,7 +19,7 @@ export function ObjectDetail(props: PropsWithChildren<ObjectDetailProps>) {
     const { className,obj,children } = props;
     const dispatch = useAppDispatch();
     useEffect(()=>{
-        dispatch(objectsAllRequest());
+        // dispatch(objectsAllRequest());
         dispatch(fetchChats());
     },[dispatch]);
     return (

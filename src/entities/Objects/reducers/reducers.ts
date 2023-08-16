@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ObjectResponse } from "../types/types";
+import { ObjectResponse, PidsIds } from "../types/types";
 import { objectsAllRequest, objectsDelRequest } from "./actionCreator";
 export interface ObjectItem {
     name:string;
     id:number;
     category:number;
+    pids_with_ids?:PidsIds;
+    cats:number[];
     expanded:boolean;
 }
 

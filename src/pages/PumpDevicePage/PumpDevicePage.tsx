@@ -15,7 +15,6 @@ import { DeviceList } from "widgets/DeviceList";
 import { Footer } from "shared/ui/Footer/Footer";
 import { DetailView } from "widgets/DetailView";
 import { Loader } from "shared/ui/Loader/Loader";
-import { fetchPumpStationNode } from "entities/PumpStationNode";
 
 interface PumpDevicePageProps {
  className?: string;
@@ -30,7 +29,6 @@ const PumpDevicePage = memo((props: PropsWithChildren<PumpDevicePageProps>) => {
     const pumpDevices = useSelector((state:StateSchema)=>state.pumpDevices);
     useEffect(()=>{
         dispatch(fetchPumpDevice());
-        dispatch(fetchPumpStationNode());
     },[dispatch]);
     if (!id) {
         navigate(RoutePathAuth.main,{replace:true});

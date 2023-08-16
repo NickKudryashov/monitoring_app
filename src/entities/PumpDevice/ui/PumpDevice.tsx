@@ -62,10 +62,10 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
     const orderedParams = createParameterGroups(device?.parameters ?? []);
     const wr = useRef<HTMLDivElement | null>();
     const tr = useRef<HTMLDivElement | null>();
-    const callback = ()=>{
-        console.log("callbackkkkk");
-    };
-    useInfinityScroll({callback,wrapperRef:wr,triggerRef:tr});
+    // const callback = ()=>{
+    //     console.log("callbackkkkk");
+    // };
+    // useInfinityScroll({callback,wrapperRef:wr,triggerRef:tr});
 
     useEffect(()=>{
         dispatch(fetchPumpDevice());

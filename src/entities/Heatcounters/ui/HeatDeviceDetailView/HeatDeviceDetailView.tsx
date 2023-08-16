@@ -33,7 +33,7 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
     };
     const debouncedRename = useDebounce(renameParameter,1500);
 
-
+    // console.log("детейл счетчик рендерится");
     return (
         <div className={classNames(cls.DetailView,{},[className])}>
             <div className={cls.content}>

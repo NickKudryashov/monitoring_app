@@ -1,7 +1,7 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectListItem.module.scss";
 import type { ObjectResponse } from "entities/Objects/types/types";
-import type { PropsWithChildren } from "react";
+import { useEffect, type PropsWithChildren } from "react";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { objectSlice } from "entities/Objects/reducers/reducers";
 import { getObjectById } from "entities/Objects/helpers/objectHelper";
@@ -27,6 +27,7 @@ export function ObjectListItem(props: PropsWithChildren<ObjectListItemProps>) {
         dispatch(objectSlice.actions.openObj(obj.id));
         onObjectClick(obj);
     };
+    // useEffect(()=>{console.log("expanded");},[currentObject?.expanded]);
     const mods:Record<string,boolean> = {
         [cls.selected]:currentObject.expanded
     };

@@ -35,7 +35,7 @@ const ElectroDevicePage = memo((props: PropsWithChildren<ElectroDevicePageProps>
                 response.blob().then(blob => {
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement("a");
-                    console.log(url);
+                    // console.log(url);
                     a.href = url;
                     a.download = `${dev.name}_${dev.device_type_verbose_name}_отчет.xlsx`;
                     a.click();

@@ -27,9 +27,10 @@ const DeviceConnection = {
 export const AddElectroDeviceContent = memo((props: PropsWithChildren<AddElectroDeviceProps>) => {
     const { className,isOpen,onClose,lazy } = props;
     const {objects} = useSelector((state:StateSchema)=>state.objects);
-    const {data} = useSelector((state:StateSchema)=>state.electroNodes);
+    const {entities} = useSelector((state:StateSchema)=>state.objSubCat);
     console.log(objects);
     const [selectedObj,setSelectedObj] = useState(String(objects ? objects[0].id : ""));
+    const [selectedSubcat,setSelectedSubcat] = useState("-1");
     const [connectionProtocol,setConenctionProtocol] = useState(DeviceConnection.TCP);
     const [name,setName] = useState("");
     const [dnum,setDnum] = useState("");
@@ -37,19 +38,15 @@ export const AddElectroDeviceContent = memo((props: PropsWithChildren<AddElectro
     const [port,setPort] = useState("");
     const [password,setPassword] = useState("");
     const dispatch = useAppDispatch();
-    const [devType,setDevType] = useState(UM_31_VERBOSE);
+    const [devType,setDevType] = useState(UM_31_TYPE);
     const accept = async ()=> {
         const requestData = {
             user_object:Number(selectedObj),
             name,
             device_type:devType,
             device_type_verbose_name:UM_31_VERBOSE,
-            node:data.filter((el)=>{
-                if (el.user_object===Number(selectedObj)) {
-                    return el.id;
-                }
-            })[0].id,
-            device_num:Number(dnum),
+            device_num:dnum,
+            subcategory:Number(selectedSubcat),
             connection_info:{
                 ip:ip,
                 port,
@@ -73,6 +70,10 @@ export const AddElectroDeviceContent = memo((props: PropsWithChildren<AddElectro
             <select value={selectedObj} onChange={e=>setSelectedObj(e.target.value)}>
                 <option disabled={true} value="-1">Выберите объект</option>
                 {objects.map(obj=><option key={obj.id}  value={obj.id}>{obj.name}</option>)}
+            </select>
+            <select value={selectedSubcat} onChange={e=>setSelectedSubcat(e.target.value)}>
+                <option disabled={true} value="-1">Выберите подкатегорию</option>
+                {Object.values(entities).map(obj=>obj.user_object===Number(selectedObj) && <option key={obj.id}  value={obj.id}>{obj.name}</option>)}
             </select>
             <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="Пароль прибора" />
             <select value={connectionProtocol} onChange={e=>setConenctionProtocol(e.target.value)}>

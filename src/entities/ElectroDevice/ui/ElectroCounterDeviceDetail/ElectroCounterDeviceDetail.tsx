@@ -13,6 +13,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { fetchElectroDevices } from "entities/ElectroDevice/model/services/fetchElectroDevice/fetchElectroDevice";
+import { Loader } from "shared/ui/Loader/Loader";
 
 interface ElectroCounterDeviceDetailProps {
  className?: string;
@@ -23,10 +24,10 @@ interface ElectroCounterDeviceDetailProps {
 export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<ElectroCounterDeviceDetailProps>) => {
     const { className,id,children,featuresBlock } = props;
     const {data,selectedDevice} = useSelector((state:StateSchema)=>state.electroDevices);
-    const device = data.topLevelDevices.filter((d)=>d.id===id)[0];
+    const device = data?.topLevelDevices?.filter((d)=>d.id===id)[0];
     // const [currentCan,setCurrentCan] = useState<CANMapper>(undefined);
     const [currentCans,setCurrentCan] = useState<string[]>([]);
-    console.log(device.statistic);
+    // console.log(device.statistic);
     const canChangeHandler = (can:string)=>{
         setCurrentCan((prev)=>{
             if(prev.includes(can)) {
@@ -35,9 +36,12 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
             return [...prev,can];
         });
     };
+    if (!device) {
+        return <Loader/>;
+    }
     const statisticBlock = (
         <div>
-            {Object.values(device.statistic).map((el,i)=>
+            {Object.values(device?.statistic)?.map((el,i)=>
                 <p key={i}>
                     {`${el.verbose} всего: ${el.count} опрошены: ${el.success} не опрошены: ${el.failed}`}
                 </p>

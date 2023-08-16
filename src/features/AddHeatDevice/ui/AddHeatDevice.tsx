@@ -3,7 +3,6 @@
 
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { getDevices, HeatSystem } from "entities/Heatcounters";
-import { objectsAllRequest } from "entities/Objects";
 import { PropsWithChildren, useState } from "react";
 import { useSelector } from "react-redux";
 import $api from "shared/api";
@@ -37,8 +36,9 @@ const ST20_239="st20_239";
 export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const { className,isOpen,onClose } = props;
     const {objects} = useSelector((state:StateSchema)=>state.objects);
-    const {heatNodes} = useSelector((state:StateSchema)=>state.heatNodes);
+    const {entities} = useSelector((state:StateSchema)=>state.objSubCat);
     const [selectedObj,setSelectedObj] = useState("-1");
+    const [selectedSubcat,setSelectedSubcat] = useState("-1");
     const [name,setName] = useState("");
     const dispatch = useAppDispatch();
     const [deviceNum,setDeviceNum]=useState("");
@@ -53,15 +53,14 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const addHandler = async ()=> {
         const connection_info = {port,ip,connection_type:connectionProtocol};
         const user_object = Number(selectedObj);
-        const node = heatNodes.filter(hnode=>hnode.user_object===user_object)[0].id;
         const body = {
             name,
             user_object:Number(selectedObj),
             connection_info,
+            subcategory:Number(selectedSubcat),
             device_num:Number(deviceNum),
             device_type:deviceType,
             systems,
-            node
         };
         await $api.post("device/add",body);
         dispatch(getDevices());
@@ -111,6 +110,10 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                 <select value={selectedObj} onChange={e=>setSelectedObj(e.target.value)}>
                     <option disabled={true} value="-1">Выберите объект</option>
                     {objects.map(obj=><option key={obj.id}  value={obj.id}>{obj.name}</option>)}
+                </select>
+                <select value={selectedSubcat} onChange={e=>setSelectedSubcat(e.target.value)}>
+                    <option disabled={true} value="-1">Выберите подкатегорию</option>
+                    {Object.values(entities).map(obj=>obj.user_object===Number(selectedObj)&&<option key={obj.id}  value={obj.id}>{obj.name}</option>)}
                 </select>
                 <select value={systemCount} onChange={systemsChanged}>
                     <option disabled={true} value="-1">Выберите количество тепловых систем</option>
