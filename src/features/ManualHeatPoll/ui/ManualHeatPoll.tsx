@@ -11,7 +11,7 @@ import {StateSchema} from "app/providers/StoreProvider/config/stateSchema";
 interface ManualHeatPollProps {
  className?: string;
  device:HeatDevice;
- onUpdate:(device:any)=>void;
+ onUpdate?:()=>void;
 }
 
 export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
@@ -47,9 +47,15 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
             const response = await ManualPoll.getTaskStatus(device.id,task_id);
             if  (response.data.result!==null) {
                 response.data.result === true ? setStatus("Опрос завершен успешно") : setStatus("Произошла ошибка при опросе");
+                if (response.data.result) {
+                    dispatch(getDevice(device.id));
+                }
+                if (onUpdate) {
+                    onUpdate();
+                }
                 pollFlag.current=false;
                 setIsLoading(false);
-                    
+                
                 clearInterval(timer_ref.current);
             }
             else {

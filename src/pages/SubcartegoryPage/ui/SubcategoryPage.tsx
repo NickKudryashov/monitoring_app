@@ -66,6 +66,9 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
 
     //редирект если айди отсутствует, идут перерисовки бесконечные
     useEffect(()=>{
+        dispatch(subCatPageActions.removeElectro());
+        dispatch(subCatPageActions.removeHeat());
+        dispatch(subCatPageActions.removePumps());
         dispatch(fetchDetail(numberID));
         dispatch(fetchElectroDevices());
         dispatch(fetchChildren(numberID));
@@ -77,6 +80,11 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
 
     },[dispatch, numberID]);
     
+    const updateHeatDevice = ()=> {
+        dispatch(fetchHeat(numberID));
+    };
+
+
     const content = (
         <DetailView className={cls.detail}>
             <p>{current ? "Категория "+current.name : "Загрузка"}</p>
@@ -88,7 +96,7 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
             }
             {heatcounters.length && heatcounters.map((el)=> el.subcategory===numberID &&
                 <HeatDeviceDetailView key={el.id} device={el}>
-                    <ManualHeatPoll onUpdate={()=>console.log("updated")} device={el}/>
+                    <ManualHeatPoll onUpdate={updateHeatDevice} device={el}/>
                 </HeatDeviceDetailView>
             ) 
             }

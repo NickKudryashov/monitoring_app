@@ -21,6 +21,15 @@ const subCatPageSlice = createSlice({
         removeCurrent (state) {
             state.current=undefined;
         },
+        removeHeat (state) {
+            state.heatcounters=[];
+        },
+        removeElectro (state) {
+            state.electrocounter=[];
+        },
+        removePumps (state) {
+            state.pumps=[];
+        },
     },
     extraReducers(builder) {
         builder

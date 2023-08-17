@@ -13,7 +13,7 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
 
     return (
         <div className={classNames(cls.Footer,{},[className])}>
-            ver 2.0.0 03.07.2023
+            ver 3.0.0 17.08.2023
         </div>
     );
 });

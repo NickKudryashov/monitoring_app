@@ -57,18 +57,30 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     };
     useEffect(()=>{
         if (selectedObject) {
-            dispatch(fetchByObjId(selectedObject.id));
-            console.log("запрос из юзэффекта девайс лист айтема на фетч");
+            if (!currentSubcat) {
+                dispatch(fetchByObjId(selectedObject.id));
+
+            }
+            console.log("запрос из юзэффекта девайс лист айтема на фетч ",selectedObject.name);
+            const reqId = objects.filter((el)=>el.id===selectedObject.id)[0];
+            dispatch(deviceListSlice.actions.setObject(reqId));
+            dispatch(deviceListSlice.actions.setProxyObject(reqId));
         }
         if (currentSubcat) {
             const reqId = objects.filter((el)=>el.id===subcatEntities[currentSubcat]?.user_object)[0];
-            console.log("сет прокси в юзэффекте");
-            dispatch(deviceListSlice.actions.setProxyObject(reqId));
-            dispatch(deviceListSlice.actions.setObject(reqId));
+            if (!selectedObject){
+                dispatch(deviceListSlice.actions.setProxyObject(reqId));
+                dispatch(deviceListSlice.actions.setObject(reqId));
+            }
+            else if (reqId.id===selectedObject.id){
+                console.log("сет прокси в юзэффекте");
+                dispatch(deviceListSlice.actions.setProxyObject(reqId));
+                dispatch(deviceListSlice.actions.setObject(reqId));
+            }
             // onSubCatMove();
             // dispatch(deviceListSlice.actions.setSubcat(currentSubcat));
         }
-    },[currentSubcat, dispatch, objects, selectedObject]);
+    },[currentSubcat, dispatch, selectedObject]);
     const objectClickHandler = (obj:ObjectItem) => {
         // dispatch(objectsAllRequest());
         dispatch(fetchByObjId(obj.id));

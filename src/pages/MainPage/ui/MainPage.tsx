@@ -50,11 +50,11 @@ const MainPage = () => {
 
     };
     useEffect(()=>{dispatch(getUserData());},[dispatch]);
-    const updateCurrentDevice =  async (device:HeatDevice)=>{
+    const updateCurrentDevice =  async ()=>{
         if (heatDevRef?.current?.id) {
-            if (device.id===heatDevRef.current.id) {
-                dispatch(heatDeviceSlice.actions.updateOne(device));
-                dispatch(deviceListSlice.actions.setHeatDevice(device));
+            if (currentHeatDevice.id===heatDevRef.current.id) {
+                dispatch(heatDeviceSlice.actions.updateOne(currentHeatDevice));
+                dispatch(deviceListSlice.actions.setHeatDevice(currentHeatDevice));
             }
         }
         console.log("после апдейта");
