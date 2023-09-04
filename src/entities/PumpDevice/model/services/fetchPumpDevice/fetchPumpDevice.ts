@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ThunkConfig } from "app/providers/StoreProvider/config/stateSchema";
 import $api from "shared/api";
-import { PumpDeviceData } from "../../types/pumpDevice";
+import { PumpDeviceData, PumpPollResponse } from "../../types/pumpDevice";
 import { converDatetime } from "../../slice/pumpDevice";
 
 
@@ -32,12 +32,12 @@ export const pollPumpDevice = createAsyncThunk<{task_id:string},number,ThunkConf
         }
     });
 
-export const checkPollPumpDevice = createAsyncThunk<boolean | null,number,ThunkConfig<string>>("checkPoll/pumpDevice",
+export const checkPollPumpDevice = createAsyncThunk<PumpPollResponse,number,ThunkConfig<string>>("checkPoll/pumpDevice",
     async (id, thunkApi) => {
         const {dispatch,getState} = thunkApi;
         const {pumpDevices} = getState();
         try {
-            const responseTask = await $api.put<boolean | null>("pump/poll/"+id,{task_id:pumpDevices.task_id});
+            const responseTask = await $api.put<PumpPollResponse>("pump/poll/"+id,{task_id:pumpDevices.task_id});
             return responseTask.data;
         } catch (error) {
             console.log(error);

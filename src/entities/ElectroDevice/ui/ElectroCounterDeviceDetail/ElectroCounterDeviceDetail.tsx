@@ -14,6 +14,7 @@ import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { fetchElectroDevices } from "entities/ElectroDevice/model/services/fetchElectroDevice/fetchElectroDevice";
 import { Loader } from "shared/ui/Loader/Loader";
+import { fetchElectro } from "pages/SubcartegoryPage/model/service/fetchContent";
 
 interface ElectroCounterDeviceDetailProps {
  className?: string;
@@ -27,6 +28,9 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
     const device = data?.topLevelDevices?.filter((d)=>d.id===id)[0];
     // const [currentCan,setCurrentCan] = useState<CANMapper>(undefined);
     const [currentCans,setCurrentCan] = useState<string[]>([]);
+    const [pollInterval,setPollInterval] = useState(device?.interval);
+    const [autoPollMode,setAutoPollmode] = useState(device?.autopoll);
+    const dispatch = useAppDispatch();
     // console.log(device.statistic);
     const canChangeHandler = (can:string)=>{
         setCurrentCan((prev)=>{
@@ -68,7 +72,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
     //     </div>
     // );
     const downloadXLSFile = async (id:number) => {
-        const response = $api.post(`electro_report/${id}`);
+        const response = await $api.post(`electro_report/${id}`);
         fetch(`${API_URL}electro_report/${id}`,{method:"PUT",headers:{"Authorization":"Bearer "+localStorage.getItem("access_token")}}).then(
             response => {
                 response.blob().then(blob => {
@@ -83,7 +87,11 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
             });
     };
 
-    
+    const editAutoPoll = async ()=>{
+        const response = await $api.post("electro/"+device.id+"/edit",{autopoll_flag:autoPollMode,interval_minutes:Number(pollInterval)});
+        dispatch(fetchElectroDevices());
+
+    };
     return (
         <div className={classNames(cls.ElectroCounterDeviceDetail,{},[className])}>
             {children}
@@ -93,7 +101,15 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
                     {`Дата последнего опроса ${timeConvert(selectedDevice?.last_update ?? device.last_update)}`}
                     {device.last_poll_seconds!==undefined && <br/>}
                     {device.last_poll_seconds!==undefined && `Длительность предыдущего опроса: ${device?.last_poll_seconds / 60} минут`}
+                    <div className={cls.autoFlagBox}>
+                        <input  type='checkbox' checked={autoPollMode} onChange={()=>setAutoPollmode(prev=>!prev)} id={"device_autopoll"} />
+                        <label htmlFor={"device_autopoll"}>Включить автоопрос</label>
+                    </div>
+                    <p>Интвервал автоопроса в минутах:</p>
+                    <input value={String(pollInterval)} onChange={(e)=>setPollInterval(Number(e.target.value))} />
+                    <AppButon theme={AppButtonTheme.SHADOW} onClick={editAutoPoll}>Применить изменения</AppButon>
                 </div>
+                
                 {featuresBlock}
             </div>
             <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(device.id)}>Отчет</AppButon>

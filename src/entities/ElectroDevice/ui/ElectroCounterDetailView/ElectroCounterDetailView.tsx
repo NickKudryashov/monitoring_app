@@ -43,7 +43,7 @@ export const ElectroCounterDetailView = memo((props: PropsWithChildren<ElectroCo
                 <input className={classNames(cls.rowElement,mods,[])} value={devName} onChange={(e)=>editHandler(e.target.value,counter.id)}/>
                 {counter.parameters?.map((parameter)=>
                     <div className={cls.parameter_line} key={parameter.id}>
-                        <b>{`${parameter.name}:    `}</b>
+                        <b>{`${parameter.tag}:    `}</b>
                         <p className={cls.rowElement}>{parameter.value}</p>
                         <p className={cls.rowElement}>{parameter.dimension}</p>
                     </div>

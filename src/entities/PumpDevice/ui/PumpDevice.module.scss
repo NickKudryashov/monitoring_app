@@ -22,3 +22,11 @@
 .groupBox {
     margin-left: 20px;
 }
+
+.logWindow {
+    display: flex;
+    flex-flow: column;
+    max-width: 85vw;
+    max-height: 85vh;
+    overflow-y: auto;
+}

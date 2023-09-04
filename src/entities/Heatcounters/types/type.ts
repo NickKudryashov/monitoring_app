@@ -38,6 +38,9 @@ export interface HeatDevice {
     last_update:string | null;
     device_type_verbose_name:string;
     subcategory:number;
+    interval?:number;
+    autopoll?:boolean;
+    is_busy?:boolean;
 }
 interface HeatCounterState {
     devices:HeatDevice[];

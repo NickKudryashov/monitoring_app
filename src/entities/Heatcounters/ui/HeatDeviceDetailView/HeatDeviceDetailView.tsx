@@ -1,7 +1,7 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./HeatDeviceDetailView.module.scss";
 
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { HeatDevice } from "entities/Heatcounters/types/type";
 import { timeConvert } from "shared/lib/helpers/datetimeConvert";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
@@ -9,6 +9,8 @@ import HeatDeviceService from "entities/Heatcounters/service/HeatDeviceService";
 import { useDebounce } from "shared/hooks/useDebounce";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { HeatActions } from "entities/Heatcounters/reducers/reducer";
+import { getDevice } from "entities/Heatcounters/reducers/actionCreator";
+import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 
 interface DetailViewProps {
  className?: string;
@@ -18,6 +20,8 @@ interface DetailViewProps {
 export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) {
     const { className,device,children } = props;
     const [currentConturs,setCurrentConturs] = useState<string[]>([]);
+    const [pollInterval,setPollInterval] = useState(device?.interval);
+    const [autoPollMode,setAutoPollmode] = useState(device?.autopoll);
     const dispatch = useAppDispatch();
     const conturChangeHandler = (conturName:string)=>{
         setCurrentConturs((prev)=>{
@@ -27,9 +31,28 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
             return [...prev,conturName];
         });
     };
+    useEffect(()=>{
+        return ()=>{
+            setPollInterval(device?.interval);
+            setAutoPollmode(device?.autopoll);
+        };
+    },[device?.id]);
+    const editAutoPoll = async ()=>{
+        const response = await HeatDeviceService.editHeatAutoSettings(device.id,Number(pollInterval),autoPollMode);
+        dispatch(getDevice(device.id));
+
+    };
+
+    useEffect(()=>{
+        console.log("вывели ",device?.name);
+        return ()=>{
+            console.log("ретерн из девайса");
+        };
+    },[device]);
 
     const renameParameter = async (id:number,comment:string)=> {
         const response = await HeatDeviceService.renameParameter(id,comment);
+        dispatch(getDevice(id));
     };
     const debouncedRename = useDebounce(renameParameter,1500);
 
@@ -73,6 +96,13 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
                 </div>
             </div>
             <div className={cls.featureBox}>
+                <div className={cls.autoFlagBox}>
+                    <input  type='checkbox' checked={autoPollMode} onChange={()=>setAutoPollmode(prev=>!prev)} id={"device_autopoll"} />
+                    <label htmlFor={"device_autopoll"}>Включить автоопрос</label>
+                </div>
+                <p>Интвервал автоопроса в минутах:</p>
+                <input value={String(pollInterval)} onChange={(e)=>setPollInterval(Number(e.target.value))} />
+                <AppButon theme={AppButtonTheme.SHADOW} onClick={editAutoPoll}>Применить изменения</AppButon>
                 {children}
             </div>
         </div>

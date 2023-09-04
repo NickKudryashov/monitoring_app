@@ -8,6 +8,7 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { useSelector } from "react-redux";
 import {StateSchema} from "app/providers/StoreProvider/config/stateSchema";
+import { Modal } from "shared/ui/Modal/Modal";
 interface ManualHeatPollProps {
  className?: string;
  device:HeatDevice;
@@ -23,10 +24,27 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
     pollFlag.current=false;
     const [loading,setIsLoading] = useState(pollFlag.current);
     const [status,setStatus] = useState<string>("");
-    
+    const [events,setEvents] = useState<string[]>();
+    const [modalOpen,setModalOpen] = useState(false);
     useEffect(()=>{
+        return ()=>{
+            if (timer_ref.current){
+                clearInterval(timer_ref.current);}
+        };
+    },[]);
+    useEffect(()=>{
+        if(!pollFlag.current){
+            poll();
+        }
         setIsLoading(pollFlag.current);
-    },[device]);
+        return ()=>{
+            pollFlag.current=false;
+            setEvents([]);
+            if (timer_ref.current){
+                clearInterval(timer_ref.current);
+            }
+        };
+    },[device.id]);
 
     useEffect(()=>{setStatus("");},[selectedDeviceID]);
 
@@ -46,6 +64,7 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
         timer_ref.current = setInterval(async ()=>{
             const response = await ManualPoll.getTaskStatus(device.id,task_id);
             if  (response.data.result!==null) {
+                setEvents(response.data.events);
                 response.data.result === true ? setStatus("Опрос завершен успешно") : setStatus("Произошла ошибка при опросе");
                 if (response.data.result) {
                     dispatch(getDevice(device.id));
@@ -67,9 +86,22 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
     };
     return (
         <div className={classNames(className,{},[cls.container])}>
-            <AppButon disabled={loading} theme={AppButtonTheme.SHADOW} onClick={poll} className={classNames(cls.ManualHeatPoll,{},[className,cls.btn])}>
-                {loading ?"Идет опрос..." :"Опросить прибор"}
+            {
+                device && !device.autopoll &&
+                <AppButon disabled={loading} theme={AppButtonTheme.SHADOW} onClick={poll} className={classNames(cls.ManualHeatPoll,{},[className,cls.btn])}>
+                    {loading ?"Идет опрос..." :"Опросить прибор"}
+                </AppButon>
+            }
+            <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>setModalOpen(true)}>
+                {"Открыть лог прибора"}
             </AppButon>
+            <Modal onClose={()=>setModalOpen(false)} isOpen={modalOpen} >
+                <div className={cls.logWindow}>
+                    {events && events.map((element,i)=>
+                        <p key={i}>{element}</p>
+                    )}
+                </div>
+            </Modal>
             <div className={cls.loadbox}>
                 {/* {loading && <Loader/>} */}
                 {/* {status} */}

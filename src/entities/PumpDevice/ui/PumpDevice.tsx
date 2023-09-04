@@ -11,6 +11,8 @@ import { createParameterGroups } from "../model/helpers/sortParametersByGroup";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { useInfinityScroll } from "shared/hooks/useInfinityScroll";
+import { PumpPollResponse } from "../model/types/pumpDevice";
+import { Modal } from "shared/ui/Modal/Modal";
 
 const GROUP_ORDER = [
     "general_group",
@@ -53,7 +55,7 @@ export interface PumpDeviceProps {
 }
  
 export const PumpDevice = memo((props:PumpDeviceProps) => {
-    const { className,id=1 } = props;
+    const { className,id } = props;
     const dispatch = useAppDispatch();
     const isLoading = useSelector((state:StateSchema)=>state.pumpDevices.isLoading);
     const [expanded,setExpanded] = useState<string[]>([]);
@@ -62,6 +64,10 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
     const orderedParams = createParameterGroups(device?.parameters ?? []);
     const wr = useRef<HTMLDivElement | null>();
     const tr = useRef<HTMLDivElement | null>();
+    const [events,setEvents] = useState<string[]>();
+    const [modalOpen,setModalOpen] = useState(false);
+    const [pollInterval,setPollInterval] = useState(device?.interval);
+    const [autoPollMode,setAutoPollmode] = useState(device?.autopoll);
     // const callback = ()=>{
     //     console.log("callbackkkkk");
     // };
@@ -71,9 +77,20 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
         dispatch(fetchPumpDevice());
     },[dispatch]);
 
+    useEffect(()=>{
+        dispatch(pollPumpDevice(device?.id));
+    },[device?.id, dispatch, id]);
+
+    const editAutoPoll = async ()=>{
+        const response = await $api.post("pump/"+device.id+"/edit",{autopoll_flag:autoPollMode,interval_minutes:Number(pollInterval)});
+        dispatch(fetchPumpDevice());
+
+    };
+
     if (isLoading) {
         const poller = setInterval(async ()=>{
-            const response = await $api.put<boolean | null>("pump/poll/"+id,{task_id:task_id});
+            const response = await $api.put<PumpPollResponse>("pump/poll/"+id,{task_id:task_id});
+            setEvents(response.data.events);
             if (response.data !== null) {
                 clearInterval(poller);
                 dispatch(pumpDeviceActions.setIsLoading(false));
@@ -93,6 +110,13 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
                     <br/>
                 </div>
                 }
+                <div className={cls.autoFlagBox}>
+                    <input  type='checkbox' checked={autoPollMode} onChange={()=>setAutoPollmode(prev=>!prev)} id={"device_autopoll"} />
+                    <label htmlFor={"device_autopoll"}>Включить автоопрос</label>
+                </div>
+                <p>Интвервал автоопроса в минутах:</p>
+                <input value={String(pollInterval)} onChange={(e)=>setPollInterval(Number(e.target.value))} />
+                <AppButon theme={AppButtonTheme.SHADOW} onClick={editAutoPoll}>Применить изменения</AppButon>
                 {
                     device?.parameters?.length>0 && 
                     device?.parameters?.map((param)=> (param.tag===VIEW_1 || param.tag===VIEW_2 || param.tag===VIEW_3) && 
@@ -131,7 +155,17 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
                 <p>Параметры с суффиксом * доступны только для приборов SK-712/w</p>
             </div>
             <div ref={tr}/>
-            <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>{dispatch(pollPumpDevice(device.id));}} >Опросить</AppButon>
+            {device && !device.autopoll && <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>{dispatch(pollPumpDevice(device.id));}} >Опросить</AppButon>}
+            <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>setModalOpen(true)}>
+                {"Открыть лог прибора"}
+            </AppButon>
+            <Modal onClose={()=>setModalOpen(false)} isOpen={modalOpen} >
+                <div className={cls.logWindow}>
+                    {events && events.map((element,i)=>
+                        <p key={i}>{element}</p>
+                    )}
+                </div>
+            </Modal>
         </div>
     );
 });

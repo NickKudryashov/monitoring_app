@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { electroDeviceActions, fetchElectroDevices } from "entities/ElectroDevice";
 import { ManualPoll } from "../service/Polling";
+import { Modal } from "shared/ui/Modal/Modal";
 
 export interface ElectroDevicePollProps {
     className?: string;
@@ -31,11 +32,27 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
     }
     const [loading,setIsLoading] = useState(pollFlag.current);
     const [status,setStatus] = useState<string>("");
-
-
+    const [events,setEvents] = useState<string[]>();
+    const [modalOpen,setModalOpen] = useState(false);
     useEffect(()=>{
+        return ()=>{
+            if (timer_ref.current){
+                clearInterval(timer_ref.current);}
+        };
+    },[]);
+    useEffect(()=>{
+        if (!pollFlag.current){
+            poll();
+        }
+        return ()=>{
+            pollFlag.current = false;
+            setEvents([]);
+            if (timer_ref.current) {
+                clearInterval(timer_ref.current);
+            }
+        };
         // setIsLoading(selectedDevice?.is_busy ?? device?.is_busy );
-    },[dispatch]);
+    },[dispatch,device.id]);
 
     useEffect(()=>{
         setIsLoading(selectedDevice?.is_busy ?? device?.is_busy );
@@ -94,6 +111,7 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
                 if (device){
                     dispatch(fetchElectroDevices());
                     dispatch(electroDeviceActions.unsetBusy(device.id));
+                    clearInterval(timer_ref.current);
                 }
                 else {
                     data?.topLevelDevices.forEach((topdev)=>dispatch(electroDeviceActions.unsetBusy(topdev.id)));                
@@ -104,6 +122,7 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
                     
             }
             else {
+                setEvents(response.data.events);
                 setIsLoading(true);
             }
         },2000);
@@ -111,9 +130,19 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
     };
     return (
         <div className={cls.container}>
-            <AppButon theme={AppButtonTheme.SHADOW} onClick={poll} disabled={loading} className={classNames(cls.ManualHeatPoll,{},[className,cls.btn])}>
+            {device && !device.autopoll && <AppButon theme={AppButtonTheme.SHADOW} onClick={poll} disabled={loading} className={classNames(cls.ManualHeatPoll,{},[className,cls.btn])}>
                 {loading? "Идет опрос.." : !bulk ? "Опросить прибор" : "Опросить узел"}
+            </AppButon>}
+            <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>setModalOpen(true)}>
+                {"Открыть лог прибора"}
             </AppButon>
+            <Modal onClose={()=>setModalOpen(false)} isOpen={modalOpen} >
+                <div className={cls.logWindow}>
+                    {events && events.map((element,i)=>
+                        <p key={i}>{element}</p>
+                    )}
+                </div>
+            </Modal>
             <div className={cls.loadbox}>
                 {/* {loading && <Loader/>} */}
                 {/* {status} */}

@@ -14,4 +14,8 @@ export default class HeatDeviceService{
     static async renameParameter(id:number,comment:string){
         return $api.post("heat_parameter/"+id,{comment});
     }
+
+    static async editHeatAutoSettings(id:number,interval:number,autopoll:boolean){
+        return $api.post("heat/"+id+"/edit",{autopoll_flag:autopoll,interval_minutes:interval});
+    }
 }

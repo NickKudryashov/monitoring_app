@@ -5,6 +5,11 @@ error?: string;
 task_id?:string;
 }
 
+export interface PumpPollResponse {
+    task_id:string;
+    events?:string[];
+}
+
 
 export interface PumpDeviceData {
     name:string;
@@ -17,6 +22,8 @@ export interface PumpDeviceData {
     last_update:string;
     parameters: PumpParameter[]
     subcategory:number;
+    autopoll?:boolean;
+    interval?:number;
 }
 
 export interface PumpParameter {

@@ -59,6 +59,8 @@ export interface TopLevelElectroDevice extends BaseElectroDevice {
     subcategory:number;
     password:string;
     is_busy?:boolean;
+    autopoll?:boolean;
+    interval?:number;
     last_poll_seconds?:number;
     statistic?:Dictionary<TopLevelDeviceStatistic>
 }

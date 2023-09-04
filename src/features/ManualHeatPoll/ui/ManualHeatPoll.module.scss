@@ -2,7 +2,7 @@
     display: flex;
 
     // padding-left: 8.05%;
-    flex-direction: row-reverse;
+    flex-direction: column;
     align-items: flex-start;
     height:min-content;
     margin-bottom: 0;
@@ -24,4 +24,18 @@
 
     // margin-top: 15px;
 
+}
+
+.modalLogWindow {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.logWindow {
+    display: flex;
+    flex-flow: column;
+    max-width: 85vw;
+    max-height: 85vh;
+    overflow-y: auto;
 }
