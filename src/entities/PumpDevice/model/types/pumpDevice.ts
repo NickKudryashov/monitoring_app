@@ -7,7 +7,6 @@ task_id?:string;
 
 export interface PumpPollResponse {
     task_id:string;
-    events?:string[];
 }
 
 

@@ -64,8 +64,6 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
     const orderedParams = createParameterGroups(device?.parameters ?? []);
     const wr = useRef<HTMLDivElement | null>();
     const tr = useRef<HTMLDivElement | null>();
-    const [events,setEvents] = useState<string[]>();
-    const [modalOpen,setModalOpen] = useState(false);
     const [pollInterval,setPollInterval] = useState(device?.interval);
     const [autoPollMode,setAutoPollmode] = useState(device?.autopoll);
     // const callback = ()=>{
@@ -79,6 +77,12 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
 
     useEffect(()=>{
         dispatch(pollPumpDevice(device?.id));
+        const interval = setInterval(()=>dispatch(pollPumpDevice(device?.id)),60000);
+        return ()=>{
+            if (interval) {
+                clearInterval(interval);
+            }
+        };
     },[device?.id, dispatch, id]);
 
     const editAutoPoll = async ()=>{
@@ -90,12 +94,10 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
     if (isLoading) {
         const poller = setInterval(async ()=>{
             const response = await $api.put<PumpPollResponse>("pump/poll/"+id,{task_id:task_id});
-            setEvents(response.data.events);
             if (response.data !== null) {
                 clearInterval(poller);
                 dispatch(pumpDeviceActions.setIsLoading(false));
                 dispatch(fetchPumpDevice());
-                alert("завершено");
             }
         },2000);
     }
@@ -134,7 +136,6 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
                         <div className={cls.groupBox} key={el}>
                             <b onClick={(e)=>{
                                 expanded.includes(el) ? setExpanded(prev=>prev.filter((gr)=>gr!==el)) : setExpanded(prev=>([...prev,el]));
-                                console.log(expanded);
                             }}>{VERBOSE[el]}</b>
                             { expanded.includes(el) && 
                             <div className={cls.group_parameter} key={el}>
@@ -156,16 +157,6 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
             </div>
             <div ref={tr}/>
             {device && !device.autopoll && <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>{dispatch(pollPumpDevice(device.id));}} >Опросить</AppButon>}
-            <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>setModalOpen(true)}>
-                {"Открыть лог прибора"}
-            </AppButon>
-            <Modal onClose={()=>setModalOpen(false)} isOpen={modalOpen} >
-                <div className={cls.logWindow}>
-                    {events && events.map((element,i)=>
-                        <p key={i}>{element}</p>
-                    )}
-                </div>
-            </Modal>
         </div>
     );
 });

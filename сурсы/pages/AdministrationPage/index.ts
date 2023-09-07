@@ -1,1 +1,0 @@
-export {AdministartionPageAsync as AdministrationPage} from "./ui/AdministrationPage.async";

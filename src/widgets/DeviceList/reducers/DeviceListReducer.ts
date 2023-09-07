@@ -109,7 +109,6 @@ export const deviceListSlice = createSlice({
             state.currentElectroDevice=undefined;
             state.currentHeatDevice=undefined;
             state.currentSubcat=action.payload;
-            console.log("ИЗМЕНЯЕМ САБКАТ (в редюсере) ",action.payload);
             // state.currentObject=undefined;
             state.currentCategory = undefined;
             state.isHeatDevice=false;

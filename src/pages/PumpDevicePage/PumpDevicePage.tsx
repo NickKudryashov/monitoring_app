@@ -1,5 +1,5 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo, useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import cls from "./PumpDevicePage.module.scss";
 
 import type { PropsWithChildren } from "react";
@@ -15,6 +15,8 @@ import { DeviceList } from "widgets/DeviceList";
 import { Footer } from "shared/ui/Footer/Footer";
 import { DetailView } from "widgets/DetailView";
 import { Loader } from "shared/ui/Loader/Loader";
+import $api from "shared/api";
+import { EventAnswer } from "shared/types/eventTypes";
 
 interface PumpDevicePageProps {
  className?: string;
@@ -38,6 +40,11 @@ const PumpDevicePage = memo((props: PropsWithChildren<PumpDevicePageProps>) => {
         navigate(RoutePathAuth.main,{replace:true});
     }
 
+    const fetchEvents = useCallback(async () => {
+        const response = await $api.get<EventAnswer>("pump_events/"+id);
+        return response.data;
+    },[id]);
+
     if (selectedDevice) {
         content = (
             <DetailView className={cls.detail}>
@@ -59,7 +66,7 @@ const PumpDevicePage = memo((props: PropsWithChildren<PumpDevicePageProps>) => {
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
-            footer={<Footer/>}
+            footer={<Footer pollCallback={fetchEvents}/>}
         />
     );
 });

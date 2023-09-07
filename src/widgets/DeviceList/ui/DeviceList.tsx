@@ -23,6 +23,7 @@ export function DeviceList(props: PropsWithChildren<DeviceListProps>) {
         dispatch(categoriesAllRequest());
         dispatch(objectsAllRequest());
         dispatch(getDevices());
+        console.log("запрос при монтировании девайс листа");
         dispatch(fetchElectroDevices());
         dispatch(fetchPumpDevice());
     },[dispatch]);

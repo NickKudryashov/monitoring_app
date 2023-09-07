@@ -1,5 +1,5 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import cls from "./ElectroDevicePage.module.scss";
 
 import type { PropsWithChildren } from "react";
@@ -18,6 +18,7 @@ import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import $api, { API_URL } from "shared/api";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
 import { Footer } from "shared/ui/Footer/Footer";
+import { EventAnswer } from "shared/types/eventTypes";
 
 interface ElectroDevicePageProps {
  className?: string;
@@ -28,6 +29,12 @@ const ElectroDevicePage = memo((props: PropsWithChildren<ElectroDevicePageProps>
     const {id} = useParams<{id:string}>();
     const {data} = useSelector((state:StateSchema)=>state.electroDevices);
     const navigate = useNavigate();
+
+    const fetchEvents = useCallback(async () => {
+        const response = await $api.get<EventAnswer>("electro_events/"+id);
+        return response.data;
+    },[id]);
+
     const downloadXLSFile = async (dev:TopLevelElectroDevice) => {
         const response = $api.post(`electro_report/${dev.id}`);
         fetch(`${API_URL}electro_report/${id}`,{method:"PUT",headers:{"Authorization":"Bearer "+localStorage.getItem("access_token")}}).then(
@@ -78,7 +85,7 @@ const ElectroDevicePage = memo((props: PropsWithChildren<ElectroDevicePageProps>
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
-            footer={<Footer/>}
+            footer={<Footer pollCallback={fetchEvents}/>}
         />
     );
 });

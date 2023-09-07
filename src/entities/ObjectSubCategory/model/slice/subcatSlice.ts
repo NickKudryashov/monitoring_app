@@ -27,7 +27,6 @@ export const objSubCatSlice = createSlice({
                 localStorage.removeItem("subcategory_"+action.payload);
             }
             else {
-                console.log("expand reducer");
                 if (state.lastExpandedId && state.entities[state.lastExpandedId].id!==state.entities[action.payload].parent) {
                     localStorage.removeItem("subcategory_"+state.lastExpandedId);
                 }

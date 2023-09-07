@@ -61,7 +61,6 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
                 dispatch(fetchByObjId(selectedObject.id));
 
             }
-            console.log("запрос из юзэффекта девайс лист айтема на фетч ",selectedObject.name);
             const reqId = objects.filter((el)=>el.id===selectedObject.id)[0];
             dispatch(deviceListSlice.actions.setObject(reqId));
             dispatch(deviceListSlice.actions.setProxyObject(reqId));
@@ -73,7 +72,6 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
                 dispatch(deviceListSlice.actions.setObject(reqId));
             }
             else if (reqId.id===selectedObject.id){
-                console.log("сет прокси в юзэффекте");
                 dispatch(deviceListSlice.actions.setProxyObject(reqId));
                 dispatch(deviceListSlice.actions.setObject(reqId));
             }
@@ -106,6 +104,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
 
     const electroDeviceClickHandler = useCallback((device:TopLevelElectroDevice)=>{
         dispatch(fetchElectroDevices());
+        console.log("сработка фетчинга из девай лист айтема");
         dispatch(electroDeviceActions.selectdevice(device));
         dispatch(heatDeviceSlice.actions.unselectdevice());
         dispatch(deviceListSlice.actions.setElectroDevice(device));
@@ -162,11 +161,9 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         dispatch(deviceListSlice.actions.setProxyObject(objArr[0]));
         dispatch(deviceListSlice.actions.setObject(objArr[0]));
         onSubCatMove();
-        console.log("on move");
         // dispatch(deviceListSlice.actions.setSubcat(currentSubcat));
     };
     const onMoveHandler = (obj:ObjectItem) => {
-        console.log("move handler called");
     };
 
     const renderDevs = useCallback((objID:number,catID:number)=>(

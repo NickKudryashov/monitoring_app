@@ -1,1 +1,0 @@
-export {GeneralInfoPageAsync as GeneralInfoPage} from "./ui/GeneralInfoPage.async";

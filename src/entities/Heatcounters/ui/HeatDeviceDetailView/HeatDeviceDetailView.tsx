@@ -43,12 +43,7 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
 
     };
 
-    useEffect(()=>{
-        console.log("вывели ",device?.name);
-        return ()=>{
-            console.log("ретерн из девайса");
-        };
-    },[device]);
+
 
     const renameParameter = async (id:number,comment:string)=> {
         const response = await HeatDeviceService.renameParameter(id,comment);

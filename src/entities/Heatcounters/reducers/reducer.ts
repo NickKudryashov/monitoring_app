@@ -75,7 +75,6 @@ export const heatDeviceSlice = createSlice({
             heatCounterAdapter.updateMany(state,action.payload.map(device=>({id:device.id,changes:sortParameters(device)})));
         },
         [getDevice.fulfilled.type]: (state,action:PayloadAction<HeatDevice>)=>{
-            console.log("гет");
             // const newSystems = action.payload.systems.map(system=>{
             //     const temp = {...system,parameters:sortParameters(system.parameters)};
             //     console.log(temp);

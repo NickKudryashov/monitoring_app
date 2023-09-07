@@ -88,9 +88,7 @@ export const AddPumpDevice = memo((props: PropsWithChildren<AddPumpDeviceProps>)
             slave_adress:Number(slave),
             template_num:Number(templ)
         };
-        console.log(requestData);
         const result = await addRequest(requestData);
-        console.log(result);
         dispatch(fetchPumpDevice());
         onClose();
     };

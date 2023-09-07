@@ -57,7 +57,6 @@ const MainPage = () => {
                 dispatch(deviceListSlice.actions.setHeatDevice(currentHeatDevice));
             }
         }
-        console.log("после апдейта");
 
     };
     return (

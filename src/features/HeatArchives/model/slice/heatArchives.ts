@@ -20,7 +20,6 @@ export const heatArchives = createSlice({
             .addCase(fetchArchData.fulfilled,(state, action)=>{
                 const marker = state.data?.filter(el=>el.id===action.payload.id);
                 if (marker.length) {
-                    console.log("успешно",marker);
                     state.data = state.data.map((el)=>{
                         if (el.id===action.payload.id){
                             return {...action.payload};
@@ -30,7 +29,6 @@ export const heatArchives = createSlice({
                     state.data = state.data.sort((a,b)=>a.id-b.id);
                 }
                 else {
-                    console.log("стейт пустой");
                     state.data.push({...action.payload});
                     state.data = state.data.sort((a,b)=>a.id-b.id);
                 }

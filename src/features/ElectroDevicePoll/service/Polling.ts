@@ -2,7 +2,6 @@ import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electr
 import $api from "shared/api";
 export interface TaskResponse {
     result:boolean;
-    events?:string[];
 }
 
 export interface TaskRequest {

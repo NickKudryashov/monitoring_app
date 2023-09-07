@@ -89,6 +89,7 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
 
     const editAutoPoll = async ()=>{
         const response = await $api.post("electro/"+device.id+"/edit",{autopoll_flag:autoPollMode,interval_minutes:Number(pollInterval)});
+        console.log("запрос из эдит авто полл");
         dispatch(fetchElectroDevices());
 
     };

@@ -1,5 +1,5 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo, useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import cls from "./SubcategoryPage.module.scss";
 
 import type { PropsWithChildren } from "react";
@@ -23,6 +23,8 @@ import { deviceListActions } from "widgets/DeviceList/reducers/DeviceListReducer
 import { ManualBulkHeatPolll, ManualHeatPoll } from "features/ManualHeatPoll";
 import { ElectroDevicePoll } from "features/ElectroDevicePoll";
 import { subCatPageActions } from "../model/slice/SubcategoryPageSlice";
+import { EventAnswer } from "shared/types/eventTypes";
+import $api from "shared/api";
 
 interface SubcategoryPageProps {
  className?: string;
@@ -42,6 +44,13 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
         dispatch(fetchByObjId(current.user_object));
 
     }
+
+    const fetchEvents = useCallback(async () => {
+        const response = await $api.get<EventAnswer>("subcategory_events/"+id);
+        return response.data;
+    },[id]);
+    
+
     useEffect(()=>{
         if (ids.length===0) {
             dispatch(fetchDetail(numberID)).then(res=>dispatch(fetchByObjId(current.user_object)));
@@ -70,6 +79,7 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
         dispatch(subCatPageActions.removeHeat());
         dispatch(subCatPageActions.removePumps());
         dispatch(fetchDetail(numberID));
+        console.log("запрос в юз эффекте страницы сабкатегории");
         dispatch(fetchElectroDevices());
         dispatch(fetchChildren(numberID));
         dispatch(fetchHeat(numberID));
@@ -131,7 +141,7 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
             deviceList={<DeviceList onSubCatMove={onMove}/>}
             navbar={<Navbar/>}
             DetailView={content}
-            footer={<Footer/>}
+            footer={<Footer pollCallback={fetchEvents}/>}
         />
     );
 };

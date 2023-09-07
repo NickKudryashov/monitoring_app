@@ -1,5 +1,5 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import cls from "./HeatDevicePage.module.scss";
 
 import type { PropsWithChildren } from "react";
@@ -17,10 +17,13 @@ import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { HeatArchives } from "features/HeatArchives";
 import { Footer } from "shared/ui/Footer/Footer";
+import $api from "shared/api";
+import { EventAnswer } from "shared/types/eventTypes";
 
 interface HeatDevicePageProps {
  className?: string;
 }
+
 
 const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
     const { className } = props;
@@ -29,7 +32,10 @@ const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
     const navigate = useNavigate();
     const [open,setIsOpen] = useState(false);
 
-
+    const fetchEvents = useCallback(async () => {
+        const response = await $api.get<EventAnswer>("heat_events/"+id);
+        return response.data;
+    },[id]);
     const onClose = ()=>{
         setIsOpen(false);
     };
@@ -68,7 +74,7 @@ const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
             DetailView={content}
-            footer={<Footer/>}
+            footer={<Footer pollCallback={fetchEvents}/>}
         />
     );
 };

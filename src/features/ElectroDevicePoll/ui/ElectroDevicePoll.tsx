@@ -26,29 +26,34 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
     const {selectedDevice} = useSelector((state:StateSchema)=>state.electroDevices);
     const {data} = useSelector((state:StateSchema)=>state.electroDevices);
     const timer_ref = useRef<ReturnType <typeof setInterval>>();
+    const loop_ref = useRef<ReturnType <typeof setInterval>>();
     const pollFlag = useRef<boolean>();
     if (selectedDevice){
         pollFlag.current=selectedDevice?.is_busy ?? device?.is_busy ?? false;
     }
     const [loading,setIsLoading] = useState(pollFlag.current);
     const [status,setStatus] = useState<string>("");
-    const [events,setEvents] = useState<string[]>();
-    const [modalOpen,setModalOpen] = useState(false);
     useEffect(()=>{
         return ()=>{
             if (timer_ref.current){
                 clearInterval(timer_ref.current);}
+            if (loop_ref.current) {
+                clearInterval(loop_ref.current);
+            }
         };
     },[]);
     useEffect(()=>{
         if (!pollFlag.current){
             poll();
+            loop_ref.current = setInterval(poll,60000);
         }
         return ()=>{
             pollFlag.current = false;
-            setEvents([]);
             if (timer_ref.current) {
                 clearInterval(timer_ref.current);
+            }
+            if (loop_ref.current) {
+                clearInterval(loop_ref.current);
             }
         };
         // setIsLoading(selectedDevice?.is_busy ?? device?.is_busy );
@@ -61,7 +66,7 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
     useEffect(()=>{setStatus("");},[selectedDeviceID]);
 
     const  poll =  async ()=>{
-        if (loading){
+        if (timer_ref.current){
             return;
         }
         pollFlag.current=true;
@@ -69,7 +74,6 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
         if (device!==undefined && !bulk){
             dispatch(electroDeviceActions.setBusy(device.id));
             response = await  ManualPoll.pollDevice(selectedDeviceID);
-            console.log(device);
         }
         else {
             response = await  ManualPoll.bulkPollDevice(catID);
@@ -98,7 +102,6 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
                     dispatch(fetchElectroDevices());
                 }
                 else {
-                    console.log("UNSET!!!!!");
                     data?.topLevelDevices.forEach((topdev)=>dispatch(electroDeviceActions.unsetBusy(topdev.id)));
                 }
                 setStatus("Произошла ошибка при опросе");
@@ -109,11 +112,13 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
             if  (response.data?.result!==null) {
                 response.data.result === true ? setStatus("Опрос завершен успешно") : setStatus("Произошла ошибка при опросе");
                 if (device){
+                    console.log("Запрос из опроса");
                     dispatch(fetchElectroDevices());
                     dispatch(electroDeviceActions.unsetBusy(device.id));
                     clearInterval(timer_ref.current);
                 }
                 else {
+                    console.log("Запрос из опроса");
                     data?.topLevelDevices.forEach((topdev)=>dispatch(electroDeviceActions.unsetBusy(topdev.id)));                
                     dispatch(fetchElectroDevices())
                         .then(res=>onUpdate());
@@ -122,7 +127,6 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
                     
             }
             else {
-                setEvents(response.data.events);
                 setIsLoading(true);
             }
         },2000);
@@ -133,16 +137,6 @@ const ElectroDevicePoll = memo((props:ElectroDevicePollProps) => {
             {device && !device.autopoll && <AppButon theme={AppButtonTheme.SHADOW} onClick={poll} disabled={loading} className={classNames(cls.ManualHeatPoll,{},[className,cls.btn])}>
                 {loading? "Идет опрос.." : !bulk ? "Опросить прибор" : "Опросить узел"}
             </AppButon>}
-            <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>setModalOpen(true)}>
-                {"Открыть лог прибора"}
-            </AppButon>
-            <Modal onClose={()=>setModalOpen(false)} isOpen={modalOpen} >
-                <div className={cls.logWindow}>
-                    {events && events.map((element,i)=>
-                        <p key={i}>{element}</p>
-                    )}
-                </div>
-            </Modal>
             <div className={cls.loadbox}>
                 {/* {loading && <Loader/>} */}
                 {/* {status} */}

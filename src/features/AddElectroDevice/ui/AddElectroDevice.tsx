@@ -28,7 +28,6 @@ export const AddElectroDeviceContent = memo((props: PropsWithChildren<AddElectro
     const { className,isOpen,onClose,lazy } = props;
     const {objects} = useSelector((state:StateSchema)=>state.objects);
     const {entities} = useSelector((state:StateSchema)=>state.objSubCat);
-    console.log(objects);
     const [selectedObj,setSelectedObj] = useState(String(objects ? objects[0].id : ""));
     const [selectedSubcat,setSelectedSubcat] = useState("-1");
     const [connectionProtocol,setConenctionProtocol] = useState(DeviceConnection.TCP);

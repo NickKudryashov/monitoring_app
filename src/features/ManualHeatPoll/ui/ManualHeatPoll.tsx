@@ -20,28 +20,33 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
     const dispatch = useAppDispatch();
     const selectedDeviceID = useSelector((state:StateSchema)=>state.heatDevices.selectedDeviceID);
     const timer_ref = useRef<ReturnType <typeof setInterval>>();
+    const loop_ref = useRef<ReturnType <typeof setInterval>>();
     const pollFlag = useRef<boolean>();
     pollFlag.current=false;
     const [loading,setIsLoading] = useState(pollFlag.current);
     const [status,setStatus] = useState<string>("");
-    const [events,setEvents] = useState<string[]>();
-    const [modalOpen,setModalOpen] = useState(false);
     useEffect(()=>{
         return ()=>{
             if (timer_ref.current){
                 clearInterval(timer_ref.current);}
+            if (loop_ref.current) {
+                clearInterval(loop_ref.current);
+            }
         };
     },[]);
     useEffect(()=>{
         if(!pollFlag.current){
             poll();
+            loop_ref.current = setInterval(poll,60000);
         }
         setIsLoading(pollFlag.current);
         return ()=>{
             pollFlag.current=false;
-            setEvents([]);
             if (timer_ref.current){
                 clearInterval(timer_ref.current);
+            }
+            if (loop_ref.current) {
+                clearInterval(loop_ref.current);
             }
         };
     },[device.id]);
@@ -50,6 +55,12 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
 
     
     const  poll =  async ()=>{
+        console.log("в полл");
+        if (pollFlag.current ) {
+            console.log("вышли из полл по условию");
+            return;
+        }
+        console.log("работа poll");
         pollFlag.current=true;
         const response = await  ManualPoll.pollDevice(device.id);
         setIsLoading(true);
@@ -64,7 +75,6 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
         timer_ref.current = setInterval(async ()=>{
             const response = await ManualPoll.getTaskStatus(device.id,task_id);
             if  (response.data.result!==null) {
-                setEvents(response.data.events);
                 response.data.result === true ? setStatus("Опрос завершен успешно") : setStatus("Произошла ошибка при опросе");
                 if (response.data.result) {
                     dispatch(getDevice(device.id));
@@ -80,7 +90,6 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
             else {
                 setIsLoading(true);
             }
-            console.log(response.data);
         },2000);
 
     };
@@ -92,16 +101,6 @@ export function ManualHeatPoll(props: PropsWithChildren<ManualHeatPollProps>) {
                     {loading ?"Идет опрос..." :"Опросить прибор"}
                 </AppButon>
             }
-            <AppButon className={cls.btn} theme={AppButtonTheme.SHADOW} onClick={()=>setModalOpen(true)}>
-                {"Открыть лог прибора"}
-            </AppButon>
-            <Modal onClose={()=>setModalOpen(false)} isOpen={modalOpen} >
-                <div className={cls.logWindow}>
-                    {events && events.map((element,i)=>
-                        <p key={i}>{element}</p>
-                    )}
-                </div>
-            </Modal>
             <div className={cls.loadbox}>
                 {/* {loading && <Loader/>} */}
                 {/* {status} */}

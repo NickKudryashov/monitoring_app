@@ -37,7 +37,6 @@ const editor = async (catID:number,body:any,callback:()=>void)=>{
     if (response.status===200) {
         callback();
     }
-    console.log(response.data);
 };
 
 
@@ -67,7 +66,6 @@ export const ListItem = memo((props: PropsWithChildren<ListItemProps>) => {
             dispatch(objSubCategoryActions.remove(response.data));
         }
         callback();
-        console.log(response.data);
     };
     function onDragStartHandler(e: DragEvent<HTMLAnchorElement>, cid: number): void {
         // console.log("drag start, id: ",cid);
