@@ -8,9 +8,11 @@ import { TelegramChatSchema } from "entities/TelegramChat";
 import { UserState } from "entities/user";
 import { HeatArchivesSchema } from "features/HeatArchives";
 import { SubCategoryPageSchema } from "pages/SubcartegoryPage";
+import { rtkApi } from "shared/api/rtkApi";
 import { DeviceListState } from "widgets/DeviceList";
 
 export interface StateSchema {
+    [rtkApi.reducerPath]:ReturnType<typeof rtkApi.reducer>;
     category:categoryState;
     heatDevices:HeatDeviceSchema;
     user:UserState;

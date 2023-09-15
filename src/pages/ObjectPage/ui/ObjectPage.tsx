@@ -18,6 +18,7 @@ import { Chat } from "entities/TelegramChat";
 import { SubcategoryCard, fetchByObjId } from "entities/ObjectSubCategory";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { HeatDeviceDetailView } from "entities/Heatcounters";
+import { getElectroDeviceData } from "entities/ElectroDevice";
 
 interface ObjectPageProps {
  className?: string;
@@ -37,10 +38,9 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
     if (chatAvailable) {
         currentChat = chats.filter((el)=>el.objects.includes(Number(id)))[0];
     }
-
     const dispatch = useAppDispatch();
     useEffect(()=>{
-        dispatch(objectsAllRequest());
+        // dispatch(objectsAllRequest());
         // dispatch(deviceListSlice.actions.setObject(selectedObj));
         dispatch(fetchByObjId(Number(id)));
         // dispatch(chatActions.setIsLoading(true));

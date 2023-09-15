@@ -11,6 +11,7 @@ import { pumpDeviceReducer } from "entities/PumpDevice";
 import { chatReducer } from "entities/TelegramChat";
 import { objSubCategoryReducer } from "entities/ObjectSubCategory";
 import { subCatPageReducer } from "pages/SubcartegoryPage";
+import { rtkApi } from "shared/api/rtkApi";
 
 
 
@@ -26,13 +27,16 @@ export function createReduxStore(initialState?:StateSchema) {
         pumpDevices:pumpDeviceReducer,
         chats:chatReducer,
         objSubCat:objSubCategoryReducer,
-        subCatPage:subCatPageReducer
+        subCatPage:subCatPageReducer,
+        [rtkApi.reducerPath]:rtkApi.reducer
 
     };
-    return configureStore<StateSchema>({
+    return configureStore({
         reducer:rootReducer,
         devTools:__IS_DEV__,
         preloadedState:initialState,
+        middleware:(getDefaultMiddleware)=>
+            getDefaultMiddleware().concat(rtkApi.middleware),
     });
 }
 

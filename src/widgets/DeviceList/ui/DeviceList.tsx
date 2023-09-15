@@ -6,8 +6,9 @@ import { categoriesAllRequest } from "entities/Category";
 import { objectsAllRequest } from "entities/Objects";
 import { DeviceListItem } from "./DeviceListItem";
 import { getDevices } from "entities/Heatcounters";
-import { fetchElectroDevices } from "entities/ElectroDevice";
+import { fetchElectroDevices, getElectroDeviceData } from "entities/ElectroDevice";
 import { fetchPumpDevice } from "entities/PumpDevice";
+import $api from "shared/api";
 interface DeviceListProps {
  className?: string;
  parentID?:number;
@@ -22,10 +23,6 @@ export function DeviceList(props: PropsWithChildren<DeviceListProps>) {
     useEffect(()=>{
         dispatch(categoriesAllRequest());
         dispatch(objectsAllRequest());
-        dispatch(getDevices());
-        console.log("запрос при монтировании девайс листа");
-        dispatch(fetchElectroDevices());
-        dispatch(fetchPumpDevice());
     },[dispatch]);
     return (
         <div className={classNames(cls.DeviceList,{},[className])}>

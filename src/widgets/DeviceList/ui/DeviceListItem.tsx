@@ -46,7 +46,6 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const categoryClickHandler = (cat:CategoryItem)=>{
-        dispatch(categoriesAllRequest());
         dispatch(heatDeviceSlice.actions.unselectdevice());
         dispatch(categorySlice.actions.openCat(cat.id));
         dispatch(categorySlice.actions.closeAllCatsExceptSelected(cat));
@@ -81,9 +80,9 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     },[currentSubcat, dispatch, selectedObject]);
     const objectClickHandler = (obj:ObjectItem) => {
         // dispatch(objectsAllRequest());
-        dispatch(fetchByObjId(obj.id));
+        // dispatch(fetchByObjId(obj.id));
         dispatch(heatDeviceSlice.actions.unselectdevice());
-        dispatch(getDevices());
+        // dispatch(getDevices());
         for (const dd of ids) {
             localStorage.removeItem("subcategory_"+dd);
         }
@@ -93,7 +92,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
         onClick();
     };
     const heatDeviceClickHandler = useCallback((device:HeatDevice)=>{
-        dispatch(getDevices());
+        // dispatch(getDevices());
         dispatch(heatDeviceSlice.actions.selectdevice(device));
         dispatch(deviceListSlice.actions.setHeatDevice(device));
         dispatch(electroDeviceActions.unselectdevice());
@@ -103,7 +102,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
 
 
     const electroDeviceClickHandler = useCallback((device:TopLevelElectroDevice)=>{
-        dispatch(fetchElectroDevices());
+        // dispatch(fetchElectroDevices());
         console.log("сработка фетчинга из девай лист айтема");
         dispatch(electroDeviceActions.selectdevice(device));
         dispatch(heatDeviceSlice.actions.unselectdevice());
@@ -112,7 +111,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     },[dispatch, onClick]);
 
     const pumpDeviceClickHandler = useCallback((device:PumpDeviceData)=>{
-        dispatch(fetchPumpDevice());
+        // dispatch(fetchPumpDevice());
         dispatch(deviceListSlice.actions.setPumpDevice(device));
         dispatch(electroDeviceActions.unselectdevice());
         dispatch(heatDeviceSlice.actions.unselectdevice());
@@ -131,14 +130,14 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     };
     const objectDeleteHandler=(element:ObjectItem)=>{
         dispatch(objectsDelRequest(element.id));
-        dispatch(getDevices());
+        // dispatch(getDevices());
     };
     const categoryDeleteHandler=(element:CategoryItem)=>{
         const toDelete = findChildrens(categories,element.id);
-        dispatch(categoriesAllRequest());
+        // dispatch(categoriesAllRequest());
         dispatch(categoryDeleteRequest(toDelete));
-        dispatch(objectsAllRequest());
-        dispatch(getDevices());
+        // dispatch(objectsAllRequest());
+        // dispatch(getDevices());
     };
 
     const onSubClick =useCallback((sub:ObjectSubCategoryType)=>{
@@ -152,10 +151,10 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     //не перерисовывается список и возможно карточки
     const onMove = ()=>{
         currentSubcat ? dispatch(fetchByObjId(subcatEntities[currentSubcat].user_object)) : dispatch(fetchByObjId(selectedObject.id));
-        dispatch(fetchPumpDevice());
-        dispatch(fetchElectroDevices());
-        dispatch(getDevices());
-        dispatch(objectsAllRequest());
+        // dispatch(fetchPumpDevice());
+        // dispatch(fetchElectroDevices());
+        // dispatch(getDevices());
+        // dispatch(objectsAllRequest());
         const tempInstance = selectedObject ? selectedObject.id : subcatEntities[currentSubcat].user_object;
         const objArr = objects.filter((el)=>el.id===tempInstance);
         dispatch(deviceListSlice.actions.setProxyObject(objArr[0]));
@@ -166,16 +165,16 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
     const onMoveHandler = (obj:ObjectItem) => {
     };
 
-    const renderDevs = useCallback((objID:number,catID:number)=>(
-        <div>
-            {localStorage.getItem("subcategory_"+catID) && 
-                <HeatDeviceListItem catID={catID}  onDeviceClick={heatDeviceClickHandler} objectID={objID}/>}
-            {localStorage.getItem("subcategory_"+catID) && 
-                <ElectroDeviceListItem catID={catID} onDeviceClick={electroDeviceClickHandler}  objectID={objID}/>}
-            {localStorage.getItem("subcategory_"+catID) && 
-                <PumpDevListItem catID={catID} onDeviceClick={pumpDeviceClickHandler}  objectID={objID} />}
-        </div>
-    ),[electroDeviceClickHandler, heatDeviceClickHandler, pumpDeviceClickHandler]);
+    // const renderDevs = useCallback((objID:number,catID:number)=>(
+    //     <div>
+    //         {localStorage.getItem("subcategory_"+catID) && 
+    //             <HeatDeviceListItem catID={catID}  onDeviceClick={heatDeviceClickHandler} objectID={objID}/>}
+    //         {localStorage.getItem("subcategory_"+catID) && 
+    //             <ElectroDeviceListItem catID={catID} onDeviceClick={electroDeviceClickHandler}  objectID={objID}/>}
+    //         {localStorage.getItem("subcategory_"+catID) && 
+    //             <PumpDevListItem catID={catID} onDeviceClick={pumpDeviceClickHandler}  objectID={objID} />}
+    //     </div>
+    // ),[electroDeviceClickHandler, heatDeviceClickHandler, pumpDeviceClickHandler]);
     
 
     const addSubcatHandler = async (object:ObjectItem)=>{
@@ -219,7 +218,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
                                         {text:"Добавить подпапку",onClick:()=>addSubcatHandler(object)},
                                     ]}
                                 />}> 
-                            {
+                            {/* {
                                 selectedObject && selectedObject?.pids_with_ids && selectedObject?.pids_with_ids["0"] && 
                                 selectedObject?.pids_with_ids["0"].map((id)=>
                                     <div  key={id}>
@@ -234,7 +233,7 @@ export function DeviceListItem(props: PropsWithChildren<DeviceListItemProps>) {
                                         <ListItem onClick={()=>onSubClick(subcatEntities[id])}  objID={objectThroughSubcat.id} onMove={()=>onMove()} renderCallback={renderDevs} pidMapper={objectThroughSubcat?.pids_with_ids}  catID={id} />
                                     </div>
                                 )
-                            }
+                            } */}
                             {/* <PumpDevListItem objectID={object.id} onDeviceClick={pumpDeviceClickHandler} /> */}
                         </ObjectListItem>)}
                         <DeviceListItem onClick={onClick} parentID={element.id}/>

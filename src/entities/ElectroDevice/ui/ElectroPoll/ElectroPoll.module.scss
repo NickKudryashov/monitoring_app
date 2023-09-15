@@ -1,0 +1,19 @@
+.electroDevicePoll {
+    display: flex;
+    margin-left: auto;
+    flex-direction: column;
+}
+
+.btn {
+    width:var(--device-buttons);
+    align-items: center;
+    justify-content: center;
+}
+
+.logWindow {
+    display: flex;
+    flex-flow: column;
+    max-width: 85vw;
+    max-height: 85vh;
+    overflow-y: auto;
+}

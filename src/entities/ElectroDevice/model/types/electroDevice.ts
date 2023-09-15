@@ -83,3 +83,22 @@ error?:string;
 interface Dictionary<T> {
     [Key: string]: T;
 }
+
+export interface GetDeviceQuery {
+    node:number;
+    device_num:number;
+    subcategory:number;
+    password:string;
+    is_busy?:boolean;
+    autopoll?:boolean;
+    interval?:number;
+    last_poll_seconds?:number;
+    statistic?:Dictionary<TopLevelDeviceStatistic>
+    user_object:number;
+    id:number;
+    name:string;
+    device_type:string;
+    device_type_verbose_name:string;
+    last_update:string;
+    counters_by_can:Dictionary<ElectroCounter[]>;
+}

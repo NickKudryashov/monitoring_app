@@ -40,10 +40,13 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
     const {currentSubcat} = useSelector((state:StateSchema)=>state.deviceList);
     const {electrocounter,heatcounters,pumps,subcats,current} = useSelector((state:StateSchema)=>state.subCatPage);
     // dispatch(fetchChildren(numberID));
-    if (!currentSubcat && current) {
-        dispatch(fetchByObjId(current.user_object));
 
-    }
+    useEffect(()=>{
+        if (!currentSubcat && current) {
+            dispatch(fetchByObjId(current.user_object));
+        }
+    },[id]);
+    
 
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>("subcategory_events/"+id);
@@ -79,13 +82,12 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
         dispatch(subCatPageActions.removeHeat());
         dispatch(subCatPageActions.removePumps());
         dispatch(fetchDetail(numberID));
-        console.log("запрос в юз эффекте страницы сабкатегории");
-        dispatch(fetchElectroDevices());
+        // dispatch(fetchElectroDevices());
         dispatch(fetchChildren(numberID));
         dispatch(fetchHeat(numberID));
         dispatch(fetchElectro(numberID));
         dispatch(fetchPump(numberID));
-        dispatch(objectsAllRequest());
+        // dispatch(objectsAllRequest());
         dispatch(deviceListActions.setSubcat(numberID));
 
     },[dispatch, numberID]);
@@ -112,7 +114,7 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
             }
             {electrocounter && electrocounter.map((el)=> el.subcategory===numberID && 
                 <ElectroCounterDeviceDetail key={el.id} id={el.id}>
-                    <ElectroDevicePoll device={el} onUpdate={()=>dispatch(fetchElectro(numberID))}  />
+                    {/* <ElectroDevicePoll device={el} onUpdate={()=>dispatch(fetchElectro(numberID))}  /> */}
                 </ElectroCounterDeviceDetail>
             ) 
             }

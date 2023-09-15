@@ -12,7 +12,7 @@ import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { DetailView } from "widgets/DetailView";
 import { Loader } from "shared/ui/Loader/Loader";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
-import { ElectroCounterDeviceDetail } from "entities/ElectroDevice";
+import { ElectroCounterDeviceDetail, getElectroDeviceData } from "entities/ElectroDevice";
 import { ElectroDevicePoll } from "features/ElectroDevicePoll";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import $api, { API_URL } from "shared/api";
@@ -29,6 +29,7 @@ const ElectroDevicePage = memo((props: PropsWithChildren<ElectroDevicePageProps>
     const {id} = useParams<{id:string}>();
     const {data} = useSelector((state:StateSchema)=>state.electroDevices);
     const navigate = useNavigate();
+
 
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>("electro_events/"+id);

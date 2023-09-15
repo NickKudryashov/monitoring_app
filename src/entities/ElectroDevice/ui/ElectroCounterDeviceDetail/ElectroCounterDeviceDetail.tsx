@@ -1,20 +1,16 @@
 import classNames from "shared/lib/classNames/classNames";
-import { ReactNode, memo, useEffect, useRef, useState } from "react";
+import { ReactNode, memo, useEffect, useState } from "react";
 import cls from "./ElectroCounterDeviceDetail.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
-import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { timeConvert } from "shared/lib/helpers/datetimeConvert";
 import { ElectroCounterDetailView } from "../ElectroCounterDetailView/ElectroCounterDetailView";
-import $api, { API_URL } from "shared/api";
-import axios, { AxiosRequestConfig } from "axios";
+import $api from "shared/api";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { fetchElectroDevices } from "entities/ElectroDevice/model/services/fetchElectroDevice/fetchElectroDevice";
 import { Loader } from "shared/ui/Loader/Loader";
-import { fetchElectro } from "pages/SubcartegoryPage/model/service/fetchContent";
+import { getElectroDeviceData } from "entities/ElectroDevice/api/electroDeviceApi";
+import { downloadXLSFile } from "entities/ElectroDevice/helpers/reportDownload";
+import { ElectroStatistic } from "../ElectroStatisticBlock/ElectroStatistic";
+import { ElectroPoll } from "../ElectroPoll/ElectroPoll";
 
 interface ElectroCounterDeviceDetailProps {
  className?: string;
@@ -24,14 +20,10 @@ interface ElectroCounterDeviceDetailProps {
 
 export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<ElectroCounterDeviceDetailProps>) => {
     const { className,id,children,featuresBlock } = props;
-    const {data,selectedDevice} = useSelector((state:StateSchema)=>state.electroDevices);
-    const device = data?.topLevelDevices?.filter((d)=>d.id===id)[0];
-    // const [currentCan,setCurrentCan] = useState<CANMapper>(undefined);
+    const {isLoading,data:rtkData,refetch} = getElectroDeviceData(String(id));
     const [currentCans,setCurrentCan] = useState<string[]>([]);
-    const [pollInterval,setPollInterval] = useState(device?.interval);
-    const [autoPollMode,setAutoPollmode] = useState(device?.autopoll);
-    const dispatch = useAppDispatch();
-    // console.log(device.statistic);
+    const [pollInterval,setPollInterval] = useState(rtkData?.interval);
+    const [autoPollMode,setAutoPollmode] = useState(rtkData?.autopoll);
     const canChangeHandler = (can:string)=>{
         setCurrentCan((prev)=>{
             if(prev.includes(can)) {
@@ -40,99 +32,74 @@ export const ElectroCounterDeviceDetail = memo((props: PropsWithChildren<Electro
             return [...prev,can];
         });
     };
-    if (!device) {
+
+    useEffect(()=>{
+        if (!isLoading){
+            setPollInterval(rtkData.interval);
+            setAutoPollmode(rtkData.autopoll);
+    
+        }
+    },[isLoading]);
+
+    if (isLoading) {
         return <Loader/>;
     }
     const statisticBlock = (
         <div>
-            {Object.values(device?.statistic)?.map((el,i)=>
+            {Object.values(rtkData.statistic)?.map((el,i)=>
                 <p key={i}>
                     {`${el.verbose} всего: ${el.count} опрошены: ${el.success} не опрошены: ${el.failed}`}
                 </p>
             )}
         </div>
     );
-    // useEffect(()=>{
-    //     setCurrentCan([]);
-    //     return ()=>{
-    //         setCurrentCan([]);
-    //     };
-    // },[selectedDevice]);
-    // const content = (
-    //     <div className={cls.container}>
-    //         {
-    //             currentCans.length && 
-    //         currentCans.map(
-    //             (currentCan)=>data.devicesByCan[device.id][currentCan] && data.devicesByCan[device.id][currentCan]?.map(
-    //                 (counter)=>
-    //                     <ElectroCounterDetailView key={counter.id} counter={counter} device={device}/> 
-    //             )
-    //         )
-    //         }
-    //     </div>
-    // );
-    const downloadXLSFile = async (id:number) => {
-        const response = await $api.post(`electro_report/${id}`);
-        fetch(`${API_URL}electro_report/${id}`,{method:"PUT",headers:{"Authorization":"Bearer "+localStorage.getItem("access_token")}}).then(
-            response => {
-                response.blob().then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    console.log(url);
-                    a.href = url;
-                    a.download = `${device.name}_${device.device_type_verbose_name}_отчет.xlsx`;
-                    a.click();
-                    a.remove();
-                });
-            });
-    };
+
+
 
     const editAutoPoll = async ()=>{
-        const response = await $api.post("electro/"+device.id+"/edit",{autopoll_flag:autoPollMode,interval_minutes:Number(pollInterval)});
+        const response = await $api.post("electro/"+rtkData.id+"/edit",{autopoll_flag:autoPollMode,interval_minutes:Number(pollInterval)});
         console.log("запрос из эдит авто полл");
-        dispatch(fetchElectroDevices());
-
+        refetch();
     };
     return (
         <div className={classNames(cls.ElectroCounterDeviceDetail,{},[className])}>
             {children}
             <div className={cls.features}>
-                <div className={cls.titleBlock}>
-                    <b className={cls.devTitle}>{`${device.name} ${device.device_type_verbose_name} №${device.device_num}`}</b>
-                    {`Дата последнего опроса ${timeConvert(selectedDevice?.last_update ?? device.last_update)}`}
-                    {device.last_poll_seconds!==undefined && <br/>}
-                    {device.last_poll_seconds!==undefined && `Длительность предыдущего опроса: ${device?.last_poll_seconds / 60} минут`}
-                    <div className={cls.autoFlagBox}>
-                        <input  type='checkbox' checked={autoPollMode} onChange={()=>setAutoPollmode(prev=>!prev)} id={"device_autopoll"} />
-                        <label htmlFor={"device_autopoll"}>Включить автоопрос</label>
-                    </div>
-                    <p>Интвервал автоопроса в минутах:</p>
-                    <input value={String(pollInterval)} onChange={(e)=>setPollInterval(Number(e.target.value))} />
-                    <AppButon theme={AppButtonTheme.SHADOW} onClick={editAutoPoll}>Применить изменения</AppButon>
-                </div>
-                
+                <b className={cls.devTitle}>{`${rtkData.name} ${rtkData.device_type_verbose_name} №${rtkData.device_num}`}</b>
+                <ElectroStatistic
+                    autoPollMode={autoPollMode}
+                    last_poll_seconds={rtkData.last_poll_seconds}
+                    last_update={rtkData.last_update}
+                    onEdit={editAutoPoll}
+                    pollInterval={pollInterval}
+                    setAutoPollmode={setAutoPollmode}
+                    setPollInterval={setPollInterval}
+                    id={id}
+                />
+                <ElectroPoll
+                    autopoll={rtkData.autopoll}
+                    id={rtkData.id}
+                    isBusy={rtkData.is_busy}
+                    onUpdate={refetch}
+                />
                 {featuresBlock}
             </div>
-            <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(device.id)}>Отчет</AppButon>
+            <AppButon theme={AppButtonTheme.SHADOW} className={cls.btn}  onClick={()=>downloadXLSFile(rtkData.id)}>Отчет</AppButon>
             <div className={cls.interface_panel}>
                 <p>{"Доступные интерфейсы:"}</p>
                 {
-                    data.devicesByCan[device.id]!==undefined && 
-                    Object.keys(data.devicesByCan[device.id])?.map((can)=>(
+                    Object.keys(rtkData.counters_by_can)?.map((can)=>(
                         <div key={can} className={cls.interface_list_item}>
                             <b className={cls.interface_btn} onClick={()=>canChangeHandler(can)}>{can}</b>
                             {currentCans.includes(can) && 
-                            <div className={cls.container}>
-                                {
-                                    currentCans.length && 
-                            currentCans.map(
-                                (currentCan)=>data.devicesByCan[device.id]!==undefined && data.devicesByCan[device.id][currentCan]?.map(
-                                    (counter)=> can===counter.interface &&
-                                        <ElectroCounterDetailView key={counter.id} counter={counter} device={device}/> 
-                                )
-                            )
-                                }
-                            </div>}
+                                <div className={cls.container}>
+                                    {
+                                        rtkData.counters_by_can[can].map((counter)=>
+                                            <ElectroCounterDetailView key={counter.id} counter={counter} device={rtkData}/> 
+                                        )
+                                    }
+                                </div>
+                            }
                         </div>
                     ))
                 }
