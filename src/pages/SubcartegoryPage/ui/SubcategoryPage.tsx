@@ -106,20 +106,20 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
                 <SubcategoryCard onClick={()=>{navigate(RoutePathAuth.subcat+el.id);localStorage.setItem("subcategory_"+el.id,"1");}} key={el.id} catID={el.id} />
             ) 
             }
-            {heatcounters.length && heatcounters.map((el)=> el.subcategory===numberID &&
-                <HeatDeviceDetailView key={el.id} id={String(el.id)}>
+            {heatcounters && heatcounters.map((el)=> 
+                <HeatDeviceDetailView key={el} id={String(el)}>
                     {/* <ManualHeatPoll onUpdate={updateHeatDevice} device={el}/> */}
                 </HeatDeviceDetailView>
             ) 
             }
-            {electrocounter && electrocounter.map((el)=> el.subcategory===numberID && 
-                <ElectroCounterDeviceDetail key={el.id} id={el.id}>
+            {electrocounter && electrocounter.map((el)=>
+                <ElectroCounterDeviceDetail key={el} id={el}>
                     {/* <ElectroDevicePoll device={el} onUpdate={()=>dispatch(fetchElectro(numberID))}  /> */}
                 </ElectroCounterDeviceDetail>
             ) 
             }
-            {pumps && pumps.map((el)=> el.subcategory===numberID && 
-                <PumpDevice key={el.id} id={el.id} />
+            {pumps && pumps.map((el)=>
+                <PumpDevice key={el} id={el} />
             ) 
             }
         </DetailView>

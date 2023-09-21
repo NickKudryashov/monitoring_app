@@ -5,10 +5,10 @@ import { PumpDeviceData } from "entities/PumpDevice";
 
 export interface SubCategoryPageSchema {
     isLoading?:boolean;
-    subcats?:ObjectSubCategoryType[]
-    heatcounters?:HeatDevice[]
-    electrocounter?:TopLevelElectroDevice[]
-    pumps?:PumpDeviceData[]
-    current?:ObjectSubCategoryType
+    subcats?:ObjectSubCategoryType[];
+    heatcounters?:number[];
+    electrocounter?:number[];
+    pumps?:number[];
+    current?:ObjectSubCategoryType;
 }
 

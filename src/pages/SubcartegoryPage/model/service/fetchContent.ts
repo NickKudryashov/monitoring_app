@@ -12,20 +12,20 @@ export const fetchChildren = createAsyncThunk<ObjectSubCategoryType[],number,Thu
     return response.data;
 });
 
-export const fetchHeat = createAsyncThunk<HeatDevice[],number,ThunkConfig<string>>("subcats/heat",async (cat_id,thunkAPI)=>{
-    const response = await $api.get<HeatDevice[]>("subcategory/"+cat_id+"/heat");
+export const fetchHeat = createAsyncThunk<number[],number,ThunkConfig<string>>("subcats/heat",async (cat_id,thunkAPI)=>{
+    const response = await $api.get<number[]>("subcategory/"+cat_id+"/heat");
     return response.data;
 });
 
 
-export const fetchElectro = createAsyncThunk<TopLevelElectroDevice[],number,ThunkConfig<string>>("subcats/electro",async (cat_id,thunkAPI)=>{
-    const response = await $api.get<TopLevelElectroDevice[]>("subcategory/"+cat_id+"/electro");
+export const fetchElectro = createAsyncThunk<number[],number,ThunkConfig<string>>("subcats/electro",async (cat_id,thunkAPI)=>{
+    const response = await $api.get<number[]>("subcategory/"+cat_id+"/electro");
     return response.data;
 });
 
 
-export const fetchPump = createAsyncThunk<PumpDeviceData[],number,ThunkConfig<string>>("subcats/pump",async (cat_id,thunkAPI)=>{
-    const response = await $api.get<PumpDeviceData[]>("subcategory/"+cat_id+"/pump");
+export const fetchPump = createAsyncThunk<number[],number,ThunkConfig<string>>("subcats/pump",async (cat_id,thunkAPI)=>{
+    const response = await $api.get<number[]>("subcategory/"+cat_id+"/pump");
     return response.data;
 });
 
