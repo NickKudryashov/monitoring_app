@@ -13,6 +13,7 @@ import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { useInfinityScroll } from "shared/hooks/useInfinityScroll";
 import { PumpPollResponse } from "../model/types/pumpDevice";
 import { Modal } from "shared/ui/Modal/Modal";
+import { getPumpData } from "../api/pumpApi";
 
 const GROUP_ORDER = [
     "general_group",
@@ -57,10 +58,9 @@ export interface PumpDeviceProps {
 export const PumpDevice = memo((props:PumpDeviceProps) => {
     const { className,id } = props;
     const dispatch = useAppDispatch();
-    const isLoading = useSelector((state:StateSchema)=>state.pumpDevices.isLoading);
     const [expanded,setExpanded] = useState<string[]>([]);
-    const device = useSelector((state:StateSchema)=>state.pumpDevices.data).filter(el=>el?.id===id)[0];
-    const task_id = useSelector((state:StateSchema)=>state.pumpDevices.task_id);
+    const {isLoading:isDevLoading,data:device,refetch} = getPumpData(String(id));
+    const {task_id,isLoading} = useSelector((state:StateSchema)=>state.pumpDevices);
     const orderedParams = createParameterGroups(device?.parameters ?? []);
     const wr = useRef<HTMLDivElement | null>();
     const tr = useRef<HTMLDivElement | null>();
@@ -72,8 +72,11 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
     // useInfinityScroll({callback,wrapperRef:wr,triggerRef:tr});
 
     useEffect(()=>{
-        dispatch(fetchPumpDevice());
-    },[dispatch]);
+        if (!isDevLoading) {
+            setPollInterval(device.interval);
+            setAutoPollmode(device.autopoll);
+        }
+    },[isDevLoading]);
 
     useEffect(()=>{
         dispatch(pollPumpDevice(device?.id));
@@ -87,8 +90,7 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
 
     const editAutoPoll = async ()=>{
         const response = await $api.post("pump/"+device.id+"/edit",{autopoll_flag:autoPollMode,interval_minutes:Number(pollInterval)});
-        dispatch(fetchPumpDevice());
-
+        refetch();
     };
 
     if (isLoading) {
@@ -97,7 +99,7 @@ export const PumpDevice = memo((props:PumpDeviceProps) => {
             if (response.data !== null) {
                 clearInterval(poller);
                 dispatch(pumpDeviceActions.setIsLoading(false));
-                dispatch(fetchPumpDevice());
+                refetch();
             }
         },2000);
     }

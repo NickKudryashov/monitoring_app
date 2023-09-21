@@ -51,7 +51,7 @@ const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
     if (entities && dev?.length){
         content = (
             <DetailView className={cls.detail}>
-                <HeatDeviceDetailView device={dev[0]}>
+                <HeatDeviceDetailView id={String(dev[0].id)}>
                     <HeatArchives is_open={open} onClose={onClose} dev_id={Number(id)}/>
                     <ManualHeatPoll onUpdate={()=>console.log("")} device={dev[0]} />
                     {/* <AppButon className={cls.mockBtn} theme={AppButtonTheme.SHADOW}>Снять архив</AppButon> */}

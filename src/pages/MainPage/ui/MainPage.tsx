@@ -90,8 +90,8 @@ const MainPage = () => {
                             <MockComponent/>
                         </ObjectDetail>}
                         {isHeatDevice &&  
-                        <HeatDeviceDetailView device={currentHeatDevice}>
-                            <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentHeatDevice}/>
+                        <HeatDeviceDetailView id={String(currentHeatDevice.id)}>
+                            {/* <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentHeatDevice}/> */}
                         </HeatDeviceDetailView> }
                         {isElectroDevice &&  
                         <ElectroCounterDeviceDetail id={currentElectroDevice.id}>

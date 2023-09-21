@@ -50,3 +50,11 @@ interface HeatCounterState {
 export interface HeatDeviceSchema extends EntityState<HeatDevice> {
     selectedDeviceID:EntityId;
 }
+
+export interface TaskResponse {
+    result:boolean;
+}
+
+export interface TaskRequest {
+    task_id:string;
+}

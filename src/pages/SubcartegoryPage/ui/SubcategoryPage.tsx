@@ -107,8 +107,8 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
             ) 
             }
             {heatcounters.length && heatcounters.map((el)=> el.subcategory===numberID &&
-                <HeatDeviceDetailView key={el.id} device={el}>
-                    <ManualHeatPoll onUpdate={updateHeatDevice} device={el}/>
+                <HeatDeviceDetailView key={el.id} id={String(el.id)}>
+                    {/* <ManualHeatPoll onUpdate={updateHeatDevice} device={el}/> */}
                 </HeatDeviceDetailView>
             ) 
             }

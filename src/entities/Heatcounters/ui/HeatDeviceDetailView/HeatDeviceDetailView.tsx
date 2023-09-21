@@ -11,15 +11,19 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { HeatActions } from "entities/Heatcounters/reducers/reducer";
 import { getDevice } from "entities/Heatcounters/reducers/actionCreator";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { getHeatDeviceData } from "entities/Heatcounters/api/heatcountersapi";
+import { Loader } from "shared/ui/Loader/Loader";
+import { HeatPoll } from "../HeatPoll/HeatPoll";
 
 interface DetailViewProps {
  className?: string;
- device:HeatDevice;
+ id:string;
 }
 
 export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) {
-    const { className,device,children } = props;
+    const { className,children,id } = props;
     const [currentConturs,setCurrentConturs] = useState<string[]>([]);
+    const {isLoading,data:device,refetch} = getHeatDeviceData(id);
     const [pollInterval,setPollInterval] = useState(device?.interval);
     const [autoPollMode,setAutoPollmode] = useState(device?.autopoll);
     const dispatch = useAppDispatch();
@@ -31,15 +35,24 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
             return [...prev,conturName];
         });
     };
+
+    useEffect(()=>{
+        if (!isLoading){
+            setPollInterval(device?.interval);
+            setAutoPollmode(device?.autopoll);
+    
+        }
+    },[device?.autopoll, device?.interval, isLoading]);
+    
     useEffect(()=>{
         return ()=>{
             setPollInterval(device?.interval);
             setAutoPollmode(device?.autopoll);
         };
-    },[device?.id]);
+    },[id]);
     const editAutoPoll = async ()=>{
         const response = await HeatDeviceService.editHeatAutoSettings(device.id,Number(pollInterval),autoPollMode);
-        dispatch(getDevice(device.id));
+        refetch();
 
     };
 
@@ -47,9 +60,15 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
 
     const renameParameter = async (id:number,comment:string)=> {
         const response = await HeatDeviceService.renameParameter(id,comment);
-        dispatch(getDevice(id));
+        refetch();
     };
     const debouncedRename = useDebounce(renameParameter,1500);
+
+    if (isLoading) {
+        return (
+            <Loader/>
+        );
+    }
 
     // console.log("детейл счетчик рендерится");
     return (
@@ -58,7 +77,7 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
                 <div className={cls.generalInfo}>
                     <b className={cls.deviceTitle}>Информация по прибору {`${device.name} ${device.device_type_verbose_name} №${device.device_num} `}</b>
                     <p className={cls.dateRow}>{`Дата последнего опроса: ${timeConvert(device.last_update)}`}</p>
-                
+                    <HeatPoll autoPoll={device.autopoll} id={device.id} onUpdate={refetch} />
                 </div>
                 <div className={cls.systemsRow}>
                     <br/>

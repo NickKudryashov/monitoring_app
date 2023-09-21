@@ -18,7 +18,6 @@ interface ElectroCounterDetailViewProps {
 
 export const ElectroCounterDetailView = memo((props: PropsWithChildren<ElectroCounterDetailViewProps>) => {
     const { className,device,counter } = props;
-    const {data} = useSelector((state:StateSchema)=>state.electroDevices);
     const dispatch = useAppDispatch();
     const [devName,setDevName] = useState(counter.name);
     const editRequest = (devId:number,name:string)=>{
