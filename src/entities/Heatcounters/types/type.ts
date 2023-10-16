@@ -58,3 +58,9 @@ export interface TaskResponse {
 export interface TaskRequest {
     task_id:string;
 }
+
+export interface ArchiveEvent {
+    message:string;
+    event_datetime:string;
+    system:string;
+}

@@ -4,7 +4,7 @@ import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import classNames from "shared/lib/classNames/classNames";
 import { fetchArchData, request_archives, request_polling_status, request_system_date } from "../model/services/fetchHeatArchives/fetchHeatArchives";
 import $api, { API_URL } from "shared/api";
-import { selectHeatDeviceById } from "entities/Heatcounters";
+import { getHeatDeviceData, selectHeatDeviceById } from "entities/Heatcounters";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { useAppDispatch } from "shared/hooks/hooks";
@@ -33,6 +33,7 @@ interface SystemDataRecord {
 }
 export const HeatArchives = memo((props:HeatArchivesProps) => {
     const { className,dev_id,is_open,onClose } = props;
+    const {data:dev,isLoading} = getHeatDeviceData(String(dev_id))
     const [archType,setArchType] = useState("1");
     const [formArchType,setFormArchType] = useState("1");
     const [systemId,setSystemId] = useState("");
@@ -43,7 +44,7 @@ export const HeatArchives = memo((props:HeatArchivesProps) => {
     const [startDateReport,setStartDatReport] = useState("");
     const [endDateReport,setEndDateReport] = useState("");
     const {entities}  = useSelector((state:StateSchema)=>state.heatDevices);
-    const dev = entities[dev_id];
+    // const dev = entities[dev_id];
     const timeoutRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const systems = dev.systems.map(system=>(system.id));
     const [systemArray,setSystemArray] = useState([]);

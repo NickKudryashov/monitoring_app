@@ -1,0 +1,1 @@
+export {AutoDevDetail} from './ui/AutoDevDetail/AutoDevDetail'

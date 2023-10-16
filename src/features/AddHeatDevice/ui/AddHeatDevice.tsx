@@ -2,7 +2,7 @@
 // import cls from './AddHeatDevice.module.scss';
 
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { getDevices, HeatSystem } from "entities/Heatcounters";
+import { getDevices, HeatDevice, HeatSystem } from "entities/Heatcounters";
 import { PropsWithChildren, useState } from "react";
 import { useSelector } from "react-redux";
 import $api from "shared/api";
@@ -63,7 +63,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
             systems,
         };
         await $api.post("device/add",body);
-        dispatch(getDevices());
+        // dispatch(getDevices());
         onClose();
     };
 
@@ -71,7 +71,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
         const nums = Number(e.target.value);
         const result = [];
         for (let i = 0;i<nums;i++){
-            const temp = {name:`ТС${i+1}`,index:i,is_active:true};
+            const temp = {name:`ТС${i+1}`,index:i};
             result.push(temp);
         }
         setSystems(result);

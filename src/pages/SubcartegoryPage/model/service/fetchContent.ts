@@ -29,6 +29,11 @@ export const fetchPump = createAsyncThunk<number[],number,ThunkConfig<string>>("
     return response.data;
 });
 
+export const fetchAuto = createAsyncThunk<number[],number,ThunkConfig<string>>("subcats/auto",async (cat_id,thunkAPI)=>{
+    const response = await $api.get<number[]>("subcategory/"+cat_id+"/auto");
+    return response.data;
+});
+
 export const fetchDetail = createAsyncThunk<ObjectSubCategoryType,number,ThunkConfig<string>>("subcats/detail",async (cat_id,thunkAPI)=>{
     const response = await $api.get<ObjectSubCategoryType>("subcategory/"+cat_id+"/detail");
     return response.data;

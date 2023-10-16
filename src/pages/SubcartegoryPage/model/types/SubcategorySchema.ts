@@ -9,6 +9,7 @@ export interface SubCategoryPageSchema {
     heatcounters?:number[];
     electrocounter?:number[];
     pumps?:number[];
+    autos?:number[];
     current?:ObjectSubCategoryType;
 }
 

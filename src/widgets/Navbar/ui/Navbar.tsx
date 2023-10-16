@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { AddElectroDevice } from "features/AddElectroDevice";
 import { AddPumpDevice } from "features/AddPumpStationDevice";
+import { AddAutoDevice } from "features/AddAutoDevice";
 
 interface NavbarProps {
  className?: string;
@@ -28,6 +29,7 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
     const [heatDeviceFormOpened,setHeatDeviceFormOpened] = useState(false);
     const [electroDeviceFormOpened,setElectroDeviceFormOpened] = useState(false);
     const [pumpDevFormOpened,setPumpDevFormOpened] = useState(false);
+    const [autoDevFormOpened,setAutoDevFormOpened] = useState(false);
     const dispatch = useAppDispatch();
     const items = [
         {text:"Добавить категорию",onClick:()=>setCategoryFormOpened(true)},
@@ -35,6 +37,7 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
         {text:"Добавить прибор УУТЭ",onClick:()=>setHeatDeviceFormOpened(true)},
         {text:"Добавить прибор АСКУЭ",onClick:()=>setElectroDeviceFormOpened(true)},
         {text:"Добавить насос",onClick:()=>setPumpDevFormOpened(true)},
+        // {text:"Добавить АСУТП",onClick:()=>setAutoDevFormOpened(true)},
     ];
     const acceptCategory = useCallback(() => {
         setCategoryFormOpened(false);
@@ -47,6 +50,9 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
     },[]);
     const acceptPumpDevice = useCallback(() => {
         setPumpDevFormOpened(false);
+    },[]);
+    const acceptAutoDevice = useCallback(() => {
+        setAutoDevFormOpened(false);
     },[]);
     return (
         <div className={classNames(cls.Navbar,{},[className])}>
@@ -71,6 +77,7 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                 <AddHeatDevice onClose={acceptHeatDevice} isOpen={heatDeviceFormOpened}/>
                 <AddElectroDevice lazy={true} onClose={()=>setElectroDeviceFormOpened(false)} isOpen={electroDeviceFormOpened}/>
                 <AddPumpDevice onClose={()=>setPumpDevFormOpened(false)} isOpen={pumpDevFormOpened} />
+                {/* <AddAutoDevice isOpen={autoDevFormOpened} onClose={acceptAutoDevice}/> */}
                 <div onClick={()=>dispatch(userSlice.actions.logout())}  className={cls.blocks}>Выход</div>
             </div>
         </div>

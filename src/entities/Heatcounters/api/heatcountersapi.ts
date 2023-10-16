@@ -1,5 +1,5 @@
 import { url } from "inspector";
-import { HeatDevice } from "../types/type";
+import { ArchiveEvent, HeatDevice } from "../types/type";
 import { rtkApi } from "shared/api/rtkApi";
 
 const heatDeviceQuery = rtkApi.injectEndpoints({
@@ -11,8 +11,16 @@ const heatDeviceQuery = rtkApi.injectEndpoints({
                 };
             },
         }),
+        getArchivesEvents:build.query<ArchiveEvent[],string>({
+            query: (id) =>{
+                return {
+                    url:"archives_events/"+id,
+                };
+            }
+        })
     }),
     overrideExisting: false,
 });
 
 export const getHeatDeviceData = heatDeviceQuery.useGetHeatDeviceQuery;
+export const getArchivesEvents = heatDeviceQuery.useGetArchivesEventsQuery;

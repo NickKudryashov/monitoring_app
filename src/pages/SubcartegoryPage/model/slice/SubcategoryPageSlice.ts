@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SubCategoryPageSchema } from "../types/SubcategorySchema";
-import { fetchChildren, fetchDetail, fetchElectro, fetchHeat, fetchPump } from "../service/fetchContent";
+import { fetchAuto, fetchChildren, fetchDetail, fetchElectro, fetchHeat, fetchPump } from "../service/fetchContent";
 
 
 
@@ -10,6 +10,7 @@ const initialState:SubCategoryPageSchema = {
     isLoading:false,
     pumps:[],
     subcats:[],
+    autos:[],
     current:undefined
 };
 
@@ -30,6 +31,9 @@ const subCatPageSlice = createSlice({
         removePumps (state) {
             state.pumps=[];
         },
+        removeAutos (state) {
+            state.autos=[];
+        },
     },
     extraReducers(builder) {
         builder
@@ -44,6 +48,9 @@ const subCatPageSlice = createSlice({
             }).
             addCase(fetchPump.fulfilled,(state,action)=>{
                 state.pumps = action.payload;
+            }).
+            addCase(fetchAuto.fulfilled,(state,action)=>{
+                state.autos = action.payload;
             }).
             addCase(fetchDetail.fulfilled,(state,action)=>{
                 state.current = action.payload;
