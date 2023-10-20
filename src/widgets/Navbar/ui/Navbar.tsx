@@ -15,6 +15,8 @@ import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { AddElectroDevice } from "features/AddElectroDevice";
 import { AddPumpDevice } from "features/AddPumpStationDevice";
 import { AddAutoDevice } from "features/AddAutoDevice";
+import { getArchivesEvents } from "entities/Heatcounters";
+import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 
 interface NavbarProps {
  className?: string;
@@ -24,6 +26,8 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
     const { className } = props;
     const email = useSelector((state:StateSchema)=>state.user.userdata?.name);
     const [settingsDropdownOpened,setSettingsDropdownOpened] = useState(false);
+    const {isLoading:eventsIsLoading,data:archiveEventsData,refetch:refetchEvents} = getArchivesEvents();
+    const [showEvents,setShowEvents] = useState(false);
     const [categoryFormOpened,setCategoryFormOpened] = useState(false);
     const [objectFormOpened,setObjectFormOpened] = useState(false);
     const [heatDeviceFormOpened,setHeatDeviceFormOpened] = useState(false);
@@ -78,6 +82,25 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                 <AddElectroDevice lazy={true} onClose={()=>setElectroDeviceFormOpened(false)} isOpen={electroDeviceFormOpened}/>
                 <AddPumpDevice onClose={()=>setPumpDevFormOpened(false)} isOpen={pumpDevFormOpened} />
                 {/* <AddAutoDevice isOpen={autoDevFormOpened} onClose={acceptAutoDevice}/> */}
+                <AppButon theme={AppButtonTheme.SHADOW} onClick={()=>setShowEvents(prev=>!prev)}>Показать события архивов</AppButon>
+                <Modal isOpen={showEvents} onClose={()=>setShowEvents(false)}  >
+                {
+                    <div className={cls.modalWin}>
+                    {   
+                        archiveEventsData?.map(
+                            el=>
+                                <p key={el.id}>{`${el.event_datetime} ${el.system} ${el.message}`}</p>
+                        )                       
+                    }
+                    {(archiveEventsData===undefined || archiveEventsData?.length===0)&&
+                    <p>События отсутствуют</p>
+                    }
+                    </div>
+                }
+                
+                </Modal>
+                
+                
                 <div onClick={()=>dispatch(userSlice.actions.logout())}  className={cls.blocks}>Выход</div>
             </div>
         </div>

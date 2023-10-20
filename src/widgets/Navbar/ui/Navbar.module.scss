@@ -17,3 +17,11 @@
 .blocks_group {
     display: flex;
 }
+
+.modalWin {
+    max-width: 85vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}

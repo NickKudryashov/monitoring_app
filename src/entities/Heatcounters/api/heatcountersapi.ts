@@ -11,10 +11,10 @@ const heatDeviceQuery = rtkApi.injectEndpoints({
                 };
             },
         }),
-        getArchivesEvents:build.query<ArchiveEvent[],string>({
-            query: (id) =>{
+        getArchivesEvents:build.query<ArchiveEvent[],void>({
+            query: () =>{
                 return {
-                    url:"archives_events/"+id,
+                    url:"archives_events",
                 };
             }
         })

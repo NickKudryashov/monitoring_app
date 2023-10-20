@@ -24,10 +24,8 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
     const { className,children,id } = props;
     const [currentConturs,setCurrentConturs] = useState<string[]>([]);
     const {isLoading,data:device,refetch} = getHeatDeviceData(id);
-    const {isLoading:eventsIsLoading,data:archiveEventsData,refetch:refetchEvents} = getArchivesEvents(id);
     const [pollInterval,setPollInterval] = useState(device?.interval);
     const [autoPollMode,setAutoPollmode] = useState(device?.autopoll);
-    const [showEvents,setShowEvents] = useState(false);
     const dispatch = useAppDispatch();
     const conturChangeHandler = (conturName:string)=>{
         setCurrentConturs((prev)=>{
@@ -120,11 +118,7 @@ export function HeatDeviceDetailView(props: PropsWithChildren<DetailViewProps>) 
                 <input value={String(pollInterval)} onChange={(e)=>setPollInterval(Number(e.target.value))} />
                 <AppButon theme={AppButtonTheme.SHADOW} onClick={editAutoPoll}>Применить изменения</AppButon>
                 {children}
-                <AppButon theme={AppButtonTheme.SHADOW} onClick={()=>setShowEvents(prev=>!prev)}>Показать события архивов</AppButon>
-                {showEvents && archiveEventsData?.map(
-                    el=>
-                    <p>{`${el.event_datetime} ${el.system} ${el.message}`}</p>
-                )}
+                
             </div>
         </div>
     );
