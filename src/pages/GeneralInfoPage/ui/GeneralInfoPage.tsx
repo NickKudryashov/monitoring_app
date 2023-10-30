@@ -22,13 +22,22 @@ const GeneralInfoPage = memo((props: PropsWithChildren<GeneralInfoPageProps>) =>
         </DetailView>
     );
     return (
-        <MainLayout
-            className={classNames(cls.GeneralInfoPage,{},[className])}
-            navbar={<Navbar/>}
-            deviceList={<DeviceList/>}
-            DetailView={content}
-            footer={<Footer/>}
-        />
+        // <MainLayout
+        //     className={classNames(cls.GeneralInfoPage,{},[className])}
+        //     navbar={<Navbar/>}
+        //     deviceList={<DeviceList/>}
+        //     DetailView={content}
+        //     footer={<Footer/>}
+        // />
+        <div className={classNames(cls.GeneralInfoPage, {}, [className])}>
+            {/* <MainLayout
+                DetailView={content}
+                deviceList={<DeviceList />}
+                navbar={<Navbar/>}
+                footer={<Footer/>}
+            /> */}
+            {content}
+        </div>
     );
 });
 

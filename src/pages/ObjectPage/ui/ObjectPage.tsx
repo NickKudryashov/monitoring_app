@@ -61,12 +61,15 @@ const ObjectPage = memo((props: PropsWithChildren<ObjectPageProps>) => {
     );
     
     return (
-        <MainLayout
-            deviceList={<DeviceList/>}
-            navbar={<Navbar/>}
-            DetailView={content}
-            footer={<Footer/>}
-        />
+        // <MainLayout
+        //     deviceList={<DeviceList/>}
+        //     navbar={<Navbar/>}
+        //     DetailView={content}
+        //     footer={<Footer/>}
+        // />
+        <div className={cls.ObjectPage}>
+        {content}
+        </div>
     );
 });
 ObjectPage.displayName="objectPage";

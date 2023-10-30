@@ -93,7 +93,7 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
         // dispatch(objectsAllRequest());
         dispatch(deviceListActions.setSubcat(numberID));
 
-    },[dispatch, numberID]);
+    },[dispatch, numberID,id]);
     
     const updateHeatDevice = ()=> {
         dispatch(fetchHeat(numberID));
@@ -105,10 +105,6 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
             <p>{current ? "Категория "+current.name : "Загрузка"}</p>
             {/* {heatcounters.length>0 && <ManualBulkHeatPolll  catID={numberID} onUpdate={()=>dispatch(fetchHeat(numberID))}   />} */}
             {/* {electrocounter.length>0 && <ElectroDevicePoll catID={numberID} onUpdate={()=>dispatch(fetchElectro(numberID))} bulk />} */}
-            {subcats && subcats.map((el)=>
-                <SubcategoryCard onClick={()=>{navigate(RoutePathAuth.subcat+el.id);localStorage.setItem("subcategory_"+el.id,"1");}} key={el.id} catID={el.id} />
-            ) 
-            }
             {heatcounters && heatcounters.map((el)=> 
                 <HeatDeviceDetailView key={el} id={String(el)}>
                     {/* <ManualHeatPoll onUpdate={updateHeatDevice} device={el}/> */}
@@ -148,12 +144,15 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
         }
     };
     return (
-        <MainLayout className={classNames(cls.SubcategoryPage,{},[])}
-            deviceList={<DeviceList onSubCatMove={onMove}/>}
-            navbar={<Navbar/>}
-            DetailView={content}
-            footer={<Footer pollCallback={fetchEvents}/>}
-        />
+        // <MainLayout className={classNames(cls.SubcategoryPage,{},[])}
+        //     deviceList={<DeviceList onSubCatMove={onMove}/>}
+        //     navbar={<Navbar/>}
+        //     DetailView={content}
+        //     footer={<Footer pollCallback={fetchEvents}/>}
+        // />
+        <div  className={classNames(cls.SubcategoryPage,{},[])}>
+            {content}
+        </div>
     );
 };
 

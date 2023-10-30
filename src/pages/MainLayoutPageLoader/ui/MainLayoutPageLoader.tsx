@@ -9,6 +9,7 @@ import { Navbar } from "widgets/Navbar";
 import { DeviceList } from "widgets/DeviceList";
 import { Loader } from "shared/ui/Loader/Loader";
 import { Footer } from "shared/ui/Footer/Footer";
+import { Sidebar } from "widgets/Sidebar";
 
 interface MainLayoutPageLoaderProps {
  className?: string;
@@ -26,6 +27,7 @@ export const MainLayoutPageLoader = memo((props: PropsWithChildren<MainLayoutPag
             className={cls.MainLayoutPageLoader}
             navbar={<Navbar/>}
             deviceList={<DeviceList/>}
+            sidebar={<Sidebar/>}
             DetailView={content}
             footer={<Footer/>}
         />

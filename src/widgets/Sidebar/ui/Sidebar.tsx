@@ -7,6 +7,20 @@ import { PropsWithChildren, useCallback, useState } from "react";
 import { AddObject } from "features/AddObject";
 import { AddHeatDevice } from "features/AddHeatDevice";
 import { AddCategory } from "features/AddCategory";
+import AdminIcon from 'shared/assets/icons/SidebarAdminIcon.svg'
+import AdressIcon from 'shared/assets/icons/SidebarAdressIcon.svg'
+import AnaliticIcon from 'shared/assets/icons/SidebarAnaliticsIcon.svg'
+import ArchivesIcon from 'shared/assets/icons/SidebarArchivesIcon.svg'
+import EventIcon from 'shared/assets/icons/SidebarEventIcon.svg'
+import MapIcon from 'shared/assets/icons/SidebarMapIcon.svg'
+import PlannedWorkIcon from 'shared/assets/icons/SidebarPlannedWorkIcon.svg'
+import SettingsIcon from 'shared/assets/icons/SidebarSettingsIcon.svg'
+import SystemsIcon from 'shared/assets/icons/SidebarSystemsIcon.svg'
+import TasksIcon from 'shared/assets/icons/SidebarTasksIcon.svg'
+import TicketsIcon from 'shared/assets/icons/SidebarTicketsIcon.svg'
+import UserObjectIcon from 'shared/assets/icons/SidebarUserObjectIcon.svg'
+import { useNavigate } from "react-router-dom";
+import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 interface SidebarProps {
  className?: string;
@@ -18,7 +32,7 @@ export function Sidebar(props: PropsWithChildren<SidebarProps>) {
     const [categoryFormOpened,setCategoryFormOpened] = useState(false);
     const [objectFormOpened,setObjectFormOpened] = useState(false);
     const [heatDeviceFormOpened,setHeatDeviceFormOpened] = useState(false);
-
+    const navigate = useNavigate()
     const acceptCategory = useCallback(() => {
         setCategoryFormOpened(false);
     },[]);
@@ -32,16 +46,52 @@ export function Sidebar(props: PropsWithChildren<SidebarProps>) {
         setCollapsed(prev=>!prev);
     };
     return (
-        <div className={classNames(cls.Sidebar,{ [cls.collapsed]: collapsed },[className])}>
+        <div onClick={onToggle} className={classNames(cls.Sidebar,{ [cls.collapsed]: collapsed },[className])}>
             <AddCategory onClose={acceptCategory} isOpen={categoryFormOpened}/>
             <AddObject onClose={acceptObject} isOpen={objectFormOpened}/>
             <AddHeatDevice onClose={acceptHeatDevice} isOpen={heatDeviceFormOpened}/>
-            <button className={cls.collapseBtn} onClick={onToggle}>{collapsed ? ">" : "<"}</button>
-            <div className={cls.items}>
-                <AddCategoryIcon fill={"white"} className={cls.icon} onClick={()=>setCategoryFormOpened(true)}/>
+            <div className={cls.items} onClick={(e)=>e.stopPropagation()}>
+                {/* <AddCategoryIcon fill={"white"} className={cls.icon} onClick={()=>setCategoryFormOpened(true)}/>
                 <AddObjectIcon className={cls.icon} onClick={()=>setObjectFormOpened(true)}/>
-                <AddHeatCounter className={cls.icon} onClick={()=>setHeatDeviceFormOpened(true)}/>
+                <AddHeatCounter className={cls.icon} onClick={()=>setHeatDeviceFormOpened(true)}/> */}
+                <SidebarItem onClick={()=>navigate(RoutePathAuth.category+'1')} Icon={UserObjectIcon} minimized={collapsed} annotation="ОБЪЕКТЫ"/>
+                <SidebarItem onClick={()=>navigate(RoutePathAuth.detail_objects)} Icon={AdressIcon} minimized={collapsed} annotation="АДРЕСА"/>
+                <SidebarItem Icon={EventIcon} minimized={collapsed} annotation="СОБЫТИЯ"/>
+                <SidebarItem Icon={TasksIcon} minimized={collapsed} annotation="ЗАДАЧИ"/>
+                <SidebarItem Icon={AdminIcon} minimized={collapsed} annotation="АДМИН"/>
+                <SidebarItem onClick={()=>navigate(RoutePathAuth.map)} Icon={MapIcon} minimized={collapsed} annotation="КАРТЫ"/>
+                <SidebarItem Icon={SettingsIcon} minimized={collapsed} annotation="НАСТРОЙКИ"/>
+                <SidebarItem Icon={AnaliticIcon} minimized={collapsed} annotation="АНАЛИТИКА"/>
+                <SidebarItem Icon={TicketsIcon} minimized={collapsed} annotation="ЗАЯВКИ"/>
+                <SidebarItem Icon={PlannedWorkIcon} minimized={collapsed} annotation="ПЛАНОВЫЕ РАБОТЫ"/>
+                <SidebarItem Icon={ArchivesIcon} minimized={collapsed} annotation="АРХИВЫ"/>
+                <SidebarItem Icon={SystemsIcon} minimized={collapsed} annotation="СИСТЕМЫ"/>
             </div>
+
         </div>
     );
 }
+
+interface SidebarItemProps {
+    Icon:React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+    annotation:string;
+    minimized:boolean;
+    onClick?:()=>void;
+}
+
+const SidebarItem = (props:SidebarItemProps)=>{
+    const {annotation,Icon,minimized,onClick} = props
+    const mods = {
+        [cls.sidebarItemMinimized]:minimized,
+    }
+    const textMods = {
+        [cls.annotationCollapsed]:minimized
+
+    }
+    return (
+        <div onClick={onClick ? onClick : ()=>{}} className={classNames(cls.sidebarItem,mods,[])}>
+            <Icon width={'37px'} height={'37px'}/>
+            {!minimized && <p className={classNames(cls.annotation,textMods,[])}>{annotation}</p>}
+        </div>
+    )
+} 

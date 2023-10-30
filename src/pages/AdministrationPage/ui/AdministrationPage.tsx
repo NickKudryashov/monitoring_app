@@ -124,13 +124,16 @@ const AdministrationPage = memo((props: PropsWithChildren<AdministrationPageProp
             </DetailView>
         );}
     return (
-        <MainLayout
-            className={classNames(cls.AdministrationPage,{},[className])}
-            navbar={<Navbar/>}
-            deviceList={<DeviceList/>}
-            DetailView={content}
-            footer={<Footer/>}
-        />
+        // <MainLayout
+        //     className={classNames(cls.AdministrationPage,{},[className])}
+        //     navbar={<Navbar/>}
+        //     deviceList={<DeviceList/>}
+        //     DetailView={content}
+        //     footer={<Footer/>}
+        // />
+        <div className={classNames(cls.AdministrationPage, {}, [className])}>
+            {content}
+        </div>
 
     );
 });

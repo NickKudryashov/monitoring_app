@@ -1,5 +1,6 @@
 .AppInput {
-    color: var(--primary-color)
+    color: var(--font-color);
+    outline:none;
 }
 
 .auth {
@@ -25,4 +26,27 @@
     color:black;
     background: var(--primary-color);
     outline: none;
+}
+
+.designed_primary {
+    border-radius: var(--border-radius-type-1);
+    border: 1px solid var(--outline-color-1);
+    background: var(--subcolor-4-with-opacity);
+}
+
+
+@media (min-width:1024px) {
+    .designed_primary
+    {
+        width:178px;
+        height:37px;
+    }
+}
+
+@media (max-width:1024px) {
+    .designed_primary
+    {
+        width:120px;
+        height:30px;
+    }
 }

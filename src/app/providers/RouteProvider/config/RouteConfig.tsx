@@ -5,8 +5,10 @@ import { ElectroDevicePage } from "pages/ElectroDevicePage";
 import { GeneralInfoPage } from "pages/GeneralInfoPage";
 import { HeatDevicePage } from "pages/HeatDevicePage";
 import { MainPage } from "pages/MainPage";
+import { MapPage } from "pages/MapPage";
 import { MockPage } from "pages/MockPage";
 import { ObjectPage } from "pages/ObjectPage";
+import { ObjectDetailPage } from "pages/ObjectsDetailPage";
 import { PumpDevicePage } from "pages/PumpDevicePage";
 import { SubCategoryPage } from "pages/SubcartegoryPage";
 import { RouteProps } from "react-router-dom";
@@ -31,6 +33,9 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.OBJECT]:{
         path:`${RoutePathAuth.object}:id`,
         element:<ObjectPage/>},
+    [AppRoutesAuth.DETAIL_OBJECTS]:{
+        path:RoutePathAuth.detail_objects,
+        element:<ObjectDetailPage/>},
     [AppRoutesAuth.HEATDEVICE]:{
         path:`${RoutePathAuth.heatdevice}:id`,
         element:<HeatDevicePage/>},
@@ -55,6 +60,9 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.MAIN]:{
         path: RoutePathAuth.main,
         element:<MainPage/>},
+    [AppRoutesAuth.MAP]:{
+        path: RoutePathAuth.map,
+        element:<MapPage/>},
     [AppRoutesAuth.REDIRECT]:{
         path: RoutePathAuth.redir,
         element:<MainPage/>} 

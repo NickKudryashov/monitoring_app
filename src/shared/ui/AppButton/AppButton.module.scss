@@ -31,6 +31,15 @@
     padding:3px;
 }
 
+.designed_outline{
+    font:var(--font-m);
+    color:var(--font-color);
+    border-radius: var(--border-radius-type-1);
+    border:1px solid var(--outline-color-1);
+    background: transparent;
+    cursor: pointer;
+}
+
 .shadow_btn {
     height:var(--tab-height);
     font:var(--font-s);
@@ -68,4 +77,21 @@
     top:0;
     opacity: 1;
     transition: 0s;
+}
+
+
+@media (min-width:1024px) {
+    .designed_outline
+    {
+        width:111px;
+        height:37px;
+    }
+}
+
+@media (max-width:1024px) {
+    .designed_outline
+    {
+        width:100px;
+        height:30px;
+    }
 }

@@ -1,27 +1,18 @@
 
-import { EntityId } from "@reduxjs/toolkit";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { CategoryItem, categorySlice } from "entities/Category";
-import {  HeatDevice, HeatDeviceDetailView } from "entities/Heatcounters";
+import {  HeatDevice } from "entities/Heatcounters";
 import { heatDeviceSlice } from "entities/Heatcounters/reducers/reducer";
-import { ObjectDetail, ObjectItem, objectSlice } from "entities/Objects";
-import { GeneralInformation } from "features/GeneralInformation";
-import { ManualBulkHeatPolll, ManualHeatPoll } from "features/ManualHeatPoll";
-import { ObjectCategoryView } from "features/ObjectCategoryCardView";
-import { useEffect, useRef, useState } from "react";
+import { ObjectItem, objectSlice } from "entities/Objects";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "shared/hooks/hooks";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { MockComponent } from "shared/ui/MockComponent/MockComponent";
 import { DetailView } from "widgets/DetailView";
-import {  DeviceList, deviceListSlice } from "widgets/DeviceList";
-import { Navbar } from "widgets/Navbar";
+import {  deviceListSlice } from "widgets/DeviceList";
 import cls from "./MainPage.module.scss";
-import { ElectroCounterDeviceDetail, electroDeviceActions } from "entities/ElectroDevice";
 import { TopLevelElectroDevice } from "entities/ElectroDevice/model/types/electroDevice";
-import { ElectroDevicePoll } from "features/ElectroDevicePoll";
 import { getUserData } from "entities/user";
-import { Footer } from "shared/ui/Footer/Footer";
+import {Map,Placemark} from 'react-yandex-maps'
 const MainPage = () => {
     const {currentObject,currentCategory,currentElectroDevice,currentHeatDevice,isElectroDevice,isHeatDevice} = useSelector((state:StateSchema)=>state.deviceList);
     const dispatch = useAppDispatch();
@@ -61,15 +52,6 @@ const MainPage = () => {
     };
     return (
         <div className={cls.MainPage}>
-            <Navbar/>
-            <div className={cls.sidebarwrapper}>
-                <div className={cls.content}>
-                    <div className={cls.listWithGeneral}>
-                        {/* <AppButon className={cls.generalInfoBtn} onClick={()=>{dispatch(categorySlice.actions.closeAllCat());setGeneralSelected(true);}}>Общая информация</AppButon> */}
-                        <DeviceList
-                            onClick={()=>{setTabSelected(false);setGeneralSelected(false);}}
-                        />
-                    </div>
                     <DetailView
                         className={cls.detail}
                         tabSelected={tabSelected}
@@ -77,33 +59,9 @@ const MainPage = () => {
                         generalSelected={generalSelected}
                         setGeneralSelected={setGeneralSelected}
                     >
-                        {generalSelected && <GeneralInformation/>}
-                        {currentObject===undefined && !isElectroDevice && !isHeatDevice  && currentCategory===undefined && null}
-                        {currentCategory!==undefined && 
-                        <ObjectCategoryView 
-                            categoryClickHandler={categoryClickHandler}
-                            objectClickHandler={objectClickHandler}
-                            category={currentCategory}
-                        /> }
-                        {currentObject!==undefined &&
-                        <ObjectDetail obj={currentObject}>
-                            <MockComponent/>
-                        </ObjectDetail>}
-                        {isHeatDevice &&  
-                        <HeatDeviceDetailView id={String(currentHeatDevice.id)}>
-                            {/* <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentHeatDevice}/> */}
-                        </HeatDeviceDetailView> }
-                        {isElectroDevice &&  
-                        <ElectroCounterDeviceDetail id={currentElectroDevice.id}>
-
-                            {/* <ManualHeatPoll onUpdate={updateCurrentDevice} device={currentElectroDevice}/> */}
-                        </ElectroCounterDeviceDetail> }
                     </DetailView>
                     {/* <DetailView/> */}
                 </div>
-            </div>
-            <Footer/>
-        </div>
     );
 };
 

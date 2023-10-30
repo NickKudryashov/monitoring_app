@@ -7,7 +7,8 @@ export enum InputThemes {
     AUTH="auth",
     DEFAULT="default",
     OUTLINE="outline",
-    CLEAR = "clear"
+    CLEAR = "clear",
+    DESIGNED_PRIMARY = 'designed_primary'
 }   
 
 

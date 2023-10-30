@@ -3,13 +3,18 @@
     flex-direction: column;
     height:100%;
     width:100%;
+    flex-wrap: wrap;
 }
 
-.detail {
-    width:75%;
-    display: flex;
 
+
+.detail {
+    // width:75%;
+    display: flex;
+    justify-content: flex-start;
+    width:100%;
     // border:1px solid black;
     border-left: none;
+    flex-wrap: wrap;
 
 }

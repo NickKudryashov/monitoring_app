@@ -11,7 +11,8 @@ export enum AppButtonTheme {
     AUTH="auth_button",
     PRIMARY="primary_btn",
     OUTLINE="button_outline",
-    SHADOW="shadow_btn"
+    SHADOW="shadow_btn",
+    DESIGNED_OUTLINE='designed_outline'
 }
 
 export function AppButon(props: PropsWithChildren<AppButonProps>) {

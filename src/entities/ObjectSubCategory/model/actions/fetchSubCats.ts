@@ -5,7 +5,7 @@ import { ThunkConfig } from "app/providers/StoreProvider/config/stateSchema";
 
 
 export const fetchByObjId = createAsyncThunk<ObjectSubCategoryType[],number,ThunkConfig<string>>("subcats/index",async (obj_id,thunkAPI)=>{
-    const response = await $api.post<ObjectSubCategoryType[]>("subcategory/"+obj_id);
+    const response = await $api.get<ObjectSubCategoryType[]>("subcategory/"+obj_id);
     return response.data;
 });
 

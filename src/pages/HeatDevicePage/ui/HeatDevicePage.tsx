@@ -69,13 +69,16 @@ const HeatDevicePage = (props: PropsWithChildren<HeatDevicePageProps>) => {
     }
     
     return (
-        <MainLayout
-            className={classNames(cls.HeatDevicePage,{},[className])}
-            navbar={<Navbar/>}
-            deviceList={<DeviceList/>}
-            DetailView={content}
-            footer={<Footer pollCallback={fetchEvents}/>}
-        />
+        // <MainLayout
+        //     className={classNames(cls.HeatDevicePage,{},[className])}
+        //     navbar={<Navbar/>}
+        //     deviceList={<DeviceList/>}
+        //     DetailView={content}
+        //     footer={<Footer pollCallback={fetchEvents}/>}
+        // />
+        <div className={classNames(cls.HeatDevicePage,{},[className])}>
+            {content}
+        </div>
     );
 };
 

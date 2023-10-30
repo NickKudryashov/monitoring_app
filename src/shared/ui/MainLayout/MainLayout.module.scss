@@ -1,11 +1,10 @@
 .content {
     display: flex;
-    justify-content: center;
-    overflow: hidden;
+    justify-content: space-between;
+    position: relative;
+    // overflow: hidden;
+    // overflow-y: auto;
     width:100%;
-    padding-top: 10px;
-    padding-left: 1%;
-    padding-right: 1%;
 }
 
 .MainLayout {
@@ -13,24 +12,42 @@
     height:100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    // gap:20px;
+    // justify-content: space-between;
 }
 
 .sidebarwrapper {
     display: flex;
     box-sizing: border-box;
     width:100%;
-    height:var(--main-content-height);
+    margin-top: 20px;
+    // height:var(--main-content-height);
+    overflow-y: auto;
 
-    // height:100%;
+    height:calc(100% - 118px);
 }
 
 .listWithGeneral {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     width:25% ;
     height:100%;
-    padding-top: calc(var(--tab-height) + 10px);
+    position: relative;
+    // padding-top: calc(var(--tab-height) + 10px);
 
+}
+
+.dtlWrapper {
+    overflow-y: auto;
+    margin-left: 140px;
+    margin-right: 44px;
+    background: transparent;
+}
+
+@media (min-width:1024px) {
+    .dtlWrapper {
+        width:1648px;
+        padding-right: 136px;
+    }
 }

@@ -61,13 +61,14 @@ const PumpDevicePage = memo((props: PropsWithChildren<PumpDevicePageProps>) => {
     }
 
     return (
-        <MainLayout
-            className={classNames(cls.HeatNodePage,{},[className])}
-            navbar={<Navbar/>}
-            deviceList={<DeviceList/>}
-            DetailView={content}
-            footer={<Footer pollCallback={fetchEvents}/>}
-        />
+        // <MainLayout
+        //     className={classNames(cls.HeatNodePage,{},[className])}
+        //     navbar={<Navbar/>}
+        //     deviceList={<DeviceList/>}
+        //     DetailView={content}
+        //     footer={<Footer pollCallback={fetchEvents}/>}
+        // />
+        content
     );
 });
 

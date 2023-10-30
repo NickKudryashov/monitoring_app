@@ -6,17 +6,22 @@ import { useTheme } from "./providers/ThemeProvider";
 import { AboutPage } from "pages/AboutPage";
 import { MainPage } from "pages/MainPage";
 import { AppRouter } from "./providers/RouteProvider"; 
+import { YMaps } from "react-yandex-maps";
 
 
 const App = () => {
     const {theme,toggleTheme} = useTheme();
     return (
         <div className={classNames("app",{},[theme,])}>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
             {/* <button onClick={toggleTheme}>Сменить тему</button>
       <Link to={'/'}>Главная</Link>
       <Link to={'/about'}>О странице</Link> */}
             <div className='content-page'>
+                <YMaps>
                 <AppRouter/>
+
+                </YMaps>
             </div>
         </div>
     );

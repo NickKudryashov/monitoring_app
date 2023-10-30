@@ -25,6 +25,7 @@ export function buildPLugins({paths,api,isDev}:BuildOptions):webpack.WebpackPlug
                     semantic: true,
                     syntactic: true,
                 },
+                memoryLimit:4096,
                 mode: "write-references",
             },
         })

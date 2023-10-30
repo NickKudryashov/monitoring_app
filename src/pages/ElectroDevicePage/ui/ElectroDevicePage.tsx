@@ -81,13 +81,16 @@ const ElectroDevicePage = memo((props: PropsWithChildren<ElectroDevicePageProps>
         }
     }
     return (
-        <MainLayout
-            className={classNames(cls.ElectroDevicePage,{},[className])}
-            navbar={<Navbar/>}
-            deviceList={<DeviceList/>}
-            DetailView={content}
-            footer={<Footer pollCallback={fetchEvents}/>}
-        />
+        // <MainLayout
+        //     className={classNames(cls.ElectroDevicePage,{},[className])}
+        //     navbar={<Navbar/>}
+        //     deviceList={<DeviceList/>}
+        //     DetailView={content}
+        //     footer={<Footer pollCallback={fetchEvents}/>}
+        // />
+        <div className={classNames(cls.ElectroDevicePage,{},[className])} >
+            {content}
+        </div>
     );
 });
 

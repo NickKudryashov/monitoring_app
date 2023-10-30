@@ -1,19 +1,13 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import  classNames  from "shared/lib/classNames/classNames";
 import cls from "./CategoryPage.module.scss";
-import { Navbar } from "widgets/Navbar";
-import { DeviceList } from "widgets/DeviceList";
 import { DetailView } from "widgets/DetailView";
 import { useNavigate, useParams } from "react-router-dom";
-import { categorySlice, getCategoryByID } from "entities/Category";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { ObjectCategoryView } from "features/ObjectCategoryCardView";
-import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
-import { MainLayout } from "shared/ui/MainLayout/MainLayout";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { Loader } from "shared/ui/Loader/Loader";
-import { Footer } from "shared/ui/Footer/Footer";
+import { ObjectCard, objectsAllRequest } from "entities/Objects";
 
 export interface CategoryPageProps {
  className?: string;
@@ -25,16 +19,24 @@ const CategoryPage = memo((props:CategoryPageProps) => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     let content;
-    if (!id) {
-        navigate(RoutePathAuth.main);
-    }
-    const {categories} = useSelector((state:StateSchema)=>state.category);
-    const catItem = getCategoryByID(categories,Number(id),);
+    // if (!id) {
+    //     navigate(RoutePathAuth.main);
+    // }
+    useEffect(()=>{
+        dispatch(objectsAllRequest())
+    },[id])
     
-    if (categories && catItem) {
+    const {categories} = useSelector((state:StateSchema)=>state.category);
+    const {objects} = useSelector((state:StateSchema)=>state.objects);
+    // const catItem = getCategoryByID(categories,Number(id),);
+    
+    if (objects) {
         content = (
             <DetailView className={cls.detail}>
-                <ObjectCategoryView category={catItem}/>
+                {
+                    objects.map((el)=>
+                    <ObjectCard key={el.id} name={el.name} />)
+                }
             </DetailView>
         );
     }
@@ -49,12 +51,13 @@ const CategoryPage = memo((props:CategoryPageProps) => {
 
     return (
         <div className={classNames(cls.categoryPage, {}, [className])}>
-            <MainLayout
+            {/* <MainLayout
                 DetailView={content}
                 deviceList={<DeviceList />}
                 navbar={<Navbar/>}
                 footer={<Footer/>}
-            />
+            /> */}
+            {content}
         </div>
     );
 });

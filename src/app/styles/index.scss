@@ -13,7 +13,7 @@ body {
 .app {
     font: var(--font-m);
     color: var(--font-color);
-    background: var(--bg-color);
+    background: linear-gradient(var(--bg-color-1), var(--bg-color-2));;
     min-height:100vh;
     width: 100vw;
     height: 100vh;

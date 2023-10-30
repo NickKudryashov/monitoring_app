@@ -7,6 +7,10 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { RouteConfigPublic,RouteConfigAuth } from "../config/RouteConfig";
 import { MainLayoutPageLoader } from "pages/MainLayoutPageLoader";
 import { Footer } from "shared/ui/Footer/Footer";
+import { MainLayout } from "shared/ui/MainLayout/MainLayout";
+import { DeviceList } from "widgets/DeviceList";
+import { Navbar } from "widgets/Navbar";
+import { Sidebar } from "widgets/Sidebar";
 
 export const AppRouter = () => {
 
@@ -27,7 +31,16 @@ export const AppRouter = () => {
                         path={path} 
                         element={
                             <div className='page-wrapper'>
-                                {element}
+                            {isAuth ? 
+                                <MainLayout
+                                deviceList={<DeviceList/>}
+                                footer={<Footer/>}
+                                navbar={<Navbar/>}
+                                sidebar={<Sidebar/>}
+                                DetailView={element}
+                                /> :
+                                element
+                            }
                             </div>
                         }/>
                 ))}

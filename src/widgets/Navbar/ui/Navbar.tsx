@@ -17,7 +17,10 @@ import { AddPumpDevice } from "features/AddPumpStationDevice";
 import { AddAutoDevice } from "features/AddAutoDevice";
 import { getArchivesEvents } from "entities/Heatcounters";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-
+import LogoIcon from 'shared/assets/icons/LogoIcon.svg'
+import EventIcon from 'shared/assets/icons/EventsIcon.svg'
+import ProfileIcon from 'shared/assets/icons/ProfileIcon.svg'
+import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 interface NavbarProps {
  className?: string;
 }
@@ -62,27 +65,40 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
         <div className={classNames(cls.Navbar,{},[className])}>
 
             <div className={cls.blocks_group}>
-                <div  className={cls.blocks}>Подписка до ##.##.2023</div>
-                {/* <div onClick={()=>setSettingsDropdownOpened(prev=>!prev)} className={cls.blocks}>Настройки 
-                    <DropdownMenu 
-                        opened={settingsDropdownOpened} 
-                        onClose={()=>setSettingsDropdownOpened(false)}
-                        items={items}
-                    /></div> */}
-                <DropdownMenu 
+                <div className={cls.logo}>
+                    <LogoIcon className={cls.logoIcon}/>
+                    <p className={cls.logoText}>АЛВИК СЕРВИС</p>
+                </div>
+                <div className={cls.textInfo}>
+                    <div className={cls.vTextBox}>
+                        <p>ТИП КОМПАНИИ</p>
+                        <p>НАЗВАНИЕ КОМПАНИИ</p>
+                    </div>
+                    <div className={cls.vTextBox}>
+                        <p>{email}</p>
+                        <p>ДОЛЖНОСТЬ</p>
+                    </div>
+                </div>
+                {/* <DropdownMenu 
                     header={"Настройки"} 
                     items={items}
                     Icon={DropdownIcon}
                     rotateIcon={true}
-                />
-                <div  className={cls.blocks}>{`Вы вошли как ${email}`}</div>
+                /> */}
+                {/* <div  className={cls.blocks}>{`Вы вошли как ${email}`}</div> */}
+                <div className={cls.navbarPanel}>
+                    <AppInput theme={InputThemes.DESIGNED_PRIMARY} placeholder=""/>
+                    <ProfileIcon/>
+                    <EventIcon onClick={()=>setShowEvents(prev=>!prev)}/>
+                    <AppButon theme={AppButtonTheme.DESIGNED_OUTLINE}  onClick={()=>dispatch(userSlice.actions.logout())}  className={cls.blocks}>Выход</AppButon>
+                </div>
+
                 <AddCategory onClose={acceptCategory} isOpen={categoryFormOpened}/>
                 <AddObject onClose={acceptObject} isOpen={objectFormOpened}/>
                 <AddHeatDevice onClose={acceptHeatDevice} isOpen={heatDeviceFormOpened}/>
                 <AddElectroDevice lazy={true} onClose={()=>setElectroDeviceFormOpened(false)} isOpen={electroDeviceFormOpened}/>
                 <AddPumpDevice onClose={()=>setPumpDevFormOpened(false)} isOpen={pumpDevFormOpened} />
                 {/* <AddAutoDevice isOpen={autoDevFormOpened} onClose={acceptAutoDevice}/> */}
-                <AppButon theme={AppButtonTheme.SHADOW} onClick={()=>setShowEvents(prev=>!prev)}>Показать события архивов</AppButon>
                 <Modal isOpen={showEvents} onClose={()=>setShowEvents(false)}  >
                 {
                     <div className={cls.modalWin}>
@@ -101,7 +117,6 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                 </Modal>
                 
                 
-                <div onClick={()=>dispatch(userSlice.actions.logout())}  className={cls.blocks}>Выход</div>
             </div>
         </div>
     );

@@ -22,12 +22,11 @@ export const MockPage = memo((props: PropsWithChildren<MockPageProps>) => {
         </DetailView>
     );
     return (
-        <MainLayout
+        <div
             className={classNames(cls.MockPage,{},[className])}
-            navbar={<Navbar/>}
-            deviceList={<DeviceList/>}
-            DetailView={content}
-            footer={<Footer/>}
-        />
+        >
+            {content}
+
+        </div>
     );
 });

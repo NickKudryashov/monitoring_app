@@ -1,0 +1,1 @@
+export {ObjectDetailPageAsync as ObjectDetailPage} from './ui/ObjectsDetailPage.async'
