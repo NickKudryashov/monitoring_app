@@ -8,6 +8,7 @@ import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { Loader } from "shared/ui/Loader/Loader";
 import { ObjectCard, objectsAllRequest } from "entities/Objects";
+import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 export interface CategoryPageProps {
  className?: string;
@@ -35,7 +36,7 @@ const CategoryPage = memo((props:CategoryPageProps) => {
             <DetailView className={cls.detail}>
                 {
                     objects.map((el)=>
-                    <ObjectCard key={el.id} name={el.name} />)
+                    <ObjectCard key={el.id} name={el.name} onClick={()=>navigate(RoutePathAuth.object + el.id)} />)
                 }
             </DetailView>
         );
