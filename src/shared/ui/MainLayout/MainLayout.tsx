@@ -23,13 +23,13 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
             <div className={cls.sidebarwrapper}>
                 <div className={cls.content}>
                     {/* <div className={cls.listWithGeneral}> */}
-                        {sidebar}
-                        {/* {deviceList} */}
+                    {sidebar}
+                    {/* {deviceList} */}
                     {/* </div> */}
                     <div className={cls.dtlWrapper}>
-                    {
-                        DetailView
-                    }
+                        {
+                            DetailView
+                        }
                     </div>
                     
                     

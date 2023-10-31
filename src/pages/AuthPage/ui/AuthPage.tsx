@@ -2,9 +2,9 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./AuthPage.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { DefaultAuth } from "features/DefaultAuth/ui/DefaultAuth";
 import { AuthWidget } from "widgets/AuthWidget/AuthWidget";
-
+import { Navbar } from "widgets/Navbar";
+import AuthLogoIcon from "shared/assets/icons/AuthLogoIcon.svg"
 interface AuthPageProps {
  className?: string;
 }
@@ -14,7 +14,11 @@ export function AuthPage(props: PropsWithChildren<AuthPageProps>) {
 
     return (
         <div className={classNames(cls.AuthPage,{},[className])}>
-            <AuthWidget/>
+            <Navbar className={cls.navbar} isAuth={false}/>
+            <AuthLogoIcon/>
+            <div className={cls.form}>
+                <AuthWidget/>
+            </div>
         </div>
     );
 }

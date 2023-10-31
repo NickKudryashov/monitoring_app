@@ -80,10 +80,17 @@
 }
 
 
+.designed_primary {
+    background: var(--subcolor-1);
+    color:white;
+    border-radius: var(--border-radius-type-1);
+}
+
 @media (min-width:1024px) {
     .designed_outline
     {
         width:111px;
+        min-width: fit-content;
         height:37px;
     }
 }

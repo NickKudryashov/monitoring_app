@@ -1,13 +1,73 @@
 .DefaultAuth {
+    width: 100%;
+    height:100%;
     background:transparent;
-    width:30%;
-    height:30%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    padding:20px;
+    justify-content: flex-start;
+    align-items:center;
+    padding:7% 3.5% 3.5%;
+    font:var(--font-m-mini);
     color:black;
-    font: var(--font-l)
-} 
+}
+
+.formHeader {
+    margin-bottom: 1.5%;
+    color:var(--subcolor-1);
+    font:var(--font-l);
+    font-weight: bold;
+}
+
+.textRow{
+    display: flex;
+
+}
+
+.linkToReg {
+    color:#2127B0;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 3px;
+}
+
+.authInp {
+    font:var(--font-m);
+    margin-top:2%;
+    width:80%;
+    height:15%;
+}
+
+.textCheckboxH {
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+}
+
+.checkboxes {
+    margin-top: 2%  ;
+    display: flex;
+    flex-direction: column;
+    width:90%;
+}
+
+.confirmButton {
+    margin-top: 8%;
+    width:70%;
+    font:var(--font-m);
+    font-family: var(--font-family-sub-1);
+    height:15%;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.regRef {
+    margin-top: 5%;
+    padding-top: 1%;
+    text-decoration: none;
+    width:55%;
+    border-top: 1px solid var(--subcolor-1);
+    font:var(--font-m);
+    color:var(--subcolor-1);
+    text-align: center;
+}

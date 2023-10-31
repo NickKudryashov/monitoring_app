@@ -12,7 +12,8 @@ export enum AppButtonTheme {
     PRIMARY="primary_btn",
     OUTLINE="button_outline",
     SHADOW="shadow_btn",
-    DESIGNED_OUTLINE='designed_outline'
+    DESIGNED_OUTLINE="designed_outline",
+    DESIGNED_PRIMARY="designed_primary"
 }
 
 export function AppButon(props: PropsWithChildren<AppButonProps>) {

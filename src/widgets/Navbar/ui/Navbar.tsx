@@ -23,44 +23,15 @@ import ProfileIcon from 'shared/assets/icons/ProfileIcon.svg'
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 interface NavbarProps {
  className?: string;
+ isAuth?:boolean;
 }
 
 export function Navbar(props: PropsWithChildren<NavbarProps>) {
-    const { className } = props;
+    const { className,isAuth=true } = props;
     const email = useSelector((state:StateSchema)=>state.user.userdata?.name);
-    const [settingsDropdownOpened,setSettingsDropdownOpened] = useState(false);
     const {isLoading:eventsIsLoading,data:archiveEventsData,refetch:refetchEvents} = getArchivesEvents();
     const [showEvents,setShowEvents] = useState(false);
-    const [categoryFormOpened,setCategoryFormOpened] = useState(false);
-    const [objectFormOpened,setObjectFormOpened] = useState(false);
-    const [heatDeviceFormOpened,setHeatDeviceFormOpened] = useState(false);
-    const [electroDeviceFormOpened,setElectroDeviceFormOpened] = useState(false);
-    const [pumpDevFormOpened,setPumpDevFormOpened] = useState(false);
-    const [autoDevFormOpened,setAutoDevFormOpened] = useState(false);
     const dispatch = useAppDispatch();
-    const items = [
-        {text:"Добавить категорию",onClick:()=>setCategoryFormOpened(true)},
-        {text:"Добавить объект",onClick:()=>setObjectFormOpened(true)},
-        {text:"Добавить прибор УУТЭ",onClick:()=>setHeatDeviceFormOpened(true)},
-        {text:"Добавить прибор АСКУЭ",onClick:()=>setElectroDeviceFormOpened(true)},
-        {text:"Добавить насос",onClick:()=>setPumpDevFormOpened(true)},
-        // {text:"Добавить АСУТП",onClick:()=>setAutoDevFormOpened(true)},
-    ];
-    const acceptCategory = useCallback(() => {
-        setCategoryFormOpened(false);
-    },[]);
-    const acceptObject = useCallback(() => {
-        setObjectFormOpened(false);
-    },[]);
-    const acceptHeatDevice = useCallback(() => {
-        setHeatDeviceFormOpened(false);
-    },[]);
-    const acceptPumpDevice = useCallback(() => {
-        setPumpDevFormOpened(false);
-    },[]);
-    const acceptAutoDevice = useCallback(() => {
-        setAutoDevFormOpened(false);
-    },[]);
     return (
         <div className={classNames(cls.Navbar,{},[className])}>
 
@@ -69,7 +40,7 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                     <LogoIcon className={cls.logoIcon}/>
                     <p className={cls.logoText}>АЛВИК СЕРВИС</p>
                 </div>
-                <div className={cls.textInfo}>
+                {isAuth && <div className={cls.textInfo}>
                     <div className={cls.vTextBox}>
                         <p>ТИП КОМПАНИИ</p>
                         <p>НАЗВАНИЕ КОМПАНИИ</p>
@@ -78,26 +49,31 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                         <p>{email}</p>
                         <p>ДОЛЖНОСТЬ</p>
                     </div>
-                </div>
-                {/* <DropdownMenu 
-                    header={"Настройки"} 
-                    items={items}
-                    Icon={DropdownIcon}
-                    rotateIcon={true}
-                /> */}
-                {/* <div  className={cls.blocks}>{`Вы вошли как ${email}`}</div> */}
+                </div>}
                 <div className={cls.navbarPanel}>
-                    <AppInput theme={InputThemes.DESIGNED_PRIMARY} placeholder=""/>
+                    {isAuth && <AppInput theme={InputThemes.DESIGNED_PRIMARY} placeholder=""/>}
+                    {!isAuth && <AppButon
+                        theme={AppButtonTheme.DESIGNED_OUTLINE}
+                        className={cls.blocks}>
+                        Регистрация
+                    </AppButon>}
                     <ProfileIcon/>
-                    <EventIcon onClick={()=>setShowEvents(prev=>!prev)}/>
-                    <AppButon theme={AppButtonTheme.DESIGNED_OUTLINE}  onClick={()=>dispatch(userSlice.actions.logout())}  className={cls.blocks}>Выход</AppButon>
+                    {isAuth && <EventIcon onClick={()=>setShowEvents(prev=>!prev)}/>}
+                    {isAuth && 
+                    <AppButon
+                        theme={AppButtonTheme.DESIGNED_OUTLINE}
+                        onClick={()=>dispatch(userSlice.actions.logout())}
+                        className={cls.blocks}
+                    >
+                        Выход
+                    </AppButon>}
+                    
+                    {!isAuth && <AppButon
+                        theme={AppButtonTheme.DESIGNED_OUTLINE}
+                        className={cls.blocks}>
+                        Вход
+                    </AppButon>}
                 </div>
-
-                <AddCategory onClose={acceptCategory} isOpen={categoryFormOpened}/>
-                <AddObject onClose={acceptObject} isOpen={objectFormOpened}/>
-                <AddHeatDevice onClose={acceptHeatDevice} isOpen={heatDeviceFormOpened}/>
-                <AddElectroDevice lazy={true} onClose={()=>setElectroDeviceFormOpened(false)} isOpen={electroDeviceFormOpened}/>
-                <AddPumpDevice onClose={()=>setPumpDevFormOpened(false)} isOpen={pumpDevFormOpened} />
                 {/* <AddAutoDevice isOpen={autoDevFormOpened} onClose={acceptAutoDevice}/> */}
                 <Modal isOpen={showEvents} onClose={()=>setShowEvents(false)}  >
                 {

@@ -26,16 +26,38 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
 
     return (
         <div className={classNames(cls.DefaultAuth,{},[className])}>
-            Авторизация
-            <AppInput value={email} placeholder="Email" onChange={e=>setEmail(e.target.value)} />
-            <AppInput value={password} type="password" placeholder="Пароль" onChange={e=>setPassword(e.target.value)}/>
-            <AppCheckbox
-                checked={rememeberUser}
-                onChange={setRememberUser}
-                className={className}
-                label={"Запомнить данные"}
-            />
-            <AppButon theme={AppButtonTheme.AUTH} onClick={()=>{dispatch(defaultLogin({email,password})).then(res=>dispatch(getUserData()));}}>АВТОРИЗАЦИЯ</AppButon>
+            
+            <p className={cls.formHeader}>ВХОД В ЛИЧНЫЙ КАБИНЕТ</p>
+            <p>Нет аккаунта?</p>
+            <div className={cls.textRow}>
+                <p className={cls.linkToReg}>Зарегистрируйтесь</p>
+                <p>в личном кабинете.</p>
+            </div>
+            <p>чтобы получить все преимущества обслуживания!</p>
+            <AppInput className={cls.authInp} value={email} placeholder="Имя пользователя" onChange={e=>setEmail(e.target.value)} />
+            <AppInput  className={cls.authInp} value={password} type="password" placeholder="Пароль" onChange={e=>setPassword(e.target.value)}/>
+            <div className={cls.checkboxes}>
+                <div className={cls.textCheckboxH}>
+                    <AppCheckbox
+                        checked={rememeberUser}
+                        onChange={setRememberUser}
+                        className={className}
+                        label={"Оставаться в системе"}
+                    />
+                    <p className={cls.linkToReg}>Забыли пароль?</p>
+                </div>
+        
+                <AppCheckbox
+                    checked={rememeberUser}
+                    onChange={setRememberUser}
+                    className={className}
+                    label={"Запомнить данные"}
+                />
+
+            </div>
+            
+            <AppButon className={cls.confirmButton} theme={AppButtonTheme.DESIGNED_PRIMARY} onClick={()=>{dispatch(defaultLogin({email,password})).then(res=>dispatch(getUserData()));}}>АВТОРИЗАЦИЯ</AppButon>
+            <p className={cls.regRef}>Регистрация</p>
         </div>
     );
 }
