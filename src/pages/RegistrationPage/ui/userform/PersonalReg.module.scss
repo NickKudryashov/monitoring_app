@@ -1,0 +1,14 @@
+.form {
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.authInp {
+    border: 1px solid black;
+    font:var(--font-m);
+    margin-top:2%;
+    width:80%;
+    height:18%;
+}

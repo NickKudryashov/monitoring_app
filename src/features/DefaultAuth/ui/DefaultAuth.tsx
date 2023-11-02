@@ -11,6 +11,8 @@ import { Modal } from "shared/ui/Modal/Modal";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { userReducer } from "entities/user";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RoutePathPublic } from "shared/config/RouteConfig/RouteConfig";
 
 interface DefaultAuthProps {
  className?: string;
@@ -23,14 +25,14 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
     const isAuth = useSelector((state:StateSchema)=>state.user.isAuth);
     const [rememeberUser,setRememberUser] = useState(false);
     const dispatch = useAppDispatch();
-
+    const navigate = useNavigate();
     return (
         <div className={classNames(cls.DefaultAuth,{},[className])}>
             
             <p className={cls.formHeader}>ВХОД В ЛИЧНЫЙ КАБИНЕТ</p>
             <p>Нет аккаунта?</p>
             <div className={cls.textRow}>
-                <p className={cls.linkToReg}>Зарегистрируйтесь</p>
+                <p className={cls.linkToReg} onClick={()=>navigate(RoutePathPublic.reg)}>Зарегистрируйтесь</p>
                 <p>в личном кабинете.</p>
             </div>
             <p>чтобы получить все преимущества обслуживания!</p>
@@ -57,7 +59,7 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
             </div>
             
             <AppButon className={cls.confirmButton} theme={AppButtonTheme.DESIGNED_PRIMARY} onClick={()=>{dispatch(defaultLogin({email,password})).then(res=>dispatch(getUserData()));}}>АВТОРИЗАЦИЯ</AppButon>
-            <p className={cls.regRef}>Регистрация</p>
+            <p className={cls.regRef} onClick={()=>navigate(RoutePathPublic.reg)}>Регистрация</p>
         </div>
     );
 }

@@ -19,6 +19,14 @@ export function buildLoaders(options:BuildOptions):webpack.RuleSetRule[]{
         use: "ts-loader",
         exclude: /node_modules/,
     };
+    const image_loader = {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+            {
+                loader: "file-loader",
+            },
+        ],
+    };
     const scss_loader = buildCssLoader(options.isDev);
     return [
         svgLoader,
@@ -27,6 +35,7 @@ export function buildLoaders(options:BuildOptions):webpack.RuleSetRule[]{
         // typescript_loader,
         scss_loader,
         // fileLoader,
+        image_loader
 
     ];
 }

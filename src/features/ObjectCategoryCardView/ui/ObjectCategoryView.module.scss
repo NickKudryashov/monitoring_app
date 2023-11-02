@@ -1,15 +1,17 @@
 .ObjectCategoryView {
+    margin-bottom: 3%;
     display:flex;
     flex-direction: column;
-    width:350px;
-    height:480px;
+    width:22%;
+    height:40%;
     background: var(--subcolor-4-with-opacity);
     border-radius: var(--border-radius-type-2);
     box-shadow: var((--primary-shadow));
-    font:var(--font-m);
+    font:var(--font-m-mini);
     color:#FFFF;
-    row-gap: 35px;
+    row-gap: 3.4%;
     cursor: pointer;
+
     // width:100%;
     // overflow: auto;
 
@@ -23,8 +25,8 @@
     justify-content: center;
     padding-left:20px;
     row-gap:5px;
-    width:350px;
-    height:80px;
+    width:100%;
+    height:25%;
     border-radius: var(--border-radius-type-2) ;
     border: 1px solid  var(--subcolor-4)
 }
@@ -34,21 +36,25 @@
 }
 
 .systemsBox {
+    overflow-y: auto;
     display: flex;
+    flex:2;
     flex-direction: column;
     align-items: center;
-    row-gap: 15px;
+    row-gap: 4%;
+    height:75%;
 }
 
 .systemLine {
     display: flex;
     position: relative;
     justify-content: space-between;
-    padding-left:25px;
-    padding-right:25px;
+
+    // padding-left:25px;
+    // padding-right:25px;
     align-items: center;
-    width: 300px;
-    height: 50px;
+    width: 78%;
+    height: 18%;
     border-radius: var(--border-radius-type-1);
     background: var(--subcolor-3);
     color:var(--subcolor-1);
@@ -64,19 +70,37 @@
     height:35px;
     opacity: 0.85;
 }
+
 .redmarker{
     background: var(--info-gradient-red);
 
 }
+
 .greymarker{
     background: var(--info-gradient-gray);
 
 }
+
 .orangemarker{
     background:var(--info-gradient-orange);
 
 }
+
 .greenmarker{
     background: var(--info-gradient-green);
 
+}
+
+@media (min-width:1500px)
+{
+    .ObjectCategoryView {
+        width:17%;
+    }
+}
+
+@media (max-width:1170px)
+{
+    .ObjectCategoryView {
+        width:30%;
+    }
 }

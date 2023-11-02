@@ -1,6 +1,6 @@
 .Navbar {
     background: var(--navbar-background-color);
-    font: var(--font-m);
+    font: var(--font-m-mini);
     padding-left: 2.5%;
     padding-right: 2.5%;
     font-weight: var(--font-weight-navbar);
@@ -39,15 +39,11 @@
     white-space: nowrap;
     align-items: center;
     flex-grow: 2;
+    width:15%;
 
 }
 
 @media (min-width:1024px) {
-    .logo
-    {
-        width:232px;
-        height:23px;
-    }
     .textInfo{
         width:521px;
         height:26px;
@@ -55,11 +51,6 @@
 }
 
 @media (max-width:1024px) {
-    .logo
-    {
-        width:200px;
-        height:20px;
-    }
     .textInfo{
         width:500px;
         height:24px;
@@ -69,14 +60,16 @@
 .logoText {
     padding-left: 1%;
 }
+
 .logoIcon {
     margin-right: 1%;
 }
 
 .textInfo {
+    width:fit-content;
     flex-grow: 1;
     display: flex;
-    gap:30%;
+    gap:5%;
     font: var(--font-s-test);
     font-weight: bold;
 
@@ -88,6 +81,7 @@
     align-items: center;
     justify-content: center;
 }
+
 .navbarPanel {
     display: flex;
     gap:30px;

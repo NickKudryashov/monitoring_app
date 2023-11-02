@@ -3,14 +3,12 @@
     display:flex;
     flex: 1 0 21%; /* explanation below */
     font:var(--font-m-mini);
+
     // flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-right:27px;
-    margin-bottom: 60px;    
-    width:346px;
-    max-width:346px;
-    height:130px;
+    align-items: center;
+    width:20%;
+    height:12%;
     border-radius: 19px;
     background: linear-gradient(90deg,var(--subcolor-3),90%,#FBB989);
     box-shadow: var(--primary-shadow);
@@ -21,14 +19,17 @@
     background: var(--info-gradient-red);
 
 }
+
 .greymarker{
     background: var(--info-gradient-gray);
 
 }
+
 .orangemarker{
     background:var(--info-gradient-orange);
 
 }
+
 .greenmarker{
     background: var(--info-gradient-green);
 
@@ -37,30 +38,41 @@
 
 .cardContent {
     // text-align: center;
-    height:38px;
+    height:100%;
 }
 
 .icon {
     position: absolute;
-    right: 15px;
-    bottom:20px;
+    width:12%;
+    aspect-ratio: 1/1;
+    right: 10%;
+    bottom:25%;
 }
 
 .textBlock {
     display: flex;
-    gap:5px;
+    gap:2%;
     width:60%;
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
     text-align: start;
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-bottom: 17px;
-    margin-right: 89px;
+    margin:2% 20% 2% 5%;
 }
 
 .postfix {
     font: var(--font-s-test);
     font-style: italic;
+}
+
+@media (max-width:1234px) {
+    .ObjectCard {
+        font:var(--font-m-extra-mini);
+
+    }
+
+    .postfix {
+        font: var(--font-xs-mini);
+
+    }
 }

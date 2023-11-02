@@ -17,10 +17,12 @@ import { AddPumpDevice } from "features/AddPumpStationDevice";
 import { AddAutoDevice } from "features/AddAutoDevice";
 import { getArchivesEvents } from "entities/Heatcounters";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import LogoIcon from 'shared/assets/icons/LogoIcon.svg'
-import EventIcon from 'shared/assets/icons/EventsIcon.svg'
-import ProfileIcon from 'shared/assets/icons/ProfileIcon.svg'
+import LogoIcon from "shared/assets/icons/LogoIcon.svg";
+import EventIcon from "shared/assets/icons/EventsIcon.svg";
+import ProfileIcon from "shared/assets/icons/ProfileIcon.svg";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
+import { useNavigate } from "react-router-dom";
+import { RoutePathPublic } from "shared/config/RouteConfig/RouteConfig";
 interface NavbarProps {
  className?: string;
  isAuth?:boolean;
@@ -32,6 +34,7 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
     const {isLoading:eventsIsLoading,data:archiveEventsData,refetch:refetchEvents} = getArchivesEvents();
     const [showEvents,setShowEvents] = useState(false);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     return (
         <div className={classNames(cls.Navbar,{},[className])}>
 
@@ -54,7 +57,9 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                     {isAuth && <AppInput theme={InputThemes.DESIGNED_PRIMARY} placeholder=""/>}
                     {!isAuth && <AppButon
                         theme={AppButtonTheme.DESIGNED_OUTLINE}
-                        className={cls.blocks}>
+                        className={cls.blocks}
+                        onClick={()=>navigate(RoutePathPublic.reg)}
+                    >
                         Регистрация
                     </AppButon>}
                     <ProfileIcon/>
@@ -70,25 +75,27 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                     
                     {!isAuth && <AppButon
                         theme={AppButtonTheme.DESIGNED_OUTLINE}
-                        className={cls.blocks}>
+                        className={cls.blocks}
+                        onClick={()=>navigate(RoutePathPublic.auth)}
+                    >
                         Вход
                     </AppButon>}
                 </div>
                 {/* <AddAutoDevice isOpen={autoDevFormOpened} onClose={acceptAutoDevice}/> */}
                 <Modal isOpen={showEvents} onClose={()=>setShowEvents(false)}  >
-                {
-                    <div className={cls.modalWin}>
-                    {   
-                        archiveEventsData?.map(
-                            el=>
-                                <p key={el.id}>{`${el.event_datetime} ${el.system} ${el.message}`}</p>
-                        )                       
+                    {
+                        <div className={cls.modalWin}>
+                            {   
+                                archiveEventsData?.map(
+                                    el=>
+                                        <p key={el.id}>{`${el.event_datetime} ${el.system} ${el.message}`}</p>
+                                )                       
+                            }
+                            {(archiveEventsData===undefined || archiveEventsData?.length===0)&&
+                            <p>События отсутствуют</p>
+                            }
+                        </div>
                     }
-                    {(archiveEventsData===undefined || archiveEventsData?.length===0)&&
-                    <p>События отсутствуют</p>
-                    }
-                    </div>
-                }
                 
                 </Modal>
                 

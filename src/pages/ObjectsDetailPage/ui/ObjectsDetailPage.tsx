@@ -24,8 +24,8 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
     //     navigate(RoutePathAuth.main);
     // }
     useEffect(()=>{
-        dispatch(objectsAllRequest())
-    },[])
+        dispatch(objectsAllRequest());
+    },[]);
     
     const {objects} = useSelector((state:StateSchema)=>state.objects);
     
@@ -34,7 +34,7 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
             <DetailView className={cls.detail}>
                 {
                     objects.map((el)=>
-                    <ObjectCategoryView key={el.id}  id={el.id} adress={el.name} />)
+                        <ObjectCategoryView key={el.id}  id={el.id} adress={el.name} />)
                 }
             </DetailView>
         );

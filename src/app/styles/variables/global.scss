@@ -15,6 +15,7 @@
     // --font-m : var(--font-size-m) / var(--font-line-m) var(--font-family-main);
     --font-m : 20px var(--font-family-main);
     --font-m-mini : 15px var(--font-family-main);
+    --font-m-extra-mini : 12px var(--font-family-main);
     --font-size-l: 24px;
     --font-line-l: 32px;
     --font-l :25px var(--font-family-main);
@@ -41,7 +42,7 @@
 
     //цвета
     --overlay-color:rgb(0 0 0 / 60%);
-    --auth-background-image:url('../../shared/assets/images/auth_back.jpg');
+    --auth-background-image:url('../../shared/assets/images/mainImage.png');
     --navbar-background-color: #01354A;
 
 

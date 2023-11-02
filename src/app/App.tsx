@@ -19,7 +19,7 @@ const App = () => {
       <Link to={'/about'}>О странице</Link> */}
             <div className='content-page'>
                 <YMaps>
-                <AppRouter/>
+                    <AppRouter/>
 
                 </YMaps>
             </div>

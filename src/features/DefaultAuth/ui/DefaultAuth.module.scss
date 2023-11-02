@@ -65,9 +65,11 @@
     margin-top: 5%;
     padding-top: 1%;
     text-decoration: none;
+    user-select: none;
     width:55%;
     border-top: 1px solid var(--subcolor-1);
     font:var(--font-m);
     color:var(--subcolor-1);
     text-align: center;
+    cursor: pointer;
 }

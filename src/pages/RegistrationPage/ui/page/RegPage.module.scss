@@ -1,0 +1,84 @@
+.RegPage {
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar  {
+    margin-bottom: 3%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding:3%;
+    padding-bottom: 1%;
+    width:20%;
+    height:75%;
+    background: var(--subcolor-5);
+    box-shadow: var(--primary-shadow);
+    border-radius: var(--border-radius-type-2);
+    align-items: center;
+}
+
+@media (min-width:1300px) {
+    .form {
+        width:30%;
+    }
+}
+
+@media (min-width:1300px) and (max-width:1500px) {
+    .form {
+        width:35%;
+    }
+}
+
+
+@media (max-width:1299px) {
+    .form {
+        width:40%;
+    }
+}
+
+@media (max-width:1025px) {
+    .form {
+        width:50%;
+    }
+}
+
+.btns {
+    display: flex;
+    justify-content: space-between  ;
+}
+
+.active_btn{
+    font:var(--font-m);
+    background: var(--subcolor-5);
+    color:black;
+    border:none;    
+}
+
+.formHeader {
+    color:var(--subcolor-1);
+    text-align: center;
+}
+
+.checkBoxes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.submitBtn {
+    // margin-top: 8%;
+    width:60%;
+    font:var(--font-m);
+    font-family: var(--font-family-sub-1);
+    height:10%;
+    font-weight: 600;
+    letter-spacing: 2px;
+
+}

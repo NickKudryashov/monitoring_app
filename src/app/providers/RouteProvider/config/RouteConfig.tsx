@@ -10,6 +10,7 @@ import { MockPage } from "pages/MockPage";
 import { ObjectPage } from "pages/ObjectPage";
 import { ObjectDetailPage } from "pages/ObjectsDetailPage";
 import { PumpDevicePage } from "pages/PumpDevicePage";
+import { RegPage } from "pages/RegistrationPage";
 import { SubCategoryPage } from "pages/SubcartegoryPage";
 import { RouteProps } from "react-router-dom";
 import { RoutePathPublic, AppRoutesAuth, AppRoutesPublic,RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
@@ -20,9 +21,13 @@ export const RouteConfigPublic: Record<string,RouteProps> = {
         path:RoutePathPublic.auth,
         element:<AuthPage/>
     },
+    [AppRoutesPublic.REG]:{
+        path:RoutePathPublic.reg,
+        element:<RegPage/>
+    },
     [AppRoutesPublic.REDIRECT]:{
         path:RoutePathPublic.redir,
-        element:<AuthPage/>
+        element:<MockPage/>
     }
 };
 export const RouteConfigAuth: Record<string,RouteProps> = {

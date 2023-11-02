@@ -1,9 +1,8 @@
 .categoryPage {
     display: flex;
-    flex-direction: column;
+    flex-flow: column wrap;
     height:100%;
     width:100%;
-    flex-wrap: wrap;
 }
 
 
@@ -13,8 +12,11 @@
     display: flex;
     justify-content: flex-start;
     width:100%;
+
     // border:1px solid black;
     border-left: none;
     flex-wrap: wrap;
+    column-gap: 1.2%;
+    row-gap: 3.4%;
 
 }

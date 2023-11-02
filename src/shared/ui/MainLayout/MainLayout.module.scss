@@ -44,13 +44,16 @@
 .dtlWrapper {
     overflow-y: auto;
     margin-left: 140px;
-    margin-right: 44px;
+    height: 100%;
+
+    // margin-right: 44px;
     background: transparent;
 }
 
 @media (min-width:1024px) {
     .dtlWrapper {
         width:1648px;
-        padding-right: 136px;
+
+        // padding-right: 136px;
     }
 }
