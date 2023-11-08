@@ -7,8 +7,7 @@
     // flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width:20%;
-    height:12%;
+    height:15%;
     border-radius: 19px;
     background: linear-gradient(90deg,var(--subcolor-3),90%,#FBB989);
     box-shadow: var(--primary-shadow);
@@ -43,7 +42,7 @@
 
 .icon {
     position: absolute;
-    width:12%;
+    width:15%;
     aspect-ratio: 1/1;
     right: 10%;
     bottom:25%;
@@ -68,11 +67,34 @@
 @media (max-width:1234px) {
     .ObjectCard {
         font:var(--font-m-extra-mini);
+        flex: 1 0 30%; /* explanation below */
+        width:25%;
 
     }
 
     .postfix {
         font: var(--font-xs-mini);
+        width: 30%;
+    }
+}
 
+@media (max-width:1100px) {
+    .ObjectCard {
+        width:50%;
+    }
+}
+
+@media (max-width:964px) {
+    .ObjectCard {
+        flex: 1 0 45%; /* explanation below */
+
+    }
+}
+
+
+
+@media (max-height:800px) {
+    .ObjectCard {
+        font:var(--font-s-test);
     }
 }

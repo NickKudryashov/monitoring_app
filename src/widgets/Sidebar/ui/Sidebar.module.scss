@@ -89,11 +89,10 @@
 
 .annotation {
     width:70%;
-    transition: width 0.5s;
 }
 
 .collapsed {
-    width:6%;
+    width:50px;
 
     .sidebarItem {
         width:50%;
@@ -101,39 +100,6 @@
 }
 
 @media (min-width:1370px) {
-    .collapsed {
-        width:5%;
-    }
+
 }
 
-// @media screen and  (min-width:1024px) {
-//     // .Sidebar{
-//     //     width:220px;
-//     //     height:829px;
-    
-//     // }
-//     .collapsed {
-//         width: 70px;
-//     }
-//     .sidebarItem {
-//         padding-left: 25px;
-//         padding-right: 23px;
-//     }
-//     .sidebarItemMinimized {
-//         padding: 0;
-//     }
-//     .annotation {
-//         margin-left: 12px;
-//         width:123px;
-//     }
-// }
-// @media screen and  (max-width:1024px) {
-//     // .Sidebar{
-//     //     width:110px;
-//     //     height:550px;
-    
-//     // }
-//     .collapsed {
-//         width: 70px;
-//     }
-// }

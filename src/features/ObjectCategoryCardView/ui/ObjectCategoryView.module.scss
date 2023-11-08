@@ -94,13 +94,33 @@
 @media (min-width:1500px)
 {
     .ObjectCategoryView {
-        width:17%;
+        flex: 1 0 20%; /* explanation below */
+        
     }
 }
 
 @media (max-width:1170px)
 {
     .ObjectCategoryView {
-        width:30%;
+        flex: 1 0 35%; /* explanation below */
+
+    }
+}
+
+
+@media (max-width:1170px)
+{
+    .ObjectCategoryView {
+        flex: 1 0 30%; /* explanation below */
+
+    }
+}
+
+
+@media (max-height:750px)
+{
+    .ObjectCategoryView {
+        height:60%;
+
     }
 }

@@ -1,57 +1,33 @@
 .AdministrationPage {
-    display: flex;
-    flex-direction: column;
-    gap:10px;
     height:100%;
     width:100%;
 }
 
 .detail {
-    width:75%;
-    display: flex;
-    justify-content: center;
+    width:100%;
+    height:100%;
 
     // border:1px solid black;
-    border-left: none;
 
 }
 
-.innertabs {
-    background: white;
+.buttonBox {
+    padding-top: 20px;
+    padding-left: 35px;
+    padding-right: 35px;
+    background: var(--subcolor-3);
+    border-radius: var(--border-radius-type-2);
+    height:100%;
+    width:45%; 
 }
 
-.tabs {
-    display: flex;
-    flex-basis: 20%;
-    flex-wrap: wrap;
-    gap:16px;
-    margin-bottom: 10px;
+.buttonBoxTitle {
+    color: var(--subcolor-1);
+    font:var(--font-m);
+    font-weight: bold;
 }
 
 .btn {
-    width:200px;
-}
-
-
-.cards {
-    display: flex;
-    width:100%;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-basis: 80%;
-    flex-wrap: wrap;
-    gap:10px;
-    align-content: flex-start;
-}
-
-.orgData{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    justify-content: flex-start;
-}
-
-.offset {
-    margin-left:30px;
+    height:7%;
+    font-size: 0.65rem;
 }
