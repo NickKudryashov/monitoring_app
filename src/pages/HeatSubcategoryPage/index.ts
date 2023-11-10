@@ -1,0 +1,1 @@
+export {HeatSubcatPageAsync as HeatSubcatPage} from "./ui/HeatSubcategoryPage.async";

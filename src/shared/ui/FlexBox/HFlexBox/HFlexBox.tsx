@@ -2,12 +2,17 @@
 
 import type { PropsWithChildren } from "react";
 import cls from "./HFlexBox.module.scss";
-import { JUSTIFYCONTENT } from "../props";
+import { ALIGNITEMS, GAP, JUSTIFYCONTENT } from "../props";
+import classNames from "shared/lib/classNames/classNames";
 
 interface HFlexBoxProps {
  className?: string;
  name?:string;
- align?:JUSTIFYCONTENT
+ align?:JUSTIFYCONTENT;
+ gap?:GAP;
+ alignItems?:ALIGNITEMS
+ width?:string;
+ height?:string
 }
 
 
@@ -15,10 +20,21 @@ interface HFlexBoxProps {
 
 
 export function HFlexBox(props: PropsWithChildren<HFlexBoxProps>) {
-    const { className,name,children,align } = props;
+    const { className,name,children,align,gap,alignItems,height,width } = props;
 
     return (
-        <div className={cls.HFlexBox} style={{justifyContent:align}}>
+        <div
+            className={classNames(cls.HFlexBox,{},[className,])}
+            style={
+                {
+                    justifyContent:align,
+                    gap:gap,
+                    alignItems:alignItems,
+                    width,
+                    height
+                }
+            }
+        >
             {children}
         </div>
     );

@@ -2,24 +2,27 @@
 
 import type { PropsWithChildren } from "react";
 import cls from "./VFlexBox.module.scss";
-import { GAP, JUSTIFYCONTENT } from "../props";
+import { ALIGNITEMS, GAP, JUSTIFYCONTENT } from "../props";
+import classNames from "shared/lib/classNames/classNames";
 interface VFlexBoxProps {
  className?: string;
  name?:string;
  align?:JUSTIFYCONTENT,
- gap?:GAP
+ gap?:GAP,
+ alignItems?:ALIGNITEMS
 
 }
 
 export function VFlexBox(props: PropsWithChildren<VFlexBoxProps>) {
-    const { className,name,children,align,gap } = props;
+    const { className,name,children,align,gap,alignItems } = props;
 
     return (
         <div
-            className={cls.VFlexBox}
+            className={classNames(cls.VFlexBox,{},[className,])}
             style={{
                 gap:gap,
-                justifyContent:align
+                justifyContent:align,
+                alignItems:alignItems
             }}
         >
             {children}

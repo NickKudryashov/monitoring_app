@@ -16,6 +16,8 @@ import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { Footer } from "shared/ui/Footer/Footer";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { useNavigate } from "react-router-dom";
+import { AppRoutesAuth, RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 
 interface AdministrationPageProps {
  className?: string;
@@ -27,7 +29,7 @@ interface AdministrationPageProps {
 const AdministrationPage = memo((props: PropsWithChildren<AdministrationPageProps>) => {
     const { className } = props;
     let content;
-
+    const navigate = useNavigate();
     content = (
         <DetailView >
             <HFlexBox align={"space-around"} className={cls.detail} >
@@ -43,7 +45,7 @@ const AdministrationPage = memo((props: PropsWithChildren<AdministrationPageProp
                         <AppButon className={cls.btn} theme={AppButtonTheme.DESIGNED_PRIMARY}>Настройки CRM системы</AppButon>
                         <AppButon className={cls.btn} theme={AppButtonTheme.DESIGNED_PRIMARY}>Настройка архива</AppButon>
                         <AppButon className={cls.btn} theme={AppButtonTheme.DESIGNED_PRIMARY}>Настройка доступа подрядной организации</AppButon>
-                        <AppButon className={cls.btn} theme={AppButtonTheme.DESIGNED_PRIMARY}>ещё какая-то настройка</AppButon>
+                        <AppButon onClick={()=>navigate(RoutePathAuth.heat_subcat+"1")} className={cls.btn} theme={AppButtonTheme.DESIGNED_PRIMARY}>посмотреть УУТЭ</AppButon>
                     </VFlexBox>
                 </div>
                 <div className={cls.buttonBox}>

@@ -1,0 +1,248 @@
+//Плашка верхняя
+.headers {
+    background: var(--subcolor-1);
+    color:var(--subcolor-3);
+    border-radius: var(--border-radius-type-2);
+    height:10vh;
+}
+
+.headerBox {
+    flex:1 0 12%;
+}
+
+// Блок с названием системы
+.subcatNameBox {
+    // display:flex;
+    flex: 1 0 30%;
+    text-align: center;
+
+    // align-items: center;
+    // justify-content: center;
+    padding:10px;
+
+}
+
+.subCatNameWrapper {
+    border:1px solid white;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-type-2);
+    width:100%;
+    height:100%;
+}
+
+//Блок с описанием объекта
+.subCatObjInfoWrapper {
+    border:1px solid white;
+    font:var(--font-m-mini);
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: var(--border-radius-type-1);
+    width:100%;
+    height:40%;
+    padding:5px;
+}
+
+
+.subcatObjectInfo {
+    flex: 1 0 65%;
+
+}
+
+
+.HeatSubcategoryPage {
+    width: 100%;
+    height: 100%;
+}
+
+.contentBox{
+    flex: 1 0 85%;
+}
+
+.subsystemNameField {
+    vertical-align: middle;
+}
+
+
+.subcatObjectInfoTextGroup {
+    flex: 1 0 45%;
+}
+
+.objectInfoTextField {
+    white-space: nowrap;
+    font:var(--font-m-mini)
+}
+
+.objectInfoContainer {
+    padding:5px;
+}
+
+//Карточка общих данных по прибору
+.cards {
+    height:14.5vh;
+    border-radius: var(--border-radius-type-1);
+    background:var(--subcolor-3);   
+}
+
+.subcatCardBox {
+    flex: 1 0 32%;  
+}
+
+.generalDeviceInfoCard {
+    background: var(--subcolor-6);
+    padding:7px;
+    color:var(--subcolor-3-with-opacity);
+
+}
+
+.generalInfoTitle {
+    color:var(--subcolor-3);
+}
+
+.generalCardTextWrapper {
+    display: flex;
+    align-items: center;
+    color:var(--subcolor-3);
+    font:var(--font-m-extra-mini);
+    border: 1px solid white;
+    border-radius: var(--border-radius-type-3);
+    width:40%;
+}
+
+.longTextGeneralCard {
+    width:100%;
+    height:30%;
+
+}
+
+.generalCardItems {
+    flex: 1 0 19%;
+}
+
+.deviceDate {
+    width:100%;
+    height:100%;
+}
+
+.deviceSystemCard {
+    cursor: pointer;
+    color:var(--subcolor-1);
+    font:var(--font-m-mini);
+    font-weight: bold;
+    padding:10px;
+    padding-top:5px;
+}
+
+.deviceSystemCardSelected {
+    background: var(--subcolor-4);
+}
+
+.systemCardTitle {
+    font:var(--font-m);
+}
+
+.systemCardFlexInfoPart {
+    flex: 1 0 70%;
+}
+
+.systemInformation {
+    border: 1px solid var(--subcolor-1);
+    border-radius: var(--border-radius-type-1);
+    padding: 5px;
+}
+
+.eventWrapper {
+    width:20%;
+    height:20%; 
+    background: var(--subcolor-1);
+    color:var(--subcolor-3);
+    text-align: center;
+}
+
+.tableContentFlexbox {
+    flex: 1 0 80%;
+    border: 1px solid var(--subcolor-3);
+    border-radius: var(--border-radius-type-2);
+}
+
+.tableHeadersFlexbox {
+    flex: 1 0 5%;
+}
+
+.tabHeaderButton {
+    width:25%;
+    cursor: pointer;
+    color:var(--subcolor-3);
+    text-align: center;
+    border: 1px solid var(--subcolor-3);
+    border-bottom-left-radius: var(--border-radius-type-2);
+    border-bottom-right-radius: var(--border-radius-type-2);
+}
+
+.tabLeftButton {
+    border-top-left-radius: var(--border-radius-type-2);
+}
+
+.tabRightButton {
+    border-top-right-radius: var(--border-radius-type-2);
+}
+
+.paramFlexBox {
+    font:var(--font-m-mini);
+    width:30%;
+    height: 90%;
+    background: var(--subcolor-3);
+    border-radius: var(--border-radius-type-1);
+    padding-bottom:5px;
+    font-weight: bold;
+}
+
+.paramBoxHeader {
+    font:var(--font-m);
+    margin-top:1%;
+    width:90%;
+    height:7.5%;
+    border-radius: var(--border-radius-type-1);
+    border: 1px solid var(--subcolor-1);
+    background: var(--subcolor-7);
+    color:var(--subcolor-1);
+    text-align: center;
+}
+
+.paramNameField {
+    color:var(--subcolor-1);    
+}
+
+.paramVerboseWrapper {
+    border: 1px solid var(--subcolor-1);
+    width:50%;
+    color:var(--subcolor-1);
+    border-radius: var(--border-radius-type-3);
+}
+
+.valueFlexBox {
+    color:var(--subcolor-1);
+    width:30%;
+    height:fit-content;
+}
+
+.paramValueWrapper {
+    border: 1px solid var(--subcolor-1);
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-7);
+}
+
+.paramRow {
+    flex: 1 0 9%;
+
+}
+
+.tabHeaderButton:hover {
+    background: var(--subcolor-1-with-opacity);
+}
+
+.selectedTab {
+    background: var(--subcolor-1-with-opacity);
+}

@@ -15,6 +15,7 @@ export enum AppRoutesAuth {
     ADMINISTRATION="administration",
     GENERALINFO="general",
     SUBCAT="subcat",
+    HEAT_SUBCAT="heat_subcat",
     MOCK="mock",
     REDIRECT="redir",
 }
@@ -35,6 +36,7 @@ export const RoutePathAuth: Record<AppRoutesAuth,string> = {
     [AppRoutesAuth.GENERALINFO]:"/general/",
     [AppRoutesAuth.ADMINISTRATION]:"/administration/",
     [AppRoutesAuth.SUBCAT]:"/subcategory/",
+    [AppRoutesAuth.HEAT_SUBCAT]:"/heat_subcategory/",
     [AppRoutesAuth.MAP]:"/map",
     [AppRoutesAuth.MOCK]:"/mock/",
     [AppRoutesAuth.MAIN]:"/",

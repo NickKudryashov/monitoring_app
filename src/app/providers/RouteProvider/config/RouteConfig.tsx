@@ -4,6 +4,7 @@ import { CategoryPage } from "pages/CategoryPage";
 import { ElectroDevicePage } from "pages/ElectroDevicePage";
 import { GeneralInfoPage } from "pages/GeneralInfoPage";
 import { HeatDevicePage } from "pages/HeatDevicePage";
+import { HeatSubcatPage } from "pages/HeatSubcategoryPage";
 import { MainPage } from "pages/MainPage";
 import { MapPage } from "pages/MapPage";
 import { MockPage } from "pages/MockPage";
@@ -59,6 +60,9 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.SUBCAT]:{
         path: `${RoutePathAuth.subcat}:id`,
         element:<SubCategoryPage/>},
+    [AppRoutesAuth.HEAT_SUBCAT]:{
+        path: `${RoutePathAuth.heat_subcat}:id`,
+        element:<HeatSubcatPage/>},
     [AppRoutesAuth.MOCK]:{
         path:RoutePathAuth.mock,
         element:<MockPage/>},

@@ -8,8 +8,21 @@ export const JUSTIFYCONTENT = {
 
 export type JUSTIFYCONTENT = typeof JUSTIFYCONTENT [keyof typeof JUSTIFYCONTENT]
 
+
+export const ALIGNITEMS = {
+    CENTER:"center",
+    FLEX_START:"start",
+    FLEX_END:"end",
+} as const;
+
+export type ALIGNITEMS = typeof ALIGNITEMS [keyof typeof ALIGNITEMS]
+
+
+
 export const GAP = {
     small:"2px",
+    smallM:"3px",
+    smallL:"4px",
     medium:"5px",
     large:"10px",
     extralarge:"15px",

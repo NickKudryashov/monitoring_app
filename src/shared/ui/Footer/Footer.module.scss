@@ -3,7 +3,8 @@
     flex-direction: column;
     align-items: flex-start;
     overflow-y: auto;
-    background: rgb(128 128 128 / 40.4%) ;
+    background: var(--subcolor-4-with-opacity) ;
+    border-radius: var(--border-radius-type-1);
     height:var(--footer-height);
     text-align: end;
 }
