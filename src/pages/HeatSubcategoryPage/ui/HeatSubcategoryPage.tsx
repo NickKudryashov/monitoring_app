@@ -30,7 +30,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const {id} = useParams<{id:string}>();
     const [selectedSystem,setSeelctedSystem] = useState(0);
     const [selectedTab,setSeelctedTab] = useState(2);
-    const {data:generalData} = getGeneralInfo(id);
+    const {data:generalData,refetch:refetchGeneral} = getGeneralInfo(id);
     const {data:device,isLoading:isLoadingDevices} = getHeatDevs(id);
     const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.length ? String(device[0]) : undefined);
     const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem].id));
@@ -215,7 +215,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                     </VFlexBox>
                                 </HFlexBox>
                             </VFlexBox>
-                            {deviceData && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={refetch} />}
+                            {deviceData && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral;}} />}
                             <Footer pollCallback={fetchEvents}/>
                         </VFlexBox>
                     </VFlexBox>
