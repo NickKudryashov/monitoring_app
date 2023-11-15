@@ -215,7 +215,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                     </VFlexBox>
                                 </HFlexBox>
                             </VFlexBox>
-                            {deviceData && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral;}} />}
+                            {deviceData && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />}
                             <Footer pollCallback={fetchEvents}/>
                         </VFlexBox>
                     </VFlexBox>
