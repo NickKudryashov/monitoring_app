@@ -30,9 +30,9 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const {id} = useParams<{id:string}>();
     const [selectedSystem,setSeelctedSystem] = useState(0);
     const [selectedTab,setSeelctedTab] = useState(2);
-    const {data:generalData,refetch:refetchGeneral,} = getGeneralInfo(id,{pollingInterval:15000});
+    const {data:generalData,refetch:refetchGeneral,} = getGeneralInfo(id);
     const {data:device,isLoading:isLoadingDevices} = getHeatDevs(id);
-    const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.length ? String(device[0]) : undefined);
+    const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.length ? String(device[0]) : undefined,{pollingInterval:15000});
     const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem].id));
     console.log(configParameters);
     const params:Record<string,HeatParameters[]> = {accumulate_parameter:[],instant_parameter:[]};
