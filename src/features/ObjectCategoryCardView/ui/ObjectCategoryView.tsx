@@ -2,7 +2,7 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryView.module.scss";
 
 import { PropsWithChildren } from "react";
-import { getObjectSubcategoryData } from "../api/objectSubcategorysApi";
+import { SubcategoryAnswer, getObjectSubcategoryData } from "../api/objectSubcategorysApi";
 import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
 import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
 import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
@@ -27,6 +27,12 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
     const markerIcon = Math.floor (Math.random () * (4 - 1 + 1)) + 1;
     const markerColor = Math.floor (Math.random () * (4 - 1 + 1)) + 1;
     const Icon  = IconMapper[markerIcon] as React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+    const onSubcatClick = (el:SubcategoryAnswer)=>{
+        if (el.subcategory_type==="heat_energy_node") {
+            return RoutePathAuth.heat_subcat+el.id;
+        }
+        else return RoutePathAuth.subcat + el.id;
+    };
     const mods = {
         [cls.redmarker]:markerColor===1,
         [cls.greymarker]:markerColor===2,
@@ -45,9 +51,10 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
             <div className={cls.systemsBox}>
                 {data && data.data.map((
                     el=>
-                        <div onClick={()=>navigate(RoutePathAuth.subcat + el.id)} key={el.id} className={classNames(cls.systemLine,mods,[])}>
+                        <div onClick={()=>navigate(onSubcatClick(el))} key={el.id} className={classNames(cls.systemLine,mods,[])}>
                             <p>{el.name}</p>
-                            <Icon className={cls.icon}/>
+                            {el.subcategory_type!=="heat_energy_node" && <Icon className={cls.icon}/>}
+                            {el.subcategory_type==="heat_energy_node" && <HeatIcon className={cls.icon}/>}
                         </div>
                 ))}
             </div>

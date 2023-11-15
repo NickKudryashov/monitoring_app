@@ -13,6 +13,8 @@ export interface HeatParameters {
     dimension:string;
     system:number;
     device:number;
+    parameter_type:string,
+    verbose_name:string,
     tag?:string;
     comment?:string;
 }

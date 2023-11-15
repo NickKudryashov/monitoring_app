@@ -4,7 +4,8 @@ import cls from "./MainLayout.module.scss";
 
 import type { PropsWithChildren } from "react";
 import { Footer } from "../Footer/Footer";
-
+import ChatIcon from "shared/assets/icons/ChatIcon.svg";
+import { HFlexBox } from "../FlexBox/HFlexBox/HFlexBox";
 interface MainLayoutProps {
  className?: string;
  navbar:React.ReactNode;
@@ -22,22 +23,18 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
             {navbar}
             <div className={cls.sidebarwrapper}>
                 <div className={cls.content}>
-                    {/* <div className={cls.listWithGeneral}> */}
                     {sidebar}
-                    {/* {deviceList} */}
-                    {/* </div> */}
                     <div className={cls.dtlWrapper}>
-                        {
-                            DetailView
-                        }
+                        <HFlexBox gap="25px">
+                            {
+                                DetailView
+                            }
+                            <ChatIcon className={cls.chatIcon}/>
+                        </HFlexBox>
+                        
                     </div>
-                    
-                    
-                    {/* {children} */}
-                    {/* <DetailView/> */}
                 </div>
             </div>
-            {/* {footer} */}
 
         </div>
     );

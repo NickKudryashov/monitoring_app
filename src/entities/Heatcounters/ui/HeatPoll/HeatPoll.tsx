@@ -81,17 +81,7 @@ export function HeatPoll(props: PropsWithChildren<HeatPollProps>) {
     };
     return (
         <div className={classNames(className,{},[cls.container])}>
-            {   
-                !autoPoll &&
-                <AppButon disabled={loading} theme={AppButtonTheme.SHADOW} onClick={poll} className={classNames(cls.HeatPoll,{},[className,cls.btn])}>
-                    {loading ?"Идет опрос..." :"Опросить прибор"}
-                </AppButon>
-            }
-            <div className={cls.loadbox}>
-                {/* {loading && <Loader/>} */}
-                {/* {status} */}
-            </div>
-            <br/>
+
         </div>
 
     );

@@ -7,14 +7,17 @@ import classNames from "shared/lib/classNames/classNames";
 interface VFlexBoxProps {
  className?: string;
  name?:string;
- align?:JUSTIFYCONTENT,
- gap?:GAP,
- alignItems?:ALIGNITEMS
+ align?:JUSTIFYCONTENT;
+ gap?:GAP;
+ alignItems?:ALIGNITEMS;
+ width?:string;
+ height?:string
+
 
 }
 
 export function VFlexBox(props: PropsWithChildren<VFlexBoxProps>) {
-    const { className,name,children,align,gap,alignItems } = props;
+    const { className,name,children,align,gap,alignItems,width,height } = props;
 
     return (
         <div
@@ -22,7 +25,9 @@ export function VFlexBox(props: PropsWithChildren<VFlexBoxProps>) {
             style={{
                 gap:gap,
                 justifyContent:align,
-                alignItems:alignItems
+                alignItems:alignItems,
+                width,
+                height
             }}
         >
             {children}

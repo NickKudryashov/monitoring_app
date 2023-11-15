@@ -25,7 +25,6 @@
     margin-top: 20px;
 
     // height:var(--main-content-height);
-    overflow-y: auto;
     height:calc(100% - 118px);
 }
 
@@ -42,18 +41,24 @@
 }
 
 .dtlWrapper {
-    overflow-y: auto;
-    margin-left: 140px;
     height: 100%;
+    margin-left: 100px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    width:calc(100% - 50px);
 
     // margin-right: 44px;
     background: transparent;
 }
 
-@media (min-width:1024px) {
-    .dtlWrapper {
-        width:1648px;
-
-        // padding-right: 136px;
-    }
+.chatIcon {
+    margin-right: 10px;
 }
+
+// @media (min-width:1024px) {
+//     .dtlWrapper {
+//         width:1648px;
+
+//         // padding-right: 136px;
+//     }
+// }

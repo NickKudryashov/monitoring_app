@@ -1,8 +1,9 @@
 import { url } from "inspector";
 import { rtkApi } from "shared/api/rtkApi";
-interface SubcategoryAnswer {
+export interface SubcategoryAnswer {
     id:number;
     name:string;
+    subcategory_type:string | null;
 }
 
 interface ObjectAnswer {

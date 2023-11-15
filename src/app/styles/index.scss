@@ -31,3 +31,24 @@ body {
     width: 100vw;
     height: 100vh;
 }
+
+
+*::-webkit-scrollbar {
+    width: 7px;
+    height:24%;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;        /* цвет дорожки */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--subcolor-1);    /* цвет плашки */
+    border-radius: var(--border-radius-type-2);       /* закругления плашки */
+    border: 10px solid var(--subcolor-1);
+}
+
+// * {
+//     scrollbar-width: thin;
+//     scrollbar-color: blue orange;
+// }

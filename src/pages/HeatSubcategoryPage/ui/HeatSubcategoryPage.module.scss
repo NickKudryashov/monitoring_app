@@ -59,6 +59,8 @@
 
 .contentBox{
     flex: 1 0 85%;
+    height:88%;
+    box-sizing: border-box;
 }
 
 .subsystemNameField {
@@ -162,7 +164,12 @@
 }
 
 .tableContentFlexbox {
-    flex: 1 0 80%;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    // height:81.5%;
+
+    // flex: 1 0 75%;
     border: 1px solid var(--subcolor-3);
     border-radius: var(--border-radius-type-2);
 }
@@ -190,17 +197,19 @@
 }
 
 .paramFlexBox {
-    font:var(--font-m-mini);
+    flex:1 0 18%;
+    font:var(--font-m-extra-mini);
     width:30%;
     height: 90%;
     background: var(--subcolor-3);
     border-radius: var(--border-radius-type-1);
     padding-bottom:5px;
     font-weight: bold;
+    overflow-y: auto;
 }
 
 .paramBoxHeader {
-    font:var(--font-m);
+    font:var(--font-m-mini);
     margin-top:1%;
     width:90%;
     height:7.5%;
@@ -235,7 +244,9 @@
 }
 
 .paramRow {
-    flex: 1 0 9%;
+    // flex: 1 0 3%;
+    color:var(--subcolor-1);
+    margin-top: 1.5vh;
 
 }
 
@@ -245,4 +256,24 @@
 
 .selectedTab {
     background: var(--subcolor-1-with-opacity);
+}
+
+.configParams {
+    color:var(--subcolor-1);
+    width:100%;
+    height:90%;
+}
+
+.configFlexBox {
+    flex: 1 0 40%;
+}
+
+.paramGroups {
+    width:100%;
+}
+
+.confParamRow {
+    margin-top: 5%;
+    padding-left: 2%;
+    padding-right: 2%;
 }

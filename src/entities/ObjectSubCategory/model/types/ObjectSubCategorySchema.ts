@@ -5,6 +5,7 @@ export interface ObjectSubCategoryType {
     parent:number | null;
     user_object:number;
     name:string;
+    subcategory_type:string | null;
 }
 
 export interface ObjectSubCategorySchema extends EntityState<ObjectSubCategoryType> {
