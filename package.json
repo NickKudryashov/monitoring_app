@@ -6,7 +6,7 @@
   "scripts": {
     "test:unit": "jest --config ./config/jest/jest.config.ts",
     "build:prod": "webpack --env mode=production",
-    "build:dev": "webpack --env mode=development",
+    "build:dev": "webpack --env mode=development api=http://localhost/api/v1/",
     "start:dev": "webpack serve --env api=http://localhost:8000/api/v1/  ",
     "start:prod": "webpack serve --env api=http://avs.eco:8000/api/v1/ mode=production ",
     "lint:ts": "eslint \"**/*.{ts,tsx}\"",

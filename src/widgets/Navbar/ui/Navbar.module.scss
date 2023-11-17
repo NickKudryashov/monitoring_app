@@ -18,6 +18,11 @@
     // margin-left:20px;
 }
 
+.btns {
+    font:var(--font-14-px);
+    height:25px;
+}
+
 .blocks_group {
     display: flex;
     width:100%;
@@ -84,5 +89,6 @@
 
 .navbarPanel {
     display: flex;
+    align-items: center;
     gap:30px;
 }

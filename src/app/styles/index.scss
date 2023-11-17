@@ -39,7 +39,17 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-    background: transparent;        /* цвет дорожки */
+    background: transparent;
+}
+
+::-webkit-scrollbar-track-piece:end {
+    background: transparent;
+    margin-bottom: 70%; 
+}
+
+::-webkit-scrollbar-track-piece:start {
+    background: transparent;
+    margin-top: 10px;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -52,3 +62,4 @@ body {
 //     scrollbar-width: thin;
 //     scrollbar-color: blue orange;
 // }
+

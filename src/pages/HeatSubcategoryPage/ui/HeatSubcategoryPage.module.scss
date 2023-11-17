@@ -65,19 +65,22 @@
 
 .subsystemNameField {
     vertical-align: middle;
+    font:var(--font-18-px);
 }
 
 
 .subcatObjectInfoTextGroup {
-    flex: 1 0 45%;
+    // flex: 1 0 20%;
+    font:var(--font-16-px)
 }
 
 .objectInfoTextField {
     white-space: nowrap;
-    font:var(--font-m-mini)
+    font:var(--font-12-px);
 }
 
 .objectInfoContainer {
+    justify-content: space-around;
     padding:5px;
 }
 
@@ -101,10 +104,12 @@
 
 .generalInfoTitle {
     color:var(--subcolor-3);
+    font:var(--font-16-px);
 }
 
 .generalCardTextWrapper {
     display: flex;
+    padding-left:2%;
     align-items: center;
     color:var(--subcolor-3);
     font:var(--font-m-extra-mini);
@@ -121,6 +126,7 @@
 
 .generalCardItems {
     flex: 1 0 19%;
+    font:var(--font-12-px);
 }
 
 .deviceDate {
@@ -135,10 +141,16 @@
     font-weight: bold;
     padding:10px;
     padding-top:5px;
+    background: var(--subcolor-8);
 }
 
+.systemNameField {
+    text-transform: uppercase;
+}
+
+
 .deviceSystemCardSelected {
-    background: var(--subcolor-4);
+    background: var(--subcolor-7);
 }
 
 .systemCardTitle {

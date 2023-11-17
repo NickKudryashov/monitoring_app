@@ -1,20 +1,12 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./Navbar.module.scss";
 
-import { PropsWithChildren, useCallback, useState } from "react";
-import { AddCategory } from "features/AddCategory";
-import { AddObject } from "features/AddObject";
-import { AddHeatDevice } from "features/AddHeatDevice";
+import { PropsWithChildren, useState } from "react";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { userSlice } from "entities/user/Store/authReducer";
-import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
-import DropdownIcon from "shared/assets/icons/dropdownIcon.svg";
 import { Modal } from "shared/ui/Modal/Modal";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { AddElectroDevice } from "features/AddElectroDevice";
-import { AddPumpDevice } from "features/AddPumpStationDevice";
-import { AddAutoDevice } from "features/AddAutoDevice";
 import { getArchivesEvents } from "entities/Heatcounters";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import LogoIcon from "shared/assets/icons/LogoIcon.svg";
@@ -45,37 +37,37 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                 </div>
                 {isAuth && <div className={cls.textInfo}>
                     <div className={cls.vTextBox}>
-                        <p>ТИП КОМПАНИИ</p>
-                        <p>НАЗВАНИЕ КОМПАНИИ</p>
+                        <p>Тип компании</p>
+                        <p>Название компании</p>
                     </div>
                     <div className={cls.vTextBox}>
                         <p>{email}</p>
-                        <p>ДОЛЖНОСТЬ</p>
+                        <p>Должность</p>
                     </div>
                 </div>}
                 <div className={cls.navbarPanel}>
                     {isAuth && <AppInput theme={InputThemes.DESIGNED_PRIMARY} placeholder=""/>}
                     {!isAuth && <AppButon
                         theme={AppButtonTheme.DESIGNED_OUTLINE}
-                        className={cls.blocks}
+                        className={classNames(cls.blocks,{},[cls.btns])}
                         onClick={()=>navigate(RoutePathPublic.reg)}
                     >
                         Регистрация
                     </AppButon>}
-                    <ProfileIcon/>
-                    {isAuth && <EventIcon onClick={()=>setShowEvents(prev=>!prev)}/>}
+                    <ProfileIcon width={"30px"} height={"30px"}/>
+                    {isAuth && <EventIcon width={"30px"} height={"30px"} onClick={()=>setShowEvents(prev=>!prev)}/>}
                     {isAuth && 
                     <AppButon
                         theme={AppButtonTheme.DESIGNED_OUTLINE}
                         onClick={()=>dispatch(userSlice.actions.logout())}
-                        className={cls.blocks}
+                        className={classNames(cls.blocks,{},[cls.btns])}
                     >
                         Выход
                     </AppButon>}
                     
                     {!isAuth && <AppButon
                         theme={AppButtonTheme.DESIGNED_OUTLINE}
-                        className={cls.blocks}
+                        className={classNames(cls.blocks,{},[cls.btns])}
                         onClick={()=>navigate(RoutePathPublic.auth)}
                     >
                         Вход

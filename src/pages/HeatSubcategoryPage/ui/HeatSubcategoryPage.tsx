@@ -61,15 +61,15 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                     </div>
                     <div className={classNames(cls.subcatObjectInfo,{},[cls.headers])}>
                         <HFlexBox className={cls.objectInfoContainer} gap="10px">
-                            <VFlexBox align="space-around" className={cls.subcatObjectInfoTextGroup}>
-                                <p>Объект</p>
+                            <VFlexBox  width="35%" align="space-around" className={cls.subcatObjectInfoTextGroup}>
+                                <p>ОБЪЕКТ</p>
                                 <div className={cls.subCatObjInfoWrapper}>
                                     <p className={cls.objectInfoTextField}>{generalData ? generalData.user_object_name : "..."}</p>
                                 </div>
 
                             </VFlexBox>
-                            <VFlexBox align="space-around" className={cls.subcatObjectInfoTextGroup}>
-                                <p>Адрес</p>
+                            <VFlexBox width="60%" align="space-around" className={cls.subcatObjectInfoTextGroup}>
+                                <p>АДРЕС</p>
                                 <div className={cls.subCatObjInfoWrapper}>
                                     <p className={cls.objectInfoTextField}>{generalData ? generalData.adress : "..."}</p>
                                 </div>
@@ -87,15 +87,15 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                 </div>
                                 <HFlexBox className={cls.generalCardItems} align="space-between">
                                     <div className={cls.generalCardTextWrapper}>
-                                        <p>{`Количество систем: ${deviceData?.systems?.length ?? "..."}`}</p>
+                                        <p>{`количество систем: ${deviceData?.systems?.length ?? "..."}`}</p>
                                     </div>
                                     <div className={cls.generalCardTextWrapper}>
-                                        <p>{`Тип счетчика: ${deviceData?.device_type_verbose_name ?? "..."}`}</p>
+                                        <p>{`тип счетчика: ${deviceData?.device_type_verbose_name ?? "..."}`}</p>
                                     </div>
                                 </HFlexBox>
                                 <HFlexBox className={cls.generalCardItems} align="space-between">
                                     <div className={cls.generalCardTextWrapper}>
-                                        <p>{`Номер счетчика: №${deviceData?.device_num ?? "..."}`}</p>
+                                        <p>{`номер счетчика: №${deviceData?.device_num ?? "..."}`}</p>
                                     </div>
                                     <div className={cls.generalCardTextWrapper}>
                                         <p>поверка счетчика</p>
@@ -107,9 +107,9 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                             <HFlexBox>
                                 <VFlexBox className={cls.systemCardFlexInfoPart}>
                                     <p className={cls.systemCardTitle}>
-                                        {`Тепловая система ${el.index+1}`}
+                                        {`ТЕПЛОВАЯ СИСТЕМА ${el.index+1}`}
                                     </p>
-                                    <p>
+                                    <p className={cls.systemNameField}>
                                         {el.name}
                                     </p>
                                     <div className={cls.systemInformation}>
