@@ -1,0 +1,75 @@
+import { ReactElement, useEffect, useState } from "react";
+import { AppButon } from "shared/ui/AppButton/AppButton";
+import { AppInput } from "shared/ui/AppInput/AppInput";
+import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import cls from "./SystemsBlock.module.scss";
+import { HeatDevice } from "entities/Heatcounters";
+import { ArchivesInfo, ArchivesRecord } from "pages/HeatSubcategoryPage/api/api";
+import { convertToDatetimeInput } from "shared/lib/helpers/datetimeConvert";
+const SCHEMA_MOCK = [
+    "ТС1 М[2ип]",
+    "ТС1 1",
+    "ТС1 М[2о]",
+    "ТС1 М[1р]"
+];
+
+interface SystemBlockProps {
+    deviceData:HeatDevice;
+    onChangeSystem:(id:number)=>void;
+    currentSystem:number;
+    archData:ArchivesRecord;
+    currentArchtype:number;
+    sdate:string;
+    edate:string;
+    setSdate:(src:string)=>void;
+    setEdate:(src:string)=>void;
+}
+const ARCHTYPE_MAPPER:Record<number,string> = {
+    0:"hour",
+    1:"day",
+    2:"month"
+};
+function SystemsBlock(props:SystemBlockProps):ReactElement {
+    const {deviceData,onChangeSystem,currentSystem,archData,currentArchtype,edate,sdate,setEdate,setSdate} = props;
+    const mapper:Record<number,ArchivesInfo> = {
+        0:archData[currentSystem].hour,
+        1:archData[currentSystem].day,
+        2:archData[currentSystem].month,
+    };
+    useEffect(()=>{
+        setSdate(convertToDatetimeInput(mapper[currentArchtype].start_date));
+        setEdate(convertToDatetimeInput(mapper[currentArchtype].end_date));
+    },[currentArchtype]);
+    // setSdate(convertToDatetimeInput(mapper[currentArchtype].start_date));
+    // setEdate(convertToDatetimeInput(mapper[currentArchtype].end_date));
+    return (
+        <VFlexBox width="45%" gap="10px" className={cls.SystemsBlock}>
+            <p>тепловая система:</p>
+            <HFlexBox align="space-between" className={cls.archTypeBox}>
+                <VFlexBox width="60%"  align="space-around">
+                    {deviceData?.systems?.map((el,i)=>
+                        <HFlexBox className={cls.row} height="15%" gap={"4px"} alignItems="center"  key={i}>
+                            <p className={cls.title}>{`ТС${el.index+1} `+el.schema}</p>
+                            <AppInput checked={el.id===currentSystem} onClick={()=>onChangeSystem(el.id)} type="radio"/>
+                        </HFlexBox>
+                    )}
+                </VFlexBox> 
+                <VFlexBox width="45%">
+                    <p>выбор даты:</p>
+                    <HFlexBox>
+                        <p className={cls.dateTitle}>с:</p>
+                        <AppInput value={sdate} onChange={(e)=>setSdate(e.target.value)} type="date" className={cls.input}/>
+                    </HFlexBox>
+                    <HFlexBox>
+                        <p className={cls.dateTitle}>по:</p>
+                        <AppInput value={edate} onChange={(e)=>setEdate(e.target.value)} type="date" className={cls.input}/>
+                    </HFlexBox>
+                </VFlexBox>
+            </HFlexBox>
+            
+        </VFlexBox>
+    );
+}
+
+export {SystemsBlock};

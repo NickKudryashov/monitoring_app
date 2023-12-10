@@ -1,0 +1,22 @@
+.archTypeBox {
+    border: 1px solid var(--subcolor-3);
+    border-radius: var(--border-radius-type-1);
+    padding:20px 10px 20px 8px;
+}
+
+.input {
+    width:22%;
+    color:var(--subcolor-3);
+    border-radius: var(--border-radius-type-3);
+    border:1px solid var(--subcolor-1);
+    flex-shrink: 1;
+}
+
+.title {
+    width:15%;
+    margin-right: 7px;
+}
+
+.ArchTypeBLock {
+    margin-left:20px;
+}

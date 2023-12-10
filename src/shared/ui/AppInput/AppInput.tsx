@@ -8,7 +8,7 @@ export enum InputThemes {
     DEFAULT="default",
     OUTLINE="outline",
     CLEAR = "clear",
-    DESIGNED_PRIMARY = 'designed_primary'
+    DESIGNED_PRIMARY = "designed_primary"
 }   
 
 
@@ -35,6 +35,7 @@ export function AppInput(props: PropsWithChildren<AppInputProps>) {
             onChange={onChange}
             placeholder={placeholder}
             type={type}
+            {...props}
         />
     );
 }

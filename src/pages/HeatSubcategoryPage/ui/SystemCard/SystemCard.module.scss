@@ -1,0 +1,25 @@
+.systemCardFlexInfoPart {
+    flex: 1 0 70%;
+}
+
+.systemCardTitle {
+    font:var(--font-m);
+}
+
+.systemNameField {
+    text-transform: uppercase;
+}
+
+.systemInformation {
+    border: 1px solid var(--subcolor-1);
+    border-radius: var(--border-radius-type-1);
+    padding: 5px;
+}
+
+.eventWrapper {
+    width:20%;
+    height:20%; 
+    background: var(--subcolor-1);
+    color:var(--subcolor-3);
+    text-align: center;
+}

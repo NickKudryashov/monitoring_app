@@ -11,3 +11,13 @@ export const timeConvert = (source:string | null):string => {
     const clearTime = `${resultTime[0]}:${resultTime[1]}:${clearSeconds} `;
     return clearTime+resultDate;
 };
+
+
+
+export const convertToDatetimeInput = (src:string):string => {
+    const elements = src.split(".");
+    const year = elements[2];
+    const day = elements[0];
+    const month  =elements[1];
+    return `${year}-${month}-${day}`;
+};

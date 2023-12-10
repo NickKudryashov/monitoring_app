@@ -15,7 +15,6 @@ import { RegPage } from "pages/RegistrationPage";
 import { SubCategoryPage } from "pages/SubcartegoryPage";
 import { RouteProps } from "react-router-dom";
 import { RoutePathPublic, AppRoutesAuth, AppRoutesPublic,RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
-import { MockComponent } from "shared/ui/MockComponent/MockComponent";
 
 export const RouteConfigPublic: Record<string,RouteProps> = {
     [AppRoutesPublic.AUTH]:{

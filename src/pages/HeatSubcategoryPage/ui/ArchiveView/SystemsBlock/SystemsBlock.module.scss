@@ -1,0 +1,28 @@
+.archTypeBox {
+    border: 1px solid var(--subcolor-3);
+    border-radius: var(--border-radius-type-1);
+    padding:10px 10px 20px 8px;
+}
+
+.input {
+    width:75%;
+    height:50%;
+    color:var(--subcolor-3);
+    border-radius: var(--border-radius-type-3);
+    border:1px solid var(--subcolor-1);
+    flex-shrink: 1;
+}
+
+.title {
+    width:40%;
+    margin-right: 7px;
+}
+
+.SystemsBlock {
+    // margin-left:20px;
+    white-space: nowrap;
+}
+
+.dateTitle {
+    width:20%;
+}

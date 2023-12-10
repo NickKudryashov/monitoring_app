@@ -1,0 +1,65 @@
+.paramFlexBox {
+    // flex:1 0 18%;
+    font:var(--font-m-extra-mini);
+    width:30%;
+    height: 90%;
+    background: var(--subcolor-3);
+    border-radius: var(--border-radius-type-1);
+    padding-bottom:5px;
+    font-weight: bold;
+    overflow-y: auto;
+}
+
+.configFlexBox {
+    // flex: 1 0 25%;
+}
+
+.paramBoxHeader {
+    font:var(--font-m-mini);
+    margin-top:1%;
+    width:90%;
+    height:7.5%;
+    border-radius: var(--border-radius-type-1);
+    border: 1px solid var(--subcolor-1);
+    background: var(--subcolor-7);
+    color:var(--subcolor-1);
+    text-align: center;
+}
+
+.confParamRow {
+    margin-top: 5%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+
+.paramRow {
+    // flex: 1 0 3%;
+    color:var(--subcolor-1);
+    margin-top: 1.5vh;
+    border:1px solid var(--subcolor-1);
+    border-radius: var(--border-radius-type-3);
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height:12%;
+    width:90%;
+
+}
+
+.paramValueWrapper {
+    border: 1px solid var(--subcolor-1);
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-7);
+    height:fit-content;
+    text-align: center;
+}
+
+
+.configParams {
+    color:var(--subcolor-1);
+    width:100%;
+    height: 50%;
+}
+

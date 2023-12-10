@@ -1,0 +1,40 @@
+.input {
+    color:var(--subcolor-3);
+    height:50%;
+    border-radius: var(--border-radius-type-3);
+    border:1px solid var(--subcolor-1);
+    flex-shrink: 1;
+    width:85%;
+    margin-left: auto;
+}
+
+.infoBlock {
+    padding-left: 10px;
+    margin-top: 15px;
+}
+
+.longInput {
+    flex: 1;
+}
+
+.infoTitle {
+    flex:0;
+}
+
+.pollBtn {
+    color:var(--subcolor-1);
+    background: var(--subcolor-3);
+    border-radius: var(--border-radius-type-1);
+    width:90%;
+    height:35%;
+}
+
+.btns {
+    margin-left: 30px;
+    margin-top: 28px;
+}
+
+.CreateReportBlock {
+    // box-sizing: border-box;
+    flex-shrink: 2;
+}

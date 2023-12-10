@@ -1,1 +1,1 @@
-export {HeatSubcatPageAsync as HeatSubcatPage} from "./ui/HeatSubcategoryPage.async";
+export {HeatSubcatPageAsync as HeatSubcatPage} from "./ui/HeatSubcategoryPage/HeatSubcategoryPage.async";

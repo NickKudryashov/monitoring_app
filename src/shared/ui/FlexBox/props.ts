@@ -24,6 +24,7 @@ export const GAP = {
     smallM:"3px",
     smallL:"4px",
     medium:"5px",
+    mediumMedium:"7px",
     large:"10px",
     extralarge:"15px",
     xxlarge:"20px",

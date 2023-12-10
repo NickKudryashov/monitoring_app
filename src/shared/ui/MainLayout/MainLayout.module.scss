@@ -46,6 +46,7 @@
     overflow-y: auto;
     box-sizing: border-box;
     width:calc(100% - 50px);
+    flex-shrink: 1;
 
     // margin-right: 44px;
     background: transparent;

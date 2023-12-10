@@ -1,0 +1,49 @@
+.paramFlexBox {
+    // flex:1 0 15%;
+    font:var(--font-m-extra-mini);
+    width:30%;
+    height: 90%;
+    background: var(--subcolor-3);
+    border-radius: var(--border-radius-type-1);
+    padding-bottom:5px;
+    font-weight: bold;
+    overflow-y: auto;
+}
+
+.paramBoxHeader {
+    font:var(--font-m-mini);
+    margin-top:1%;
+    width:90%;
+    height:7.5%;
+    border-radius: var(--border-radius-type-1);
+    border: 1px solid var(--subcolor-1);
+    background: var(--subcolor-7);
+    color:var(--subcolor-1);
+    text-align: center;
+}
+
+
+
+.paramNameField {
+    color:var(--subcolor-1);    
+}
+
+.valueFlexBox {
+    color:var(--subcolor-1);
+    width:30%;
+    height:fit-content;
+}
+
+.paramValueWrapper {
+    border: 1px solid var(--subcolor-1);
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-7);
+}
+
+
+.paramVerboseWrapper {
+    border: 1px solid var(--subcolor-1);
+    width:50%;
+    color:var(--subcolor-1);
+    border-radius: var(--border-radius-type-3);
+}

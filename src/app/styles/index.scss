@@ -42,14 +42,11 @@ body {
     background: transparent;
 }
 
-::-webkit-scrollbar-track-piece:end {
-    background: transparent;
-    margin-bottom: 70%; 
-}
+
 
 ::-webkit-scrollbar-track-piece:start {
     background: transparent;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 *::-webkit-scrollbar-thumb {
