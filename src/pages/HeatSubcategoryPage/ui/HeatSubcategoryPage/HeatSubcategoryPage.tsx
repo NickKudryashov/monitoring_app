@@ -35,7 +35,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const {data:generalData,refetch:refetchGeneral,} = getGeneralInfo(id);
     const {data:device,isLoading:isLoadingDevices} = getHeatDevs(id);
     const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.length ? String(device[0]) : undefined,{pollingInterval:15000});
-    const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem].id));
+    const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem]?.id));
     const params:ParametersDict = {accumulate_parameter:[],instant_parameter:[]};
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>("subcategory_events/"+id);
