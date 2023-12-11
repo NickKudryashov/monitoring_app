@@ -41,7 +41,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
         const response = await $api.get<EventAnswer>("subcategory_events/"+id);
         return response.data;
     },[id]);
-    if (deviceData) {
+    if (deviceData?.systems[selectedSystem]?.parameters) {
         deviceData.systems[selectedSystem].parameters.map((el)=>{
             if (el.parameter_type==="accumulate_parameter") {
                 params.accumulate_parameter.push(el);
