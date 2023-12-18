@@ -1,5 +1,6 @@
 import {  AdministrationPage } from "pages/AdministrationPage";
 import { AuthPage } from "pages/AuthPage/ui/AuthPage";
+import AutoSubcategoryPage from "pages/AutoSubcategoryPage/ui/AutoSubcategoryPage/AutoSubcategoryPage";
 import { CategoryPage } from "pages/CategoryPage";
 import { ElectroDevicePage } from "pages/ElectroDevicePage";
 import { GeneralInfoPage } from "pages/GeneralInfoPage";
@@ -62,6 +63,9 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.HEAT_SUBCAT]:{
         path: `${RoutePathAuth.heat_subcat}:id`,
         element:<HeatSubcatPage/>},
+    [AppRoutesAuth.AUTO_SUBCAT]:{
+        path: `${RoutePathAuth.auto_subcat}:id`,
+        element:<AutoSubcategoryPage/>},
     [AppRoutesAuth.MOCK]:{
         path:RoutePathAuth.mock,
         element:<MockPage/>},

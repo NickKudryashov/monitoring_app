@@ -7,16 +7,17 @@ import { DetailView } from "widgets/DetailView";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { Footer } from "shared/ui/Footer/Footer";
-import { getConfigParams, getGeneralInfo, getHeatDevs } from "../../api/api";
+import { getConfigParams, getHeatDevs } from "../../api/api";
 import { HeatPoll, getHeatDeviceData } from "entities/Heatcounters";
 import { HeatParameters } from "entities/Heatcounters/types/type";
 import $api from "shared/api";
 import { EventAnswer } from "shared/types/eventTypes";
-import { PageHeader } from "../PageHeader/PageHeader";
 import { GeneralInfoBlock } from "../GeneralInfoBlock/GeneralInfoBlock";
 import { SystemCard } from "../SystemCard/SystemCard";
 import { ParameterView } from "../ParameterView/ParameterView";
 import { ArchiveView } from "../ArchiveView/ArchiveView/ArchiveView";
+import { SubcatTabs } from "features/SubcatTabs";
+import { PageHeader, getSubcatGeneralInfo } from "features/PageHeader";
 
 interface HeatSubcategoryPageProps {
  className?: string;
@@ -32,7 +33,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const {id} = useParams<{id:string}>();
     const [selectedSystem,setSeelctedSystem] = useState(0);
     const [selectedTab,setSeelctedTab] = useState(2);
-    const {data:generalData,refetch:refetchGeneral,} = getGeneralInfo(id);
+    const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id);
     const {data:device,isLoading:isLoadingDevices} = getHeatDevs(id);
     const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.length ? String(device[0]) : undefined,{pollingInterval:15000});
     const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem]?.id));
@@ -68,23 +69,12 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                     <VFlexBox gap={"15px"}>
                         <VFlexBox  gap={"10px"} >
                             <VFlexBox height={"81.5%"} className={cls.tableContentFlexbox}>
-                                <HFlexBox className={cls.tableHeadersFlexbox}>
-                                    <div onClick={()=>setSeelctedTab(1)} className={classNames(cls.tabHeaderButton,{[cls.selectedTab]:selectedTab===1},[cls.tabLeftButton,])}>
-                                        <p>МНЕМОСХЕМА</p>
-                                    </div>
-                                    <div onClick={()=>setSeelctedTab(2)} className={classNames(cls.tabHeaderButton,{[cls.selectedTab]:selectedTab===2},[])}>
-                                        <p>ПАРАМЕТРЫ</p>
-                                    </div>
-                                    <div onClick={()=>setSeelctedTab(3)} className={classNames(cls.tabHeaderButton,{[cls.selectedTab]:selectedTab===3},[])}>
-                                        <p>АРХИВЫ</p>
-                                    </div>
-                                    <div onClick={()=>setSeelctedTab(4)} className={classNames(cls.tabHeaderButton,{[cls.selectedTab]:selectedTab===4},[cls.tabRightButton,])}>
-                                        <p>ГРАФИКИ</p>
-                                    </div>
-                                </HFlexBox>
+                                <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} />
                                 {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
                                 {selectedTab===3 && <ArchiveView id={String(deviceData?.id)} deviceData={deviceData}/>}
                                 {selectedTab===2 && <ParameterView configParameters={configParameters} params={params}/>}
+                                {selectedTab===1 && <ParameterView configParameters={configParameters} params={params}/>}
+                                {selectedTab===4 && <ParameterView configParameters={configParameters} params={params}/>}
                             </VFlexBox>
                             {deviceData && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />}
                             <Footer pollCallback={fetchEvents}/>

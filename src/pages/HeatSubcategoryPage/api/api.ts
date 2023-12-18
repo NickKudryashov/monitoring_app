@@ -2,11 +2,6 @@ import { HeatDevice } from "entities/Heatcounters";
 import { url } from "inspector";
 import { rtkApi } from "shared/api/rtkApi";
 
-export interface GeneralAnswer {
-    subcat_name:string;
-    user_object_name:string;
-    adress:string;
-}
 
 export interface ConfigurationParameterAnswer {
     name:string;
@@ -39,13 +34,6 @@ const heatSubcatQuery = rtkApi.injectEndpoints({
                 };
             },
         }),
-        getSubcatGeneral: build.query<GeneralAnswer,string>({
-            query: (id) => {
-                return {
-                    url:"subcat_general/"+id,
-                };
-            },
-        }),
         getSystemConfigParams: build.query<ConfigurationParameterAnswer[],string>({
             query: (id) => {
                 return {
@@ -65,6 +53,5 @@ const heatSubcatQuery = rtkApi.injectEndpoints({
 });
 
 export const getHeatDevs = heatSubcatQuery.useGetHeatSubcatQuery;
-export const getGeneralInfo = heatSubcatQuery.useGetSubcatGeneralQuery;
 export const getConfigParams = heatSubcatQuery.useGetSystemConfigParamsQuery;
 export const getArchives = heatSubcatQuery.useGetArchivesStatQuery;

@@ -1,0 +1,49 @@
+.card {
+    font:var(--font-15-px);
+    background: var(--subcolor-3);
+    border-radius: var(--border-radius-type-1);
+    padding:5px;
+    overflow-y: auto;
+
+}
+
+.systemCardTitle {
+    font:var(--font-16-px);
+    color:var(--subcolor-1);
+    font-weight: bold;
+}
+
+.paramRow {
+    font-size: var(--font-8-px);
+    margin-top: 1px;
+}
+
+.paramTagField {
+    border: 1px solid var(--subcolor-1);
+    border-radius: var(--border-radius-type-3);
+    color:var(--subcolor-1);
+    width:30%;
+
+    // margin-right: auto;    
+
+    // margin-left: auto;
+}
+
+.paramNameField {
+    color:var(--subcolor-1);
+    font-weight: normal;
+    width:50%;
+
+    // margin-right: auto;    
+}
+
+
+.paramValueWrapper {
+    // border: 1px solid var(--subcolor-1);
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-1);
+    color:white;
+    width:20%;
+    text-align: center;
+    padding:2px;
+}

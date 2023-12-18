@@ -44,27 +44,6 @@
     border-radius: var(--border-radius-type-2);
 }
 
-.tableHeadersFlexbox {
-    flex: 1 0 5%;
-}
-
-.tabHeaderButton {
-    width:25%;
-    cursor: pointer;
-    color:var(--subcolor-3);
-    text-align: center;
-    border: 1px solid var(--subcolor-3);
-    border-bottom-left-radius: var(--border-radius-type-2);
-    border-bottom-right-radius: var(--border-radius-type-2);
-}
-
-.tabLeftButton {
-    border-top-left-radius: var(--border-radius-type-2);
-}
-
-.tabRightButton {
-    border-top-right-radius: var(--border-radius-type-2);
-}
 
 
 
@@ -72,21 +51,6 @@
 
 
 
-
-
-
-
-
-
-
-
-.tabHeaderButton:hover {
-    background: var(--subcolor-1-with-opacity);
-}
-
-.selectedTab {
-    background: var(--subcolor-1-with-opacity);
-}
 
 
 

@@ -31,6 +31,9 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
         if (el.subcategory_type==="heat_energy_node") {
             return RoutePathAuth.heat_subcat+el.id;
         }
+        else if (el.subcategory_type==="auto_node") {
+            return RoutePathAuth.auto_subcat+el.id;
+        }
         else return RoutePathAuth.subcat + el.id;
     };
     const mods = {
@@ -55,6 +58,7 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
                             <p>{el.name}</p>
                             {el.subcategory_type!=="heat_energy_node" && <Icon className={cls.icon}/>}
                             {el.subcategory_type==="heat_energy_node" && <HeatIcon className={cls.icon}/>}
+                            {el.subcategory_type==="auto_node" && <AutoIcon className={cls.icon}/>}
                         </div>
                 ))}
             </div>

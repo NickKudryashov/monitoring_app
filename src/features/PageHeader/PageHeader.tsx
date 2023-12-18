@@ -3,7 +3,7 @@ import cls from "./PageHeader.module.scss";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import classNames from "shared/lib/classNames/classNames";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { GeneralAnswer } from "pages/HeatSubcategoryPage/api/api";
+import { GeneralAnswer } from "./api/api";
 
 interface PageHeaderProps {
     generalData:GeneralAnswer;
