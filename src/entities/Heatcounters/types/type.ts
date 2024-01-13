@@ -29,7 +29,9 @@ export interface HeatSystem {
     schema?:string;
     formula?:string;
 }
-
+interface ConnInfo {
+    connection_type:string;
+}
 export interface HeatDevice {
     id:number;
     user_object:number;
@@ -43,6 +45,7 @@ export interface HeatDevice {
     interval?:number;
     autopoll?:boolean;
     is_busy?:boolean;
+    connection_info:ConnInfo;
 }
 interface HeatCounterState {
     devices:HeatDevice[];

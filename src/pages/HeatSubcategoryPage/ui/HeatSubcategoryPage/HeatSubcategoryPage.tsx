@@ -76,7 +76,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                 {selectedTab===1 && <ParameterView configParameters={configParameters} params={params}/>}
                                 {selectedTab===4 && <ParameterView configParameters={configParameters} params={params}/>}
                             </VFlexBox>
-                            {deviceData && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />}
+                            {deviceData && deviceData.connection_info.connection_type!=="GSM" && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />}
                             <Footer pollCallback={fetchEvents}/>
                         </VFlexBox>
                     </VFlexBox>
