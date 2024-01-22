@@ -14,3 +14,4 @@ export type {HeatDeviceSchema} from "./types/type";
 export {getHeatDeviceData,getArchivesEvents} from "./api/heatcountersapi";
 export {HeatPoll} from "./ui/HeatPoll/HeatPoll";
 export type {HeatParameters} from "./types/type";
+export {useHeatPoll} from "./lib/useHeatPoll";

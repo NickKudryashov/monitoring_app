@@ -23,7 +23,7 @@ export function ParameterView(props:ParameterViewProps): React.ReactElement {
     const {configParameters,params,className} = props;
     console.log(params);
     return (
-        <HFlexBox height={"90%"} className={classNames(cls.paramGroups,{},[className,])} align="flex-start" alignItems="center">
+        <HFlexBox height={"90%"} className={classNames(cls.paramGroups,{},[className,])} align="flex-start" alignItems="start">
             {Object.values(params).map((el,i) =>
                 <ParameterColumn key={i} params={el.parameters} header={el.systemName}/>
             )}

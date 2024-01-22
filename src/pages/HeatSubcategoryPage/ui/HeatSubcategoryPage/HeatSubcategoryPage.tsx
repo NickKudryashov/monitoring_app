@@ -8,7 +8,7 @@ import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { Footer } from "shared/ui/Footer/Footer";
 import { getConfigParams, getHeatDevs } from "../../api/api";
-import { HeatPoll, getHeatDeviceData } from "entities/Heatcounters";
+import { HeatPoll, getHeatDeviceData, useHeatPoll } from "entities/Heatcounters";
 import { HeatParameters } from "entities/Heatcounters/types/type";
 import $api from "shared/api";
 import { EventAnswer } from "shared/types/eventTypes";
@@ -41,6 +41,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const {data:device,isLoading:isLoadingDevices} = getHeatDevs(id);
     const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.length ? String(device[0]) : undefined,{pollingInterval:15000});
     const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem]?.id));
+    const poll = useHeatPoll({autoPoll:deviceData?.connection_info.connection_type!=="GSM",id:deviceData?.id,onUpdate:()=>{refetch();refetchGeneral();}});
     const params:ParametersDict = {};
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>("subcategory_events/"+id);
@@ -52,10 +53,12 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
             params[el.id] = {systemName:el.name,parameters:temp};
         });
     }
+
+
     const content = (
         <DetailView className={cls.detail}>
             <VFlexBox>
-                <PageHeader generalData={generalData} />
+                <PageHeader poll={poll} generalData={generalData}/>
                 
                 <HFlexBox className={cls.contentBox} gap="5px" align="space-around">
                     <VFlexBox align="flex-start" alignItems="center" width="23%">
@@ -82,8 +85,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                 {selectedTab===4 && <ParameterView configParameters={configParameters} params={params}/>}
                                 <Footer pollCallback={fetchEvents}/>
                             </VFlexBox>
-                            {deviceData && deviceData.connection_info.connection_type!=="GSM" && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />}
-                            {deviceData && deviceData.connection_info.connection_type==="GSM" && <HeatPoll autoPoll={false} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />}
+                            {/* {deviceData && deviceData.connection_info.connection_type!=="GSM" && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />} */}
                         </VFlexBox>
                     </VFlexBox>
                 </HFlexBox>
