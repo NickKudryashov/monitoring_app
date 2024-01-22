@@ -1,49 +1,69 @@
 .paramFlexBox {
     // flex:1 0 15%;
     font:var(--font-m-extra-mini);
-    width:30%;
-    height: 90%;
+    color:var(--subcolor-9);
     background: var(--subcolor-3);
-    border-radius: var(--border-radius-type-1);
+    border-radius: var(--border-radius-type-3);
     padding-bottom:5px;
     font-weight: bold;
     overflow-y: auto;
+    box-shadow: 0 4px 4px 0 #CBD8EF;
 }
 
+
 .paramBoxHeader {
-    font:var(--font-m-mini);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font:var(--font-14-px);
+    font-weight: bold;
     margin-top:1%;
-    width:90%;
-    height:7.5%;
-    border-radius: var(--border-radius-type-1);
-    border: 1px solid var(--subcolor-1);
-    background: var(--subcolor-7);
-    color:var(--subcolor-1);
+    width:100%;
+    height:12%;
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-4);
     text-align: center;
+    box-shadow: 0 4px 4px 0 rgb(203 216 239 / 25%);
+    margin-bottom:4%;
 }
 
 
 
 .paramNameField {
-    color:var(--subcolor-1);    
+    font:var(--font-16-px);
+    font-weight: bold;
+    width:10%;
 }
 
-.valueFlexBox {
-    color:var(--subcolor-1);
-    width:30%;
-    height:fit-content;
-}
 
 .paramValueWrapper {
-    border: 1px solid var(--subcolor-1);
     border-radius: var(--border-radius-type-3);
-    background: var(--subcolor-7);
+    background: var(--subcolor-11);
+    font:var(--font-12-px);
+    width:100%;
 }
 
+.dimensionField {
+    font:var(--font-8-px);
+    width:40%;
+}
+
+.valueField {
+    width:40%;
+}
 
 .paramVerboseWrapper {
-    border: 1px solid var(--subcolor-1);
+    display:flex;
+    align-items: center;
+    padding-left:15px;
+    height:100%;
+    border: 1px solid rgb(53 94 171 / 20%);
+    font:var(--font-10-px);
+    color:rgb(3 22 59 / 70%);;
     width:50%;
-    color:var(--subcolor-1);
     border-radius: var(--border-radius-type-3);
+}
+
+.rows {
+    row-gap: 2%;
 }

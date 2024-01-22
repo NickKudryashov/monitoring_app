@@ -34,6 +34,7 @@ export function ObjectCard(props: PropsWithChildren<ObjectCardProps>) {
     return ( 
         <div onClick={onClick} className={classNames(cls.ObjectCard,mods,[className,])}>
             <div className={cls.textBlock}>
+                <p className={cls.objectTitle}>Название для теста</p>
                 <b className={cls.cardContent}>{name}</b>
                 <p>Lorem ipsum произвольный адрес</p>
                 <i className={cls.postfix}>Последняя сессия: --:--:--</i>

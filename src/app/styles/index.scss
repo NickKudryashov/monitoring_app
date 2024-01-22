@@ -12,8 +12,8 @@ body {
 
 .app {
     font: var(--font-m);
-    color: var(--font-color);
-    background: linear-gradient(var(--bg-color-1), var(--bg-color-2));;
+    color: white;
+    background: white;
 
     // min-height:100%;
     width:100vw;
@@ -50,7 +50,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: var(--subcolor-1);    /* цвет плашки */
+    background-color: var(--subcolor-9);    /* цвет плашки */
     border-radius: var(--border-radius-type-2);       /* закругления плашки */
     border: 10px solid var(--subcolor-1);
 }

@@ -1,34 +1,31 @@
 .headerBox {
-    flex:1 0 12%;
+    // flex:1 0 12%;
 }
 
 .subcatNameBox {
-    width:29.3%;
+    width:23%;
     text-align: center;
     padding:10px;
 }
 
 
 .subCatNameWrapper {
-    border:1px solid white;
     display:flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--border-radius-type-2);
     width:100%;
     height:100%;
 }
 
+
 .headers {
-    background: var(--subcolor-1);
-    color:var(--subcolor-3);
-    border-radius: var(--border-radius-type-2);
-    height:10vh;
+    color:var(--subcolor-9);
 }
 
 .subsystemNameField {
     vertical-align: middle;
     font:var(--font-18-px);
+    font-weight: bold;
 }
 
 .subcatObjectInfo {
@@ -42,9 +39,25 @@
     padding:5px;
 }
 
-.subcatObjectInfoTextGroup {
-    font:var(--font-16-px)
+.dropdwn {
+    height:50%;
+    width:40%;
 }
+
+.subcatObjectInfoTextGroup {
+    font:var(--font-16-px);
+    font-weight: bold;
+    background: var(--subcolor-4);
+    color:var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
+    box-shadow: var(--sub-shadow-light);
+
+}
+
+.btns {
+    width:40%;
+}
+
 
 .subCatObjInfoWrapper {
     border:1px solid white;

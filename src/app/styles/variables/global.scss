@@ -1,6 +1,6 @@
 :root {
-    --font-family-main : georgia,"Times New Roman", serif;
-    --font-family-sub-1 : mukta,"Times New Roman", serif;
+    --font-family-main : lato,"Times New Roman", serif;
+    --font-family-sub-1 : lato,"Times New Roman", serif;
     --font-size-xs : 10px;
     --font-line-xs: 18px;
     --font-xs : var(--font-size-xs) / var(--font-line-xs) var(--font-family-main);
@@ -46,6 +46,7 @@
 
     //индексы
     --modal-z-index:10;
+    --table-z-index:9;
 
 
     //цвета

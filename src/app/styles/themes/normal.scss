@@ -7,14 +7,17 @@
 
 
     //утилити цвета для плашек кнопок и тд 
-    --subcolor-1 : #01354A;
+    --subcolor-1 : #355EAB;
     --subcolor-2 : #688996;
-    --subcolor-3 : #D4E0E6;
-    --subcolor-4 : #D9D9D9;
+    --subcolor-3 : white;
+    --subcolor-4 : #E5EEFF;
     --subcolor-5 : #D4E1E6;
     --subcolor-6 : #4C6774;
     --subcolor-7: #8EA8B3;
     --subcolor-8: #EDF9FF;
+    --subcolor-9:#03163B;
+    --subcolor-10:#F2F5FB;
+    --subcolor-11:#CBD8EF;
     --subcolor-4-with-opacity : rgb(217 217 217 / 34%);
     --subcolor-1-with-opacity : rgb(1 53 74 / 34%);
     --subcolor-3-with-opacity : rgb(212 224 230 / 80%);
@@ -23,12 +26,14 @@
     //тени
     --primary-shadow: 4px 4px 10px #D4E0E6;
     --sub-shadow-dark: 4px 4px 12px #01354A;
+    --sub-shadow-light:0px 2px 2px 0px #CBD8EF;
+    --shadow-redesign: 2px 2px 4px 0px rgb(53 94 171 / 32%);
 
     //градиенты
-    --info-gradient-red :linear-gradient(90deg,var(--subcolor-3),85%,#F35E67);
-    --info-gradient-gray :linear-gradient(90deg,var(--subcolor-3),85%,#7F828E);
-    --info-gradient-orange :linear-gradient(90deg,var(--subcolor-3),85%,#FBB989);
-    --info-gradient-green :linear-gradient(90deg,var(--subcolor-3),85%,#74C285);
+    --info-gradient-red :linear-gradient(90deg,white,95%,#F35E67);
+    --info-gradient-gray :linear-gradient(90deg,white,95%,#7F828E);
+    --info-gradient-orange :linear-gradient(90deg,white,95%,#FBB989);
+    --info-gradient-green :linear-gradient(90deg,white,95%,#74C285);
 
 
     //прозрачности

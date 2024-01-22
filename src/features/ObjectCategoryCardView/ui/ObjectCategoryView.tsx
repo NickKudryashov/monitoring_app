@@ -9,6 +9,7 @@ import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
 import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { cp } from "fs";
 interface ObjectCategoryViewProps {
  className?: string;
  adress:string;
@@ -45,6 +46,7 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
     return (
         <div  className={classNames(cls.ObjectCategoryView,{},[className])}>
             <div className={cls.cardHeader}>
+                <p className={cls.objType}>ТИП ДАННОГО ОБЪЕКТА</p>
                 <p>{adress}</p>
                 {
                     data && 
@@ -61,6 +63,9 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
                             {el.subcategory_type==="auto_node" && <AutoIcon className={cls.icon}/>}
                         </div>
                 ))}
+                <div   className={classNames(cls.systemLine,{},[])}>
+                    <p>{"+ добавить систему"}</p>
+                </div>
             </div>
             
             

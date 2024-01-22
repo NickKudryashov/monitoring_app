@@ -11,7 +11,13 @@
     border-radius: 19px;
     background: linear-gradient(90deg,var(--subcolor-3),90%,#FBB989);
     box-shadow: var(--primary-shadow);
-    color:var(--subcolor-1);
+    color:var(--subcolor-9);
+}
+
+.objectTitle {
+    font:var(--font-16-px);
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .redmarker{

@@ -44,8 +44,14 @@
     border-radius: var(--border-radius-type-2);
 }
 
+.btns {
+    margin-top: 5px;
+    z-index: var(--table-z-index);
+}
 
-
+.selectedBtn {
+    box-shadow: 0 2px 2px 0 rgb(3 22 59 / 50%);
+}
 
 
 

@@ -6,36 +6,62 @@ import { HeatDevice } from "entities/Heatcounters";
 
 interface GeneralInfoBlockProps {
     deviceData:HeatDevice;
+    address:string;
+    name:string;
 }
 
 
 function GeneralInfoBlock (props:GeneralInfoBlockProps) :React.ReactElement {
-    const {deviceData} = props;
+    const {deviceData,address,name} = props;
     return (
-        <div className={classNames(cls.generalDeviceInfoCard,{},[cls.cards,])}>
-            <VFlexBox gap="10px" align="space-around" >
-                <p className={cls.generalInfoTitle}>ОБОБЩЕННАЯ ИНФОРМАЦИЯ</p>
-                <div className={classNames(cls.generalCardTextWrapper,{},[cls.longTextGeneralCard,])}>
+        <VFlexBox className={cls.generalDeviceInfoCard} gap="10px"  >
+            <VFlexBox height={"25%"} width={"100%"} align="space-between">
+                <p className={cls.subtitle}>адрес:</p>
+                <div className={classNames(cls.generalCardTextWrapper,{},[cls.mainData])}>
+                    <p className={cls.deviceDate}>{address?address:"Моковые данные"}</p>
+                </div>
+                <p className={cls.subtitle}>объект:</p>
+
+                <div className={classNames(cls.generalCardTextWrapper,{},[cls.mainData])}>
+                    <p className={cls.deviceDate}>{name?name:""}</p>
+                </div>
+                <p className={cls.subtitle}>изготовление:</p>
+                <div className={classNames(cls.generalCardTextWrapper,{},[cls.mainData])}>
                     <p className={cls.deviceDate}>дата изготовления</p>
                 </div>
-                <HFlexBox className={cls.generalCardItems} align="space-between">
-                    <div className={cls.generalCardTextWrapper}>
-                        <p>{`количество систем: ${deviceData?.systems?.length ?? "..."}`}</p>
+            </VFlexBox>
+            
+            <HFlexBox className={cls.generalCardItems} height={"8.3%"}  align="space-around">
+                <VFlexBox>
+                    <p className={cls.subtitle}>количество систем:</p>
+                    <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
+                        <p>{`${deviceData?.systems?.length ?? "..."}`}</p>
                     </div>
-                    <div className={cls.generalCardTextWrapper}>
-                        <p>{`тип счетчика: ${deviceData?.device_type_verbose_name ?? "..."}`}</p>
+                </VFlexBox>
+                <VFlexBox>
+                    <p className={cls.subtitle}>тип:</p>
+                    <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
+                        <p>{`${deviceData?.device_type_verbose_name ?? "..."}`}</p>
                     </div>
-                </HFlexBox>
-                <HFlexBox className={cls.generalCardItems} align="space-between">
-                    <div className={cls.generalCardTextWrapper}>
-                        <p>{`номер счетчика: №${deviceData?.device_num ?? "..."}`}</p>
+                </VFlexBox>
+                
+            </HFlexBox>
+            <HFlexBox className={cls.generalCardItems} height={"8.3%"}  align="space-around">
+                <VFlexBox>
+                    <p className={cls.subtitle}>информация:</p>
+                    <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
+                        <p>{`№${deviceData?.device_num ?? "..."}`}</p>
                     </div>
-                    <div className={cls.generalCardTextWrapper}>
+                </VFlexBox>
+                <VFlexBox>
+                    <p className={cls.subtitle}>поверка:</p>
+                    <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
                         <p>поверка счетчика</p>
                     </div>
-                </HFlexBox>
-            </VFlexBox>
-        </div>
+                </VFlexBox>
+                
+            </HFlexBox>
+        </VFlexBox>
     );
 }
 

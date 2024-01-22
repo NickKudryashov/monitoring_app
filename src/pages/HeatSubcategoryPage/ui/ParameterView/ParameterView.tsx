@@ -21,12 +21,13 @@ interface ParameterViewProps {
 
 export function ParameterView(props:ParameterViewProps): React.ReactElement {
     const {configParameters,params,className} = props;
+    console.log(params);
     return (
-        <HFlexBox className={classNames(cls.paramGroups,{},[className,])} gap="10px" align="space-around" alignItems="center">
-            {Object.keys(PARAMBOX_MAPPER).map((el) =>
-                <ParameterColumn key={el} params={params[el]} header={PARAMBOX_MAPPER[el]}/>
+        <HFlexBox height={"90%"} className={classNames(cls.paramGroups,{},[className,])} align="flex-start" alignItems="center">
+            {Object.values(params).map((el,i) =>
+                <ParameterColumn key={i} params={el.parameters} header={el.systemName}/>
             )}
-            <ConfigParameterColumn configParameters={configParameters} />
+            {/* <ConfigParameterColumn configParameters={configParameters} /> */}
         </HFlexBox>
 
     );

@@ -38,9 +38,10 @@ export function HeatPoll(props: PropsWithChildren<HeatPollProps>) {
         };
     },[]);
     useEffect(()=>{
-        if(!pollFlag.current){
+        if(!pollFlag.current && autoPoll){
             poll();
-            loop_ref.current = setInterval(poll,60000);
+            const delay = 60000;
+            loop_ref.current = setInterval(poll,delay);
         }
         setIsLoading(pollFlag.current);
         return ()=>{
@@ -81,7 +82,7 @@ export function HeatPoll(props: PropsWithChildren<HeatPollProps>) {
     };
     return (
         <div className={classNames(className,{},[cls.container])}>
-
+            {!autoPoll && <AppButon theme={AppButtonTheme.SHADOW} onClick={()=>poll()}>Опросить</AppButon>}
         </div>
 
     );

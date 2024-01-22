@@ -117,11 +117,11 @@ export const ListItem = memo((props: PropsWithChildren<ListItemProps>) => {
                     {name}
                 </AppLink>
                 {/* <DottedIcon onClick={()=>setEditWindow(true)}/> */}
-                <DropdownMenu
+                {/* <DropdownMenu
                     Icon={DottedIcon}
                     items={[{text:"Настройки",onClick:()=>setEditWindow(true)}]}
             
-                />
+                /> */}
             </div>
             <Modal onClose={()=>setEditWindow(false)} isOpen={editWindow}>
                 <p>Введите новое имя: </p>

@@ -33,10 +33,10 @@
 
 .designed_outline{
     font:var(--font-m);
-    color:var(--font-color);
+    color:var(--subcolor-1);
     border-radius: var(--border-radius-type-1);
     border:1px solid var(--outline-color-1);
-    background: transparent;
+    background: var(--subcolor-3);
     cursor: pointer;
 }
 
@@ -102,4 +102,16 @@
         width:100px;
         height:30px;
     }
+}
+
+.sub_btn {
+    cursor: pointer;
+    font:var(--font-14-px);
+    font-weight: bold;
+    background: var(--subcolor-4);
+    color:var(--subcolor-9);
+    border:none;
+    border-radius: var(--border-radius-type-3);
+    box-shadow: var(--sub-shadow-light);
+    padding:3px;
 }

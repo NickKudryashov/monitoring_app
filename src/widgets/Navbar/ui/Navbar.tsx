@@ -62,7 +62,7 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                         onClick={()=>dispatch(userSlice.actions.logout())}
                         className={classNames(cls.blocks,{},[cls.btns])}
                     >
-                        Выход
+                        выход
                     </AppButon>}
                     
                     {!isAuth && <AppButon
@@ -70,7 +70,7 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                         className={classNames(cls.blocks,{},[cls.btns])}
                         onClick={()=>navigate(RoutePathPublic.auth)}
                     >
-                        Вход
+                        вход
                     </AppButon>}
                 </div>
                 {/* <AddAutoDevice isOpen={autoDevFormOpened} onClose={acceptAutoDevice}/> */}
