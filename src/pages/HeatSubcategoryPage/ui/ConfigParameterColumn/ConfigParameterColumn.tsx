@@ -7,43 +7,27 @@ import { ConfigurationParameterAnswer } from "pages/HeatSubcategoryPage/api/api"
 export function ConfigParameterColumn(props:{configParameters:ConfigurationParameterAnswer[]}):ReactElement {
     const {configParameters} = props;
     return (
-        <VFlexBox alignItems="center" className={classNames(cls.paramFlexBox, {}, [cls.configFlexBox,])}>
-            <div className={cls.paramBoxHeader}>
-                <p>{"Предустановленные параметры"}</p>
-            </div>
-            <VFlexBox alignItems="center" className={cls.content}>
-                {configParameters?.map((elem, i) => 
-                    <HFlexBox height="15%" className={classNames(cls.paramRow, {}, [cls.confParamRow])} key={i} gap="15px" alignItems="start" align="space-between">
-                        <VFlexBox width="20%" align="space-between">
-                            <p className={cls.paramNameField}>{elem.name}</p>
-                            <p className={cls.paramNameField}>{elem.name}</p>
-                        </VFlexBox>
-                        {/* <HFlexBox width="30%"> */}
-                        <VFlexBox width="35%" align="space-between">
-                            <p>номер прибора</p>
-                            <HFlexBox gap="5px" alignItems="end">
-                                <p>min</p>
-                                <div className={classNames(cls.paramValueWrapper, {}, [cls.configParams,])}>
-                                    <p>{elem.min}</p>
-                                </div>
-                            </HFlexBox>
-                        </VFlexBox>
-                        <VFlexBox width="35%" align="space-between">
-                            <div className={classNames(cls.paramValueWrapper, {}, [cls.configParams,])}>
-                                <p>{elem.gnum}</p>
-                            </div>
-                            <HFlexBox gap="5px" alignItems="end">
-                                <p>max</p>
-                                <div className={classNames(cls.paramValueWrapper, {}, [cls.configParams,])}>
-                                    <p>{elem.max}</p>
-                                </div>
-                            </HFlexBox>
-                            
-                        </VFlexBox>
-
-
+        <VFlexBox className={cls.content}   alignItems="center">
+            <VFlexBox width={"90%"} height={"90%"} className={cls.paramFlexBox}>
+                <p className={classNames(cls.sysHeader,{},[cls.paramBoxHeader])}>{"ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ"}</p>
+                <VFlexBox alignItems="center" gap="7px">
+                    <HFlexBox height={"7%"} align="space-around">
+                        <p className={cls.devNameField}>название прибора</p>
+                        <p className={cls.devNumfield}>номер прибора</p>
+                        <p className={cls.tagfield}>Тег</p>
+                        <p className={cls.devNumfield}>min значение</p>
+                        <p className={cls.devNumfield}>max значение</p>
                     </HFlexBox>
-                )}
+                    {configParameters?.map((elem, i) => 
+                        <HFlexBox height="6%" key={i} gap="5px"  align="space-around">
+                            <p className={cls.devNameFieldExtended}>МОК</p>
+                            <p className={cls.devNumieldExtended}>{elem.gnum}</p>
+                            <p className={cls.tagFieldExtended}>{elem.name}</p>
+                            <p className={cls.devNumieldExtended}>{elem.min}</p>
+                            <p className={cls.devNumieldExtended}>{elem.max}</p>
+                        </HFlexBox>
+                    )}
+                </VFlexBox>
             </VFlexBox>
         </VFlexBox>
     );

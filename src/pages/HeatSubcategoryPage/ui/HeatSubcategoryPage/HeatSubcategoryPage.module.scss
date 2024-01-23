@@ -57,10 +57,25 @@
     box-shadow: 0 2px 2px 0 rgb(3 22 59 / 50%);
 }
 
+.paramTitle {
+    padding-left: 8%;
+    text-decoration: underline;
+}
+
+.paramTitleSelected {
+    padding-left: 4%;
+    font-weight: bold;
+}
 
 
+.paramTitleBox {
+    padding-top: 20px;
+    background: var(--subcolor-4);
+    font: var(--font-15-px);
 
-
+    // padding:7px;
+    color:var(--subcolor-9);
+}
 
 
 

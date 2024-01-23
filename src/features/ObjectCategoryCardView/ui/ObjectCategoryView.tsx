@@ -38,10 +38,10 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
         else return RoutePathAuth.subcat + el.id;
     };
     const mods = {
-        [cls.redmarker]:markerColor===1,
-        [cls.greymarker]:markerColor===2,
-        [cls.orangemarker]:markerColor===3,
-        [cls.greenmarker]:markerColor===4,
+        // [cls.redmarker]:markerColor===1,
+        // [cls.greymarker]:markerColor===2,
+        // [cls.orangemarker]:markerColor===3,
+        // [cls.greenmarker]:markerColor===4,
     };
     return (
         <div  className={classNames(cls.ObjectCategoryView,{},[className])}>
