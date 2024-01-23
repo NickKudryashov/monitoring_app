@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import cls from "./SystemsInfoBLock.module.scss";
+import cls from "./SystemsInfoBlock.module.scss";
 import { PARAMBOX_MAPPER } from "../ParameterView/ParameterView";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { HeatParameters, HeatSystem } from "entities/Heatcounters";
