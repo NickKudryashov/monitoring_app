@@ -3,16 +3,19 @@ import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./GeneralInfoBlock.module.scss";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { HeatDevice } from "entities/Heatcounters";
+import { PumpDeviceData } from "entities/PumpDevice";
 
 interface GeneralInfoBlockProps {
-    deviceData:HeatDevice;
+    systems:number;
+    device_type_verbose_name:string;
+    device_num:number;
     address:string;
     name:string;
 }
 
 
 function GeneralInfoBlock (props:GeneralInfoBlockProps) :React.ReactElement {
-    const {deviceData,address,name} = props;
+    const {systems,device_type_verbose_name,device_num,address,name} = props;
     return (
         <VFlexBox className={cls.generalDeviceInfoCard} gap="10px"  >
             <VFlexBox height={"25%"} width={"100%"} align="space-between">
@@ -35,13 +38,14 @@ function GeneralInfoBlock (props:GeneralInfoBlockProps) :React.ReactElement {
                 <VFlexBox>
                     <p className={cls.subtitle}>количество систем:</p>
                     <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
-                        <p>{`${deviceData?.systems?.length ?? "..."}`}</p>
+                        <p>{
+                            `${systems ?? "..."}`}</p>
                     </div>
                 </VFlexBox>
                 <VFlexBox>
                     <p className={cls.subtitle}>тип:</p>
                     <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
-                        <p>{`${deviceData?.device_type_verbose_name ?? "..."}`}</p>
+                        <p>{`${device_type_verbose_name ?? "..."}`}</p>
                     </div>
                 </VFlexBox>
                 
@@ -50,7 +54,7 @@ function GeneralInfoBlock (props:GeneralInfoBlockProps) :React.ReactElement {
                 <VFlexBox>
                     <p className={cls.subtitle}>информация:</p>
                     <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
-                        <p>{`№${deviceData?.device_num ?? "..."}`}</p>
+                        <p>{`№${device_num ?? "..."}`}</p>
                     </div>
                 </VFlexBox>
                 <VFlexBox>

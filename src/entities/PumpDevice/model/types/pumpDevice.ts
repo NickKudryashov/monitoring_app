@@ -9,7 +9,9 @@ export interface PumpPollResponse {
     task_id:string;
 }
 
-
+interface ConnInfo {
+    connection_type:string;
+}
 export interface PumpDeviceData {
     name:string;
     user_object:number;
@@ -23,6 +25,7 @@ export interface PumpDeviceData {
     subcategory:number;
     autopoll?:boolean;
     interval?:number;
+    connection_info:ConnInfo;
 }
 
 export interface PumpParameter {

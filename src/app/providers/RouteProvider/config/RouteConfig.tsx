@@ -12,6 +12,7 @@ import { MockPage } from "pages/MockPage";
 import { ObjectPage } from "pages/ObjectPage";
 import { ObjectDetailPage } from "pages/ObjectsDetailPage";
 import { PumpDevicePage } from "pages/PumpDevicePage";
+import { PumpSubcategoryPage } from "pages/PumpSubcategoryPage";
 import { RegPage } from "pages/RegistrationPage";
 import { SubCategoryPage } from "pages/SubcartegoryPage";
 import { RouteProps } from "react-router-dom";
@@ -66,6 +67,9 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.AUTO_SUBCAT]:{
         path: `${RoutePathAuth.auto_subcat}:id`,
         element:<AutoSubcategoryPage/>},
+    [AppRoutesAuth.PUMP_SUBCAT]:{
+        path: `${RoutePathAuth.pump_subcat}:id`,
+        element:<PumpSubcategoryPage/>},
     [AppRoutesAuth.MOCK]:{
         path:RoutePathAuth.mock,
         element:<MockPage/>},

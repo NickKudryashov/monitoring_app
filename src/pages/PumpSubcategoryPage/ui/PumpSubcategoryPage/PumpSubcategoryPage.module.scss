@@ -1,0 +1,90 @@
+.PumpSubcategoryPage {
+    width: 100%;
+    height: 100%;
+}
+
+.contentBox{
+    // flex: 1 0 85%;
+    height:88%;
+    width:100%;
+    box-sizing: border-box;
+}
+
+.contentPaddings {
+    padding:7px;
+}
+
+.cards {
+    height:14.5vh;
+    border-radius: var(--border-radius-type-1);
+    background:var(--subcolor-3);   
+}
+
+.subcatCardBox {
+    width:41.5%;
+}
+
+.deviceSystemCard {
+    cursor: pointer;
+    color:var(--subcolor-1);
+    font:var(--font-m-mini);
+    font-weight: bold;
+    padding:10px;
+    padding-top:5px;
+    background: var(--subcolor-8);
+}
+
+.deviceSystemCardSelected {
+    background: var(--subcolor-7);
+}
+
+
+.tableContentFlexbox {
+    border: 1px solid var(--subcolor-3);
+    border-radius: var(--border-radius-type-2);
+}
+
+.pollbtn {
+    width:40%;
+}
+
+.btns {
+    margin-top: 5px;
+    z-index: var(--table-z-index);
+}
+
+.selectedBtn {
+    box-shadow: 0 2px 2px 0 rgb(3 22 59 / 50%);
+}
+
+.paramTitle {
+    padding-left: 8%;
+    text-decoration: underline;
+}
+
+.paramTitleSelected {
+    padding-left: 4%;
+    font-weight: bold;
+}
+
+
+.paramTitleBox {
+    padding-top: 20px;
+    background: var(--subcolor-4);
+    font: var(--font-15-px);
+
+    // padding:7px;
+    color:var(--subcolor-9);
+}
+
+
+
+
+
+
+
+.paramGroups {
+    width:100%;
+    flex-wrap: wrap;
+    column-gap:10%;
+}

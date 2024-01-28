@@ -35,6 +35,10 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
         else if (el.subcategory_type==="auto_node") {
             return RoutePathAuth.auto_subcat+el.id;
         }
+        else if (el.subcategory_type === "pump_station_node") {
+            return RoutePathAuth.pump_subcat+el.id;
+
+        }
         else return RoutePathAuth.subcat + el.id;
     };
     const mods = {

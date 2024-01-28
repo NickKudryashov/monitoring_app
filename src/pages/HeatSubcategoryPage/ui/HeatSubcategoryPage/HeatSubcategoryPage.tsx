@@ -77,7 +77,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                         <AppButon 
                             className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===0},[])} width={"100%"}
                             onClick={()=>setSeelctedTab(0)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ОБОБЩЕННАЯ ИНФОРМАЦИЯ</AppButon>
-                        {selectedTab===0 && <GeneralInfoBlock deviceData={deviceData} address={generalData?.adress} name={generalData?.user_object_name} />}
+                        {selectedTab===0 && <GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={deviceData?.systems?.length} address={generalData?.adress} name={generalData?.user_object_name} />}
                         <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===1},[])} width={"100%"}  onClick={()=>setSeelctedTab(1)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>СОБЫТИЯ</AppButon>
                         <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===2},[])} width={"100%"}  onClick={()=>{setSeelctedTab(2);setSelectedParamGroup(0);}}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ПАРАМЕТРЫ</AppButon>
                         {selectedTab===2 && 
