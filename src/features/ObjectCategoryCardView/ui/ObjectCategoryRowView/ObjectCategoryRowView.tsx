@@ -1,0 +1,84 @@
+import classNames from "shared/lib/classNames/classNames";
+import cls from "./ObjectCategoryRowView.module.scss";
+
+import { PropsWithChildren } from "react";
+import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
+import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
+import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
+import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
+import { useNavigate } from "react-router-dom";
+import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { cp } from "fs";
+import { SubcategoryAnswer, getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
+import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { count } from "console";
+interface ObjectCategoryRowViewProps {
+ className?: string;
+ openedID:number;
+ setOpened:(id:number)=>void;
+ adress:string;
+ id:number;
+}
+const IconMapper:any = {
+    "heat_energy_node":HeatIcon,
+    2:ElectroIcon,
+    "auto_node":AutoIcon,
+    "pump_station_node":PumpIcon
+};
+export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRowViewProps>) {
+    const { className,id,adress,openedID,setOpened} = props;
+    const {data,isLoading} = getObjectSubcategoryData(id);
+    const navigate = useNavigate();
+    const markerIcon = Math.floor (Math.random () * (4 - 1 + 1)) + 1;
+    const markerColor = Math.floor (Math.random () * (4 - 1 + 1)) + 1;
+    const Icon  = IconMapper[markerIcon] as React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+    const onSubcatClick = (el:SubcategoryAnswer)=>{
+        if (el.subcategory_type==="heat_energy_node") {
+            navigate(RoutePathAuth.heat_subcat+el.id) ;
+        }
+        else if (el.subcategory_type==="auto_node") {
+            navigate(RoutePathAuth.auto_subcat+el.id) ;
+        }
+        else if (el.subcategory_type === "pump_station_node") {
+            navigate(RoutePathAuth.pump_subcat+el.id) ;
+
+        }
+        else navigate (RoutePathAuth.subcat + el.id);
+    };
+    const mods = {
+        [cls.redmarker]:markerColor===1,
+        [cls.greymarker]:markerColor===2,
+        [cls.orangemarker]:markerColor===3,
+        [cls.greenmarker]:markerColor===4,
+    };
+    return (
+        <VFlexBox height={openedID===id ? `${data.count*6+6}%` : "6%"} gap="3px"  className={classNames(cls.catRow,{},[className,])}>
+            <HFlexBox alignItems="center" height={openedID===id ? `${100/(data.count+1)}%` : "100%"}  onClick={()=>setOpened(id)}  className={cls.rowHeader}>
+                <p className={cls.headerField}>{adress}</p>
+            </HFlexBox>
+            {
+                id===openedID &&
+                <VFlexBox height={`${100 - 100/(data.count+1)}%`}  gap="4px" alignItems="center" className={classNames(cls.rows,{},[])}>
+                    {    
+                        data && data.data.map((el)=>
+                            <HFlexBox onClick={()=>onSubcatClick(el)} key={el.id}  align="space-around" alignItems="center"  className={classNames("",mods,[cls.row])}>
+                                <HFlexBox align="space-between" alignItems="center" width="20%">
+                                    {el.subcategory_type==="heat_energy_node" && <HeatIcon className={cls.icon}/>}
+                                    {!el.subcategory_type && <ElectroIcon className={cls.icon}/>}
+                                    {el.subcategory_type==="auto_node" && <AutoIcon className={cls.icon}/>}
+                                    {el.subcategory_type==="pump_station_node" && <PumpIcon className={cls.icon}/>}
+                                    <p className={cls.nameField}>{el.name}</p>
+                                </HFlexBox>
+                                
+                                <p className={cls.countField}>{data.count}</p>
+                                <p className={cls.eventField}>мок событие</p>
+                                <p className={cls.datetimeField}>мок дата</p>
+                            </HFlexBox>
+                        )
+                    }
+                </VFlexBox>}
+            
+        </VFlexBox>
+    );
+}

@@ -8,14 +8,15 @@ import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
 interface ParameterColumnProps {
     params:PumpParameter[];
     header:string;
+    fullWidth?:boolean;
 }
 
 
 
 export function ParameterColumn (props:ParameterColumnProps):ReactElement{
-    const {header,params} = props;
+    const {header,params,fullWidth=false} = props;
     return(
-        <VFlexBox width={"45%"} height={"45%"} alignItems="center"className={cls.paramFlexBox}>
+        <VFlexBox width={fullWidth ? "100%" :"45%"} height={fullWidth ? "80%" :"45%"} alignItems="center"className={cls.paramFlexBox}>
             {/* <div className={cls.paramBoxHeader}> */}
             <p className={classNames(cls.sysHeader,{},[cls.paramBoxHeader])}>{header}</p>
             {/* </div> */}

@@ -1,0 +1,89 @@
+.rowHeader {
+    box-shadow: var(--shadow-alt);
+    background: var(--subcolor-4);
+    border-radius: var(--border-radius-type-3);
+    font:var(--font-16-px);
+    font-weight: bold;
+    color:var(--subcolor-9);
+    min-height: 6%;
+    text-transform: uppercase;
+}
+
+.headerField {
+    padding-left: 10px;
+    text-align: center;
+
+}
+
+
+.rows {
+    font:var(--font-14-px);
+    font-weight: bold;
+    color:var(--subcolor-9);
+}
+
+.row {
+    box-shadow: var(--shadow-redesign);
+}
+
+.redmarker{
+    background: var(--info-gradient-red-reversed);
+
+}
+
+.greymarker{
+    background: var(--info-gradient-gray-reversed);
+
+}
+
+.orangemarker{
+    background:var(--info-gradient-orange-reversed);
+
+}
+
+.greenmarker{
+    background: var(--info-gradient-green-reversed);
+
+}
+
+.nameField{
+    width:80%;
+}
+
+.countField{
+    width:5%;
+    text-align: center;
+    background: var(--subcolor-12);
+    border-radius: var(--border-radius-type-3);
+    color:var(--subcolor-4);
+
+}
+
+.eventField{
+    width:15%;
+    text-align: center;
+
+}
+
+.datetimeField{
+    width:20%;
+    text-align: center;
+}
+
+.expanded {
+    min-height:30%;
+}
+
+.catRow {
+    flex-shrink: 0;
+}
+
+
+.icon {
+    // position: absolute;
+    // right: 25px;
+    // bottom:10px;
+    width:30px;
+    height:30px;
+    opacity: 0.85;
+}

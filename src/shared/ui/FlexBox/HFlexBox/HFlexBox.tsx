@@ -12,7 +12,8 @@ interface HFlexBoxProps {
  gap?:GAP;
  alignItems?:ALIGNITEMS
  width?:string;
- height?:string
+ height?:string;
+ onClick?:()=>void;
 }
 
 
@@ -20,11 +21,12 @@ interface HFlexBoxProps {
 
 
 export function HFlexBox(props: PropsWithChildren<HFlexBoxProps>) {
-    const { className,name,children,align,gap,alignItems,height,width } = props;
+    const { className,name,children,align,gap,alignItems,height,width,onClick } = props;
 
     return (
         <div
             className={classNames(cls.HFlexBox,{},[className,])}
+            onClick={onClick}
             style={
                 {
                     justifyContent:align,

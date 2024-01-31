@@ -64,13 +64,12 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
                             onClick={()=>setSeelctedTab(0)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ОБОБЩЕННАЯ ИНФОРМАЦИЯ</AppButon>
                         {selectedTab===0 && <GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={0} address={generalData?.adress} name={generalData?.user_object_name} />}
                         <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===1},[])} width={"100%"}   theme={AppButtonTheme.SUBCATEGORY_BUTTON}>СОБЫТИЯ</AppButon>
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===2},[])} width={"100%"}    theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ПАРАМЕТРЫ</AppButon>
+                        <AppButon onClick={()=>setSeelctedTab(2)} className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===2},[])} width={"100%"}    theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ПАРАМЕТРЫ</AppButon>
                         {selectedTab===2 && 
                         <VFlexBox className={cls.paramTitleBox} gap={"10px"}>
-                            <p onClick={()=>setSelectedParamGroup(0)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===0},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>
-                            <p onClick={()=>setSelectedParamGroup(1)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===1},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>
-                            <p onClick={()=>setSelectedParamGroup(2)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===2},[])}>НАКОПЛЕННЫЕ ПАРАМЕТРЫ</p>
-                            <p onClick={()=>setSelectedParamGroup(3)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===3},[])}>ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ</p>
+                            {Object.keys(params)?.map((grName,i)=>
+                                <p key={i} onClick={()=>setSelectedParamGroup(i)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===i},[])}>{grName}</p>
+                            )}
                         </VFlexBox>
                         }
                         <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===3},[])} width={"100%"}    theme={AppButtonTheme.SUBCATEGORY_BUTTON}>АРХИВЫ</AppButon>
@@ -84,17 +83,19 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
                                 {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
                                 {
                                     deviceData && deviceData.parameters &&
-                                    
                                     <HFlexBox height={"90%"} className={classNames(cls.paramGroups,{},[className,])} align="flex-start" alignItems="start">
-                                        {Object.keys(params)?.map((grName,i)=>
+                                        {selectedTab===0 && Object.keys(params)?.map((grName,i)=>
                                             <ParameterColumn key={i} params={params[grName]} header={grName}  />
+                            
+                                        )}
+                                        {selectedTab===2 && Object.keys(params)?.map((grName,i)=> i===selectedParamGroup && 
+                                            <ParameterColumn fullWidth key={i} params={params[grName]} header={grName}  />
                             
                                         )}
                                     </HFlexBox>
 
-                                    
                                 }
-                                {selectedTab === 0 &&<Footer pollCallback={fetchEvents}/>}
+                                <Footer pollCallback={fetchEvents}/>
                             </VFlexBox>
                             {/* {deviceData && deviceData.connection_info.connection_type!=="GSM" && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />} */}
                         </VFlexBox>

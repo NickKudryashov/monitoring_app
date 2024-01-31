@@ -16,3 +16,24 @@
     width:100%;
     height:100%;
 }
+
+.altView {
+    box-shadow: var(--shadow-alt);
+    background: var(--subcolor-4);
+    border-radius: var(--border-radius-type-3);
+    font:var(--font-16-px);
+    font-weight: bold;
+    color:var(--subcolor-9);
+    min-height: 6%;
+
+}
+
+.altViewPlate {
+    overflow-y: auto;
+}
+
+.objRow {
+    margin-top: 7px;
+
+    // min-height: 10%;
+}
