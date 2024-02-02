@@ -20,7 +20,7 @@ export interface ObjectsDetailPageProps {
 
 const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
     const { className } = props;
-    const [defaultView,setDefaultView] = useState(true);
+    const [defaultView,setDefaultView] = useState(!localStorage.getItem("view"));
     const [openedID,setOpened] = useState(0);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -29,7 +29,13 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
         if (repeat) return;
         // Handle both, `ctrl` and `meta`.
         if ((metaKey || ctrlKey) && key === "0") {
-            setDefaultView((prev)=>!prev);
+            setDefaultView((prev)=>
+            {
+                localStorage.setItem("view", prev ? "1" : "");
+
+                return !prev;  
+            }
+            );
         }
     };
     // if (!id) {

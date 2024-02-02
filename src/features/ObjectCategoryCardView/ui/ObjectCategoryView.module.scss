@@ -6,9 +6,10 @@
     width:18%;
     height:30%;
     background: var(--subcolor-4);
-    border-radius: var(--border-radius-type-2);
+    border-radius: var(--border-radius-type-3);
     box-shadow: var((--shadow-redesign));
     font:var(--font-14-px);
+    font-size:0.8vw;
     color:#03163B;
     row-gap: 3.4%;
     cursor: pointer;
@@ -37,7 +38,9 @@
 }
 
 .sysCountPref {
-    font:var(--font-m-mini)
+    font-weight: normal;
+    font-size:0.6vw;
+
 }
 
 .systemsBox {
