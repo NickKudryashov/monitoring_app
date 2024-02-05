@@ -25,12 +25,15 @@ export function RegPage(props: PropsWithChildren<RegPageProps>) {
             <div className={cls.form}>
                 <div className={cls.btns}>
                     <AppButon
+                        width="40%"
                         onClick={()=>setCompanyForm(false)}
                         className={classNames("",{[cls.active_btn]:!companyForm},[])}
                         theme={AppButtonTheme.DESIGNED_PRIMARY}>
                         Физическое лицо
                     </AppButon>
                     <AppButon
+                        width="40%"
+
                         onClick={()=>setCompanyForm(true)}
                         className={classNames("",{[cls.active_btn]:companyForm},[])} 
                         theme={AppButtonTheme.DESIGNED_PRIMARY}>
@@ -50,7 +53,7 @@ export function RegPage(props: PropsWithChildren<RegPageProps>) {
                     <AppCheckbox checked={checked3} onChange={()=>{}} label="Я предоставляю согласие на обработку персональных данных"/>
                 </div>
                 
-                <AppButon className={cls.submitBtn} theme={AppButtonTheme.DESIGNED_PRIMARY}>РЕГИСТРАЦИЯ</AppButon>
+                <AppButon className={cls.submitBtn} theme={AppButtonTheme.DESIGNED_PRIMARY}>ЗАРЕГИСТРИРОВАТЬСЯ</AppButon>
             </div>
         </div>
     );

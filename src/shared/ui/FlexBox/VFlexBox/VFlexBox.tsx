@@ -1,10 +1,10 @@
 
 
-import type { PropsWithChildren } from "react";
+import type { HTMLProps, PropsWithChildren } from "react";
 import cls from "./VFlexBox.module.scss";
 import { ALIGNITEMS, GAP, JUSTIFYCONTENT } from "../props";
 import classNames from "shared/lib/classNames/classNames";
-interface VFlexBoxProps {
+interface VFlexBoxProps extends HTMLProps<HTMLDivElement> {
  className?: string;
  name?:string;
  align?:JUSTIFYCONTENT;
@@ -17,7 +17,7 @@ interface VFlexBoxProps {
 }
 
 export function VFlexBox(props: PropsWithChildren<VFlexBoxProps>) {
-    const { className,name,children,align,gap,alignItems,width,height } = props;
+    const { className,name,children,align,gap,alignItems,width,height,...propss } = props;
 
     return (
         <div
@@ -29,6 +29,7 @@ export function VFlexBox(props: PropsWithChildren<VFlexBoxProps>) {
                 width,
                 height
             }}
+            {...propss}
         >
             {children}
         </div>

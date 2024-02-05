@@ -19,6 +19,7 @@ import SystemsIcon from "shared/assets/icons/SidebarSystemsIcon.svg";
 import TasksIcon from "shared/assets/icons/SidebarTasksIcon.svg";
 import TicketsIcon from "shared/assets/icons/SidebarTicketsIcon.svg";
 import UserObjectIcon from "shared/assets/icons/SidebarUserObjectIcon.svg";
+import VideoIcon from "shared/assets/icons/SidebarVideoIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { useHover } from "shared/hooks/useHover";
@@ -71,6 +72,7 @@ export function Sidebar(props: PropsWithChildren<SidebarProps>) {
                 <SidebarItem Icon={PlannedWorkIcon} minimized={collapsed} annotation="ПЛАНОВЫЕ РАБОТЫ"/>
                 <SidebarItem Icon={ArchivesIcon} minimized={collapsed} annotation="АРХИВЫ"/>
                 <SidebarItem Icon={SystemsIcon} minimized={collapsed} annotation="СИСТЕМЫ"/>
+                <SidebarItem Icon={VideoIcon} minimized={collapsed} annotation="ВИДЕО"/>
             </div>
 
         </div>

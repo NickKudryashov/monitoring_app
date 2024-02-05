@@ -1,11 +1,11 @@
 
 
-import type { PropsWithChildren } from "react";
+import type { HTMLProps, PropsWithChildren } from "react";
 import cls from "./HFlexBox.module.scss";
 import { ALIGNITEMS, GAP, JUSTIFYCONTENT } from "../props";
 import classNames from "shared/lib/classNames/classNames";
 
-interface HFlexBoxProps {
+interface HFlexBoxProps extends HTMLProps<HTMLDivElement> {
  className?: string;
  name?:string;
  align?:JUSTIFYCONTENT;
@@ -21,7 +21,7 @@ interface HFlexBoxProps {
 
 
 export function HFlexBox(props: PropsWithChildren<HFlexBoxProps>) {
-    const { className,name,children,align,gap,alignItems,height,width,onClick } = props;
+    const { className,name,children,align,gap,alignItems,height,width,onClick,...propsS } = props;
 
     return (
         <div
@@ -36,6 +36,7 @@ export function HFlexBox(props: PropsWithChildren<HFlexBoxProps>) {
                     height
                 }
             }
+            {...propsS}
         >
             {children}
         </div>

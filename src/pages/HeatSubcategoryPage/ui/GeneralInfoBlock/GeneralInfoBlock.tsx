@@ -18,7 +18,7 @@ function GeneralInfoBlock (props:GeneralInfoBlockProps) :React.ReactElement {
     const {systems,device_type_verbose_name,device_num,address,name} = props;
     return (
         <VFlexBox className={cls.generalDeviceInfoCard} gap="10px"  >
-            <VFlexBox height={"25%"} width={"100%"} align="space-between">
+            <VFlexBox height={"31.5%"} width={"100%"} align="space-between">
                 <p className={cls.subtitle}>адрес:</p>
                 <div className={classNames(cls.generalCardTextWrapper,{},[cls.mainData])}>
                     <p className={cls.deviceDate}>{address?address:"Моковые данные"}</p>
@@ -34,15 +34,15 @@ function GeneralInfoBlock (props:GeneralInfoBlockProps) :React.ReactElement {
                 </div>
             </VFlexBox>
             
-            <HFlexBox className={cls.generalCardItems} height={"8.3%"}  align="space-around">
-                <VFlexBox>
+            <HFlexBox className={cls.generalCardItems} height={"10.5%"}  align="space-between">
+                <VFlexBox width={"43%"}>
                     <p className={cls.subtitle}>количество систем:</p>
                     <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
                         <p>{
                             `${systems ?? "..."}`}</p>
                     </div>
                 </VFlexBox>
-                <VFlexBox>
+                <VFlexBox width="54%">
                     <p className={cls.subtitle}>тип:</p>
                     <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
                         <p>{`${device_type_verbose_name ?? "..."}`}</p>
@@ -50,14 +50,15 @@ function GeneralInfoBlock (props:GeneralInfoBlockProps) :React.ReactElement {
                 </VFlexBox>
                 
             </HFlexBox>
-            <HFlexBox className={cls.generalCardItems} height={"8.3%"}  align="space-around">
-                <VFlexBox>
+            <HFlexBox className={cls.generalCardItems} height={"10.5%"}  align="space-between">
+                <VFlexBox width={"43%"}>
+
                     <p className={cls.subtitle}>информация:</p>
                     <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
                         <p>{`№${device_num ?? "..."}`}</p>
                     </div>
                 </VFlexBox>
-                <VFlexBox>
+                <VFlexBox width="54%">
                     <p className={cls.subtitle}>поверка:</p>
                     <div className={classNames(cls.generalCardTextWrapper,{},[cls.rowInp])}>
                         <p>поверка счетчика</p>
