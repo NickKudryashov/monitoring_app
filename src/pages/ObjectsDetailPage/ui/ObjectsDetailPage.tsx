@@ -21,7 +21,7 @@ export interface ObjectsDetailPageProps {
 const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
     const { className } = props;
     const [defaultView,setDefaultView] = useState(!localStorage.getItem("view"));
-    const [openedID,setOpened] = useState(0);
+    const [openedID,setOpened] = useState<number>(0);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     let content;
@@ -37,6 +37,16 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
             }
             );
         }
+    };
+    const openHandler = (index:number)=>{
+        setOpened((prev)=>{
+            if (prev===index) {
+                return 0;
+            }
+            else {
+                return index;
+            }
+        });
     };
     // if (!id) {
     //     navigate(RoutePathAuth.main);
@@ -72,7 +82,7 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
                             <p style={{"width":"20%","textAlign":"center"}}>(ДАТА)</p>
                         </HFlexBox>
                         {objects.map((el)=>
-                            <ObjectCategoryRowView className={cls.objRow} key={el.id}  id={el.id} adress={el.name} openedID={openedID} setOpened={setOpened} />)}
+                            <ObjectCategoryRowView className={cls.objRow} key={el.id}  id={el.id} adress={el.name} openedID={openedID} setOpened={openHandler} />)}
                     </VFlexBox>
                 }
                     
