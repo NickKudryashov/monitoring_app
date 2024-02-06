@@ -1,5 +1,5 @@
 .Sidebar {
-    background:var(--subcolor-1);
+    background:var(--subcolor-4);
     position: absolute;
     top:0;
     margin-left: 30px;
@@ -12,7 +12,7 @@
     z-index: var(--modal-z-index);
     text-decoration: none;
     user-select: none;
-    color:white;
+    color:var(--subcolor-9);
 }
 
 
@@ -52,8 +52,7 @@
     // max-height: 37px;
     // min-width: 30px;
     // min-height: 30px;
-    width:30px;
-    height:30px;
+    fill: var(--subcolor-1) !important;
 }
 
 .sidebarItem {
@@ -86,6 +85,12 @@
 
 .collapsed {
     width:60px;
+    background:var(--subcolor-1);
+    color:white;
+
+    .icon {
+        fill:white !important;
+    }
 
     .sidebarItem {
         width:50%;
