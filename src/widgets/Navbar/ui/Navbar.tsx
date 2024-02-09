@@ -15,6 +15,7 @@ import ProfileIcon from "shared/assets/icons/ProfileIcon.svg";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { useNavigate } from "react-router-dom";
 import { RoutePathPublic } from "shared/config/RouteConfig/RouteConfig";
+import SearchIcon from "shared/assets/icons/NavbarSearchIcon.svg";
 interface NavbarProps {
  className?: string;
  isAuth?:boolean;
@@ -46,7 +47,12 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                     </div>
                 </div>}
                 <div className={cls.navbarPanel}>
-                    {isAuth && <AppInput theme={InputThemes.DESIGNED_PRIMARY} placeholder=""/>}
+                    {isAuth && 
+                    <div className={cls.inpWrap}>
+                        <SearchIcon className={cls.search}/>
+                        <AppInput theme={InputThemes.DESIGNED_PRIMARY} placeholder=""/>
+                    </div>
+                    }
                     {!isAuth && <AppButon
                         theme={AppButtonTheme.DESIGNED_OUTLINE}
                         className={classNames(cls.blocks,{},[cls.btns])}

@@ -18,13 +18,13 @@
 }
 
 .altView {
-    box-shadow: var(--shadow-alt);
-    background: var(--subcolor-4);
-    border-radius: var(--border-radius-type-3);
-    font:var(--font-16-px);
-    font-weight: bold;
-    color:var(--subcolor-9);
-    min-height: 6%;
+    font:var(--font-12-px);
+    font-size: 0.62vw;
+    color:rgb(53 94 171 / 32%);
+    padding-left: 3.3%;
+
+    // min-height: 6%;
+    white-space: nowrap;
 
 }
 

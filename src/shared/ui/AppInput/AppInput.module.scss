@@ -28,9 +28,12 @@
 }
 
 .designed_primary {
+    color:var(--subcolor-9);
     border-radius: var(--border-radius-type-1);
+    font-weight: normal;
     border: 1px solid var(--outline-color-1);
     background: var(--subcolor-4-with-opacity);
+    padding-left: 15%;
 }
 
 

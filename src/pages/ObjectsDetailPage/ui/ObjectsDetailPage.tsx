@@ -13,7 +13,6 @@ import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
-
 export interface ObjectsDetailPageProps {
  className?: string;
 }
@@ -76,13 +75,18 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
                     !defaultView && 
                     <VFlexBox width={"80%"} gap={"10px"} className={cls.altViewPlate}>
                         <HFlexBox  height={"10%"} alignItems="center" align={"space-around"} className={cls.altView}>
-                            <p style={{"width":"20%"}}>НАИМЕНОВАНИЕ ОБЪЕКТА</p>
-                            <p style={{"width":"5%"}}>ВСЕГО СИСТЕМ</p>
-                            <p style={{"width":"15%"}}>СОБЫТИЯ НА СЕГОДНЯ</p>
-                            <p style={{"width":"20%","textAlign":"center"}}>(ДАТА)</p>
+                            <p style={{"width":"10%"}}>наименовение объекта</p>
+                            <p style={{"width":"20%"}}>адрес</p>
+                            <p style={{"width":"7%"}}>всего систем</p>
+                            <p style={{"width":"7%"}}>систем в работе</p>
+                            <p style={{"width":"7%"}}>нет связи</p>
+                            <p style={{"width":"7%"}}>аварии</p>
+                            <p style={{"width":"7%"}}>события</p>
+                            <p style={{"width":"20%","textAlign":"center"}}>время последнего опроса</p>
                         </HFlexBox>
                         {objects.map((el)=>
                             <ObjectCategoryRowView className={cls.objRow} key={el.id}  id={el.id} adress={el.name} openedID={openedID} setOpened={openHandler} />)}
+                        
                     </VFlexBox>
                 }
                     

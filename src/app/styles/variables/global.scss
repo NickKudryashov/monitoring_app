@@ -1,6 +1,20 @@
+@font-face {
+    font-family: Lato;
+    src: url('app/styles/variables/Lato-Light.eot');
+    src: url('app/styles/variables/Lato-Light.eot?#iefix') format('embedded-opentype'),
+        url('app/styles/variables/Lato-Light.woff2') format('woff2'),
+        url('app/styles/variables/Lato-Light.woff') format('woff'),
+        url('app/styles/variables/Lato-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
-    --font-family-main : lato,"Times New Roman", serif;
-    --font-family-sub-1 : lato,"Times New Roman", serif;
+    // --font-family-main : 'Lato',"Times New Roman", serif;
+    /* stylelint-disable-next-line value-keyword-case */
+    --font-family-main : Lato, sans-serif;
+    --font-family-sub-1 : 'Lato',"Times New Roman", serif;
     --font-size-xs : 10px;
     --font-line-xs: 18px;
     --font-xs : var(--font-size-xs) / var(--font-line-xs) var(--font-family-main);

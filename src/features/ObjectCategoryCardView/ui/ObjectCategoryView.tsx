@@ -9,7 +9,6 @@ import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
 import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
-import { cp } from "fs";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 interface ObjectCategoryViewProps {
     className?: string;

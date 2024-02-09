@@ -9,6 +9,7 @@ import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { cp } from "fs";
+import PlusIcon from "shared/assets/icons/plusSystemIcon.svg";
 import { SubcategoryAnswer, getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
@@ -53,16 +54,23 @@ export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRow
         [cls.greenmarker]:markerColor===4,
     };
     return (
-        <VFlexBox height={openedID===id ? `${data.count*6+6}%` : "6%"} gap="3px"  className={classNames(cls.catRow,{},[className,])}>
-            <HFlexBox alignItems="center" height={openedID===id ? `${100/(data.count+1)}%` : "100%"}  onClick={()=>setOpened(id)}  className={cls.rowHeader}>
-                <p className={cls.headerField}>{adress}</p>
+        <VFlexBox height={openedID===id ? `${data.count*6+12}%` : "6%"} gap="10px"  className={classNames(cls.catRow,{},[className,])}>
+            <HFlexBox  align="space-around" alignItems="center" height={openedID===id ? `${100/(data.count+2)}%` : "100%"}  onClick={()=>setOpened(id)}  className={cls.rowHeader}>
+                <u className={cls.headerField}>ТИП ОБЪЕКТА</u>
+                <p className={cls.adressField}>{adress}</p>
+                <p className={cls.countField}>{data?.count}</p>
+                <p className={cls.countField}>{data?.count}</p>
+                <p className={cls.countField}>{data?.count}</p>
+                <p className={cls.countField}>{data?.count}</p>
+                <p className={cls.countField}>{data?.count}</p>
+                <p className={cls.timestampField}/>
             </HFlexBox>
             {
                 id===openedID &&
-                <VFlexBox height={`${100 - 100/(data.count+1)}%`}  gap="4px" alignItems="center" className={classNames(cls.rows,{},[])}>
+                <VFlexBox height={`${ 100/(data.count+2) * (data.count+1)}%`}  gap="10px" alignItems="center" className={classNames(cls.rows,{},[])}>
                     {    
                         data && data.data.map((el)=>
-                            <HFlexBox onClick={()=>onSubcatClick(el)} key={el.id}  align="space-around" alignItems="center"  className={classNames("",mods,[cls.row])}>
+                            <HFlexBox onClick={()=>onSubcatClick(el)} height={`${100/(data.count+1)}%`} key={el.id}  align="space-around" alignItems="center"  className={classNames("",mods,[cls.row])}>
                                 <HFlexBox align="space-between" alignItems="center" width="20%">
                                     {el.subcategory_type==="heat_energy_node" && <HeatIcon className={cls.icon}/>}
                                     {!el.subcategory_type && <ElectroIcon className={cls.icon}/>}
@@ -71,12 +79,15 @@ export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRow
                                     <p className={cls.nameField}>{el.name}</p>
                                 </HFlexBox>
                                 
-                                <p className={cls.countField}>{data.count}</p>
                                 <p className={cls.eventField}>мок событие</p>
-                                <p className={cls.datetimeField}>мок дата</p>
+                                <p className={cls.datetimeField}>11.11.2011 11:11:11</p>
                             </HFlexBox>
                         )
                     }
+                    <HFlexBox  gap='10px' alignItems="center" height={`${100/(data.count+1)}%`}  className={classNames(cls.addingRow,{},[cls.row])}>
+                        <PlusIcon className={cls.addIcon}/>
+                        <p>Добавить систему</p>
+                    </HFlexBox>
                 </VFlexBox>}
             
         </VFlexBox>

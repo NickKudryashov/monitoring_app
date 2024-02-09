@@ -9,6 +9,7 @@ export function buildLoaders(options:BuildOptions):webpack.RuleSetRule[]{
     const babelLoaderCode = buildBabelLoader({...options,isTsx:false});
     const babelLoaderTsx = buildBabelLoader({...options,isTsx:true});
     
+
     const svgLoader = {
         test: /\.svg$/,
         use: ["@svgr/webpack"],
@@ -20,7 +21,7 @@ export function buildLoaders(options:BuildOptions):webpack.RuleSetRule[]{
         exclude: /node_modules/,
     };
     const image_loader = {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|ttf|woff|woff2|eot)$/i,
         use: [
             {
                 loader: "file-loader",
