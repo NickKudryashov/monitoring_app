@@ -1,20 +1,23 @@
 .DefaultAuth {
     width: 100%;
     height:100%;
-    background:transparent;
+    background:var(--subcolor-4);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items:center;
     padding:7% 3.5% 3.5%;
     font:var(--font-m-mini);
-    color:black;
+    font-size:0.9vw;
+    color:var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
 }
 
 .formHeader {
     margin-bottom: 1.5%;
-    color:var(--subcolor-1);
+    color:var(--subcolor-9);
     font:var(--font-l);
+    font-size:1.2vw;
     font-weight: bold;
 }
 
@@ -32,9 +35,12 @@
 
 .authInp {
     font:var(--font-m);
+    background: transparent;
+    border:1px solid var(--subcolor-1);
+    border-radius: var(--border-radius-type-3);
     margin-top:2%;
     width:80%;
-    height:15%;
+    height:8%;
 }
 
 .textCheckboxH {
@@ -48,15 +54,15 @@
     margin-top: 2%  ;
     display: flex;
     flex-direction: column;
-    width:90%;
+    width:80%;
 }
 
 .confirmButton {
-    margin-top: 8%;
+    margin-top: 4%;
     width:70%;
     font:var(--font-m);
     font-family: var(--font-family-sub-1);
-    height:15%;
+    height:8%;
     font-weight: 600;
     letter-spacing: 2px;
 }
