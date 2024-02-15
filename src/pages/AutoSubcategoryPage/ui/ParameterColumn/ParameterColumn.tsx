@@ -2,57 +2,54 @@ import { ReactElement } from "react";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ParameterColumn.module.scss";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { AutomaticDeviceData, ParameterGroup } from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
+import { AutomaticDeviceData, ParameterGroup, PumpParameter } from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
 import classNames from "shared/lib/classNames/classNames";
+import { ParamRecord } from "../AutoSubcategoryPage/AutoSubcategoryPage";
 interface ParameterColumnProps {
-    params:ParameterGroup[];
+    params:ParamRecord[];
+    header:string;
+    fullWidth?:boolean;
+    fullHeight?:boolean;
+    detail?:boolean;
     className?:string;
 }
 
 
 
 export function ParameterColumn (props:ParameterColumnProps):ReactElement{
-    const {params,className} = props;
+    const {params,className,header,fullWidth=false,fullHeight=false,detail=false} = props;
+    console.log(params);
     return(
-        <HFlexBox className={classNames(cls.paramGroups,{},[className,])} width="50%" gap="10px" align="space-around" alignItems="center">
-
-            <VFlexBox width={"90%"} alignItems="center"className={cls.paramFlexBox}>
-                <HFlexBox align="space-between" height={"20%"} className={cls.paramBoxHeader}>
-                    <div className={classNames(cls.paramHeaderArea,{},[cls.nameTitle])}>ВСЕ ПАРАМЕТРЫ</div>
-                    <div className={classNames(cls.paramHeaderArea,{},[cls.tagTitle])}>КОД ПАРАМЕТРА</div>
-                    <div className={classNames(cls.paramHeaderArea,{},[cls.valueTitle])}>ТЕКУЩИЕ</div>
-                    <div className={classNames(cls.paramHeaderArea,{},[cls.editTitle])}>РЕДАКЦИЯ</div>
-                </HFlexBox>
-                <VFlexBox>
-                    {params?.map((elem) => 
-                        <VFlexBox gap='10px' key={elem.id}>
-                            <p className={cls.paramGroupHeader}>{elem.name}</p>
-                            { elem.parameters.map((param)=>
+        <VFlexBox width={fullWidth ? "100%" :"45%"} height={fullHeight ? "95%" :"45%"} alignItems="center"className={cls.paramFlexBox}>
+            {/* <div className={cls.paramBoxHeader}> */}
+            <p className={classNames(cls.sysHeader,{},[cls.paramBoxHeader])}>{header}</p>
+            {/* </div> */}
+            <VFlexBox className={cls.rows} height="95%">
+                {params?.map((elem,i) =>
+                    <VFlexBox width="90%" height={`${5+6*elem.parameters.length}%`} gap="7px" key={i}>
+                        <p className={cls.groupLabel} >{elem.name}</p>
+                        {
+                            elem.parameters.map((oaram)=>
+                                <HFlexBox height={`${100/(elem.parameters.length+1)*0.8}%`} className={cls.paramRow} key={oaram.id} alignItems="end" align="space-between">
+                                    <div className={cls.paramVerboseWrapper}>
+                                        <p>{oaram.verbose}</p>
+                                    </div>
+                                    {detail && <div className={classNames(cls.paramVerboseWrapper,{},[cls.tagWrap,])}>
+                                        <p>{oaram.tag}</p>
+                                    </div>}
+                                    <HFlexBox alignItems="center" align="space-around" className={cls.paramValueWrapper}  width={"15%"}>
+                                        <p className={cls.valueField}>{oaram.value}</p>
+                                    </HFlexBox>
                         
-                                <HFlexBox gap="5px" height={"9%"} className={cls.paramRow} key={elem.id} alignItems="end" align="space-between">
-                                    <p className={cls.paramNameField}>{param.verbose}</p>
-                                    <p className={cls.paramTagField}>{param.tag}</p>
-                                    <div className={cls.paramValueWrapper}>
-                                        <p>{`${param.value} ${param.dimension}`}</p>
-                                    </div>
-                                    <div className={cls.paramEditWrapper}>
-                                        {param.writable && <p>{`${param.value} ${param.dimension}`}</p> }
-                                        
-                                    </div>
-                                    {/* <div className={cls.paramVerboseWrapper}>
-                                    <p>{param.verbose}</p>
-                                </div> */}
                                 </HFlexBox>
-                        
-                        
                             )
-                            
-                            }
-                        </VFlexBox>
-                    )}
-                </VFlexBox>
+                        }
+                        
+                    </VFlexBox> 
+                    
+                )}
             </VFlexBox>
-        </HFlexBox>
+        </VFlexBox>
 
     );
 }

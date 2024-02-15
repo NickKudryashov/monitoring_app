@@ -1,5 +1,9 @@
 .headerBox {
     // flex:1 0 12%;
+    font:var(--font-18-px);
+    font-size: 0.8vw;
+    background: var(--subcolor-4);
+    border-radius: var(--border-radius-type-3);
 }
 
 .subcatNameBox {
@@ -13,6 +17,7 @@
     display:flex;
     align-items: center;
     justify-content: center;
+    font-weight: bold;
     width:100%;
     height:100%;
 }
@@ -22,9 +27,16 @@
     color:var(--subcolor-9);
 }
 
+.dateField {
+    background: white;
+    border-radius: var(--border-radius-type-3);
+    height:50%;
+    width:30%;
+    text-align: center;
+}
+
 .subsystemNameField {
     vertical-align: middle;
-    font:var(--font-18-px);
     font-weight: bold;
 }
 
@@ -45,9 +57,8 @@
 }
 
 .subcatObjectInfoTextGroup {
-    font:var(--font-16-px);
-    font-weight: bold;
-    background: var(--subcolor-4);
+    font-weight: normal;
+    white-space: nowrap;
     color:var(--subcolor-9);
     border-radius: var(--border-radius-type-3);
     box-shadow: var(--sub-shadow-light);
@@ -56,12 +67,15 @@
 
 .btns {
     width:40%;
+    background: transparent;
+    border:1px solid var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
+    font-size: 0.8vw;
 }
 
 
 .subCatObjInfoWrapper {
     border:1px solid white;
-    font:var(--font-m-mini);
     display:flex;
     align-items: center;
     justify-content: flex-start;
@@ -73,5 +87,4 @@
 
 .objectInfoTextField {
     white-space: nowrap;
-    font:var(--font-12-px);
 }

@@ -1,5 +1,5 @@
 import { PageHeader, getSubcatGeneralInfo } from "features/PageHeader";
-import { PropsWithChildren, useCallback, useState } from "react";
+import { PropsWithChildren, useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { EventAnswer } from "shared/types/eventTypes";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
@@ -7,31 +7,70 @@ import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { DetailView } from "widgets/DetailView";
 import cls from "./AutoSubcategoryPage.module.scss";
 import classNames from "shared/lib/classNames/classNames";
-import { SubcatTabs } from "features/SubcatTabs";
-import { Footer } from "shared/ui/Footer/Footer";
 import { getAutomaticDevice } from "entities/AutomaticDevice/api/AutomaticDeviceApi";
 import { getAutomaticDevId } from "pages/AutoSubcategoryPage/api/api";
 import $api from "shared/api";
-import { GeneralInfoBlock } from "../GeneralInfo/GeneralInfo";
 import { ParameterColumn } from "../ParameterColumn/ParameterColumn";
-import { AutoPoll } from "entities/AutomaticDevice";
-import { SystemCard } from "../SystemCard/SystemCard";
+import { AutoPoll, useAutoPoll } from "entities/AutomaticDevice";
+import { GeneralInfoBlock } from "features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
+import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
+import { PumpParameter } from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
+import { Footer } from "shared/ui/Footer/Footer";
+import { groupEnd } from "console";
 interface AutoSubcategoryPageProps {
     className?: string;
    }
+
+export interface ParamRecord {
+    parameters:PumpParameter[];
+    name:string;
+}
+
+interface AutoParamsDict {
+    [key:string]:ParamRecord[];
+}
 const AutoSubcategoryPage = (props: PropsWithChildren<AutoSubcategoryPageProps>) => {
     const { className } = props;
     const {id} = useParams<{id:string}>();
     const [selectedSystem,setSeelctedSystem] = useState(0);
-    const [selectedTab,setSeelctedTab] = useState(2);
+    const [selectedTab,setSeelctedTab] = useState(0);
     const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id);
     const {data:dataID,isLoading:isLoadingDataId} = getAutomaticDevId(id);
     const {data:devData,isLoading:devIsLoading,refetch:refetchDev} = getAutomaticDevice(dataID ? String(dataID[0]) : undefined);
+    const poll = useAutoPoll({id:devData?.id,onUpdate:refetchDev,autoPoll:devData?.connection_info?.connection_type!=="GSM"});
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>("subcategory_events/"+id);
         return response.data;
     },[id]);
-    console.log(devData);
+    const paramDict = useMemo(()=>{
+        if (!devData) {
+            return {};
+        }
+        const temp :AutoParamsDict = {};    
+        devData?.parameters?.map((gr)=>{
+            const tempIndex = String(gr.index===0 ? 2 : gr.index);
+            temp[tempIndex] ?
+                temp[tempIndex] = [...temp[tempIndex],{name:gr.name,parameters:gr.parameters}] :
+                temp[tempIndex] = [{name:gr.name,parameters:gr.parameters}];
+        });
+        return temp;
+    }
+    ,[devData]);
+    
+    const paramDictSystems = useMemo(()=>{
+        if (!devData) {
+            return {};
+        }
+        const temp :AutoParamsDict = {};    
+        devData?.system_params?.map((gr)=>{
+            const tempIndex = String(gr.index===0 ? 2 : gr.index);
+            temp[tempIndex] ?
+                temp[tempIndex] = [...temp[tempIndex],{name:gr.name,parameters:gr.parameters}] :
+                temp[tempIndex] = [{name:gr.name,parameters:gr.parameters}];
+        });
+        return temp;
+    }
+    ,[devData]);
 
     const systemsCard = [];
     if (devData) {
@@ -44,32 +83,41 @@ const AutoSubcategoryPage = (props: PropsWithChildren<AutoSubcategoryPageProps>)
 
     const content = (
         <DetailView className={cls.detail}>
-            <VFlexBox>
-                <PageHeader generalData={generalData} />
-                <HFlexBox className={cls.contentBox} gap="5px">
-                    <VFlexBox width={"41%"} className={classNames(cls.subcatCardBox,{},[])}  gap={"10px"}>
-                        <GeneralInfoBlock deviceData={devData} />
-                        {systemsCard.map((el,i)=>
-                            <SystemCard key={i} index={el} params={devData.system_params} />)
+            <VFlexBox width="90%">
+                <PageHeader poll={poll} generalData={generalData}/>
+                
+                <HFlexBox className={cls.contentBox} gap="5px" align="space-between">
+                    <SubcategoryTabs
+                        selectedTab={selectedTab}
+                        setSelectedTab={setSeelctedTab}
+                        content={
+                            {
+                                0:<GeneralInfoBlock device_num={devData?.device_num} device_type_verbose_name={devData?.device_type_verbose} systems={devData?.system_count} address={generalData?.adress} name={generalData?.user_object_name} />,
+                                2:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
+                                    {/* <p onClick={()=>setSelectedParamGroup(0)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===0},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>
+                                <p onClick={()=>setSelectedParamGroup(1)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===1},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>
+                                <p onClick={()=>setSelectedParamGroup(2)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===2},[])}>НАКОПЛЕННЫЕ ПАРАМЕТРЫ</p>
+                                <p onClick={()=>setSelectedParamGroup(3)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===3},[])}>ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ</p> */}
+                                </VFlexBox>
+                            }
                         }
-                        {/* {deviceData?.systems?.map((el)=>
-                               <div
-                                   onClick={()=>setSeelctedSystem(el.index)} key={el.index}
-                                   className={classNames(cls.deviceSystemCard,{[cls.deviceSystemCardSelected]:selectedSystem===el.index},[cls.cards,])}>
-                                   <SystemCard system={el} />
-                               </div>)} */}
-                    </VFlexBox>
-                    <VFlexBox gap={"15px"}>
-                        <VFlexBox  gap={"10px"} >
-                            <VFlexBox height={"84%"} className={cls.tableContentFlexbox}>
-                                <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} />
-                                <HFlexBox>
-                                    <ParameterColumn params={devData?.parameters?.slice(0,devData?.parameters.length / 2)} />
-                                    <ParameterColumn params={devData?.parameters?.slice(devData?.parameters.length / 2)} />
-
-                                </HFlexBox>
-                            </VFlexBox>
-                            <Footer pollCallback={fetchEvents}/>
+                    />
+                    <VFlexBox width={ "70%"} gap={"15px"}>
+                        <VFlexBox   gap={"10px"} >
+                            <HFlexBox gap="30px" className={cls.tableContentFlexbox}>
+                                {selectedTab===0 && devData &&
+                                Object.values(paramDictSystems).map((el,i)=>
+                                    <ParameterColumn fullHeight key={i} header={`Контур ${i+1}`}  params={el}/>)
+                                }
+                                {
+                                    selectedTab===2 && paramDict && 
+                                    Object.values(paramDict).map((params,i)=>
+                                        <ParameterColumn detail fullHeight key={i} header={`Контур ${i+1}`} params={params}/>
+                                    )
+                                }
+                                   
+                            </HFlexBox>
+                            <Footer pollCallback={fetchEvents} />
                         </VFlexBox>
                     </VFlexBox>
                 </HFlexBox>
@@ -80,7 +128,7 @@ const AutoSubcategoryPage = (props: PropsWithChildren<AutoSubcategoryPageProps>)
     return (
         <div  className={classNames(cls.AutoSubcategoryPage,{},[])}>
             {content}
-            {devData && <AutoPoll autoPoll id={devData.id} onUpdate={refetchDev} />}
+            {/* {devData && <AutoPoll autoPoll id={devData.id} onUpdate={refetchDev} />} */}
         </div>
     );
 };

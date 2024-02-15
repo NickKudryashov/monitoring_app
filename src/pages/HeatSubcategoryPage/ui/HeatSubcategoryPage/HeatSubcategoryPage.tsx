@@ -12,7 +12,7 @@ import { HeatPoll, getHeatDeviceData, useHeatPoll } from "entities/Heatcounters"
 import { HeatParameters } from "entities/Heatcounters/types/type";
 import $api from "shared/api";
 import { EventAnswer } from "shared/types/eventTypes";
-import { GeneralInfoBlock } from "../GeneralInfoBlock/GeneralInfoBlock";
+import { GeneralInfoBlock } from "../../../../features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
 import { SystemCard } from "../SystemCard/SystemCard";
 import { ParameterView } from "../ParameterView/ParameterView";
 import { ArchiveView } from "../ArchiveView/ArchiveView/ArchiveView";
@@ -22,6 +22,7 @@ import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { SystemsInfoBLock } from "../SystemsInfoBlock/SystemsInfoBlock";
 import { ParameterColumn } from "../ParameterColumn/ParameterColumn";
 import { ConfigParameterColumn } from "../ConfigParameterColumn/ConfigParameterColumn";
+import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
 
 interface HeatSubcategoryPageProps {
  className?: string;
@@ -69,30 +70,24 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
 
     const content = (
         <DetailView className={cls.detail}>
-            <VFlexBox>
+            <VFlexBox  width="90%">
                 <PageHeader poll={poll} generalData={generalData}/>
                 
-                <HFlexBox className={cls.contentBox} gap="5px" align="space-around">
-                    <VFlexBox align="flex-start" alignItems="center" width="23%">
-                        <AppButon 
-                            className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===0},[])} width={"100%"}
-                            onClick={()=>setSeelctedTab(0)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ОБОБЩЕННАЯ ИНФОРМАЦИЯ</AppButon>
-                        {selectedTab===0 && <GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={deviceData?.systems?.length} address={generalData?.adress} name={generalData?.user_object_name} />}
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===1},[])} width={"100%"}  onClick={()=>setSeelctedTab(1)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>СОБЫТИЯ</AppButon>
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===2},[])} width={"100%"}  onClick={()=>{setSeelctedTab(2);setSelectedParamGroup(0);}}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ПАРАМЕТРЫ</AppButon>
-                        {selectedTab===2 && 
-                        <VFlexBox className={cls.paramTitleBox} gap={"10px"}>
-                            <p onClick={()=>setSelectedParamGroup(0)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===0},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>
-                            <p onClick={()=>setSelectedParamGroup(1)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===1},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>
-                            <p onClick={()=>setSelectedParamGroup(2)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===2},[])}>НАКОПЛЕННЫЕ ПАРАМЕТРЫ</p>
-                            <p onClick={()=>setSelectedParamGroup(3)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===3},[])}>ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ</p>
-                        </VFlexBox>
-                        }
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===3},[])} width={"100%"}  onClick={()=>setSeelctedTab(3)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>АРХИВЫ</AppButon>
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===4},[])} width={"100%"}  onClick={()=>setSeelctedTab(4)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ГРАФИКИ</AppButon>
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===5},[])} width={"100%"}  onClick={()=>setSeelctedTab(5)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>МНЕМОСХЕМА</AppButon>
-                    </VFlexBox>
-                    <VFlexBox width={"55%"} gap={"15px"}>
+                <HFlexBox className={cls.contentBox} gap="5px" align="space-between">
+                    <SubcategoryTabs
+                        selectedTab={selectedTab}
+                        setSelectedTab={setSeelctedTab}
+                        content={
+                            {0:<GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={deviceData?.systems.length} address={generalData?.adress} name={generalData?.user_object_name} />,
+                                2:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
+                                    <p onClick={()=>setSelectedParamGroup(0)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===0},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>
+                                    <p onClick={()=>setSelectedParamGroup(1)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===1},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>
+                                    <p onClick={()=>setSelectedParamGroup(2)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===2},[])}>НАКОПЛЕННЫЕ ПАРАМЕТРЫ</p>
+                                    <p onClick={()=>setSelectedParamGroup(3)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===3},[])}>ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ</p>
+                                </VFlexBox>
+                            }}  
+                    />
+                    <VFlexBox width={"70%"} gap={"15px"}>
                         <VFlexBox   gap={"10px"} >
                             <VFlexBox className={cls.tableContentFlexbox}>
                                 {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}

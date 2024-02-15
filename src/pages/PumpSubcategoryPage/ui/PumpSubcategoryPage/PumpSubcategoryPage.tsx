@@ -13,9 +13,10 @@ import { PageHeader, getSubcatGeneralInfo } from "features/PageHeader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { getPumpData, usePumpPoll } from "entities/PumpDevice";
 import { getPumpDevs } from "pages/PumpSubcategoryPage/api/pumpApi";
-import { GeneralInfoBlock } from "pages/HeatSubcategoryPage/ui/GeneralInfoBlock/GeneralInfoBlock";
+import { GeneralInfoBlock } from "features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
 import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
 import { ParameterColumn } from "../ParameterView/ParameterView";
+import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
 
 interface PumpSubcategoryPageProps {
  className?: string;
@@ -54,29 +55,25 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
     const params = useMemo(()=>getParams(),[deviceData]);
     const content = (
         <DetailView className={cls.detail}>
-            <VFlexBox>
+            <VFlexBox width={"90%"}>
                 <PageHeader poll={poll} generalData={generalData}/>
                 
-                <HFlexBox className={cls.contentBox} gap="5px" align="space-around">
-                    <VFlexBox align="flex-start" alignItems="center" width="23%">
-                        <AppButon 
-                            className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===0},[])} width={"100%"}
-                            onClick={()=>setSeelctedTab(0)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ОБОБЩЕННАЯ ИНФОРМАЦИЯ</AppButon>
-                        {selectedTab===0 && <GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={0} address={generalData?.adress} name={generalData?.user_object_name} />}
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===1},[])} width={"100%"}   theme={AppButtonTheme.SUBCATEGORY_BUTTON}>СОБЫТИЯ</AppButon>
-                        <AppButon onClick={()=>setSeelctedTab(2)} className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===2},[])} width={"100%"}    theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ПАРАМЕТРЫ</AppButon>
-                        {selectedTab===2 && 
-                        <VFlexBox className={cls.paramTitleBox} gap={"10px"}>
-                            {Object.keys(params)?.map((grName,i)=>
-                                <p key={i} onClick={()=>setSelectedParamGroup(i)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===i},[])}>{grName}</p>
-                            )}
-                        </VFlexBox>
+                <HFlexBox className={cls.contentBox} gap="5px" align="space-between">
+                    <SubcategoryTabs
+                        selectedTab={selectedTab}
+                        setSelectedTab={setSeelctedTab}
+                        content={
+                            {
+                                0:<GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={0} address={generalData?.adress} name={generalData?.user_object_name} />,
+                                2:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
+                                    {params && Object.keys(params).map((grName,i)=>
+                                        <p key={i} onClick={()=>setSelectedParamGroup(i)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===i},[])}>{grName}</p>
+                                    )}
+                                </VFlexBox>
+                            }
                         }
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===3},[])} width={"100%"}    theme={AppButtonTheme.SUBCATEGORY_BUTTON}>АРХИВЫ</AppButon>
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===4},[])} width={"100%"}    theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ГРАФИКИ</AppButon>
-                        <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===5},[])} width={"100%"}    theme={AppButtonTheme.SUBCATEGORY_BUTTON}>МНЕМОСХЕМА</AppButon>
-                    </VFlexBox>
-                    <VFlexBox width={"55%"} gap={"15px"}>
+                    />
+                    <VFlexBox width={"70%"} gap={"15px"}>
                         <VFlexBox   gap={"10px"} >
                             <VFlexBox className={cls.tableContentFlexbox}>
                                 {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}

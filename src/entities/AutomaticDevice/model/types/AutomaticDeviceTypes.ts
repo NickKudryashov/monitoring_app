@@ -1,5 +1,8 @@
+interface ConnInfo {
+    connection_type:string;
+}
 export interface AutomaticDeviceData {
-    system_params:Record<number,PumpParameter[]>;
+    system_params:ParameterGroup[];
     name:string;
     system_count:number;
     user_object:number;
@@ -12,12 +15,13 @@ export interface AutomaticDeviceData {
     subcategory:number;
     autopoll?:boolean;
     interval?:number;
+    connection_info:ConnInfo;
     parameters:ParameterGroup[]
 }
 
 export interface ParameterGroup {
     name:string;
-    system_index:number;
+    index:number;
     parameters:PumpParameter[];
     id:number;
 }

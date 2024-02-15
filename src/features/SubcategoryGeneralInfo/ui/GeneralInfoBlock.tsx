@@ -2,8 +2,6 @@ import classNames from "shared/lib/classNames/classNames";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./GeneralInfoBlock.module.scss";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { HeatDevice } from "entities/Heatcounters";
-import { PumpDeviceData } from "entities/PumpDevice";
 
 interface GeneralInfoBlockProps {
     systems:number;
