@@ -1,10 +1,5 @@
 .rowElement {
-    display: flex;
-    min-width: 10%;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .container {
@@ -19,14 +14,10 @@
 
 .counter_line {
     white-space: nowrap;
-    display: flex;
-    text-align: center;
-    flex-direction: row;
-    align-items: center;
-
-    // justify-content: space-between;
-    gap:16px;
-    width:95%;
+    font-size: 0.68vw;
+    border:1px solid rgb(34 34 34 / 20%);
+    border-radius: var(--border-radius-type-4);
+    font-weight: bold;
 }
 
 .parameter_line {
@@ -37,4 +28,10 @@
 
 .deltaError {
     background: rgb(214 136 136);
+}
+
+.inp {
+    height: 80%;
+    border:1px solid rgb(53 94 171 / 20%);
+    font-size: 0.6vw;
 }

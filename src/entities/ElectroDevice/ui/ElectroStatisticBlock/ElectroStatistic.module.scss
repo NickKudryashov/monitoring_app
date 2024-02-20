@@ -1,10 +1,50 @@
 .titleBlock {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+    box-shadow: var(--sub-shadow-light);
+    border-radius: var(--border-radius-type-3);
+    font:var(--font-14-px);
+    color:var(--subcolor-9);
+    white-space: nowrap;
 }
 
 .autoFlagBox {
     display: flex;
+}
+
+.headerBlock {
+    background: var(--subcolor-4);
+    font-size:0.8vw;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.data {
+    font-size: 0.75vw;
+    font-weight: bold;
+    padding-left: 15px;
+}
+
+.field {
+    background: var(--subcolor-4);
+    border-radius: var(--border-radius-type-3);
+    font-size: 0.68vw;
+    padding-left:5px;
+
+}
+
+.dtfield {
+    background: transparent;
+    border: 1px solid rgb(53 94 171 / 20%);
+    border-radius: var(--border-radius-type-3);
+}
+
+.item {
+    width:55%;
+}
+
+.datetimeItem {
+    width:45%;
+}
+
+.inverted {
+    background: rgb(255 152 152 / 32%);
 }

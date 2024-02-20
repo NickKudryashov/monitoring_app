@@ -8,11 +8,12 @@ import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 interface PageHeaderProps {
     generalData:GeneralAnswer;
     poll?:()=>void;
+    report?:()=>void;
 }
 
 
 export function PageHeader (props:PageHeaderProps) :React.ReactElement {
-    const {generalData,poll=()=>{}} = props;
+    const {generalData,poll=()=>{},report=()=>{}} = props;
     return (
         <HFlexBox className={cls.headerBox} height={"5%"} align="space-between" alignItems="center"  gap={"5px"}>
             <div className={classNames(cls.subcatNameBox,{},[cls.headers])}>
@@ -29,7 +30,7 @@ export function PageHeader (props:PageHeaderProps) :React.ReactElement {
             <HFlexBox width="20%" height="40%" align="space-around" alignItems="center">
                 
                 <AppButon onClick={poll} theme={AppButtonTheme.SUBCATEGORY_BUTTON} className={cls.btns}>Опросить</AppButon>
-                <AppButon theme={AppButtonTheme.SUBCATEGORY_BUTTON} className={cls.btns}>Отчёт</AppButon>
+                <AppButon onClick={report} theme={AppButtonTheme.SUBCATEGORY_BUTTON} className={cls.btns}>Отчёт</AppButon>
             </HFlexBox>
         </HFlexBox>
     );

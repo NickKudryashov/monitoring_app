@@ -18,6 +18,7 @@ export enum AppRoutesAuth {
     HEAT_SUBCAT="heat_subcat",
     PUMP_SUBCAT="pump_subcat",
     AUTO_SUBCAT="auto_subcat",
+    ELECTRO_SUBCAT="el_subcat",
     MOCK="mock",
     REDIRECT="redir",
 }
@@ -41,6 +42,7 @@ export const RoutePathAuth: Record<AppRoutesAuth,string> = {
     [AppRoutesAuth.HEAT_SUBCAT]:"/heat_subcategory/",
     [AppRoutesAuth.PUMP_SUBCAT]:"/pump_subcategory/",
     [AppRoutesAuth.AUTO_SUBCAT]:"/auto_subcategory/",
+    [AppRoutesAuth.ELECTRO_SUBCAT]:"/electro_subcategory/",
     [AppRoutesAuth.MAP]:"/map",
     [AppRoutesAuth.MOCK]:"/mock/",
     [AppRoutesAuth.MAIN]:"/",

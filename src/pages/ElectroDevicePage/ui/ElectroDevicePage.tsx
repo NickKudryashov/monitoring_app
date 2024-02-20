@@ -68,14 +68,14 @@ const ElectroDevicePage = memo((props: PropsWithChildren<ElectroDevicePageProps>
         else {
             content = (
                 <DetailView className={cls.detail}>
-                    <div className={cls.btnsWithDevice} key={device[0].id}>
+                    {/* <div className={cls.btnsWithDevice} key={device[0].id}>
                         
                         <ElectroCounterDeviceDetail featuresBlock={<div className={cls.deviceBtns}>
                             <ElectroDevicePoll device={device[0]} onUpdate={()=>console.log("")}  />
                             <AppButon theme={AppButtonTheme.SHADOW} onClick={()=>downloadXLSFile(device[0])}>Сформировать отчет</AppButon>
                             <AppButon theme={AppButtonTheme.SHADOW}>Выбрать сформированный отчет</AppButon>
                         </div>}  key={device[0].id} id={device[0].id}  />
-                    </div>
+                    </div> */}
                 </DetailView>
             );
         }

@@ -1,0 +1,1 @@
+export {ElSubcatPageAsync as ElectroSubcategoryPage} from "./ui/ElectroSubcategoryPage.async";

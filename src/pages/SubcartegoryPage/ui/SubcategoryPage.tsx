@@ -39,7 +39,7 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
     const {entities,ids} = useSelector((state:StateSchema)=>state.objSubCat);
     const {currentSubcat} = useSelector((state:StateSchema)=>state.deviceList);
     const {electrocounter,heatcounters,pumps,subcats,current,autos} = useSelector((state:StateSchema)=>state.subCatPage);
-    const [isOpen,setIsOpen] = useState(false)
+    const [isOpen,setIsOpen] = useState(false);
     // dispatch(fetchChildren(numberID));
 
     useEffect(()=>{
@@ -111,12 +111,6 @@ const SubcategoryPage = (props: PropsWithChildren<SubcategoryPageProps>) => {
                     <AppButon theme={AppButtonTheme.SHADOW} onClick={()=>setIsOpen(true)}>Открыть архивы</AppButon>
                     <HeatArchives dev_id={el} is_open={isOpen} onClose={()=>setIsOpen(false)}  />
                 </HeatDeviceDetailView>
-            ) 
-            }
-            {electrocounter && electrocounter.map((el)=>
-                <ElectroCounterDeviceDetail key={el} id={el}>
-                    {/* <ElectroDevicePoll device={el} onUpdate={()=>dispatch(fetchElectro(numberID))}  /> */}
-                </ElectroCounterDeviceDetail>
             ) 
             }
             {pumps && pumps.map((el)=>

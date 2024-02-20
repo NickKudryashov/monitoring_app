@@ -39,6 +39,10 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
             return RoutePathAuth.pump_subcat + el.id;
 
         }
+        else if (el.subcategory_type === "electro_energy_node") {
+            return RoutePathAuth.el_subcat + el.id;
+
+        }
         else return RoutePathAuth.subcat + el.id;
     };
     const mods = {

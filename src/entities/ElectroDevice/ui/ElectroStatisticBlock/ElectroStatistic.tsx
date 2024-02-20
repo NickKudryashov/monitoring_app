@@ -1,10 +1,12 @@
 import classNames from "shared/lib/classNames/classNames";
-import { memo } from "react";
+import { memo, useState } from "react";
 import cls from "./ElectroStatistic.module.scss";
 
 import type { PropsWithChildren } from "react";
 import { timeConvert } from "shared/lib/helpers/datetimeConvert";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 
 interface ElectroStatisticProps {
     className?: string;
@@ -13,26 +15,62 @@ interface ElectroStatisticProps {
     autoPollMode:boolean;
     pollInterval:number;
     id:number;
-    setAutoPollmode:(a:boolean)=>void;
-    setPollInterval:(a:number)=>void;
-    onEdit:()=>void;
+    setAutoPollmode?:(a:boolean)=>void;
+    setPollInterval?:(a:number)=>void;
+    onEdit?:()=>void;
 }
 
 export const ElectroStatistic = memo((props: PropsWithChildren<ElectroStatisticProps>) => {
     const { className,last_poll_seconds,last_update,autoPollMode,pollInterval,onEdit,setAutoPollmode,setPollInterval,id } = props;
-    
+    const [autoFlag,setAutoFlag] = useState(autoPollMode);
+    const mods = {
+        [cls.inverted]:!autoFlag
+    };
     return (
-        <div className={cls.titleBlock}>
-            {`Дата последнего опроса ${timeConvert(last_update)}`}
-            {last_poll_seconds!==undefined && <br/>}
-            {last_poll_seconds!==undefined && `Длительность предыдущего опроса: ${Math.round(last_poll_seconds / 60)} минут`}
-            <div className={cls.autoFlagBox}>
-                <input  type='checkbox' checked={autoPollMode} onClick={()=>setAutoPollmode(!autoPollMode)} id={"device_autopoll"} />
-                <label  htmlFor={"electro_device_autopoll_"+id}>Включить автоопрос</label>
-            </div>
-            <p>Интвервал автоопроса в минутах:</p>
-            <input value={String(pollInterval)} onChange={(e)=>setPollInterval(Number(e.target.value))} />
-            <AppButon theme={AppButtonTheme.SHADOW} onClick={onEdit}>Применить изменения</AppButon>
-        </div>
+        <VFlexBox align="space-between" className={classNames(cls.titleBlock,{},[className,])}>
+            <HFlexBox height="17%" className={cls.headerBlock} align="center" alignItems="center" >
+                <p>{"Название прибора"}</p>
+            </HFlexBox>
+            <VFlexBox align="space-around" className={cls.data} height="78%">
+                <HFlexBox width="50%" align="space-between" gap="30px" height="20%">
+                    <p className={classNames(cls.item,{},[cls.datetimeItem])}>ДАТА ПОСЛЕДНЕГО ОПРОСА</p>
+                    <HFlexBox width="33%" height="70%"  className={classNames(cls.field,{},[cls.dtfield,])}>
+                        {timeConvert(last_update)}
+                    </HFlexBox>
+                </HFlexBox>
+                <HFlexBox width="50%" align="space-between" gap="30px" height="20%">
+                    <p className={cls.item}>ДЛИТЕЛЬНОСТЬ ПРЕДЫДУЩЕГО ОПРОСА</p>
+                    <HFlexBox width="33%" height="70%">
+
+                        <HFlexBox width="50%"   className={cls.field}>
+                            {
+                                last_poll_seconds ?
+                                    Math.round(last_poll_seconds / 60) :
+                                    "не опрашивался"
+                            }
+                        </HFlexBox>
+                    </HFlexBox>
+
+                </HFlexBox>
+                <HFlexBox width="50%" align="space-between" gap="30px" height="20%">
+                    <p className={cls.item}>ВЫКЛЮЧИТЬ АВТООПРОС</p>
+                    <HFlexBox width="33%" height="70%">
+                        <HFlexBox onClick={()=>setAutoFlag((prev)=>!prev)} width="50%"   className={classNames(cls.field,mods,[])}>
+                            {autoPollMode}
+                        </HFlexBox>
+                    </HFlexBox>
+                    
+                </HFlexBox>
+                <HFlexBox width="50%" align="space-between" gap="30px" height="20%">
+                    <p className={cls.item}>ИНТЕРВАЛ АВТООПРОСА В МИНУТАХ</p>
+                    <HFlexBox width="33%" height="70%">
+                        <HFlexBox width="50%"   className={cls.field}>
+                            {pollInterval}
+                        </HFlexBox>
+                    </HFlexBox>
+                    
+                </HFlexBox>
+            </VFlexBox>
+        </VFlexBox>
     );
 });

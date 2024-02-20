@@ -62,7 +62,7 @@ export interface TopLevelElectroDevice extends BaseElectroDevice {
     autopoll?:boolean;
     interval?:number;
     last_poll_seconds?:number;
-    statistic?:Dictionary<TopLevelDeviceStatistic>
+    statistic?:Dict<TopLevelDeviceStatistic>
 }
 
 export interface DeviceRecord {
@@ -80,8 +80,12 @@ data?: ElectroData;
 error?:string;
 }
 
-interface Dictionary<T> {
+export interface Dict<T> {
     [Key: string]: T;
+}
+
+interface ConnectionInfo {
+    connection_type:string;
 }
 
 export interface GetDeviceQuery {
@@ -93,12 +97,13 @@ export interface GetDeviceQuery {
     autopoll?:boolean;
     interval?:number;
     last_poll_seconds?:number;
-    statistic?:Dictionary<TopLevelDeviceStatistic>
+    statistic?:Dict<TopLevelDeviceStatistic>
     user_object:number;
     id:number;
     name:string;
     device_type:string;
     device_type_verbose_name:string;
     last_update:string;
-    counters_by_can:Dictionary<ElectroCounter[]>;
+    counters_by_can:Dict<ElectroCounter[]>;
+    connection_info:ConnectionInfo;
 }

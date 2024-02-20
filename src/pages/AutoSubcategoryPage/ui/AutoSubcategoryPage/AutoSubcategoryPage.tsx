@@ -82,7 +82,7 @@ const AutoSubcategoryPage = (props: PropsWithChildren<AutoSubcategoryPageProps>)
     
 
     const content = (
-        <DetailView className={cls.detail}>
+        <DetailView>
             <VFlexBox width="90%">
                 <PageHeader poll={poll} generalData={generalData}/>
                 
@@ -93,12 +93,7 @@ const AutoSubcategoryPage = (props: PropsWithChildren<AutoSubcategoryPageProps>)
                         content={
                             {
                                 0:<GeneralInfoBlock device_num={devData?.device_num} device_type_verbose_name={devData?.device_type_verbose} systems={devData?.system_count} address={generalData?.adress} name={generalData?.user_object_name} />,
-                                2:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
-                                    {/* <p onClick={()=>setSelectedParamGroup(0)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===0},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>
-                                <p onClick={()=>setSelectedParamGroup(1)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===1},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>
-                                <p onClick={()=>setSelectedParamGroup(2)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===2},[])}>НАКОПЛЕННЫЕ ПАРАМЕТРЫ</p>
-                                <p onClick={()=>setSelectedParamGroup(3)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===3},[])}>ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ</p> */}
-                                </VFlexBox>
+                                2:<VFlexBox className={cls.paramTitleBox} gap={"10px"}/>
                             }
                         }
                     />
