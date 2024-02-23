@@ -1,6 +1,6 @@
 import { url } from "inspector";
 import { rtkApi } from "shared/api/rtkApi";
-import { PumpDeviceData } from "../model/types/pumpDevice";
+import { PumpDetailInfo, PumpDeviceData } from "../model/types/pumpDevice";
 
 const pumpDeviceQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -11,8 +11,16 @@ const pumpDeviceQuery = rtkApi.injectEndpoints({
                 };
             },
         }),
+        getPumpDataDetail: build.query<PumpDetailInfo,string>({
+            query: (id) => {
+                return {
+                    url:"pump/detail/"+id,
+                };
+            },
+        }),
     }),
     overrideExisting: false,
 });
 
 export const getPumpData = pumpDeviceQuery.useGetPumpDataQuery;
+export const getPumpDataDetail = pumpDeviceQuery.useGetPumpDataDetailQuery;

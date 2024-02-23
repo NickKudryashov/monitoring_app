@@ -14,29 +14,6 @@
     padding:7px;
 }
 
-.cards {
-    height:14.5vh;
-    border-radius: var(--border-radius-type-1);
-    background:var(--subcolor-3);   
-}
-
-.subcatCardBox {
-    width:41.5%;
-}
-
-.deviceSystemCard {
-    cursor: pointer;
-    color:var(--subcolor-1);
-    font:var(--font-m-mini);
-    font-weight: bold;
-    padding:10px;
-    padding-top:5px;
-    background: var(--subcolor-8);
-}
-
-.deviceSystemCardSelected {
-    background: var(--subcolor-7);
-}
 
 
 .tableContentFlexbox {
@@ -44,23 +21,12 @@
     border-radius: var(--border-radius-type-2);
 }
 
-.pollbtn {
-    width:40%;
-}
-
-.btns {
-    margin-top: 5px;
-    height:8%;
-    z-index: var(--table-z-index);
-}
-
-.selectedBtn {
-    box-shadow: 0 2px 2px 0 rgb(3 22 59 / 50%);
-}
 
 .paramTitle {
     padding-left: 8%;
     text-decoration: underline;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .paramTitleSelected {
@@ -78,14 +44,32 @@
     color:var(--subcolor-9);
 }
 
-
-
-
-
-
-
 .paramGroups {
     width:100%;
     flex-wrap: wrap;
     column-gap:10%;
+}
+
+
+.preview {
+    font-size:0.6vw;
+    flex-grow: 0;
+}
+
+.previewVal {
+    width:20%;
+    height:90%;
+    background: var(--subcolor-1);
+    color:white;
+    border-radius: var(--border-radius-type-4);
+    text-align: center;
+}
+
+.previewName {
+    width:65%;
+    height:90%;
+}
+
+.previewBox {
+    padding-left: 10%;
 }

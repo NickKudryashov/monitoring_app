@@ -1,0 +1,77 @@
+.detail {
+    color:var(--subcolor-9);
+    margin-top:1%;
+    box-shadow: var(--shadow-redesign);
+    border-radius: var(--border-radius-type-3);
+
+}
+
+.paramFlexBox {
+    // flex:1 0 15%;
+    font:var(--font-m-extra-mini);
+    background: var(--subcolor-3);
+    border-radius: var(--border-radius-type-3);
+    padding-bottom:5px;
+    font-weight: bold;
+
+}
+
+
+.paramBoxHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font:var(--font-14-px);
+    font-weight: bold;
+    width:100%;
+    height:6%;
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-4);
+    text-align: center;
+    box-shadow: 0 4px 4px 0 rgb(203 216 239 / 25%);
+    margin-bottom:4%;
+}
+
+
+
+.paramNameField {
+    font:var(--font-16-px);
+    font-weight: bold;
+    width:10%;
+}
+
+
+.paramValueWrapper {
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-11);
+    font:var(--font-12-px);
+    width:40%;
+    font-size: 0.7vw;
+}
+
+.dimensionField {
+    font:var(--font-8-px);
+    width:25%;
+}
+
+.valueField {
+    width:70%;
+}
+
+.paramVerboseWrapper {
+    display:flex;
+    align-items: center;
+    padding-left:15px;
+    height:100%;
+    font:var(--font-10-px);
+    width:50%;
+    border:1px solid var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
+    color:rgb(62 85 128 / 50%);
+}
+
+.rows {
+    row-gap: 2%;
+    overflow-y: auto;
+
+}

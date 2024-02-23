@@ -36,5 +36,18 @@ export interface PumpParameter {
     verbose_name:string;
     parameter_group:string;
     parameter_verbose_group:string;
+}
 
+export interface PumpErrorDetail extends PumpParameter {
+    translate:string;
+}
+
+export interface PumpDetailInfo {
+    [key:string]:PumpDetailInfoBySystem;
+}
+
+export interface PumpDetailInfoBySystem {
+    preview:PumpParameter[];
+    errors:PumpErrorDetail[];
+    general:PumpParameter[];
 }
