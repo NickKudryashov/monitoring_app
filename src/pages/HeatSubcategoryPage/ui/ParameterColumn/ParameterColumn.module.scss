@@ -30,6 +30,7 @@
 
 .paramNameField {
     font:var(--font-16-px);
+    font-size: 0.75vw;
     font-weight: bold;
     width:10%;
 }
@@ -45,10 +46,13 @@
 .dimensionField {
     font:var(--font-8-px);
     width:25%;
+    font-size:0.6vw;
 }
 
 .valueField {
     width:70%;
+    font-size:0.6vw;
+
 }
 
 .paramVerboseWrapper {

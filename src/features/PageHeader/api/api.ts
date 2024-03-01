@@ -4,6 +4,7 @@ export interface GeneralAnswer {
     subcat_name:string;
     user_object_name:string;
     adress:string;
+    abonent:string;
 }
 const generalSubcatQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({

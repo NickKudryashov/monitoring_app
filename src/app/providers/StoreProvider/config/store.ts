@@ -12,6 +12,7 @@ import { chatReducer } from "entities/TelegramChat";
 import { objSubCategoryReducer } from "entities/ObjectSubCategory";
 import { subCatPageReducer } from "pages/SubcartegoryPage";
 import { rtkApi } from "shared/api/rtkApi";
+import { subcatCardSliceReducer } from "features/ObjectCategoryCardView";
 
 
 
@@ -28,6 +29,7 @@ export function createReduxStore(initialState?:StateSchema) {
         chats:chatReducer,
         objSubCat:objSubCategoryReducer,
         subCatPage:subCatPageReducer,
+        subcatCards:subcatCardSliceReducer,
         [rtkApi.reducerPath]:rtkApi.reducer
 
     };

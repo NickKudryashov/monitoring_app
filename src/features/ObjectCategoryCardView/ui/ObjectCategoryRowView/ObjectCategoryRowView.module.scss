@@ -8,7 +8,8 @@
     font-size:0.8vw;
     color:var(--subcolor-9);
     min-height: 6%;
-    text-transform: uppercase;
+
+    // text-transform: uppercase;
 }
 
 .headerField {
@@ -90,10 +91,14 @@
     height:70%;
     border-radius: var(--border-radius-type-3);
     border:1px solid var(--subcolor-9);
+    font-size: 0.8vw;
+    font-weight: bold;
 }
 
 .datetimeField{
     width:10%;
+    font-size: 0.8vw;
+    font-weight: bold;
     text-align: center;
 }
 

@@ -17,19 +17,20 @@ function GeneralInfoBlock (props:GeneralInfoBlockProps) :React.ReactElement {
     return (
         <VFlexBox className={cls.generalDeviceInfoCard} gap="10px"  >
             <VFlexBox height={"31.5%"} width={"100%"} align="space-between">
-                <p className={cls.subtitle}>адрес:</p>
+                <p className={cls.subtitle}>Тип объекта:</p>
                 <div className={classNames(cls.generalCardTextWrapper,{},[cls.mainData])}>
-                    <p className={cls.deviceDate}>{address?address:"Моковые данные"}</p>
+                    <p className={cls.deviceDate}>мок тип</p>
                 </div>
-                <p className={cls.subtitle}>объект:</p>
-
+                <p className={cls.subtitle}>абонент:</p>
                 <div className={classNames(cls.generalCardTextWrapper,{},[cls.mainData])}>
                     <p className={cls.deviceDate}>{name?name:""}</p>
                 </div>
-                <p className={cls.subtitle}>изготовление:</p>
+                <p className={cls.subtitle}>адрес:</p>
                 <div className={classNames(cls.generalCardTextWrapper,{},[cls.mainData])}>
-                    <p className={cls.deviceDate}>дата изготовления</p>
+                    <p className={cls.deviceDate}>{address?address:""}</p>
                 </div>
+                
+                
             </VFlexBox>
             
             <HFlexBox className={cls.generalCardItems} height={"10.5%"}  align="space-between">

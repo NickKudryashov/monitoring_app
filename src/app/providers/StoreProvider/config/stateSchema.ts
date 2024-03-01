@@ -7,6 +7,7 @@ import { PumpDeviceSchema } from "entities/PumpDevice";
 import { TelegramChatSchema } from "entities/TelegramChat";
 import { UserState } from "entities/user";
 import { HeatArchivesSchema } from "features/HeatArchives";
+import { SubcatCardsSchema } from "features/ObjectCategoryCardView";
 import { SubCategoryPageSchema } from "pages/SubcartegoryPage";
 import { rtkApi } from "shared/api/rtkApi";
 import { DeviceListState } from "widgets/DeviceList";
@@ -24,6 +25,7 @@ export interface StateSchema {
     chats:TelegramChatSchema;
     objSubCat:ObjectSubCategorySchema;
     subCatPage:SubCategoryPageSchema;
+    subcatCards:SubcatCardsSchema;
 }
 
 export interface ThunkConfig<T> {

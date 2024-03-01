@@ -10,10 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { cp } from "fs";
 import PlusIcon from "shared/assets/icons/plusSystemIcon.svg";
-import { SubcategoryAnswer, getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
+import { SubcategoryAnswer, editSubcatOrder, getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { count } from "console";
+import { useAppDispatch } from "shared/hooks/hooks";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { subcatCardSliceActions } from "features/ObjectCategoryCardView/model/cardSlice";
 interface ObjectCategoryRowViewProps {
  className?: string;
  openedID:number;
@@ -31,6 +35,10 @@ export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRow
     const { className,id,adress,openedID,setOpened} = props;
     const {data,isLoading} = getObjectSubcategoryData(id);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const {selectedItem} = useSelector((state:StateSchema)=>state.subcatCards);
+    const [editOrder,{isLoading: isUpdating}] = editSubcatOrder();
+
     const markerIcon = Math.floor (Math.random () * (4 - 1 + 1)) + 1;
     const markerColor = Math.floor (Math.random () * (4 - 1 + 1)) + 1;
     const Icon  = IconMapper[markerIcon] as React.FunctionComponent<React.SVGAttributes<SVGElement>>;
@@ -57,6 +65,31 @@ export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRow
         [cls.orangemarker]:markerColor===3,
         [cls.greenmarker]:markerColor===4,
     };
+
+    const dragStartHandler = (e:React.DragEvent<HTMLDivElement>,el:SubcategoryAnswer) => {
+        // console.log("старт на ",el.name,el.user_object);
+        dispatch(subcatCardSliceActions.setItem(el));
+    };
+
+    const dragLeaveHandler = (e:React.DragEvent<HTMLDivElement>) => {
+        
+    };
+    const dragEndHandler = (e:React.DragEvent<HTMLDivElement>) => {
+        
+    };
+    const dragOverHandler = (e:React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+    };
+    const dropHandler = (e:React.DragEvent<HTMLDivElement>,el:SubcategoryAnswer) => {
+        e.preventDefault();
+        const success = selectedItem && (el.user_object===selectedItem.user_object);
+        if (success) {
+            editOrder({id:selectedItem.id,order_index:el.order_index});
+            editOrder({id:el.id,order_index:selectedItem.order_index});
+        }
+        dispatch(subcatCardSliceActions.removeItem());
+    };
+
     return (
         <VFlexBox height={openedID===id ? `${data.count*6+12}%` : "6%"} gap="10px"  className={classNames(cls.catRow,{},[className,])}>
             <HFlexBox  align="space-around" alignItems="center" height={openedID===id ? `${100/(data.count+2)}%` : "100%"}  onClick={()=>setOpened(id)}  className={cls.rowHeader}>
@@ -74,7 +107,20 @@ export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRow
                 <VFlexBox height={`${ 100/(data.count+2) * (data.count+1)}%`}  gap="10px" alignItems="center" className={classNames(cls.rows,{},[])}>
                     {    
                         data && data.data.map((el)=>
-                            <HFlexBox onClick={()=>onSubcatClick(el)} height={`${100/(data.count+1)}%`} key={el.id}  align="space-around" alignItems="center"  className={classNames("",mods,[cls.row])}>
+                            <HFlexBox
+                                onClick={()=>onSubcatClick(el)}
+                                height={`${100/(data.count+1)}%`}
+                                key={el.id}
+                                align="space-around"
+                                alignItems="center"
+                                className={classNames("",mods,[cls.row])}
+                                draggable={true}
+                                onDragStart={(e)=>dragStartHandler(e,el)}
+                                onDragLeave={dragLeaveHandler}
+                                onDragEnd={dragEndHandler}
+                                onDragOver={dragOverHandler}
+                                onDrop={(e)=>dropHandler(e,el)}
+                            >
                                 <HFlexBox align="space-between" alignItems="center" width="20%">
                                     {el.subcategory_type==="heat_energy_node" && <HeatIcon className={cls.icon}/>}
                                     {!el.subcategory_type && <ElectroIcon className={cls.icon}/>}

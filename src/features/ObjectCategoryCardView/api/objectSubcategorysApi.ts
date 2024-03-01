@@ -4,6 +4,8 @@ export interface SubcategoryAnswer {
     id:number;
     name:string;
     subcategory_type:string | null;
+    order_index:number;
+    user_object:number;
 }
 
 interface ObjectAnswer {
@@ -18,9 +20,28 @@ const objectSubcategoryQuery = rtkApi.injectEndpoints({
                     url:"subcategory/"+id,
                 };
             },
+            providesTags: (result) =>
+            // is result available?
+                result
+                    ? // successful query
+                    [
+                        { type: "Subcats", id: result.data[0].id },
+                        { type: "Subcats", id: "LIST" },
+                    ]
+                    : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
+                    [{ type: "Subcats", id: "LIST" }],
         }),
+        editSubcatOrder:build.mutation<SubcategoryAnswer, Partial<SubcategoryAnswer> & Pick<SubcategoryAnswer, "id">>({
+            query:({id,...patch})=>({
+                url: `subcategory/${id}/edit`,
+                method: "POST",
+                body: patch,
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: "Subcats", id }],
+        })
     }),
     overrideExisting: false,
 });
 
 export const getObjectSubcategoryData = objectSubcategoryQuery.useGetObjectSubcategorysQuery;
+export const editSubcatOrder = objectSubcategoryQuery.useEditSubcatOrderMutation;
