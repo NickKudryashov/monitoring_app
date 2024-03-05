@@ -26,7 +26,7 @@ export function ParameterColumn (props:ParameterColumnProps):ReactElement{
                             <p>{elem.verbose_name}</p>
                         </div>
                         <p className={cls.paramNameField}>{elem.name}</p>
-                        <HFlexBox alignItems="center" align="space-around" className={cls.paramValueWrapper}  width={"20%"}>
+                        <HFlexBox alignItems="center" align="space-around" className={cls.paramValueWrapper}  width={"25%"}>
                             <p className={cls.valueField}>{elem.value}</p>
                             <p className={cls.dimensionField}>{elem.dimension}</p>
 

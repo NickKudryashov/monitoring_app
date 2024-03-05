@@ -6,6 +6,7 @@ export interface SubcategoryAnswer {
     subcategory_type:string | null;
     order_index:number;
     user_object:number;
+    status:string;
 }
 
 interface ObjectAnswer {

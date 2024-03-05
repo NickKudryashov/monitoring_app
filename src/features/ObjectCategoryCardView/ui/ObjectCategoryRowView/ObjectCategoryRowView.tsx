@@ -1,7 +1,7 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryRowView.module.scss";
 
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useCallback, useEffect, useMemo } from "react";
 import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
 import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
 import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
@@ -33,12 +33,16 @@ const IconMapper:any = {
 };
 export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRowViewProps>) {
     const { className,id,adress,openedID,setOpened} = props;
-    const {data,isLoading} = getObjectSubcategoryData(id);
+    const {data,isLoading,refetch} = getObjectSubcategoryData(id);
+
+    useEffect(()=>{
+        refetch();
+    },[]);
+
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const {selectedItem} = useSelector((state:StateSchema)=>state.subcatCards);
     const [editOrder,{isLoading: isUpdating}] = editSubcatOrder();
-
     const markerIcon = Math.floor (Math.random () * (4 - 1 + 1)) + 1;
     const markerColor = Math.floor (Math.random () * (4 - 1 + 1)) + 1;
     const Icon  = IconMapper[markerIcon] as React.FunctionComponent<React.SVGAttributes<SVGElement>>;
@@ -59,13 +63,10 @@ export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRow
         }
         else navigate (RoutePathAuth.subcat + el.id);
     };
-    const mods = {
-        [cls.redmarker]:markerColor===1,
-        [cls.greymarker]:markerColor===2,
-        [cls.orangemarker]:markerColor===3,
-        [cls.greenmarker]:markerColor===4,
-    };
-
+    const calculateMods = useCallback((index:number)=>({
+        [cls.greymarker]:data?.data[index].status==="no_answer",
+        [cls.greenmarker]:data?.data[index].status==="success",
+    }),[data]);
     const dragStartHandler = (e:React.DragEvent<HTMLDivElement>,el:SubcategoryAnswer) => {
         // console.log("старт на ",el.name,el.user_object);
         dispatch(subcatCardSliceActions.setItem(el));
@@ -106,14 +107,14 @@ export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRow
                 id===openedID &&
                 <VFlexBox height={`${ 100/(data.count+2) * (data.count+1)}%`}  gap="10px" alignItems="center" className={classNames(cls.rows,{},[])}>
                     {    
-                        data && data.data.map((el)=>
+                        data && data.data.map((el,i)=>
                             <HFlexBox
                                 onClick={()=>onSubcatClick(el)}
                                 height={`${100/(data.count+1)}%`}
                                 key={el.id}
                                 align="space-around"
                                 alignItems="center"
-                                className={classNames("",mods,[cls.row])}
+                                className={classNames("",calculateMods(i),[cls.row])}
                                 draggable={true}
                                 onDragStart={(e)=>dragStartHandler(e,el)}
                                 onDragLeave={dragLeaveHandler}

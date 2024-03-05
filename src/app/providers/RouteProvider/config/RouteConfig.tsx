@@ -15,6 +15,7 @@ import { ObjectDetailPage } from "pages/ObjectsDetailPage";
 import { PumpDevicePage } from "pages/PumpDevicePage";
 import { PumpSubcategoryPage } from "pages/PumpSubcategoryPage";
 import { RegPage } from "pages/RegistrationPage";
+import { SettingsPage } from "pages/SettingsPage";
 import { SubCategoryPage } from "pages/SubcartegoryPage";
 import { RouteProps } from "react-router-dom";
 import { RoutePathPublic, AppRoutesAuth, AppRoutesPublic,RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
@@ -44,6 +45,9 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.DETAIL_OBJECTS]:{
         path:RoutePathAuth.detail_objects,
         element:<ObjectDetailPage/>},
+    [AppRoutesAuth.SETTINGS]:{
+        path:RoutePathAuth.settings,
+        element:<SettingsPage/>},
     [AppRoutesAuth.HEATDEVICE]:{
         path:`${RoutePathAuth.heatdevice}:id`,
         element:<HeatDevicePage/>},

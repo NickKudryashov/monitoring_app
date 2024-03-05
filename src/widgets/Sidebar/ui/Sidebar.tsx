@@ -66,7 +66,7 @@ export function Sidebar(props: PropsWithChildren<SidebarProps>) {
                 <SidebarItem Icon={TasksIcon} minimized={collapsed} annotation="ЗАДАЧИ"/>
                 <SidebarItem onClick={()=>navigate(RoutePathAuth.administration)} Icon={AdminIcon} minimized={collapsed} annotation="АДМИН"/>
                 <SidebarItem onClick={()=>navigate(RoutePathAuth.map)} Icon={MapIcon} minimized={collapsed} annotation="КАРТЫ"/>
-                <SidebarItem Icon={SettingsIcon} minimized={collapsed} annotation="НАСТРОЙКИ"/>
+                <SidebarItem onClick={()=>navigate(RoutePathAuth.settings)} Icon={SettingsIcon} minimized={collapsed} annotation="НАСТРОЙКИ"/>
                 <SidebarItem Icon={AnaliticIcon} minimized={collapsed} annotation="АНАЛИТИКА"/>
                 <SidebarItem Icon={TicketsIcon} minimized={collapsed} annotation="ЗАЯВКИ"/>
                 <SidebarItem Icon={PlannedWorkIcon} minimized={collapsed} annotation="ПЛАНОВЫЕ РАБОТЫ"/>

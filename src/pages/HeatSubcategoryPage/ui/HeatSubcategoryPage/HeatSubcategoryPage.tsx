@@ -23,6 +23,7 @@ import { SystemsInfoBLock } from "../SystemsInfoBlock/SystemsInfoBlock";
 import { ParameterColumn } from "../ParameterColumn/ParameterColumn";
 import { ConfigParameterColumn } from "../ConfigParameterColumn/ConfigParameterColumn";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
+import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
 
 interface HeatSubcategoryPageProps {
  className?: string;
@@ -53,7 +54,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     },[id]);
     const filterInstant = (params:HeatParameters[])=>params?.filter((el)=>el.parameter_type==="instant_parameter");
     const filterAccumulate = (params:HeatParameters[])=>params?.filter((el)=>el.parameter_type==="accumulate_parameter");
-    const allParams = (params:HeatParameters[])=>params;
+    const allParams = (params:HeatParameters[])=>params?.filter((el)=>!el.exclude);
     const getParams = (filt:(params:HeatParameters[])=>HeatParameters[])=>{
         const result:ParametersDict = {};
         if (deviceData?.systems) {

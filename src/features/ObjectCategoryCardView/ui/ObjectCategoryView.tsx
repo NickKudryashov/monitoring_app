@@ -1,7 +1,7 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryView.module.scss";
 
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { SubcategoryAnswer, editSubcatOrder, getObjectSubcategoryData } from "../api/objectSubcategorysApi";
 import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
 import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
@@ -34,21 +34,24 @@ const ROUTE_MAPPER:Record<string,string> = {
     "electro_energy_node":RoutePathAuth.el_subcat,
 };
 
+
 export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewProps>) {
     const { className, id, adress } = props;
     const { data, isLoading,refetch } = getObjectSubcategoryData(id);
+    useEffect(()=>{
+        refetch();
+    },[]);
     const [editOrder,{isLoading: isUpdating}] = editSubcatOrder();
     const dispatch = useAppDispatch();
     const {selectedItem} = useSelector((state:StateSchema)=>state.subcatCards);
     const navigate = useNavigate();
-    const markerIcon = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-    const markerColor = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-    const Icon = IconMapper[markerIcon] as React.FunctionComponent<React.SVGAttributes<SVGElement>>;
     const onSubcatClick = (el: SubcategoryAnswer) => {
         return ROUTE_MAPPER[el.subcategory_type] + el.id;
     };
-    const mods = {
-    };
+    const calculateMods = useCallback((index:number)=>({
+        [cls.greymarker]:data?.data[index].status==="no_answer",
+        [cls.greenmarker]:data?.data[index].status==="success",
+    }),[data]);
 
     const dragStartHandler = (e:React.DragEvent<HTMLDivElement>,el:SubcategoryAnswer) => {
         // console.log("старт на ",el.name,el.user_object);
@@ -92,7 +95,7 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
                             alignItems="center"
                             onClick={() =>navigate(onSubcatClick(el))}
                             key={el.id}
-                            className={classNames(cls.systemLine, mods, [])}
+                            className={classNames(cls.systemLine, calculateMods(i), [])}
                             draggable={true}
                             onDragStart={(e)=>dragStartHandler(e,el)}
                             onDragLeave={dragLeaveHandler}

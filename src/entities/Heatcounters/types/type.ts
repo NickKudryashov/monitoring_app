@@ -17,6 +17,7 @@ export interface HeatParameters {
     verbose_name:string,
     tag?:string;
     comment?:string;
+    exclude:boolean;
 }
 
 export interface HeatSystem {
