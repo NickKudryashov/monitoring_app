@@ -78,7 +78,7 @@
     background: var(--subcolor-3);
     color:var(--subcolor-9);
     box-shadow: var(--sub-shadow-dark);
-    font-size: 0.67vw;
+    font-size: 0.64vw;
     font-weight: bold;
 }
 
@@ -122,7 +122,7 @@
 @media (max-width:1170px)
 {
     .ObjectCategoryView {
-        flex: 1 0 28%; /* explanation below */
+        // flex: 1 0 28%; /* explanation below */
 
     }
 }
@@ -131,7 +131,7 @@
 @media (max-width:1170px)
 {
     .ObjectCategoryView {
-        flex: 1 0 25%; /* explanation below */
+        // flex: 1 0 25%; /* explanation below */
 
     }
 }

@@ -1,12 +1,6 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./Sidebar.module.scss";
-import AddCategoryIcon from "shared/assets/icons/addFolderIcon.svg";
-import AddHeatCounter from "shared/assets/icons/addHeatCounterIcon.svg";
-import AddObjectIcon from "shared/assets/icons/addObjectIcon.svg";
 import { PropsWithChildren, useCallback, useEffect, useRef, useState } from "react";
-import { AddObject } from "features/AddObject";
-import { AddHeatDevice } from "features/AddHeatDevice";
-import { AddCategory } from "features/AddCategory";
 import AdminIcon from "shared/assets/icons/SidebarAdminIcon.svg";
 import AdressIcon from "shared/assets/icons/SidebarAdressIcon.svg";
 import AnaliticIcon from "shared/assets/icons/SidebarAnaliticsIcon.svg";
@@ -53,13 +47,7 @@ export function Sidebar(props: PropsWithChildren<SidebarProps>) {
     },[]);
     return (
         <div ref={devRef}  className={classNames(cls.Sidebar,{ [cls.collapsed]: collapsed },[className])}>
-            <AddCategory onClose={acceptCategory} isOpen={categoryFormOpened}/>
-            <AddObject onClose={acceptObject} isOpen={objectFormOpened}/>
-            <AddHeatDevice onClose={acceptHeatDevice} isOpen={heatDeviceFormOpened}/>
             <div className={cls.items} onClick={(e)=>e.stopPropagation()}>
-                {/* <AddCategoryIcon fill={"white"} className={cls.icon} onClick={()=>setCategoryFormOpened(true)}/>
-                <AddObjectIcon className={cls.icon} onClick={()=>setObjectFormOpened(true)}/>
-                <AddHeatCounter className={cls.icon} onClick={()=>setHeatDeviceFormOpened(true)}/> */}
                 <SidebarItem onClick={()=>navigate(RoutePathAuth.category+"1")} Icon={UserObjectIcon} minimized={collapsed} annotation="ОБЪЕКТЫ"/>
                 <SidebarItem onClick={()=>navigate(RoutePathAuth.detail_objects)} Icon={AdressIcon} minimized={collapsed} annotation="АДРЕСА"/>
                 <SidebarItem Icon={EventIcon} minimized={collapsed} annotation="СОБЫТИЯ"/>

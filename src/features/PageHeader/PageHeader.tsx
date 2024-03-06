@@ -21,10 +21,10 @@ export function PageHeader (props:PageHeaderProps) :React.ReactElement {
                     <p className={cls.subsystemNameField}>{generalData ? generalData.subcat_name : "..."}</p>
                 </div>
             </div>
-            <HFlexBox  width="24%"  align="space-around" alignItems="center" className={cls.subcatObjectInfoTextGroup}>
+            <HFlexBox  width="27%"  align="space-around" alignItems="center" className={cls.subcatObjectInfoTextGroup}>
                 <p>Дата последнего обновления:</p>
                 <div className={cls.dateField}>
-                    <p>11.11.11</p>
+                    <p>{generalData?.last_update}</p>
                 </div>
             </HFlexBox>
             <HFlexBox width="20%" height="40%" align="space-around" alignItems="center">

@@ -13,6 +13,7 @@ import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
+import ViewChangeIcon from "shared/assets/icons/ViewChangeIcon.svg";
 export interface ObjectsDetailPageProps {
  className?: string;
 }
@@ -24,18 +25,15 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     let content;
-    const onKeyDown = ({ctrlKey,metaKey,key,repeat}:KeyboardEvent) => {
-        if (repeat) return;
+    const onChangeViewClick = () => {
         // Handle both, `ctrl` and `meta`.
-        if ((metaKey || ctrlKey) && key === "0") {
-            setDefaultView((prev)=>
-            {
-                localStorage.setItem("view", prev ? "1" : "");
+        setDefaultView((prev)=>
+        {
+            localStorage.setItem("view", prev ? "1" : "");
 
-                return !prev;  
-            }
-            );
+            return !prev;  
         }
+        );
     };
     const openHandler = (index:number)=>{
         setOpened((prev)=>{
@@ -52,11 +50,6 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
     // }
     useEffect(()=>{
         dispatch(objectsAllRequest());
-        
-        document.addEventListener("keydown",onKeyDown);
-        return ()=>{
-            document.removeEventListener("keydown",onKeyDown);
-        };
     },[]);
     
 
@@ -103,9 +96,10 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
     
 
     return (
-        <div className={classNames(cls.ObjectsDetailPage, {}, [className])}>
+        <HFlexBox className={classNames(cls.ObjectsDetailPage, {}, [className])}>
             {content}
-        </div>
+            <ViewChangeIcon onClick={onChangeViewClick}/>
+        </HFlexBox>
     );
 });
 ObjectsDetailPage.displayName="ObjectsDetailPage";
