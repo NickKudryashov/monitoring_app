@@ -12,6 +12,7 @@ import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { Modal } from "shared/ui/Modal/Modal";
 import cls from "./AddHeatDevice.module.scss";
 import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
+import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 interface AddHeatDeviceProps {
  className?: string;
  onClose?:()=>void;
@@ -21,11 +22,13 @@ interface AddHeatDeviceProps {
 interface DevCon {
     TCP:string;
     UDP:string;
+    GSM:string;
 }
 
 const DeviceConnection:DevCon =  {
     TCP:"TCP",
-    UDP:"UDP"
+    UDP:"UDP",
+    GSM:"GSM"
 } as const;
 
 const TEROSS_TYPE="teross";
@@ -47,13 +50,14 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const [deviceType,setDeviceType] = useState(TEROSS_TYPE);
     const [ip,setIp] = useState("");
     const [port,setPort]=useState("");
+    const [phone,setPhone]=useState("");
     const [connectionProtocol,setConenctionProtocol] = useState(DeviceConnection.TCP);
     const [systems,setSystems] = useState([]);
 
     const [systemCount,setSystemCount] = useState("-1");
 
     const addHandler = async ()=> {
-        const connection_info = {port,ip,connection_type:connectionProtocol};
+        const connection_info = connectionProtocol!==DeviceConnection.GSM ? {port,ip,connection_type:connectionProtocol} : {connection_type:connectionProtocol,phone};
         const user_object = Number(selectedObj);
         const body = {
             name,
@@ -95,12 +99,21 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                 Добавить новый прибор:
                 <AppInput theme={InputThemes.OUTLINE} value={name} onChange={e=>setName(e.target.value)} placeholder="Название прибора"/>
                 <AppInput theme={InputThemes.OUTLINE} value={deviceNum} onChange={e=>setDeviceNum(e.target.value)} placeholder="Номер прибора"/>
-                <AppInput theme={InputThemes.OUTLINE} value={ip} onChange={e=>setIp(e.target.value)} placeholder="IP адрес"/>
-                <AppInput theme={InputThemes.OUTLINE} value={port} onChange={e=>setPort(e.target.value)} placeholder="Порт"/>
+                
                 <select value={connectionProtocol} onChange={e=>setConenctionProtocol(e.target.value)}>
                     <option value={DeviceConnection.TCP}>{DeviceConnection.TCP}</option>
                     <option value={DeviceConnection.UDP}>{DeviceConnection.UDP}</option>
+                    <option value={DeviceConnection.GSM}>{DeviceConnection.GSM}</option>
                 </select>
+                {connectionProtocol!==DeviceConnection.GSM ?
+                    <VFlexBox>
+                        <AppInput theme={InputThemes.OUTLINE} value={ip} onChange={e=>setIp(e.target.value)} placeholder="IP адрес"/>
+                        <AppInput theme={InputThemes.OUTLINE} value={port} onChange={e=>setPort(e.target.value)} placeholder="Порт"/>
+                    </VFlexBox> :
+                    <VFlexBox>
+                        <AppInput theme={InputThemes.OUTLINE} value={phone} onChange={e=>setPhone(e.target.value)} placeholder="Телефон"/>
+                    </VFlexBox>
+                }
                 <select value={deviceType} onChange={e=>setDeviceType(e.target.value)}>
                     <option value={ST10_229}>{"ВТЭ-1П140(141) тип 229"}</option>
                     <option value={ST10_234}>{"ВТЭ-1П140(141) тип 234"}</option>
