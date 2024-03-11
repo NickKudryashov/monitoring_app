@@ -16,19 +16,24 @@ interface AddObjectProps {
  onClose?:()=>void;
  isOpen?:boolean;
 }
-
+const MOCK_TYPES = [
+    "МЦД","Детский сад","Школы","ИП"
+];
 export function AddObject(props: PropsWithChildren<AddObjectProps>) {
     const { className,isOpen,onClose } = props;
-    const {categories} = useSelector((state:StateSchema)=>state.category);
-    const [selectedCat,setSelectedCat] = useState("");
+    // const {categories} = useSelector((state:StateSchema)=>state.category);
+    const [abonent,setSelectedAbonent] = useState("");
+    const [address,setSelectedAdress] = useState("");
     const [name,setName] = useState("");
+    const [objType,setObjType] = useState("");
     const dispatch = useAppDispatch();
     
 
     const addHandler = async ()=> {
         const body = {
             name,
-            category:Number(selectedCat)
+            abonent,
+            address
         };
         await $api.post("objects/add",body);
         dispatch(objectsAllRequest());
@@ -40,8 +45,11 @@ export function AddObject(props: PropsWithChildren<AddObjectProps>) {
             <div className={cls.AddObject}>
                 Добавить новый объект:
                 <AppInput theme={InputThemes.OUTLINE} value={name} onChange={e=>setName(e.target.value)} placeholder="Название объекта"/>
-                <select value={selectedCat} onChange={e=>setSelectedCat(e.target.value)}>
-                    {categories.map(cat=><option key={cat.id}  value={cat.id}>{cat.name}</option>)}
+                <AppInput theme={InputThemes.OUTLINE} value={address} onChange={e=>setSelectedAdress(e.target.value)} placeholder="Адрес"/>
+                <AppInput theme={InputThemes.OUTLINE} value={abonent} onChange={e=>setSelectedAbonent(e.target.value)} placeholder="Абонент"/>
+                <select value={objType} onChange={e=>setObjType(e.target.value)}>
+                    <option disabled value={""}>{"Тип объекта:"}</option>
+                    {MOCK_TYPES.map(cat=><option key={cat}  value={cat}>{cat}</option>)}
                 </select>
                 <AppButon onClick={addHandler}>OK</AppButon>
             </div>

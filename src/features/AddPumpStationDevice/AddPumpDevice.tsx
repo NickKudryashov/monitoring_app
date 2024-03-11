@@ -10,6 +10,7 @@ import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { Modal } from "shared/ui/Modal/Modal";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { fetchPumpDevice } from "entities/PumpDevice";
+import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
 
 interface AddPumpDeviceProps {
  className?: string;
@@ -49,11 +50,11 @@ export const AddPumpDevice = memo((props: PropsWithChildren<AddPumpDeviceProps>)
     const { className,isOpen,onClose,lazy=true } = props;
     const [devType,setDevType] = useState(AVAILABLE_TYPE);
     const {objects} = useSelector((state:StateSchema)=>state.objects);
-    const {entities} = useSelector((state:StateSchema)=>state.objSubCat);
     const [selectedSubcat,setSelectedSubcat] = useState("-1");
     const [dnum,setDnum] = useState("");
     const [name,setName] = useState("");
     const [selectedObj,setSelectedObj] = useState("-1");
+    const { data, isLoading,refetch } = getObjectSubcategoryData(Number(selectedObj));
     const [connectionProtocol,setConenctionProtocol] = useState(DeviceConnection.TCP);
     const [ip,setIp] = useState(""); 
     const [port,setPort] = useState("");
@@ -108,7 +109,7 @@ export const AddPumpDevice = memo((props: PropsWithChildren<AddPumpDeviceProps>)
                 </select>
                 <select value={selectedSubcat} onChange={e=>setSelectedSubcat(e.target.value)}>
                     <option disabled={true} value="-1">Выберите подкатегорию</option>
-                    {Object.values(entities).map(obj=>obj.user_object===Number(selectedObj)&&<option key={obj.id}  value={obj.id}>{obj.name}</option>)}
+                    {data?.data.map(obj=>obj.user_object===Number(selectedObj)&&<option key={obj.id}  value={obj.id}>{obj.name}</option>)}
                 </select>
                 <select value={connectionProtocol} onChange={e=>setConenctionProtocol(e.target.value)}>
                     <option value={DeviceConnection.TCP}>{DeviceConnection.TCP}</option>

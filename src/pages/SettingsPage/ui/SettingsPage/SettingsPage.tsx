@@ -5,6 +5,11 @@ import classNames from "shared/lib/classNames/classNames";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { AddCategory } from "features/AddCategory";
+import { AddHeatDevice } from "features/AddHeatDevice";
+import { AddElectroDevice } from "features/AddElectroDevice";
+import { AddPumpDevice } from "features/AddPumpStationDevice";
+import { AddAutoDevice } from "features/AddAutoDevice";
+import { AddObject } from "features/AddObject";
 interface SettingsPageProps {
     className?: string;
    }
@@ -13,6 +18,11 @@ const MOCK1 = [1,2,3,4,5,6,7];
 const SettingsPage = (props: PropsWithChildren<SettingsPageProps>) => {
     const { className } = props;
     const [addSubcatModal,setAddSubcatModal] = useState(false);
+    const [addHeatModal,setAddHeatModal] = useState(false);
+    const [addPumpModal,setPumpModal] = useState(false);
+    const [addElectroModal,setElectroModal] = useState(false);
+    const [addAutoModal,setAutoModal] = useState(false);
+    const [addObjectModal,setAddObjectModal] = useState(false);
     const content = (
         <DetailView>
             <HFlexBox gap="20px" height="90%" align="center" className={cls.plate}>
@@ -23,12 +33,47 @@ const SettingsPage = (props: PropsWithChildren<SettingsPageProps>) => {
                             <VFlexBox width="90%"  gap="5px" alignItems="center" align="space-around" height="80%">
                                 { MOCK1.map((el1)=>
                                     <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"} key={el}>
-                                        {  (el!=="СИСТЕМЫ" || el1!==1) &&<p>Фича</p>}
+                                        {  (el!=="СИСТЕМЫ" || el1>6) &&<p>Фича</p>}
                                         {
                                             el==="СИСТЕМЫ" && el1===1 && 
                                             <div>
                                                 <p onClick={()=>setAddSubcatModal(true)}>Добавить систему</p>
                                                 <AddCategory isOpen={addSubcatModal} onClose={()=>setAddSubcatModal(false)} />
+                                            </div>
+                                        }
+                                        {
+                                            el==="СИСТЕМЫ" && el1===2 && 
+                                            <div>
+                                                <p onClick={()=>setAddHeatModal(true)}>Добавить теплосчетчик</p>
+                                                <AddHeatDevice isOpen={addHeatModal} onClose={()=>setAddHeatModal(false)} />
+                                            </div>
+                                        }
+                                        {
+                                            el==="СИСТЕМЫ" && el1===3 && 
+                                            <div>
+                                                <p onClick={()=>setElectroModal(true)}>Добавить электро</p>
+                                                <AddElectroDevice isOpen={addElectroModal} onClose={()=>setElectroModal(false)} />
+                                            </div>
+                                        }
+                                        {
+                                            el==="СИСТЕМЫ" && el1===4 && 
+                                            <div>
+                                                <p onClick={()=>setPumpModal(true)}>Добавить насосную</p>
+                                                <AddPumpDevice isOpen={addPumpModal} onClose={()=>setPumpModal(false)} />
+                                            </div>
+                                        }
+                                        {
+                                            el==="СИСТЕМЫ" && el1===5 && 
+                                            <div>
+                                                <p onClick={()=>setAutoModal(true)}>Добавить автоматику</p>
+                                                <AddAutoDevice isOpen={addAutoModal} onClose={()=>setAutoModal(false)} />
+                                            </div>
+                                        }
+                                        {
+                                            el==="СИСТЕМЫ" && el1===6 && 
+                                            <div>
+                                                <p onClick={()=>setAddObjectModal(true)}>Добавить объект</p>
+                                                <AddObject isOpen={addObjectModal} onClose={()=>setAddObjectModal(false)} />
                                             </div>
                                         }
                                     </HFlexBox>)}

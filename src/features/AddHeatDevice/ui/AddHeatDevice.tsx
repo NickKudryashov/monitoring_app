@@ -11,6 +11,7 @@ import { AppButon } from "shared/ui/AppButton/AppButton";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { Modal } from "shared/ui/Modal/Modal";
 import cls from "./AddHeatDevice.module.scss";
+import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
 interface AddHeatDeviceProps {
  className?: string;
  onClose?:()=>void;
@@ -36,9 +37,10 @@ const ST20_239="st20_239";
 export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const { className,isOpen,onClose } = props;
     const {objects} = useSelector((state:StateSchema)=>state.objects);
-    const {entities} = useSelector((state:StateSchema)=>state.objSubCat);
+
     const [selectedObj,setSelectedObj] = useState("-1");
     const [selectedSubcat,setSelectedSubcat] = useState("-1");
+    const { data, isLoading,refetch } = getObjectSubcategoryData(Number(selectedObj));
     const [name,setName] = useState("");
     const dispatch = useAppDispatch();
     const [deviceNum,setDeviceNum]=useState("");
@@ -113,7 +115,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                 </select>
                 <select value={selectedSubcat} onChange={e=>setSelectedSubcat(e.target.value)}>
                     <option disabled={true} value="-1">Выберите подкатегорию</option>
-                    {Object.values(entities).map(obj=>obj.user_object===Number(selectedObj)&&<option key={obj.id}  value={obj.id}>{obj.name}</option>)}
+                    {data?.data.map(obj=>obj.user_object===Number(selectedObj)&&<option key={obj.id}  value={obj.id}>{obj.name}</option>)}
                 </select>
                 <select value={systemCount} onChange={systemsChanged}>
                     <option disabled={true} value="-1">Выберите количество тепловых систем</option>
