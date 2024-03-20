@@ -10,6 +10,8 @@ import { AddElectroDevice } from "features/AddElectroDevice";
 import { AddPumpDevice } from "features/AddPumpStationDevice";
 import { AddAutoDevice } from "features/AddAutoDevice";
 import { AddObject } from "features/AddObject";
+import { useNavigate } from "react-router-dom";
+import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 interface SettingsPageProps {
     className?: string;
    }
@@ -23,6 +25,7 @@ const SettingsPage = (props: PropsWithChildren<SettingsPageProps>) => {
     const [addElectroModal,setElectroModal] = useState(false);
     const [addAutoModal,setAutoModal] = useState(false);
     const [addObjectModal,setAddObjectModal] = useState(false);
+    const navigate = useNavigate();
     const content = (
         <DetailView>
             <HFlexBox gap="20px" height="90%" align="center" className={cls.plate}>
@@ -33,7 +36,7 @@ const SettingsPage = (props: PropsWithChildren<SettingsPageProps>) => {
                             <VFlexBox width="90%"  gap="5px" alignItems="center" align="space-around" height="80%">
                                 { MOCK1.map((el1)=>
                                     <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"} key={el}>
-                                        {  (el!=="СИСТЕМЫ" || el1>6) &&<p>Фича</p>}
+                                        {  el!=="СИСТЕМЫ" &&<p>Фича</p>}
                                         {
                                             el==="СИСТЕМЫ" && el1===1 && 
                                             <div>
@@ -74,6 +77,12 @@ const SettingsPage = (props: PropsWithChildren<SettingsPageProps>) => {
                                             <div>
                                                 <p onClick={()=>setAddObjectModal(true)}>Добавить объект</p>
                                                 <AddObject isOpen={addObjectModal} onClose={()=>setAddObjectModal(false)} />
+                                            </div>
+                                        }
+                                        {
+                                            el==="СИСТЕМЫ" && el1===7 && 
+                                            <div>
+                                                <p onClick={()=>navigate(RoutePathAuth.object_subcat_edit)}>Системы объекта</p>
                                             </div>
                                         }
                                     </HFlexBox>)}

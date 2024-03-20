@@ -11,12 +11,12 @@ import { getAutomaticDevice } from "entities/AutomaticDevice/api/AutomaticDevice
 import { getAutomaticDevId } from "pages/AutoSubcategoryPage/api/api";
 import $api from "shared/api";
 import { ParameterColumn } from "../ParameterColumn/ParameterColumn";
-import { AutoPoll, useAutoPoll } from "entities/AutomaticDevice";
+import { useAutoPoll } from "entities/AutomaticDevice";
 import { GeneralInfoBlock } from "features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { PumpParameter } from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
 import { Footer } from "shared/ui/Footer/Footer";
-import { groupEnd } from "console";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 interface AutoSubcategoryPageProps {
     className?: string;
    }
@@ -99,20 +99,29 @@ const AutoSubcategoryPage = (props: PropsWithChildren<AutoSubcategoryPageProps>)
                     />
                     <VFlexBox width={ "70%"} gap={"15px"}>
                         <VFlexBox   gap={"10px"} >
-                            <HFlexBox gap="30px" className={cls.tableContentFlexbox}>
-                                {selectedTab===0 && devData &&
+                            <PanelGroup
+                                direction="vertical"
+                                autoSaveId="example"
+                            >
+                                <Panel defaultSize={75}>
+                        
+                                    <HFlexBox gap="30px" className={cls.tableContentFlexbox}>
+                                        {selectedTab===0 && devData &&
                                 Object.values(paramDictSystems).map((el,i)=>
                                     <ParameterColumn fullHeight key={i} header={`Контур ${i+1}`}  params={el}/>)
-                                }
-                                {
-                                    selectedTab===2 && paramDict && 
+                                        }
+                                        {
+                                            selectedTab===2 && paramDict && 
                                     Object.values(paramDict).map((params,i)=>
                                         <ParameterColumn detail fullHeight key={i} header={`Контур ${i+1}`} params={params}/>
                                     )
-                                }
+                                        }
                                    
-                            </HFlexBox>
-                            <Footer pollCallback={fetchEvents} />
+                                    </HFlexBox>
+                                </Panel>
+                                <PanelResizeHandle />
+                                <Footer pollCallback={fetchEvents} />
+                            </PanelGroup>
                         </VFlexBox>
                     </VFlexBox>
                 </HFlexBox>

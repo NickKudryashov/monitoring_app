@@ -17,6 +17,7 @@ import { GeneralInfoBlock } from "features/SubcategoryGeneralInfo/ui/GeneralInfo
 import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
 import { ParameterColumn } from "../ParameterView/ParameterView";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 interface PumpSubcategoryPageProps {
  className?: string;
@@ -102,27 +103,36 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
                     <VFlexBox width={"70%"} gap={"15px"}>
                         <VFlexBox   gap={"10px"} >
                             <VFlexBox className={cls.tableContentFlexbox}>
-                                {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}
-                                {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
-                                {
-                                    deviceData && deviceData.parameters &&
-                                    <HFlexBox height={"90%"} className={classNames(cls.paramGroups,{},[className,])} align="center" alignItems="start">
-                                        {selectedTab===0 && Object.keys(params)?.map((grName,i)=>
-                                            <ParameterColumn key={i} params={params[grName]} header={grName}  />
-                            
-                                        )}
-                                        {selectedTab===2 && deviceDataDetail && selectedParamSubGroup.includes("НЕИСПР") &&
-                                            <DetailParameter errors={deviceDataDetail[selectedParamGroup]?.errors}  header={selectedParamSubGroup}  />
-                            
-                                        }
-                                        {selectedTab===2 && deviceDataDetail && selectedParamSubGroup.includes("ОБЩ") &&
-                                            <DetailParameter  params={deviceDataDetail[selectedParamGroup]?.general} header={selectedParamSubGroup}  />
-                            
-                                        }
-                                    </HFlexBox>
+                                <PanelGroup
+                                    direction="vertical"
+                                    autoSaveId="example"
+                                >
+                                    <Panel defaultSize={75}>
 
-                                }
-                                <Footer pollCallback={fetchEvents}/>
+                                        {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}
+                                        {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
+                                        {
+                                            deviceData && deviceData.parameters &&
+                                            <HFlexBox  className={classNames(cls.paramGroups,{},[className,])} align="center" alignItems="start">
+                                                {selectedTab===0 && Object.keys(params)?.map((grName,i)=>
+                                                    <ParameterColumn key={i} params={params[grName]} header={grName}  />
+                            
+                                                )}
+                                                {selectedTab===2 && deviceDataDetail && selectedParamSubGroup.includes("НЕИСПР") &&
+                                                <DetailParameter errors={deviceDataDetail[selectedParamGroup]?.errors}  header={selectedParamSubGroup}  />
+                            
+                                                }
+                                                {selectedTab===2 && deviceDataDetail && selectedParamSubGroup.includes("ОБЩ") &&
+                                                <DetailParameter  params={deviceDataDetail[selectedParamGroup]?.general} header={selectedParamSubGroup}  />
+                            
+                                                }
+                                            </HFlexBox>
+
+                                        }
+                                    </Panel>
+                                    <PanelResizeHandle />
+                                    <Footer pollCallback={fetchEvents}/>
+                                </PanelGroup>
                             </VFlexBox>
                             {/* {deviceData && deviceData.connection_info.connection_type!=="GSM" && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />} */}
                         </VFlexBox>

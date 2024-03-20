@@ -11,6 +11,7 @@ import { MainPage } from "pages/MainPage";
 import { MapPage } from "pages/MapPage";
 import { MockPage } from "pages/MockPage";
 import { ObjectPage } from "pages/ObjectPage";
+import { ObjectSubcatEditPage } from "pages/ObjectSubcatEditPage";
 import { ObjectDetailPage } from "pages/ObjectsDetailPage";
 import { PumpDevicePage } from "pages/PumpDevicePage";
 import { PumpSubcategoryPage } from "pages/PumpSubcategoryPage";
@@ -42,6 +43,9 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
     [AppRoutesAuth.OBJECT]:{
         path:`${RoutePathAuth.object}:id`,
         element:<ObjectPage/>},
+    [AppRoutesAuth.OBJECT_EDIT_SUBCAT]:{
+        path:`${RoutePathAuth.object_subcat_edit}`,
+        element:<ObjectSubcatEditPage/>},
     [AppRoutesAuth.DETAIL_OBJECTS]:{
         path:RoutePathAuth.detail_objects,
         element:<ObjectDetailPage/>},

@@ -20,13 +20,13 @@ export function ParameterColumn (props:ParameterColumnProps):ReactElement{
     const {params,className,header,fullWidth=false,fullHeight=false,detail=false} = props;
     console.log(params);
     return(
-        <VFlexBox width={fullWidth ? "100%" :"45%"} height={fullHeight ? "95%" :"45%"} alignItems="center"className={cls.paramFlexBox}>
+        <VFlexBox width={fullWidth ? "100%" :"45%"} height={fullHeight ? "100%" :"45%"} alignItems="center"className={cls.paramFlexBox}>
             {/* <div className={cls.paramBoxHeader}> */}
             <p className={classNames(cls.sysHeader,{},[cls.paramBoxHeader])}>{header}</p>
             {/* </div> */}
             <VFlexBox className={cls.rows} height="95%">
                 {params?.map((elem,i) =>
-                    <VFlexBox width="90%" height={`${5+6*elem.parameters.length}%`} gap="7px" key={i}>
+                    <VFlexBox width="90%" height={`${5+6*elem.parameters.length}%`} gap="5px" key={i}>
                         <p className={cls.groupLabel} >{elem.name}</p>
                         {
                             elem.parameters.map((oaram)=>

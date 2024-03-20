@@ -23,7 +23,7 @@ export function SystemsInfoBLock (props:SystemsInfoBLockProps):ReactElement{
                 {/* </div> */}
                 <VFlexBox className={cls.rows} alignItems="center" height="80%">
                     {systems?.map((elem) => 
-                        <VFlexBox height={"10%"} width={"80%"}  key={elem.id} alignItems="end" align="space-around">
+                        <VFlexBox height={"20%"} width={"80%"}  key={elem.id} alignItems="end" align="space-around">
                             <HFlexBox align="space-around">
                                 <p>{`ТЕПЛОВАЯ СХЕМА ${elem.index+1}`}</p>
                                 <p>{elem.name ?? ""}</p>

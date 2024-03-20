@@ -28,6 +28,10 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
     const [showEvents,setShowEvents] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    // const au = new Audio("/leave.m4a");
+    // au.muted = true;
+    // const onExitHover = () =>au.play();
+    // const onExitHover1 = () =>au.pause();
     return (
         <div className={classNames(cls.Navbar,{},[className])}>
 
@@ -67,6 +71,8 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                         theme={AppButtonTheme.DESIGNED_OUTLINE}
                         onClick={()=>dispatch(userSlice.actions.logout())}
                         className={classNames(cls.blocks,{},[cls.btns])}
+                        // onMouseEnter={onExitHover}
+                        // onMouseLeave={onExitHover1}
                     >
                         выход
                     </AppButon>}

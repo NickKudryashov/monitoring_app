@@ -8,23 +8,18 @@ import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { Footer } from "shared/ui/Footer/Footer";
 import { getConfigParams, getHeatDevs } from "../../api/api";
-import { HeatPoll, getHeatDeviceData, useHeatPoll } from "entities/Heatcounters";
+import { getHeatDeviceData, useHeatPoll } from "entities/Heatcounters";
 import { HeatParameters } from "entities/Heatcounters/types/type";
 import $api from "shared/api";
 import { EventAnswer } from "shared/types/eventTypes";
 import { GeneralInfoBlock } from "../../../../features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
-import { SystemCard } from "../SystemCard/SystemCard";
 import { ParameterView } from "../ParameterView/ParameterView";
 import { ArchiveView } from "../ArchiveView/ArchiveView/ArchiveView";
-import { SubcatTabs } from "features/SubcatTabs";
 import { PageHeader, getSubcatGeneralInfo } from "features/PageHeader";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { SystemsInfoBLock } from "../SystemsInfoBlock/SystemsInfoBlock";
-import { ParameterColumn } from "../ParameterColumn/ParameterColumn";
 import { ConfigParameterColumn } from "../ConfigParameterColumn/ConfigParameterColumn";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
-import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
-
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 interface HeatSubcategoryPageProps {
  className?: string;
 }
@@ -54,7 +49,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     },[id]);
     const filterInstant = (params:HeatParameters[])=>params?.filter((el)=>el.parameter_type==="instant_parameter");
     const filterAccumulate = (params:HeatParameters[])=>params?.filter((el)=>el.parameter_type==="accumulate_parameter");
-    const allParams = (params:HeatParameters[])=>params?.filter((el)=>!el.exclude);
+    const allParams = (params:HeatParameters[])=>params?.filter((el)=>!el.exclude && el.parameter_type==="instant_parameter");
     const getParams = (filt:(params:HeatParameters[])=>HeatParameters[])=>{
         const result:ParametersDict = {};
         if (deviceData?.systems) {
@@ -89,20 +84,32 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                             }}  
                     />
                     <VFlexBox width={"70%"} gap={"15px"}>
-                        <VFlexBox   gap={"10px"} >
+                        <VFlexBox   gap={"5px"} >
                             <VFlexBox className={cls.tableContentFlexbox}>
-                                {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}
-                                {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
-                                {selectedTab===3 && <ArchiveView id={String(deviceData?.id)} deviceData={deviceData}/>}
-                                {selectedTab===0 && <ParameterView  params={params}/>}
-                                {selectedTab===1 && <ParameterView  params={params}/>}
-                                {selectedTab===2 && selectedParamGroup===0 && <SystemsInfoBLock systems={deviceData?.systems} />}
-                                {selectedTab===2 && selectedParamGroup===1 && <ParameterView  params={instantParams}  />}
-                                {selectedTab===2 && selectedParamGroup===2 && <ParameterView  params={accumulateParams}  />}
-                                {selectedTab===2 && selectedParamGroup===3 && <ConfigParameterColumn  configParameters={configParameters}  />}
-                                {selectedTab===5 && <ParameterView  params={params}/>}
-                                {selectedTab===4 && <ParameterView  params={params}/>}
-                                {selectedTab === 0 &&<Footer pollCallback={fetchEvents}/>}
+                                <PanelGroup
+                                    direction="vertical"
+                                    autoSaveId="example"
+                                >
+                                    {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}
+                                    {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
+                                    <Panel defaultSize={75}>
+                                        {selectedTab===3 && <ArchiveView id={String(deviceData?.id)} deviceData={deviceData}/>}
+                                        {selectedTab===0 && 
+                                        <ParameterView  params={params}/>
+                                        }
+
+                                        {selectedTab===1 && <ParameterView  params={params}/>}
+                                        {selectedTab===2 && selectedParamGroup===0 && <SystemsInfoBLock systems={deviceData?.systems} />}
+                                        {selectedTab===2 && selectedParamGroup===1 && <ParameterView  params={instantParams}  />}
+                                        {selectedTab===2 && selectedParamGroup===2 && <ParameterView  params={accumulateParams}  />}
+                                        {selectedTab===2 && selectedParamGroup===3 && <ConfigParameterColumn  configParameters={configParameters}  />}
+                                        {selectedTab===5 && <ParameterView  params={params}/>}
+                                        {selectedTab===4 && <ParameterView  params={params}/>}
+                                    </Panel>
+                                    <PanelResizeHandle />
+                                    <Footer pollCallback={fetchEvents}/>
+                                </PanelGroup>
+
                             </VFlexBox>
                             {/* {deviceData && deviceData.connection_info.connection_type!=="GSM" && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />} */}
                         </VFlexBox>

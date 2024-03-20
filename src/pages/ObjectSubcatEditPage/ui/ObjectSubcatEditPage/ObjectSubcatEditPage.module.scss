@@ -1,0 +1,78 @@
+.ObjectSubcatEditPage {
+    font:var(--font-14-px);
+    color:var(--subcolor-9);
+    font-size: 0.9vw;
+}
+
+
+
+
+.cardBox {
+    flex-wrap: wrap;
+}
+
+.systemBox {
+    border-radius: var(--border-radius-type-3);
+    box-shadow: var(--shadow-redesign);
+}
+
+.cardTitle {
+    background: var(--subcolor-4);
+    font-weight: bold;
+}
+
+.systemLine {
+    border: 1px solid var(--color-for-hints);
+    border-radius: var(--border-radius-type-3);
+    font-size: 0.75vw;
+    margin-top: 3px;
+}
+
+.toggler {
+    border:1px solid var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
+}
+
+.switchCheckbox {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+.switchLabel {
+    cursor: pointer;
+    position: relative;
+    border: 1px solid var(--subcolor-9);
+    border-radius: var(--border-radius-type-1);
+    width:70%;
+    height:100%;
+    transition: background-color .2s;
+}
+
+
+.switchLabel .switchButton {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 2px;
+    width: 30%;
+    height: 80%;
+    border-radius: 50%;
+    transition: 0.2s;
+    background: var(--subcolor-9);
+}
+
+.switchCheckbox:checked + .switchLabel .switchButton {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+}
+
+.icon {
+    justify-content: center;
+}
+
+.systemHeaders {
+    color: var(--color-for-hints);
+    font-size: 0.43vw;
+    white-space: nowrap;
+}

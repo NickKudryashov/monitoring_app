@@ -1,9 +1,14 @@
 import { url } from "inspector";
 import { rtkApi } from "shared/api/rtkApi";
+
+const TEMP = ["heat_energy_node","auto_node","pump_station_node","electro_energy_node",] as const;
+
+type SubcatType = "heat_energy_node" | "auto_node"| "pump_station_node"| "electro_energy_node"
 export interface SubcategoryAnswer {
     id:number;
     name:string;
-    subcategory_type:string | null;
+    subcategory_type:SubcatType;
+    // subcategory_type:string;
     order_index:number;
     user_object:number;
     status:string;

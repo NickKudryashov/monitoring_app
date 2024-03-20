@@ -15,6 +15,7 @@ import { Footer } from "shared/ui/Footer/Footer";
 import { ElectroCounterDeviceDetail, ElectroStatistic, TopLevelElectroDevice, getElectroDeviceData, useElectroPoll } from "entities/ElectroDevice";
 import { getElectroDevId } from "../api/api";
 import { Loader } from "shared/ui/Loader/Loader";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 interface ElectroSubcategoryPageProps {
     className?: string;
    }
@@ -78,24 +79,32 @@ const ElectroSubcategoryPage = (props: PropsWithChildren<ElectroSubcategoryPageP
                     />
                     <VFlexBox width={ "70%"} gap={"15px"}>
                         <VFlexBox   gap={"10px"} >
-                            <HFlexBox gap="30px" className={cls.tableContentFlexbox}>
-                                {
-                                    selectedTab===0 && devData &&
-                                    <VFlexBox align="space-around">
-                                        <ElectroStatistic
-                                            className={cls.statistic}
-                                            autoPollMode={devData.autopoll}
-                                            id={devData.id}
-                                            last_poll_seconds={devData.last_poll_seconds}
-                                            last_update={devData.last_update}
-                                            pollInterval={devData.interval}
-                                        />
-                                        <ElectroCounterDeviceDetail stat={devData?.statistic} className={cls.counters} devname={devData?.name} cansWithDev={devData?.counters_by_can}/>
-                                    </VFlexBox>
+                            <PanelGroup
+                                direction="vertical"
+                                autoSaveId="example"
+                            >
+                                <Panel defaultSize={75}>
+                                    <HFlexBox gap="30px" className={cls.tableContentFlexbox}>
+                                        {
+                                            selectedTab===0 && devData &&
+                                            <VFlexBox align="space-around">
+                                                <ElectroStatistic
+                                                    className={cls.statistic}
+                                                    autoPollMode={devData.autopoll}
+                                                    id={devData.id}
+                                                    last_poll_seconds={devData.last_poll_seconds}
+                                                    last_update={devData.last_update}
+                                                    pollInterval={devData.interval}
+                                                />
+                                                <ElectroCounterDeviceDetail stat={devData?.statistic} className={cls.counters} devname={devData?.name} cansWithDev={devData?.counters_by_can}/>
+                                            </VFlexBox>
                                     
-                                }
-                            </HFlexBox>
-                            <Footer pollCallback={fetchEvents} />
+                                        }
+                                    </HFlexBox>
+                                </Panel>
+                                <PanelResizeHandle />
+                                <Footer pollCallback={fetchEvents} />
+                            </PanelGroup>
                         </VFlexBox>
                     </VFlexBox>
                 </HFlexBox>

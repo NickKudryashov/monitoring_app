@@ -1,5 +1,5 @@
 import { url } from "inspector";
-import { ArchiveEvent, HeatDevice } from "../types/type";
+import { ArchiveEvent, HeatDevice, HeatParameters } from "../types/type";
 import { rtkApi } from "shared/api/rtkApi";
 
 const heatDeviceQuery = rtkApi.injectEndpoints({
@@ -10,6 +10,16 @@ const heatDeviceQuery = rtkApi.injectEndpoints({
                     url:"device/"+id,
                 };
             },
+            providesTags: (result) =>
+            // is result available?
+                result
+                    ? // successful query
+                    [
+                        { type: "HeatDevice", id: result.id},
+                        { type: "HeatDevice", id: "LIST" },
+                    ]
+                    : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
+                    [{ type: "HeatDevice", id: "LIST" }],
         }),
         getArchivesEvents:build.query<ArchiveEvent[],void>({
             query: () =>{
@@ -17,6 +27,14 @@ const heatDeviceQuery = rtkApi.injectEndpoints({
                     url:"archives_events",
                 };
             }
+        }),
+        editHeatParameterName:build.mutation<HeatParameters, Partial<HeatParameters> & Pick<HeatParameters, "id">>({
+            query:({id,...patch})=>({
+                url: `heat_parameter/${id}`,
+                method: "POST",
+                body: patch,
+            }),
+            invalidatesTags: (result, error, { id,device }) => [{ type: "HeatDevice", device }],
         })
     }),
     overrideExisting: false,
@@ -24,3 +42,4 @@ const heatDeviceQuery = rtkApi.injectEndpoints({
 
 export const getHeatDeviceData = heatDeviceQuery.useGetHeatDeviceQuery;
 export const getArchivesEvents = heatDeviceQuery.useGetArchivesEventsQuery;
+export const editHeatParameterName = heatDeviceQuery.useEditHeatParameterNameMutation;

@@ -3,6 +3,7 @@ import { ObjectResponse, PidsIds } from "../types/types";
 import { objectsAllRequest, objectsDelRequest } from "./actionCreator";
 export interface ObjectItem {
     name:string;
+    address:string;
     id:number;
     category:number;
     pids_with_ids?:PidsIds;

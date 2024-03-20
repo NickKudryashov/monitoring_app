@@ -1,0 +1,1 @@
+export {ObjSubcatEditAsync as ObjectSubcatEditPage} from "./ui/ObjectSubcatEditPage/ObjectSubcatEditPage.async";
