@@ -20,7 +20,6 @@ interface ParameterViewProps {
 
 export function ParameterView(props:ParameterViewProps): React.ReactElement {
     const {params,className} = props;
-    console.log(params);
     return (
         <HFlexBox className={classNames(cls.paramGroups,{},[className,])} align="flex-start" alignItems="start">
             {Object?.values(params ?? {})?.map((el,i) =>

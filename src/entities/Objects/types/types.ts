@@ -9,4 +9,5 @@ export interface ObjectResponse {
     category:number;
     pids_with_ids?:PidsIds
     cats:number[]
+    last_update:string;
 }

@@ -23,6 +23,7 @@ interface ObjectCategoryRowViewProps {
  openedID:number;
  setOpened:(id:number)=>void;
  adress:string;
+ last_update:string;
  id:number;
 }
 const IconMapper:any = {
@@ -32,7 +33,7 @@ const IconMapper:any = {
     "pump_station_node":PumpIcon
 };
 export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRowViewProps>) {
-    const { className,id,adress,openedID,setOpened} = props;
+    const { className,id,adress,openedID,setOpened,last_update} = props;
     const {data,isLoading,refetch} = getObjectSubcategoryData(id);
 
     useEffect(()=>{
@@ -131,7 +132,7 @@ export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRow
                                 </HFlexBox>
                                 
                                 <p className={cls.eventField}>мок событие</p>
-                                <p className={cls.datetimeField}>11.11.2011 11:11:11</p>
+                                <p className={cls.datetimeField}>{el.last_update}</p>
                             </HFlexBox>
                         )
                     }
@@ -139,6 +140,8 @@ export function ObjectCategoryRowView(props: PropsWithChildren<ObjectCategoryRow
                         <PlusIcon className={cls.addIcon}/>
                         <p>Добавить систему</p>
                     </HFlexBox>
+                    <p>{last_update}</p>
+
                 </VFlexBox>}
             
         </VFlexBox>

@@ -62,7 +62,7 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
             <DetailView className={cls.detail}>
                 {   defaultView && 
                     objects.map((el)=>
-                        <ObjectCategoryView key={el.id}  id={el.id} adress={el.name} />)
+                        <ObjectCategoryView last_update={el.last_update} key={el.id}  id={el.id} adress={el.name} />)
                 }
                 {
                     !defaultView && 
@@ -78,7 +78,7 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
                             <p style={{"width":"20%","textAlign":"center"}}>время последнего опроса</p>
                         </HFlexBox>
                         {objects.map((el)=>
-                            <ObjectCategoryRowView className={cls.objRow} key={el.id}  id={el.id} adress={el.name} openedID={openedID} setOpened={openHandler} />)}
+                            <ObjectCategoryRowView last_update={el.last_update} className={cls.objRow} key={el.id}  id={el.id} adress={el.name} openedID={openedID} setOpened={openHandler} />)}
                         
                     </VFlexBox>
                 }

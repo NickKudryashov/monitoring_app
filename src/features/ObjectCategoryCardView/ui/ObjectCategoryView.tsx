@@ -18,6 +18,7 @@ import { subcatCardSliceActions } from "../model/cardSlice";
 interface ObjectCategoryViewProps {
     className?: string;
     adress: string;
+    last_update:string;
     id: number;
 }
 const IconMapper: any = {
@@ -36,7 +37,7 @@ const ROUTE_MAPPER:Record<string,string> = {
 
 
 export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewProps>) {
-    const { className, id, adress } = props;
+    const { className, id, adress,last_update } = props;
     const { data, isLoading,refetch } = getObjectSubcategoryData(id);
     useEffect(()=>{
         refetch();
@@ -79,15 +80,15 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
 
     return (
         <VFlexBox className={classNames(cls.ObjectCategoryView, {}, [className])}>
-            <VFlexBox height="30%" className={cls.cardHeader}>
-                <b style={{"height":"18%"}} className={cls.objType}>ТИП ДАННОГО ОБЪЕКТА</b>
-                <b  style={{"height":"15%"}}>{adress}</b>
-                {
+            <VFlexBox alignItems="center" align="space-around" height="20%" className={cls.cardHeader}>
+                <b style={{"height":"47%"}} className={cls.objType}>ТИП ДАННОГО ОБЪЕКТА</b>
+                <b  style={{"height":"47%"}} className={cls.addr}  >{adress}</b>
+                {/* {
                     data &&
                     <p className={cls.sysCountPref}>{`Количество систем: ${data.count}`}</p>
-                }
+                } */}
             </VFlexBox>
-            <VFlexBox height="69%" className={cls.systemsBox}>
+            <VFlexBox height="78%" className={cls.systemsBox}>
                 {data && data.data.map((
                     (el,i) =>
                         <HFlexBox  
@@ -114,7 +115,7 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
                     <p>{"+ добавить систему"}</p>
                 </div>
             </VFlexBox>
-
+            <p className={cls.datetimeField}>{"дата последнего обновления:  "+last_update ?? "-"}</p>
 
         </VFlexBox>
     );

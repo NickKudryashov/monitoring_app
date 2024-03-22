@@ -12,6 +12,7 @@ export interface SubcategoryAnswer {
     order_index:number;
     user_object:number;
     status:string;
+    last_update:string;
 }
 
 interface ObjectAnswer {

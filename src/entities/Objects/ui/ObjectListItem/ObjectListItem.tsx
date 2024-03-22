@@ -38,7 +38,7 @@ export function ObjectListItem(props: PropsWithChildren<ObjectListItemProps>) {
             <div key={obj.id} className={cls.nested}>
                 <div className={cls.menu}>
                     <AppLink to={RoutePathAuth.object+currentObject.id}>
-                        <div onClick={()=>onClickHandler(obj)}>{obj.name}  </div>
+                        {/* <div onClick={()=>onClickHandler(obj)}>{obj.name}  </div> */}
                     </AppLink>
                     <div onClick={e=>e.stopPropagation()}>{Component()}</div>
                 </div>

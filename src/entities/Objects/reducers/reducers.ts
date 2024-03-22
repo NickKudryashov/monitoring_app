@@ -9,6 +9,7 @@ export interface ObjectItem {
     pids_with_ids?:PidsIds;
     cats:number[];
     expanded:boolean;
+    last_update:string;
 }
 
 export interface objectState {
