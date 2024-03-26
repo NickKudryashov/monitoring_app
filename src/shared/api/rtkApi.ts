@@ -21,7 +21,6 @@ const baseQueryWithReauth: BaseQueryFn<
     if (result.error && result.error.status === 401) {
     // try to get a new token
         const refresh = localStorage.getItem("refresh_token");
-        alert("РТК ПЕРЕЗАПРОС");
         const response = await axios.post(`${__API__}auth-refresh/`,{withCredentials:true,refresh});
         localStorage.setItem("access_token",response.data.access);
         // store the new token
