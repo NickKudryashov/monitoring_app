@@ -52,7 +52,7 @@ export const useHeatPoll = (props:HeatHookProps):()=>Promise<void> =>{
         }
         pollFlag.current=true;
         const response = await ManualPoll.pollDevice(Number(id));
-        const task_id = response.data.task_id;
+        const task_id = response?.data?.task_id;
         timer_ref.current = setInterval(async ()=>{
             const response = await ManualPoll.getTaskStatus(id,task_id);
             if  (response.data.result!==null) {

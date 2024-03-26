@@ -29,7 +29,7 @@ const objectSubcategoryQuery = rtkApi.injectEndpoints({
             },
             providesTags: (result) =>
             // is result available?
-                result
+                result?.data.length
                     ? // successful query
                     [
                         { type: "Subcats", id: result.data[0].id },
