@@ -18,6 +18,7 @@ export interface HeatParameters {
     tag?:string;
     comment?:string;
     exclude:boolean;
+    updated:boolean;
 }
 
 export interface HeatSystem {

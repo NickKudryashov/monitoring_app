@@ -1,22 +1,31 @@
 .archTypeBox {
-    border: 1px solid var(--subcolor-3);
-    border-radius: var(--border-radius-type-1);
+    border: 1px solid var(--subcolor-11);
+    border-radius: var(--border-radius-type-3);
     padding:20px 10px 20px 8px;
+    color:var(--subcolor-9);
+    font-size: 0.7vw;
 }
 
 .input {
-    width:22%;
-    color:var(--subcolor-3);
+    width:29%;
+    text-align: center;
+    color:var(--subcolor-9);
     border-radius: var(--border-radius-type-3);
-    border:1px solid var(--subcolor-1);
+    border:1px solid var(--subcolor-11);
     flex-shrink: 1;
+    font-size: 0.65vw;
+}
+
+.countInput {
+    width:13%;
+
 }
 
 .title {
-    width:15%;
-    margin-right: 7px;
+    width:20%;
+    font-size: 0.65vw;
+
 }
 
 .ArchTypeBLock {
-    margin-left:20px;
 }

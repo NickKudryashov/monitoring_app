@@ -52,8 +52,8 @@ const ParameterRow = (props:ParameterRowProps)=>{
                 <AppInput className={cls.inp} theme={InputThemes.CLEAR} value={paramName} onChange={onNameChange}/>
             </div>
             <p className={cls.paramNameField}>{elem.tag}</p>
-            <HFlexBox alignItems="center" align="space-around" className={cls.paramValueWrapper}  width={"30%"}>
-                <p className={cls.valueField}>{elem.value}</p>
+            <HFlexBox alignItems="center" align="space-around" className={classNames(cls.paramValueWrapper,{[cls.redMark]:!elem.updated},[])}  width={"30%"}>
+                <p className={classNames(cls.valueField,{},[])}>{elem.value}</p>
                 <p className={cls.dimensionField}>{elem.dimension}</p>
 
             </HFlexBox>

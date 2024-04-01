@@ -44,24 +44,24 @@ function SystemsBlock(props:SystemBlockProps):ReactElement {
     // setSdate(convertToDatetimeInput(mapper[currentArchtype].start_date));
     // setEdate(convertToDatetimeInput(mapper[currentArchtype].end_date));
     return (
-        <VFlexBox width="45%" gap="10px" className={cls.SystemsBlock}>
+        <VFlexBox width="49%" gap="10px" className={cls.SystemsBlock}>
             <p>тепловая система:</p>
-            <HFlexBox align="space-between" className={cls.archTypeBox}>
-                <VFlexBox width="60%"  align="space-around">
+            <HFlexBox align="space-around" alignItems="center" className={cls.archTypeBox}>
+                <VFlexBox width="35%" height="80%"  align="space-around">
                     {deviceData?.systems?.map((el,i)=>
-                        <HFlexBox className={cls.row} height="15%" gap={"4px"} alignItems="center"  key={i}>
+                        <HFlexBox className={cls.row} height="10%" gap={"4px"} alignItems="center" align="space-between"  key={i}>
                             <p className={cls.title}>{`ТС${el.index+1} `+el.schema}</p>
                             <AppInput checked={el.id===currentSystem} onClick={()=>onChangeSystem(el.id)} type="radio"/>
                         </HFlexBox>
                     )}
                 </VFlexBox> 
-                <VFlexBox width="45%">
+                <VFlexBox width="58%" height="80%">
                     <p>выбор даты:</p>
-                    <HFlexBox>
+                    <HFlexBox alignItems="center">
                         <p className={cls.dateTitle}>с:</p>
                         <AppInput value={sdate} onChange={(e)=>setSdate(e.target.value)} type="date" className={cls.input}/>
                     </HFlexBox>
-                    <HFlexBox>
+                    <HFlexBox alignItems="center">
                         <p className={cls.dateTitle}>по:</p>
                         <AppInput value={edate} onChange={(e)=>setEdate(e.target.value)} type="date" className={cls.input}/>
                     </HFlexBox>

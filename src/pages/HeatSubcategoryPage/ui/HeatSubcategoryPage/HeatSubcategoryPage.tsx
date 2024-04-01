@@ -93,7 +93,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                     {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}
                                     {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
                                     <Panel defaultSize={75}>
-                                        {selectedTab===3 && <ArchiveView id={String(deviceData?.id)} deviceData={deviceData}/>}
+                                        {selectedTab===3 && <ArchiveView generalData={generalData} id={String(deviceData?.id)} deviceData={deviceData}/>}
                                         {selectedTab===0 && 
                                         <ParameterView  params={params}/>
                                         }

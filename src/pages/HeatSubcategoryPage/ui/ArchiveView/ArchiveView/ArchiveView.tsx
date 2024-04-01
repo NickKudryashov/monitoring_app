@@ -7,14 +7,15 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { Colontitul } from "../Colontitul/Colontitul";
 import { getArchives } from "pages/HeatSubcategoryPage/api/api";
 import { HeatDevice } from "entities/Heatcounters";
-function ArchiveView(props:{id:string,deviceData:HeatDevice}):ReactElement {
-    const {id,deviceData} = props;
+import { GeneralAnswer } from "features/PageHeader/api/api";
+function ArchiveView(props:{id:string,deviceData:HeatDevice,generalData:GeneralAnswer}):ReactElement {
+    const {id,deviceData,generalData} = props;
     const {data,isLoading} = getArchives(id);
     return(
         <VFlexBox gap="20px" className={cls.ArchiveView}>
-            <HFlexBox height="70%">
+            <HFlexBox align="space-between" height="70%">
                 <PollBlock deviceData={deviceData}/>
-                {!isLoading && <CreateReportBlock deviceData={deviceData} archData={data}/>}
+                {!isLoading && <CreateReportBlock generalData={generalData} deviceData={deviceData} archData={data}/>}
                 
             </HFlexBox>
             <HFlexBox align="space-between" height="20%">

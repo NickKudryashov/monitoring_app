@@ -1,5 +1,8 @@
 .PollBlock {
-    width:40%;
+    width:38%;
+    box-shadow: var(--shadow-redesign);
+    border-radius: var(--border-radius-type-3);
+    font-size: 0.7vw;
 }
 
 .content {
@@ -8,7 +11,7 @@
 }
 
 .input {
-    color:var(--subcolor-3);
+    color:var(--subcolor-9);
     height:100%;
     border-radius: var(--border-radius-type-3);
     flex:1 0 60%;
@@ -16,11 +19,12 @@
 }
 
 .inputDate{
-    color:var(--subcolor-1);
+    color:var(--subcolor-9);
     height:100%;
     border-radius: var(--border-radius-type-3);
+    border: 1px solid var(--subcolor-11);
     flex:1 0 30%;
-    background: var(--subcolor-3);
+    background: var(--subcolor-4);
 }
 
 
@@ -37,10 +41,11 @@
 }
 
 .btn {
-    color:var(--subcolor-1);
-    background: var(--subcolor-3);
+    width: 25%;
+    color:var(--subcolor-9);
+    background: var(--subcolor-4);
     border-radius: var(--border-radius-type-3);
-    flex:1 0 20%;
+    font-size: 0.7vw;
 }
 
 .btn_selected {
@@ -60,10 +65,21 @@
 }
 
 .pollBtn {
-    color:var(--subcolor-1);
-    background: var(--subcolor-3);
-    border-radius: var(--border-radius-type-1);
+    color:var(--subcolor-9);
+    background: var(--subcolor-4);
+    border-radius: var(--border-radius-type-3);
     height:10%;
     width:90%;
     margin-bottom: 10px; 
+}
+
+.blockTitle {
+    background:var(--subcolor-4);
+    width: 100%;
+    height:10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-type-3);
+    font-weight: bold;
 }

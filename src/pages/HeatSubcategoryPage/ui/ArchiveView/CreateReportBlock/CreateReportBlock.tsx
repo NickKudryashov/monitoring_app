@@ -5,14 +5,15 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import classNames from "shared/lib/classNames/classNames";
 import { ArchTypeBlock } from "../ArchTypeBlock/ArchTypeBlock";
-import { AppButon } from "shared/ui/AppButton/AppButton";
+import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { SystemsBlock } from "../SystemsBlock/SystemsBlock";
 import { Colontitul } from "../Colontitul/Colontitul";
 import { HeatDevice } from "entities/Heatcounters";
 import { ArchivesRecord, SystemArchivesInfo } from "pages/HeatSubcategoryPage/api/api";
 import $api, { API_URL } from "shared/api";
-function CreateReportBlock(props:{deviceData:HeatDevice,archData:ArchivesRecord}):ReactElement {
-    const {deviceData,archData} = props;
+import { GeneralAnswer } from "features/PageHeader/api/api";
+function CreateReportBlock(props:{deviceData:HeatDevice,archData:ArchivesRecord,generalData:GeneralAnswer}):ReactElement {
+    const {deviceData,archData,generalData} = props;
     const [selectedSystem,setSelectedSystem] = useState<number>(deviceData?.systems[0]?.id ?? 0);
     const [selectedAtchtype, setSelectedArchtype] = useState<number>(1);
     const [sdate,setSdate] = useState("");
@@ -44,44 +45,44 @@ function CreateReportBlock(props:{deviceData:HeatDevice,archData:ArchivesRecord}
             },rej=>alert("Не удалось скачать архив!"));
     };
     return (
-        <VFlexBox className={cls.CreateReportBlock}>
-            <p>ФОРМИРОВАНИЕ:</p>
-            <VFlexBox align="flex-start" gap="5px"   height="30%" className={cls.infoBlock}>
+        <VFlexBox align="space-between" className={cls.CreateReportBlock}>
+            <p className={cls.blockTitle}>ФОРМИРОВАНИЕ</p>
+            <VFlexBox align="flex-start" gap="5px"   height="20%" className={cls.infoBlock}>
                 <HFlexBox alignItems="center" gap="15px"  align="space-between" height="50%">
-                    <HFlexBox gap="5px" width="35%">
-                        <p>прибор:</p>
-                        <AppInput disabled theme={InputThemes.DESIGNED_PRIMARY} className={cls.input} />
+                    <HFlexBox alignItems="center" gap="5px" width="38%">
+                        <p className={cls.infoBlockTitle}>прибор:</p>
+                        <AppInput disabled value={`${deviceData?.device_type_verbose_name} №${deviceData?.device_num}`} theme={InputThemes.CLEAR} className={cls.input} />
                     </HFlexBox>
-                    <HFlexBox width="60%" className={cls.longInput}>
-                        <p className={cls.infoTitle}>абонент:</p>
-                        <AppInput disabled theme={InputThemes.DESIGNED_PRIMARY} className={classNames(cls.input,{},[])} />
+                    <HFlexBox alignItems="center" width="60%" >
+                        <p className={cls.infoBlockTitle}>абонент:</p>
+                        <AppInput disabled value={generalData?.abonent} theme={InputThemes.CLEAR} className={classNames(cls.input,{},[cls.longInput])} />
                     </HFlexBox>
                     
                 </HFlexBox>
-                <HFlexBox gap="15px"  align="space-between" height="60%">
-                    <HFlexBox gap="5px" width="35%">
-                        <p>считан:</p>
-                        <AppInput disabled theme={InputThemes.DESIGNED_PRIMARY} className={cls.input} />
+                <HFlexBox gap="15px"  align="space-between" height="50%">
+                    <HFlexBox alignItems="center" gap="5px" width="38%">
+                        <p className={cls.infoBlockTitle}>считан:</p>
+                        <AppInput disabled value={""} theme={InputThemes.CLEAR} className={cls.input} />
                     </HFlexBox>
-                    <HFlexBox width="60%" className={cls.longInput}>
-                        <p>адрес:</p>
-                        <AppInput disabled theme={InputThemes.DESIGNED_PRIMARY} className={classNames(cls.input,{},[])} />
+                    <HFlexBox alignItems="center" width="60%" >
+                        <p className={cls.infoBlockTitle}>адрес:</p>
+                        <AppInput disabled value={generalData?.adress} theme={InputThemes.CLEAR} className={classNames(cls.input,{},[cls.longInput])} />
                     </HFlexBox>
                 </HFlexBox>
             </VFlexBox>
-            <HFlexBox align="space-around" width="90%" height="50%">
+            <HFlexBox align="space-around" height="50%">
                 <ArchTypeBlock currentArchtype={selectedAtchtype} onChangeArchtype={(id:number)=>setSelectedArchtype(id)} currentSystem={selectedSystem} archData={archData} />
                 <SystemsBlock sdate={sdate} edate={edate} setSdate={setSdate} setEdate={setEdate} currentArchtype={selectedAtchtype} currentSystem={selectedSystem} onChangeSystem={(id:number)=>setSelectedSystem(id)} deviceData={deviceData} archData={archData} />
             </HFlexBox>
-            <HFlexBox className={cls.btns} height="30%" width="90%" alignItems="center" align="center">
-                <VFlexBox align="space-between">
-                    <AppButon onClick={downloadPDF} className={classNames(cls.pollBtn,{},[])}>Сформировать</AppButon>
-                    <AppButon className={classNames(cls.pollBtn,{},[])}>Импорт с УС-2</AppButon>
+            <HFlexBox className={cls.btns} height="20%" width="90%" alignItems="center" align="center">
+                <VFlexBox align="center" alignItems="center">
+                    <AppButon theme={AppButtonTheme.SHADOW} onClick={downloadPDF} className={classNames(cls.pollBtn,{},[])}>сформировать</AppButon>
+                    {/* <AppButon className={classNames(cls.pollBtn,{},[])}>Импорт с УС-2</AppButon> */}
                 </VFlexBox>
-                <VFlexBox align="space-between">
+                {/* <VFlexBox align="space-between">
                     <AppButon className={classNames(cls.pollBtn,{},[])}>Экспорт файла</AppButon>
                     <AppButon className={classNames(cls.pollBtn,{},[])}>Открыть файл OPC</AppButon>
-                </VFlexBox>
+                </VFlexBox> */}
             </HFlexBox>
 
         </VFlexBox>
