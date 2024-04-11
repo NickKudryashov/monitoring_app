@@ -30,7 +30,7 @@ function ReportFilesView(props:{deviceData:HeatDevice,archData:ArchivesRecord,ge
             <VFlexBox width="48%" className={cls.reportGroup}>
                 <p className={cls.blockTitle}>МЕСЯЧНЫЕ ОТЧЕТНЫЕ ВЕДОМОСТИ</p>
                 {files?.map((el)=> el.autocreated && 
-                    <VFlexBox align="center" alignItems="center" className={cls.reportBox} onClick={()=>downloadPdf(el.filepath,el.id)} height="10%" width="95%" key={el.id}>
+                    <VFlexBox align="center" alignItems="center" className={cls.reportBox} onClick={()=>downloadPdf(el.verbose_filename+".pdf",el.id)} height="10%" width="95%" key={el.id}>
                         <p>{el.verbose_filename}</p>
                         <p>{`${el.start_date}-${el.end_date}`}</p>
                     </VFlexBox>
@@ -39,7 +39,7 @@ function ReportFilesView(props:{deviceData:HeatDevice,archData:ArchivesRecord,ge
             <VFlexBox width="48%" className={cls.reportGroup}>
                 <p className={cls.blockTitle}>ОТЧЕТЫ РУЧНОГО ФОРМИРОВАНИЯ</p>
                 {files?.map((el)=> !el.autocreated && 
-                    <VFlexBox align="center" alignItems="center" className={cls.reportBox}  onClick={()=>downloadPdf(el.filepath,el.id)} height="10%" width="95%" key={el.id}>
+                    <VFlexBox align="center" alignItems="center" className={cls.reportBox}  onClick={()=>downloadPdf(el.verbose_filename+".pdf",el.id)} height="10%" width="95%" key={el.id}>
                         <p>{el.verbose_filename}</p>
                         <p>{`${el.start_date}-${el.end_date}`}</p>
                     </VFlexBox>
