@@ -33,7 +33,7 @@ interface SystemDataRecord {
 }
 export const HeatArchives = memo((props:HeatArchivesProps) => {
     const { className,dev_id,is_open,onClose } = props;
-    const {data:dev,isLoading} = getHeatDeviceData(String(dev_id))
+    const {data:dev,isLoading} = getHeatDeviceData(String(dev_id));
     const [archType,setArchType] = useState("1");
     const [formArchType,setFormArchType] = useState("1");
     const [systemId,setSystemId] = useState("");
@@ -53,7 +53,8 @@ export const HeatArchives = memo((props:HeatArchivesProps) => {
             device_id:Number(dev_id),
             start_date:startDate,
             archive_type:Number(archType),
-            end_date:endDate
+            end_date:endDate,
+            rewrite:false
         };
         const response = await request_archives(testObj);
         if (response) {

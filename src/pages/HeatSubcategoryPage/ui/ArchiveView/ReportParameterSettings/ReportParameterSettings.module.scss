@@ -1,0 +1,15 @@
+.ReportParameterSettings {
+    background: var(--subcolor-4);
+    border-radius: var(--border-radius-type-3);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow-y: auto;
+}
+
+.input {
+    border: 1px solid var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
+    width:40%;
+    height:80%;
+    outline: none;
+}

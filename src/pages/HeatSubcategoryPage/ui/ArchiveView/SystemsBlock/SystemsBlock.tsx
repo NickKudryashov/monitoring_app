@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { AppButon } from "shared/ui/AppButton/AppButton";
 import { AppInput } from "shared/ui/AppInput/AppInput";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
@@ -32,15 +32,18 @@ const ARCHTYPE_MAPPER:Record<number,string> = {
 };
 function SystemsBlock(props:SystemBlockProps):ReactElement {
     const {deviceData,onChangeSystem,currentSystem,archData,currentArchtype,edate,sdate,setEdate,setSdate} = props;
-    const mapper:Record<number,ArchivesInfo> = {
-        0:archData[currentSystem].hour,
-        1:archData[currentSystem].day,
-        2:archData[currentSystem].month,
-    };
+    const mapper:Record<number,ArchivesInfo> = useMemo(()=>({
+        0:archData[currentSystem]?.hour,
+        1:archData[currentSystem]?.day,
+        2:archData[currentSystem]?.month,
+    }),[archData,currentSystem]);
     useEffect(()=>{
-        setSdate(convertToDatetimeInput(mapper[currentArchtype].start_date));
-        setEdate(convertToDatetimeInput(mapper[currentArchtype].end_date));
-    },[currentArchtype]);
+        if (mapper[currentArchtype]) {
+            setSdate(convertToDatetimeInput(mapper[currentArchtype]?.start_date));
+            setEdate(convertToDatetimeInput(mapper[currentArchtype]?.end_date));
+    
+        }
+    },[currentArchtype,mapper]);
     // setSdate(convertToDatetimeInput(mapper[currentArchtype].start_date));
     // setEdate(convertToDatetimeInput(mapper[currentArchtype].end_date));
     return (

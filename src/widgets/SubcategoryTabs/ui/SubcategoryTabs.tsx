@@ -22,7 +22,7 @@ interface SubcategoryTabsProps {
 export const SubcategoryTabs:React.FC<SubcategoryTabsProps> = (props:SubcategoryTabsProps)=>{
     const {setSelectedTab,className,selectedTab,content,children} = props;
     return (
-        <VFlexBox className={className} align="flex-start" alignItems="center" width="23%">
+        <VFlexBox className={classNames(cls.SubcatTabs,{},[className,])} align="flex-start" alignItems="center" width="23%">
             <AppButon 
                 className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===0},[])} width={"100%"}
                 onClick={()=>setSelectedTab(0)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ОБОБЩЕННАЯ ИНФОРМАЦИЯ</AppButon>
@@ -31,6 +31,7 @@ export const SubcategoryTabs:React.FC<SubcategoryTabsProps> = (props:Subcategory
             <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===2},[])} width={"100%"}  onClick={()=>{setSelectedTab(2);}}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ПАРАМЕТРЫ</AppButon>
             {selectedTab===2 && content[selectedTab]}
             <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===3},[])} width={"100%"}  onClick={()=>setSelectedTab(3)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>АРХИВЫ</AppButon>
+            {selectedTab===3 && content[selectedTab]}
             <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===4},[])} width={"100%"}  onClick={()=>setSelectedTab(4)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>ГРАФИКИ</AppButon>
             <AppButon className={classNames(cls.btns,{[cls.selectedBtn]:selectedTab===5},[])} width={"100%"}  onClick={()=>setSelectedTab(5)}  theme={AppButtonTheme.SUBCATEGORY_BUTTON}>МНЕМОСХЕМА</AppButon>
         </VFlexBox>

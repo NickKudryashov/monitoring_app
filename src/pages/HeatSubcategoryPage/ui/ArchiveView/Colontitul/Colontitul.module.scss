@@ -1,13 +1,32 @@
 .Colontitul {
-    background: var(--subcolor-3);
-    border-radius: var(--border-radius-type-1);
+    border-radius: var(--border-radius-type-3);
     padding-top: 10px;
     padding-bottom: 10px;
     overflow-y: auto;
+    box-shadow: var(--shadow-redesign);
 }
 
 .input {
-    border: 1px solid var(--subcolor-1);
-    border-radius: var(--border-radius-type-3);
+    border: none;
+    border-radius: var(--border-radius-type-4);
+    width:50%;
+    height:80%;
+    outline: none;
+}
+
+.keyInput {
     width:40%;
+}
+
+.row {
+    min-height: 25%;
+}
+
+.btn {
+    color:var(--subcolor-9);
+    background:white;
+    box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+    border-radius: var(--border-radius-type-3);
+    width:20%;
+    border:none;
 }

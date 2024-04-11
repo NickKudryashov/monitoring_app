@@ -1,0 +1,35 @@
+.ReportParameters {
+    background: var(--subcolor-4);
+    border-radius: var(--border-radius-type-4);
+    border:1px solid white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow-y: auto;
+    font-size:0.6vw;
+    box-shadow: var(--shadow-redesign);
+}
+
+.paramNameBox {
+    height:70%;
+
+}
+
+.subheader {
+    color:var(--color-for-hints);
+}
+
+
+.input {
+    border: 1px solid var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
+    width:40%;
+    height:80%;
+    outline: none;
+}
+
+.row {
+    white-space: nowrap;
+    border-radius: var(--border-radius-type-4);
+    border:1px solid white;
+
+}

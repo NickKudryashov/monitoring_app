@@ -7,9 +7,8 @@ import classNames from "shared/lib/classNames/classNames";
 import { ArchTypeBlock } from "../ArchTypeBlock/ArchTypeBlock";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { SystemsBlock } from "../SystemsBlock/SystemsBlock";
-import { Colontitul } from "../Colontitul/Colontitul";
 import { HeatDevice } from "entities/Heatcounters";
-import { ArchivesRecord, SystemArchivesInfo } from "pages/HeatSubcategoryPage/api/api";
+import { ArchivesRecord } from "pages/HeatSubcategoryPage/api/api";
 import $api, { API_URL } from "shared/api";
 import { GeneralAnswer } from "features/PageHeader/api/api";
 function CreateReportBlock(props:{deviceData:HeatDevice,archData:ArchivesRecord,generalData:GeneralAnswer}):ReactElement {

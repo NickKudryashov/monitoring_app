@@ -61,6 +61,8 @@
 .paramTitle {
     padding-left: 8%;
     text-decoration: underline;
+    user-select: none;
+    cursor: pointer;
 }
 
 .paramTitleSelected {

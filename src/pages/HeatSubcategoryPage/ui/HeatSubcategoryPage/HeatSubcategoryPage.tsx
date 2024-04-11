@@ -7,7 +7,7 @@ import { DetailView } from "widgets/DetailView";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { Footer } from "shared/ui/Footer/Footer";
-import { getConfigParams, getHeatDevs } from "../../api/api";
+import { getArchives, getConfigParams, getHeatDevs } from "../../api/api";
 import { getHeatDeviceData, useHeatPoll } from "entities/Heatcounters";
 import { HeatParameters } from "entities/Heatcounters/types/type";
 import $api from "shared/api";
@@ -20,6 +20,12 @@ import { SystemsInfoBLock } from "../SystemsInfoBlock/SystemsInfoBlock";
 import { ConfigParameterColumn } from "../ConfigParameterColumn/ConfigParameterColumn";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { PollBlock } from "../ArchiveView/PollBlock/PollBlock";
+import { CreateReportBlock } from "../ArchiveView/CreateReportBlock/CreateReportBlock";
+import { SubHeader } from "features/PageHeader/SubHeader/SubHeader";
+import { SimpleReport } from "../ArchiveView/SimpleReport/SimpleReport";
+import { ReportSettings } from "../ArchiveView/ReportSettings/ReportSettings";
+import { ReportFilesView } from "../ArchiveView/ReportFilesView/ReportFilesView";
 interface HeatSubcategoryPageProps {
  className?: string;
 }
@@ -29,6 +35,10 @@ interface SystemParameters {
 } 
 export type ParametersDict = Record<number,SystemParameters>
 
+interface GroupClickProps {
+    parameters?:number;
+    archive?:number;
+}
 const MOCK_TS = [1,2,3,4];
 const MOCK_PARAM = [1,2,3];
 const MOCK_PARAM_VAL = [1,2,3,4,5,6,7,8,9,10,11];
@@ -38,7 +48,9 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const [selectedSystem,setSeelctedSystem] = useState(0);
     const [selectedTab,setSeelctedTab] = useState(0);
     const [selectedParamGroup,setSelectedParamGroup] = useState(undefined);
+    const [selectedArchiveGroup,setSelectedArchiveGroup] = useState(undefined);
     const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id);
+    const {data:archData,isLoading:archLoading} = getArchives(id);
     const {data:device,isLoading:isLoadingDevices} = getHeatDevs(id);
     const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.length ? String(device[0]) : undefined,{pollingInterval:15000});
     const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem]?.id));
@@ -59,6 +71,12 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
             });
             return result;
         }};
+    
+    const onParamGroupClick = ({archive,parameters}:GroupClickProps)=>{
+        setSelectedParamGroup(parameters);
+        setSelectedArchiveGroup(archive);
+    };
+
 
     const params:ParametersDict = useMemo(()=>getParams(allParams),[deviceData]);
     const instantParams:ParametersDict = useMemo(()=>getParams(filterInstant),[deviceData]);
@@ -76,10 +94,16 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                         content={
                             {0:<GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={deviceData?.systems.length} address={generalData?.adress} name={generalData?.abonent} />,
                                 2:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
-                                    <p onClick={()=>setSelectedParamGroup(0)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===0},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>
-                                    <p onClick={()=>setSelectedParamGroup(1)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===1},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>
-                                    <p onClick={()=>setSelectedParamGroup(2)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===2},[])}>НАКОПЛЕННЫЕ ПАРАМЕТРЫ</p>
-                                    <p onClick={()=>setSelectedParamGroup(3)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===3},[])}>ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ</p>
+                                    <p onClick={()=>onParamGroupClick({parameters:0})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===0},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>
+                                    <p onClick={()=>onParamGroupClick({parameters:1})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===1},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>
+                                    <p onClick={()=>onParamGroupClick({parameters:2})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===2},[])}>НАКОПЛЕННЫЕ ПАРАМЕТРЫ</p>
+                                    <p onClick={()=>onParamGroupClick({parameters:3})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===3},[])}>ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ</p>
+                                </VFlexBox>,
+                                3:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
+                                    <p onClick={()=>onParamGroupClick({archive:0})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedArchiveGroup===0},[])}>СНЯТЬ АРХИВ</p>
+                                    <p onClick={()=>onParamGroupClick({archive:1})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedArchiveGroup===1},[])}>СФОРМИРОВАТЬ АРХИВ</p>
+                                    <p onClick={()=>onParamGroupClick({archive:2})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedArchiveGroup===2},[])}>НАСТРОЙКА ФОРМИРОВАНИЯ АРХИВА</p>
+                                    <p onClick={()=>onParamGroupClick({archive:3})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedArchiveGroup===3},[])}>СКАЧАТЬ СФОРМИРОВАННЫЙ АРХИВ</p>
                                 </VFlexBox>
                             }}  
                     />
@@ -93,7 +117,11 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                     {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}
                                     {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
                                     <Panel defaultSize={75}>
-                                        {selectedTab===3 && <ArchiveView generalData={generalData} id={String(deviceData?.id)} deviceData={deviceData}/>}
+                                        {selectedTab===3 && <SubHeader generalData={generalData} />}
+                                        {selectedTab===3 && selectedArchiveGroup==0 && <PollBlock deviceData={deviceData}/>}
+                                        {selectedTab===3 && selectedArchiveGroup==1 && <SimpleReport deviceData={deviceData}/>}
+                                        {selectedTab===3 && selectedArchiveGroup==2 && !archLoading && !isDevLoading  &&  <ReportSettings archData={archData} generalData={generalData} deviceData={deviceData}/>}
+                                        {selectedTab===3 && selectedArchiveGroup==3 && !archLoading && !isDevLoading  &&  <ReportFilesView archData={archData} generalData={generalData} deviceData={deviceData}/>}
                                         {selectedTab===0 && 
                                         <ParameterView  params={params}/>
                                         }

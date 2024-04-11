@@ -14,13 +14,11 @@ function ArchiveView(props:{id:string,deviceData:HeatDevice,generalData:GeneralA
     return(
         <VFlexBox gap="20px" className={cls.ArchiveView}>
             <HFlexBox align="space-between" height="70%">
-                <PollBlock deviceData={deviceData}/>
                 {!isLoading && <CreateReportBlock generalData={generalData} deviceData={deviceData} archData={data}/>}
-                
             </HFlexBox>
             <HFlexBox align="space-between" height="20%">
-                <Colontitul/>
-                <Colontitul/>
+                {/* <Colontitul/> */}
+                {/* <Colontitul/> */}
             </HFlexBox>
         </VFlexBox>
     );

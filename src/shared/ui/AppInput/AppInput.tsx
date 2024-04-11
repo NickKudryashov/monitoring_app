@@ -24,6 +24,7 @@ export function AppInput(props: PropsWithChildren<AppInputProps>) {
         theme=InputThemes.AUTH,
         onChange,
         value,
+        width,
         placeholder="Ввод...",
         type="text" 
     } = props;
@@ -35,6 +36,7 @@ export function AppInput(props: PropsWithChildren<AppInputProps>) {
             onChange={onChange}
             placeholder={placeholder}
             type={type}
+            style={{"width":width}}
             {...props}
         />
     );
