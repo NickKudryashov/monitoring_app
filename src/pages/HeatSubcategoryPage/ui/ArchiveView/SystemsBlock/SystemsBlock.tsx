@@ -50,7 +50,7 @@ function SystemsBlock(props:SystemBlockProps):ReactElement {
         <VFlexBox width="49%" gap="10px" className={cls.SystemsBlock}>
             <p>тепловая система:</p>
             <HFlexBox align="space-around" alignItems="center" className={cls.archTypeBox}>
-                <VFlexBox width="35%" height="80%"  align="space-around">
+                <VFlexBox width="25%" height="80%"  align="space-around">
                     {deviceData?.systems?.map((el,i)=>
                         <HFlexBox className={cls.row} height="10%" gap={"4px"} alignItems="center" align="space-between"  key={i}>
                             <p className={cls.title}>{`ТС${el.index+1} `+el.schema}</p>

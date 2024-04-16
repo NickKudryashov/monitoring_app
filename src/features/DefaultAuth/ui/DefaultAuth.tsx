@@ -12,7 +12,7 @@ import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { userReducer } from "entities/user";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { RoutePathPublic } from "shared/config/RouteConfig/RouteConfig";
+import { RoutePathAuth, RoutePathPublic } from "shared/config/RouteConfig/RouteConfig";
 
 interface DefaultAuthProps {
  className?: string;
@@ -26,6 +26,9 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
     const [rememeberUser,setRememberUser] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    if (isAuth) {
+        navigate(RoutePathAuth.main);
+    }
     return (
         <div className={classNames(cls.DefaultAuth,{},[className])}>
             

@@ -16,6 +16,7 @@ import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { useNavigate } from "react-router-dom";
 import { RoutePathPublic } from "shared/config/RouteConfig/RouteConfig";
 import SearchIcon from "shared/assets/icons/NavbarSearchIcon.svg";
+import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 interface NavbarProps {
  className?: string;
  isAuth?:boolean;
@@ -38,7 +39,10 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
             <div className={cls.blocks_group}>
                 <div className={cls.logo}>
                     <LogoIcon className={cls.logoIcon}/>
-                    <p className={cls.logoText}>АЛВИК СЕРВИС</p>
+                    <VFlexBox width="70%" align="center">
+                        <p className={cls.logoText}>АЛВИК СЕРВИС</p>
+                        <p className={cls.logoText}>v5.0 16.04.24</p>
+                    </VFlexBox>
                 </div>
                 {isAuth && <div className={cls.textInfo}>
                     <div className={cls.vTextBox}>

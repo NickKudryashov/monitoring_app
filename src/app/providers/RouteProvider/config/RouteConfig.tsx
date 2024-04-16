@@ -87,11 +87,11 @@ export const RouteConfigAuth: Record<string,RouteProps> = {
         element:<MockPage/>},
     [AppRoutesAuth.MAIN]:{
         path: RoutePathAuth.main,
-        element:<MainPage/>},
+        element:<ObjectDetailPage/>},
     [AppRoutesAuth.MAP]:{
         path: RoutePathAuth.map,
         element:<MapPage/>},
     [AppRoutesAuth.REDIRECT]:{
         path: RoutePathAuth.redir,
-        element:<MainPage/>} 
+        element:<ObjectDetailPage/>} 
 };

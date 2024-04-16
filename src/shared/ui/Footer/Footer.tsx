@@ -9,35 +9,35 @@ import { VFlexBox } from "../FlexBox/VFlexBox/VFlexBox";
 import { useViewportCheck } from "shared/hooks/useCheckInViewport";
 
 interface FooterProps {
- className?: string;
- pollCallback?:()=>Promise<EventAnswer>;
+    className?: string;
+    pollCallback?: () => Promise<EventAnswer>;
 }
 
 export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
-    const { className,pollCallback } = props;
-    const [events,setEvents] = useState<string[]>([]);
-    const intervalRef = useRef<ReturnType <typeof setInterval>>(null);
+    const { className, pollCallback } = props;
+    const [events, setEvents] = useState<string[]>([]);
+    const intervalRef = useRef<ReturnType<typeof setInterval>>(null);
     const footRef = useRef<HTMLDivElement>(null);
     const wrapRef = useRef<HTMLDivElement>(null);
     const scrollOnLoad = useRef<boolean>(true);
     const inView = useRef<boolean>(true);
-    const setInView = useCallback((arg:boolean)=>{inView.current=arg;},[]);
-    useViewportCheck({changeStatus:setInView,triggerRef:footRef,wrapperRef:wrapRef});
-    const fetchEvents =  async ()=>{
+    const setInView = useCallback((arg: boolean) => { inView.current = arg; }, []);
+    useViewportCheck({ changeStatus: setInView, triggerRef: footRef, wrapperRef: wrapRef });
+    const fetchEvents = async () => {
         const temp = await pollCallback();
         setEvents(temp.events);
-        if (scrollOnLoad.current || inView.current ) {
-            footRef.current.scrollIntoView({behavior:"smooth"});
+        if (scrollOnLoad.current || inView.current) {
+            footRef.current.scrollIntoView({ behavior: "smooth" });
             scrollOnLoad.current = false;
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         if (pollCallback) {
             fetchEvents();
-            intervalRef.current = setInterval(fetchEvents,2000);
+            intervalRef.current = setInterval(fetchEvents, 2000);
 
-            return ()=>{
+            return () => {
                 scrollOnLoad.current = true;
                 if (intervalRef.current) {
                     clearInterval(intervalRef.current);
@@ -45,20 +45,19 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
                 setEvents([]);
             };
         }
-        
-    },[pollCallback]);
+
+    }, [pollCallback]);
     return (
-        <Panel style={{"overflowY":"auto"}} id={"footer"} order={2} className={classNames(cls.Footer,{},[className])} defaultSize={20} minSize={20}  maxSize={40}>
+        <Panel style={{ "overflowY": "auto" }} id={"footer"} order={2} className={classNames(cls.Footer, {}, [className])} defaultSize={20} minSize={20} maxSize={40}>
             <VFlexBox alignItems="start" ref={wrapRef}>
                 {
-                    events.map((el,i)=>
+                    events.map((el, i) =>
                         <p key={i}>{el}</p>
                     )
                 }
-                <div ref={footRef}/>
-                ver 3.0.0 17.08.2023
+                <div ref={footRef} />
             </VFlexBox>
-            
+
         </Panel>
     );
 });

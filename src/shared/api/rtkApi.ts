@@ -33,7 +33,7 @@ const baseQueryWithReauth: BaseQueryFn<
 // Define a service using a base URL and expected endpoints
 export const rtkApi = createApi({
     reducerPath: "baseApi",
-    tagTypes:["Subcats","HeatDevice","Upcols","Downcols","ReportParameters","HeatPeriods"],
+    tagTypes:["Subcats","HeatDevice","Upcols","Downcols","ReportParameters","HeatPeriods","HeatReportFiles"],
     baseQuery: baseQueryWithReauth,
     endpoints: () => ({}),
     

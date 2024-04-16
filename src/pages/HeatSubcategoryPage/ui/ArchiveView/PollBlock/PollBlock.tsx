@@ -8,6 +8,7 @@ import classNames from "shared/lib/classNames/classNames";
 import { HeatDevice } from "entities/Heatcounters";
 import { request_archives } from "features/HeatArchives";
 import { ToggleButton } from "shared/ui/ToggleButton/ToggleButton";
+import OpenIcon from "shared/assets/icons/ArrowIcon.svg";
 const archs = [0,1,2];
 const verbmapper:Record<number,string>= { 0:"часовой",1:"суточный",2:"месячный"};
 function PollBlock(props:{deviceData:HeatDevice}):ReactElement {
@@ -61,8 +62,10 @@ function PollBlock(props:{deviceData:HeatDevice}):ReactElement {
                     <p>Дозаписывать архив</p>
                 </HFlexBox>
                 <VFlexBox height="45%" gap="3px" width={"85%"} >
-                    <p >Расширенные настройки: </p>
-                    <HFlexBox onClick={()=>setAllSettingsMode((prev)=>!prev)} className={classNames(cls.input,{},[cls.settingInput])}  />
+                    <HFlexBox onClick={()=>setAllSettingsMode((prev)=>!prev)} align="space-between" alignItems="center" className={classNames(cls.input,{},[cls.settingInput])}>
+                        <p >Расширенные настройки: </p>
+                        <OpenIcon/>
+                    </HFlexBox>
                     {allSettingsMode && 
                     <VFlexBox className={cls.moreInfoPlate} height="80%" width="95%">
                         <HFlexBox gap="3px" alignItems="center" width="95%" height="23%" onClick={()=>setMock(true)}>

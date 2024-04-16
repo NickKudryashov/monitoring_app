@@ -55,7 +55,7 @@ export interface ColontitulResponse extends ParametersResponse {
 
 export interface ReportFiles {
     id:number;
-    system:string;
+    system_id:number;
     start_date:string;
     end_date:string;
     autocreated:boolean
@@ -93,6 +93,16 @@ const heatSubcatQuery = rtkApi.injectEndpoints({
                     url:`heat_reports/files/${id}`,
                 };
             },
+            providesTags: (result) =>
+                // is result available?
+                result
+                    ? // successful query
+                    [
+                        ...result.map(({ id }) => ({ type: "HeatReportFiles", id } as const)),
+                        { type: "HeatReportFiles", id: "LIST" },
+                    ]
+                    : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
+                    [{ type: "HeatReportFiles", id: "LIST" }],
         }),
         getUpCols: build.query<ColontitulResponse[],number>({
             query: (id) => {
@@ -214,6 +224,14 @@ const heatSubcatQuery = rtkApi.injectEndpoints({
                 method: "POST",
             }),
             invalidatesTags: (result, error, { id }) => [{ type: "Downcols", id:"LIST" },{ type: "Upcols", id:"LIST" }],
+        }),
+        deleteReportFile:build.mutation<void, Partial<ReportFiles> & Pick<ReportFiles, "id">>({
+            query:({id})=>({
+                url: `heat_reports/file/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: "HeatReportFiles", id:"LIST" }],
+
         })
     }),
     overrideExisting: false,
@@ -236,3 +254,4 @@ export const getPeriods = heatSubcatQuery.useGetPeriodsQuery;
 export const createPeriod = heatSubcatQuery.useCreatePeriodsMutation;
 
 export const getFiles = heatSubcatQuery.useGetArchivesFilesQuery;
+export const deleteFile = heatSubcatQuery.useDeleteReportFileMutation;
