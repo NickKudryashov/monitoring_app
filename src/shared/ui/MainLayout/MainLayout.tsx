@@ -25,17 +25,16 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
                 <div className={cls.content}>
                     {sidebar}
                     <div className={cls.dtlWrapper}>
-                        <HFlexBox gap="25px">
+                        <HFlexBox gap="25px" align="flex-end">
                             {
                                 DetailView
                             }
                             <ChatIcon className={cls.chatIcon}/>
                         </HFlexBox>
-                        
                     </div>
                 </div>
             </div>
-
+            <p className={cls.version}>v5.1 22.04.24</p>
         </div>
     );
 });

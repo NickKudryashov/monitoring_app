@@ -96,7 +96,7 @@ const ObjectsDetailPage = memo((props:ObjectsDetailPageProps) => {
     
 
     return (
-        <HFlexBox className={classNames(cls.ObjectsDetailPage, {}, [className])}>
+        <HFlexBox className={classNames(cls.ObjectsDetailPage, {}, [className])} align="flex-end">
             {content}
             <ViewChangeIcon onClick={onChangeViewClick}/>
         </HFlexBox>

@@ -119,7 +119,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                     <Panel defaultSize={75}>
                                         {selectedTab===3 && <SubHeader generalData={generalData} />}
                                         {selectedTab===3 && selectedArchiveGroup==0 && <PollBlock deviceData={deviceData}/>}
-                                        {selectedTab===3 && selectedArchiveGroup==1 && <SimpleReport deviceData={deviceData}/>}
+                                        {selectedTab===3 && (selectedArchiveGroup==1 || selectedArchiveGroup==undefined) && <SimpleReport deviceData={deviceData}/>}
                                         {selectedTab===3 && selectedArchiveGroup==2 && !archLoading && !isDevLoading  &&  <ReportSettings archData={archData} generalData={generalData} deviceData={deviceData}/>}
                                         {selectedTab===3 && selectedArchiveGroup==3 && !archLoading && !isDevLoading  &&  <ReportFilesView archData={archData} generalData={generalData} deviceData={deviceData}/>}
                                         {selectedTab===0 && 

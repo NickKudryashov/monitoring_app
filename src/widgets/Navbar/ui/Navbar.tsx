@@ -41,7 +41,6 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                     <LogoIcon className={cls.logoIcon}/>
                     <VFlexBox width="70%" align="center">
                         <p className={cls.logoText}>АЛВИК СЕРВИС</p>
-                        <p className={cls.logoText}>v5.0 16.04.24</p>
                     </VFlexBox>
                 </div>
                 {isAuth && <div className={cls.textInfo}>
