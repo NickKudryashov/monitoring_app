@@ -26,6 +26,7 @@ import { SubHeader } from "features/PageHeader/SubHeader/SubHeader";
 import { SimpleReport } from "../ArchiveView/SimpleReport/SimpleReport";
 import { ReportSettings } from "../ArchiveView/ReportSettings/ReportSettings";
 import { ReportFilesView } from "../ArchiveView/ReportFilesView/ReportFilesView";
+import { Loader } from "shared/ui/Loader/Loader";
 interface HeatSubcategoryPageProps {
  className?: string;
 }

@@ -12,6 +12,7 @@ import { AddAutoDevice } from "features/AddAutoDevice";
 import { AddObject } from "features/AddObject";
 import { useNavigate } from "react-router-dom";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { FeatureBlock } from "../FeatureBlock/FeatureBlock";
 interface SettingsPageProps {
     className?: string;
    }
@@ -29,68 +30,114 @@ const SettingsPage = (props: PropsWithChildren<SettingsPageProps>) => {
     const content = (
         <DetailView>
             <HFlexBox gap="20px" height="90%" align="center" className={cls.plate}>
-                {
-                    MOCK.map((el)=>
-                        <VFlexBox alignItems="center" gap="15px" className={cls.featureBox} width="20%" height="49%" key={el}>
-                            <p className={cls.featureBoxHeader}>{el}</p>
-                            <VFlexBox width="90%"  gap="5px" alignItems="center" align="space-around" height="80%">
-                                { MOCK1.map((el1)=>
-                                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"} key={el}>
-                                        {  el!=="СИСТЕМЫ" &&<p>Фича</p>}
-                                        {
-                                            el==="СИСТЕМЫ" && el1===1 && 
-                                            <div>
-                                                <p onClick={()=>setAddSubcatModal(true)}>Добавить систему</p>
-                                                <AddCategory isOpen={addSubcatModal} onClose={()=>setAddSubcatModal(false)} />
-                                            </div>
-                                        }
-                                        {
-                                            el==="СИСТЕМЫ" && el1===2 && 
-                                            <div>
-                                                <p onClick={()=>setAddHeatModal(true)}>Добавить теплосчетчик</p>
-                                                <AddHeatDevice isOpen={addHeatModal} onClose={()=>setAddHeatModal(false)} />
-                                            </div>
-                                        }
-                                        {
-                                            el==="СИСТЕМЫ" && el1===3 && 
-                                            <div>
-                                                <p onClick={()=>setElectroModal(true)}>Добавить электро</p>
-                                                <AddElectroDevice isOpen={addElectroModal} onClose={()=>setElectroModal(false)} />
-                                            </div>
-                                        }
-                                        {
-                                            el==="СИСТЕМЫ" && el1===4 && 
-                                            <div>
-                                                <p onClick={()=>setPumpModal(true)}>Добавить насосную</p>
-                                                <AddPumpDevice isOpen={addPumpModal} onClose={()=>setPumpModal(false)} />
-                                            </div>
-                                        }
-                                        {
-                                            el==="СИСТЕМЫ" && el1===5 && 
-                                            <div>
-                                                <p onClick={()=>setAutoModal(true)}>Добавить автоматику</p>
-                                                <AddAutoDevice isOpen={addAutoModal} onClose={()=>setAutoModal(false)} />
-                                            </div>
-                                        }
-                                        {
-                                            el==="СИСТЕМЫ" && el1===6 && 
-                                            <div>
-                                                <p onClick={()=>setAddObjectModal(true)}>Добавить объект</p>
-                                                <AddObject isOpen={addObjectModal} onClose={()=>setAddObjectModal(false)} />
-                                            </div>
-                                        }
-                                        {
-                                            el==="СИСТЕМЫ" && el1===7 && 
-                                            <div>
-                                                <p onClick={()=>navigate(RoutePathAuth.object_subcat_edit)}>Системы объекта</p>
-                                            </div>
-                                        }
-                                    </HFlexBox>)}
-                            </VFlexBox>
-                        </VFlexBox>
-                    )
-                }
-                
+                <FeatureBlock title="ОБЪЕКТЫ">
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Добавить информацию о компании</p>
+                    </HFlexBox>
+                    <HFlexBox onClick={()=>setAddObjectModal(true)} className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p >Добавить объект</p>
+                        <AddObject isOpen={addObjectModal} onClose={()=>setAddObjectModal(false)} />
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Добавить подрядную организацию</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Сотрудники</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки событий</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Добавить участки</p>
+                    </HFlexBox>
+                </FeatureBlock>
+
+                <FeatureBlock title="СИСТЕМЫ">
+                    <HFlexBox onClick={()=>setAddSubcatModal(true)} className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p >Добавить систему</p>
+                        <AddCategory isOpen={addSubcatModal} onClose={()=>setAddSubcatModal(false)} />
+                    </HFlexBox>
+                    <HFlexBox onClick={()=>setAddHeatModal(true)} className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p >Добавить теплосчетчик</p>
+                        <AddHeatDevice isOpen={addHeatModal} onClose={()=>setAddHeatModal(false)} />
+                    </HFlexBox>
+                    <HFlexBox onClick={()=>setElectroModal(true)} className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p >Добавить электро</p>
+                        <AddElectroDevice isOpen={addElectroModal} onClose={()=>setElectroModal(false)} />
+                    </HFlexBox>
+                    <HFlexBox onClick={()=>setPumpModal(true)} className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p >Добавить насосную</p>
+                        <AddPumpDevice isOpen={addPumpModal} onClose={()=>setPumpModal(false)} />
+                    </HFlexBox>
+                    <HFlexBox onClick={()=>setAutoModal(true)} className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p >Добавить автоматику</p>
+                        <AddAutoDevice isOpen={addAutoModal} onClose={()=>setAutoModal(false)} />
+                    </HFlexBox>
+                    <HFlexBox onClick={()=>navigate(RoutePathAuth.object_subcat_edit)} className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p >Редактировать системы</p>
+                    </HFlexBox>
+
+                </FeatureBlock>
+                <FeatureBlock title="ЗАДАЧИ">
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки по объекту</p>
+                    </HFlexBox>
+                </FeatureBlock>
+                <FeatureBlock title="АРХИВ">
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки архива</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Редактировать архив</p>
+                    </HFlexBox>
+                </FeatureBlock>
+                <FeatureBlock title="АНАЛИТИКА">
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки по объекту</p>
+                    </HFlexBox>
+                </FeatureBlock>
+                <FeatureBlock title="ЗАЯВКИ">
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Общие настройки</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Добавить сотрудника</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Добавить участки</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки доступа подрядной организации</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Типы заявок</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Добавить лицевой счет</p>
+                    </HFlexBox>
+                </FeatureBlock>
+                <FeatureBlock title="ПЛАНОВЫЕ РАБОТЫ">
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки по объекту</p>
+                    </HFlexBox>
+                </FeatureBlock>
+                <FeatureBlock title="ВИДЕОКАМЕРЫ">
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки</p>
+                    </HFlexBox>
+                    <HFlexBox className={cls.feature} align={"center"} alignItems="center" height={"13%"}>
+                        <p>Настройки по объекту</p>
+                    </HFlexBox>
+                </FeatureBlock>
             </HFlexBox>
         </DetailView>
     );

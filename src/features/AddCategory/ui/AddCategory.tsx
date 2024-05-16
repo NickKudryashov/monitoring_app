@@ -11,8 +11,8 @@ import { AppButon } from "shared/ui/AppButton/AppButton";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { Modal } from "shared/ui/Modal/Modal";
 import cls from "./AddCategory.module.scss";
-import { addNewSubcategory, getSubcategoryTypes } from "../api/api";
 import { objectsAllRequest } from "entities/Objects";
+import { addNewSubcategory, getSubcategoryTypes } from "entities/ObjectSubCategory";
 interface AddCategoryProps {
  className?: string;
  onClose?:()=>void;

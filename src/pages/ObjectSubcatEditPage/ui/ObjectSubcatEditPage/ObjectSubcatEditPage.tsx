@@ -5,8 +5,6 @@ import classNames from "shared/lib/classNames/classNames";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { objectsAllRequest } from "entities/Objects";
-import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
-import { SubcategoryAnswer } from "features/AddCategory/api/api";
 import { PageHeader } from "../PageHeader/PageHeader";
 import EditIcon from "shared/assets/icons/SubcatEditIcon.svg";
 import DeleteIcon from "shared/assets/icons/SubcatDeleteIcon.svg";
@@ -14,13 +12,17 @@ import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
 import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
 import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
 import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
-
+import { SubcategoryAnswer, addNewSubcategory, deleteSubcat, getObjectSubcategoryData } from "entities/ObjectSubCategory";
+import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
+import LittlePlusIcon from "shared/assets/icons/LittlePlusIcon.svg";
 interface ObjectSubcatEditPageProps {
     className?: string;
    }
 
 const TEMP = ["heat_energy_node","auto_node","pump_station_node","electro_energy_node",] as const;
+type TEMP = keyof typeof TEMP
 const TEMP_VERB = {"heat_energy_node":"СИСТЕМА ИТП","auto_node":"ВЕНТИЛЯЦИЯ/ДЫМОХОДЫ","pump_station_node":"СИСТЕМА ГВС/ХВС","electro_energy_node":"ЭЛЕКТРИКА"} as const;
+const TEMP_SUB_VERB = {"heat_energy_node":"УЗЕЛ УЧЕТА ТЕПЛОВОЙ ЭНЕРГИИ","auto_node":"АСУТП","pump_station_node":"Насосная станиця","electro_energy_node":"ВРУ"} as const;
 // interface ObjectSubcatsByType {
 //     [K in typeof TEMP]:string;
 // }
@@ -45,6 +47,8 @@ const ObjectSubcatEditPage = (props: PropsWithChildren<ObjectSubcatEditPageProps
     const [objID,setObjId] =useState("");
     const dispatch = useAppDispatch();
     const [toggled,setToggled] = useState(false);
+    const [deleteMutation] = deleteSubcat();
+    const [addSubcat] = addNewSubcategory();
     const {data:objectData,isLoading:objectIsLoading} = getObjectSubcategoryData(Number(objID));
     useEffect(()=>{
         dispatch(objectsAllRequest());
@@ -63,6 +67,11 @@ const ObjectSubcatEditPage = (props: PropsWithChildren<ObjectSubcatEditPageProps
         return result;
     },[objectData, objectIsLoading]);
 
+    const addSubcatHandler = (subtype:keyof typeof TEMP_SUB_VERB) => {
+        const namePostfix = subcatsByType[subtype] ? subcatsByType[subtype].length+1 : 1;
+        addSubcat({name:`${TEMP_SUB_VERB[subtype]} №${namePostfix}`,subcategory_type:subtype,user_object:Number(objID)});
+    };
+
     return (
         <VFlexBox alignItems="center"  className={classNames(cls.ObjectSubcatEditPage,{},[])}>
             <VFlexBox width="90%" align="space-between" alignItems="center">
@@ -74,7 +83,21 @@ const ObjectSubcatEditPage = (props: PropsWithChildren<ObjectSubcatEditPageProps
                             <HFlexBox height="10%" align="center" alignItems="center" className={cls.cardTitle}>
                                 {TEMP_VERB[subtype]}
                             </HFlexBox>
-                            <VFlexBox alignItems="center" height="90%">
+                            <VFlexBox alignItems="center" height="85%">
+                                <HFlexBox height="30%" align="center" alignItems="center">
+                                    <DropdownMenu width="95%" header="добавить систему" >
+                                        <HFlexBox alignItems="center" align="space-around">
+                                            <HFlexBox gap="10px" alignItems="center" width="70%">
+                                                {mapIcon(subtype)}
+                                                <p>{TEMP_VERB[subtype]}</p>
+                                            </HFlexBox>
+                                            <HFlexBox alignItems="center" align="space-around" className={cls.systemCountField} width="10%">
+                                                <p>{subcatsByType[subtype]?.length ?? 0}</p>
+                                                <LittlePlusIcon onClick={()=>addSubcatHandler(subtype)}/>
+                                            </HFlexBox>
+                                        </HFlexBox>
+                                    </DropdownMenu>
+                                </HFlexBox>
                                 {subcatsByType[subtype] && 
                                 <HFlexBox height="5%">
                                     <HFlexBox width="60%"/>
@@ -109,7 +132,7 @@ const ObjectSubcatEditPage = (props: PropsWithChildren<ObjectSubcatEditPageProps
                                                     </label>
                                                 </HFlexBox>
                                                 <EditIcon className={cls.icon} width={"15%"}/>
-                                                <DeleteIcon className={cls.icon} width={"15%"}/>
+                                                <DeleteIcon onClick={()=>deleteMutation({id:el.id})} className={cls.icon} width={"15%"}/>
                                             </HFlexBox>
                                         </HFlexBox>
                                     )

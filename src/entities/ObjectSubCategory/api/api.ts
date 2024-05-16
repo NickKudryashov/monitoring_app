@@ -1,0 +1,85 @@
+import { url } from "inspector";
+import { rtkApi } from "shared/api/rtkApi";
+
+const TEMP = ["heat_energy_node","auto_node","pump_station_node","electro_energy_node",] as const;
+
+type SubcatType = "heat_energy_node" | "auto_node"| "pump_station_node"| "electro_energy_node"
+export interface SubcategoryAnswer {
+    id:number;
+    name:string;
+    subcategory_type:SubcatType;
+    // subcategory_type:string;
+    order_index:number;
+    user_object:number;
+    status:string;
+    last_update:string;
+}
+
+export interface AddSubcategoryProps {
+    name?:string;
+    user_object:number;
+    subcategory_type:string;
+    // order_index:number;
+}
+
+
+interface ObjectAnswer {
+    data:SubcategoryAnswer[];
+    count:number;
+}
+const objectSubcategoryEntityQuery = rtkApi.injectEndpoints({
+    endpoints: (build) => ({
+        getObjectSubcategorys: build.query<ObjectAnswer,number>({
+            query: (id) => {
+                return {
+                    url:"subcategory/"+id,
+                };
+            },
+            providesTags: (result) =>
+            // is result available?
+                result?.data.length
+                    ? // successful query
+                    [
+                        ...result.data.map(({id})=>({ type: "Subcats", id } as const)),
+                        { type: "Subcats", id: "LIST" },
+                    ]
+                    : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
+                    [{ type: "Subcats", id: "LIST" }],
+        }),
+        getSubcategoryTypes:build.query<Record<string,string>,void>({
+            query:()=>({
+                url:"subcategory/types"
+            })
+        }),
+        addNewSubcat:build.mutation<SubcategoryAnswer, AddSubcategoryProps>({
+            query:(body)=>({
+                url: "subcategory/create",
+                method: "POST",
+                body: body,
+            }),
+            invalidatesTags: (result, error) => [{ type: "Subcats", id:"LIST" }],
+        }),
+        editSubcatOrder:build.mutation<SubcategoryAnswer, Partial<SubcategoryAnswer> & Pick<SubcategoryAnswer, "id">>({
+            query:({id,...patch})=>({
+                url: `subcategory/${id}/edit`,
+                method: "POST",
+                body: patch,
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: "Subcats", id }],
+        }),
+        deleteSubcat:build.mutation<SubcategoryAnswer, Partial<SubcategoryAnswer> & Pick<SubcategoryAnswer, "id">>({
+            query:({id})=>({
+                url: `subcategory/${id}/delete`,
+                method: "POST",
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: "Subcats", id }],
+        })
+    }),
+    overrideExisting: false,
+});
+
+export const deleteSubcat = objectSubcategoryEntityQuery.useDeleteSubcatMutation;
+export const getObjectSubcategoryData = objectSubcategoryEntityQuery.useGetObjectSubcategorysQuery;
+export const editSubcatOrder = objectSubcategoryEntityQuery.useEditSubcatOrderMutation;
+export const addNewSubcategory = objectSubcategoryEntityQuery.useAddNewSubcatMutation;
+export const getSubcategoryTypes = objectSubcategoryEntityQuery.useGetSubcategoryTypesQuery;

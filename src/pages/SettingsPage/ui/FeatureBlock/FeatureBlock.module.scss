@@ -1,0 +1,16 @@
+.featureBox {
+    box-shadow: var(--shadow-redesign);    
+    border-radius: var(--border-radius-type-3);
+}
+
+.featureBoxHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--subcolor-4);
+    text-transform: uppercase;
+    border-radius: var(--border-radius-type-3);
+    width: 100%;
+    height:11%;
+    text-align: center;
+}

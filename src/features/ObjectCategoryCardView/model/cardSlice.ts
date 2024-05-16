@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SubcategoryAnswer } from "../api/objectSubcategorysApi";
+import { SubcategoryAnswer } from "entities/ObjectSubCategory";
 
 export interface SubcatCardsSchema {
     selectedItem:SubcategoryAnswer | undefined;

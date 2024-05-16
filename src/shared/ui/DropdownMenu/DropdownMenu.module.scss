@@ -2,11 +2,15 @@
     min-height: 0;
     list-style-type: none;
     cursor: pointer;
-    background: var(--subcolor-10);
-    border-radius: var(--border-radius-type-3);
+    background: transparent;
+    position: relative;
 }
 
+.header {
+    border-radius: var(--border-radius-type-3);
+    border: 1px solid var(--subcolor-11);
 
+}
 
 .icon{
     height: 15px;
@@ -18,5 +22,11 @@
     transform: rotate(90deg);
 }
 
-
+.content {
+    position: absolute;
+    top:50%;
+    border-radius: var(--border-radius-type-3);
+    border: 1px solid var(--subcolor-11);
+    padding:2px;
+}
 

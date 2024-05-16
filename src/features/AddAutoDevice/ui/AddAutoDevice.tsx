@@ -9,8 +9,8 @@ import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { Modal } from "shared/ui/Modal/Modal";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { fetchPumpDevice } from "entities/PumpDevice";
-import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { getObjectSubcategoryData } from "entities/ObjectSubCategory";
 
 interface AddPumpDeviceProps {
  className?: string;

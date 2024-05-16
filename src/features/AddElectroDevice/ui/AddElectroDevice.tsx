@@ -9,8 +9,8 @@ import { Modal } from "shared/ui/Modal/Modal";
 import $api from "shared/api";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { fetchElectroDevices } from "entities/ElectroDevice";
-import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { getObjectSubcategoryData } from "entities/ObjectSubCategory";
 
 interface AddElectroDeviceProps {
  className?: string;

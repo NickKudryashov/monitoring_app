@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { cp } from "fs";
 import PlusIcon from "shared/assets/icons/plusSystemIcon.svg";
-import { SubcategoryAnswer, editSubcatOrder, getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { count } from "console";
@@ -18,6 +17,7 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { subcatCardSliceActions } from "features/ObjectCategoryCardView/model/cardSlice";
+import { SubcategoryAnswer, editSubcatOrder, getObjectSubcategoryData } from "entities/ObjectSubCategory";
 interface ObjectCategoryRowViewProps {
  className?: string;
  openedID:number;

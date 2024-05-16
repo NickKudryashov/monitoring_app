@@ -1,3 +1,4 @@
+
 import classNames from "shared/lib/classNames/classNames";
 import { memo, useEffect, useState } from "react";
 import cls from "./AddPumpDevice.module.scss";
@@ -10,7 +11,7 @@ import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { Modal } from "shared/ui/Modal/Modal";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { fetchPumpDevice } from "entities/PumpDevice";
-import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
+import { getObjectSubcategoryData } from "entities/ObjectSubCategory";
 
 interface AddPumpDeviceProps {
  className?: string;
@@ -38,7 +39,9 @@ interface AddRequestProps {
 }
 
 const AVAILABLE_TYPE = "sk_712";
+const AVAILABLE_TYPE2 = "grundfoss";
 const AVAILABLE_TYPE_VERBOSE = "SK 712";
+const AVAILABLE_TYPE_VERBOSE2 = "Grundfoss";
 
 const DeviceConnection = {
     TCP:"TCP",
@@ -102,6 +105,7 @@ export const AddPumpDevice = memo((props: PropsWithChildren<AddPumpDeviceProps>)
                 <select value={devType} onChange={e=>setDevType(e.target.value)}>
                     <option disabled={true} value="-1">Тип прибора</option>
                     <option key={AVAILABLE_TYPE}  value={AVAILABLE_TYPE}>{AVAILABLE_TYPE_VERBOSE}</option>
+                    <option key={AVAILABLE_TYPE2}  value={AVAILABLE_TYPE2}>{AVAILABLE_TYPE_VERBOSE2}</option>
                 </select>
                 <select value={selectedObj} onChange={e=>setSelectedObj(e.target.value)}>
                     <option disabled={true} value="-1">Выберите объект</option>

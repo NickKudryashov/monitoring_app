@@ -29,12 +29,11 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
                             {
                                 DetailView
                             }
-                            <ChatIcon className={cls.chatIcon}/>
                         </HFlexBox>
                     </div>
                 </div>
             </div>
-            <p className={cls.version}>v5.1 22.04.24</p>
+            <p className={cls.version}>v5.2 16.05.24</p>
         </div>
     );
 });

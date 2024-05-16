@@ -2,6 +2,7 @@
     font:var(--font-14-px);
     color:var(--subcolor-9);
     font-size: 0.9vw;
+    user-select: none;
 }
 
 
@@ -75,4 +76,9 @@
     color: var(--color-for-hints);
     font-size: 0.43vw;
     white-space: nowrap;
+}
+
+.systemCountField {
+    border:1px solid var(--subcolor-11);
+    border-radius: var(--border-radius-type-3);
 }

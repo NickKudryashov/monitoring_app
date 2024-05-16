@@ -3,7 +3,6 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import classNames from "shared/lib/classNames/classNames";
 import { GeneralAnswer } from "./api/api";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 
 interface PageHeaderProps {
     generalData:GeneralAnswer;

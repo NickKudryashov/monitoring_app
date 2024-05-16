@@ -2,7 +2,6 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryView.module.scss";
 
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
-import { SubcategoryAnswer, editSubcatOrder, getObjectSubcategoryData } from "../api/objectSubcategorysApi";
 import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
 import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
 import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
@@ -15,6 +14,7 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { subcatCardSliceActions } from "../model/cardSlice";
+import { SubcategoryAnswer, editSubcatOrder, getObjectSubcategoryData } from "entities/ObjectSubCategory";
 interface ObjectCategoryViewProps {
     className?: string;
     adress: string;

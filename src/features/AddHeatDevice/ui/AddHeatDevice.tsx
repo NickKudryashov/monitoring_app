@@ -11,8 +11,8 @@ import { AppButon } from "shared/ui/AppButton/AppButton";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import { Modal } from "shared/ui/Modal/Modal";
 import cls from "./AddHeatDevice.module.scss";
-import { getObjectSubcategoryData } from "features/ObjectCategoryCardView/api/objectSubcategorysApi";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { getObjectSubcategoryData } from "entities/ObjectSubCategory";
 interface AddHeatDeviceProps {
  className?: string;
  onClose?:()=>void;
