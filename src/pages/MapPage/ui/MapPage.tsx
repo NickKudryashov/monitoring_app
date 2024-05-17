@@ -3,9 +3,13 @@ import { DetailView } from "widgets/DetailView";
 import cls from "./MapPage.module.scss";
 import {Map,Placemark} from "react-yandex-maps";
 import { getMapMarkers } from "entities/MapMarker";
+import { useEffect } from "react";
 const MapPage = () => {
-    const {data:markers} = getMapMarkers();
+    const {data:markers,refetch} = getMapMarkers();
     console.log(markers);
+    useEffect(()=>{
+        refetch();
+    },[]);
     return (
         <div className={cls.MapPage}>
             <DetailView
@@ -27,8 +31,7 @@ const MapPage = () => {
                             key={el.id}
                             geometry={[el.latitude, el.longitude]}
                             properties={{
-                                balloonContentBody: "описание",
-                                hintContent: "Тут офис"
+                                balloonContentBody:el.title,
                             }}
                         />
                     )}

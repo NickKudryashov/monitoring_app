@@ -3,4 +3,5 @@ export interface MapMarkerData {
     latitude:number;
     longitude:number;
     id:number;
+    title:string;
 }
