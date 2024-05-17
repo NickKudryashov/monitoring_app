@@ -1,0 +1,1 @@
+export {getMapMarkers} from "./api/api";

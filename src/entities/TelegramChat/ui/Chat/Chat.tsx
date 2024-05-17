@@ -15,7 +15,7 @@ import { Modal } from "shared/ui/Modal/Modal";
 import { Loader } from "shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { AppInput } from "shared/ui/AppInput/AppInput";
-const STATIC = __IS_DEV__ ? "http://localhost" : "http://avs.eco";
+const STATIC = __IS_DEV__ ? "http://localhost" : "https://avs.eco";
 interface ChatProps {
  className?: string;
  obj_id:number;
