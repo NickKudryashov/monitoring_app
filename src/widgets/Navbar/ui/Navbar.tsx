@@ -1,13 +1,12 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./Navbar.module.scss";
 
-import { PropsWithChildren, useState } from "react";
+import { MutableRefObject, PropsWithChildren, useRef, useState } from "react";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { userSlice } from "entities/user/Store/authReducer";
 import { Modal } from "shared/ui/Modal/Modal";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { getArchivesEvents } from "entities/Heatcounters";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import LogoIcon from "shared/assets/icons/LogoIcon.svg";
 import EventIcon from "shared/assets/icons/EventsIcon.svg";
@@ -17,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { RoutePathPublic } from "shared/config/RouteConfig/RouteConfig";
 import SearchIcon from "shared/assets/icons/NavbarSearchIcon.svg";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AllEventsView } from "entities/ArchiveEvent";
 interface NavbarProps {
  className?: string;
  isAuth?:boolean;
@@ -25,7 +25,6 @@ interface NavbarProps {
 export function Navbar(props: PropsWithChildren<NavbarProps>) {
     const { className,isAuth=true } = props;
     const email = useSelector((state:StateSchema)=>state.user.userdata?.name);
-    const {isLoading:eventsIsLoading,data:archiveEventsData,refetch:refetchEvents} = getArchivesEvents();
     const [showEvents,setShowEvents] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -88,22 +87,9 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                         вход
                     </AppButon>}
                 </div>
-                {/* <AddAutoDevice isOpen={autoDevFormOpened} onClose={acceptAutoDevice}/> */}
                 <Modal isOpen={showEvents} onClose={()=>setShowEvents(false)}  >
-                    {
-                        <div className={cls.modalWin}>
-                            {   
-                                archiveEventsData?.map(
-                                    el=>
-                                        <p key={el.id}>{`${el.event_datetime} ${el.system} ${el.message}`}</p>
-                                )                       
-                            }
-                            {(archiveEventsData===undefined || archiveEventsData?.length===0)&&
-                            <p>События отсутствуют</p>
-                            }
-                        </div>
-                    }
-                
+                   
+                    {showEvents && <AllEventsView/>}
                 </Modal>
                 
                 

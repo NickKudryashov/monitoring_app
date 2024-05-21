@@ -30,6 +30,7 @@ const MapPage = () => {
                         <Placemark 
                             key={el.id}
                             geometry={[el.latitude, el.longitude]}
+                            options={{iconColor:"red"}}
                             properties={{
                                 balloonContentBody:el.title,
                             }}

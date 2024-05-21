@@ -14,19 +14,16 @@ import $api from "shared/api";
 import { EventAnswer } from "shared/types/eventTypes";
 import { GeneralInfoBlock } from "../../../../features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
 import { ParameterView } from "../ParameterView/ParameterView";
-import { ArchiveView } from "../ArchiveView/ArchiveView/ArchiveView";
 import { PageHeader, getSubcatGeneralInfo } from "features/PageHeader";
 import { SystemsInfoBLock } from "../SystemsInfoBlock/SystemsInfoBlock";
 import { ConfigParameterColumn } from "../ConfigParameterColumn/ConfigParameterColumn";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { PollBlock } from "../ArchiveView/PollBlock/PollBlock";
-import { CreateReportBlock } from "../ArchiveView/CreateReportBlock/CreateReportBlock";
 import { SubHeader } from "features/PageHeader/SubHeader/SubHeader";
 import { SimpleReport } from "../ArchiveView/SimpleReport/SimpleReport";
 import { ReportSettings } from "../ArchiveView/ReportSettings/ReportSettings";
 import { ReportFilesView } from "../ArchiveView/ReportFilesView/ReportFilesView";
-import { Loader } from "shared/ui/Loader/Loader";
 interface HeatSubcategoryPageProps {
  className?: string;
 }
@@ -40,9 +37,8 @@ interface GroupClickProps {
     parameters?:number;
     archive?:number;
 }
-const MOCK_TS = [1,2,3,4];
-const MOCK_PARAM = [1,2,3];
-const MOCK_PARAM_VAL = [1,2,3,4,5,6,7,8,9,10,11];
+
+
 const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>) => {
     const { className } = props;
     const {id} = useParams<{id:string}>();

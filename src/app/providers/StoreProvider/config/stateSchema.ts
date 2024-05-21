@@ -1,3 +1,4 @@
+import { ArchiveEventsSliceSchema } from "entities/ArchiveEvent";
 import { categoryState } from "entities/Category";
 import { ElectroDeviceSchema } from "entities/ElectroDevice";
 import { HeatDeviceSchema } from "entities/Heatcounters";
@@ -26,6 +27,7 @@ export interface StateSchema {
     objSubCat:ObjectSubCategorySchema;
     subCatPage:SubCategoryPageSchema;
     subcatCards:SubcatCardsSchema;
+    archiveEvents:ArchiveEventsSliceSchema;
 }
 
 export interface ThunkConfig<T> {

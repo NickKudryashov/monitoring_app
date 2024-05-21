@@ -11,7 +11,7 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { HeatActions } from "entities/Heatcounters/reducers/reducer";
 import { getDevice } from "entities/Heatcounters/reducers/actionCreator";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { getArchivesEvents, getHeatDeviceData } from "entities/Heatcounters/api/heatcountersapi";
+import { getHeatDeviceData } from "entities/Heatcounters/api/heatcountersapi";
 import { Loader } from "shared/ui/Loader/Loader";
 import { HeatPoll } from "../HeatPoll/HeatPoll";
 

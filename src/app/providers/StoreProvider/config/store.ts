@@ -13,6 +13,7 @@ import { objSubCategoryReducer } from "entities/ObjectSubCategory";
 import { subCatPageReducer } from "pages/SubcartegoryPage";
 import { rtkApi } from "shared/api/rtkApi";
 import { subcatCardSliceReducer } from "features/ObjectCategoryCardView";
+import { archiveEventsReducer } from "entities/ArchiveEvent";
 
 
 
@@ -30,6 +31,7 @@ export function createReduxStore(initialState?:StateSchema) {
         objSubCat:objSubCategoryReducer,
         subCatPage:subCatPageReducer,
         subcatCards:subcatCardSliceReducer,
+        archiveEvents:archiveEventsReducer,
         [rtkApi.reducerPath]:rtkApi.reducer
 
     };

@@ -11,7 +11,7 @@ export {deleteDevice,refreshDevices} from "./reducers/actionCreator";
 export {getDeviceById} from "./lib/getBy";
 export {selectHeatDeviceById} from "./reducers/reducer";
 export type {HeatDeviceSchema} from "./types/type";
-export {getHeatDeviceData,getArchivesEvents,editHeatParameterName} from "./api/heatcountersapi";
+export {getHeatDeviceData,editHeatParameterName} from "./api/heatcountersapi";
 export {HeatPoll} from "./ui/HeatPoll/HeatPoll";
 export type {HeatParameters} from "./types/type";
 export {useHeatPoll} from "./lib/useHeatPoll";
