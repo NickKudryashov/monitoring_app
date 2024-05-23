@@ -33,7 +33,7 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
                     </div>
                 </div>
             </div>
-            <p className={cls.version}>v5.2 16.05.24</p>
+            <p className={cls.version}>v5.4 21.05.24</p>
         </div>
     );
 });

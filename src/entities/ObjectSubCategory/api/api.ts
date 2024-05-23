@@ -13,6 +13,7 @@ export interface SubcategoryAnswer {
     user_object:number;
     status:string;
     last_update:string;
+    enabled:boolean;
 }
 
 export interface AddSubcategoryProps {
@@ -67,6 +68,14 @@ const objectSubcategoryEntityQuery = rtkApi.injectEndpoints({
             }),
             invalidatesTags: (result, error, { id }) => [{ type: "Subcats", id }],
         }),
+        toggleSubcat:build.mutation<SubcategoryAnswer, Partial<SubcategoryAnswer> & Pick<SubcategoryAnswer, "id">>({
+            query:({id,...patch})=>({
+                url: `subcategory/${id}/toggle`,
+                method: "POST",
+                body: patch,
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: "Subcats", id }],
+        }),
         deleteSubcat:build.mutation<SubcategoryAnswer, Partial<SubcategoryAnswer> & Pick<SubcategoryAnswer, "id">>({
             query:({id})=>({
                 url: `subcategory/${id}/delete`,
@@ -83,3 +92,4 @@ export const getObjectSubcategoryData = objectSubcategoryEntityQuery.useGetObjec
 export const editSubcatOrder = objectSubcategoryEntityQuery.useEditSubcatOrderMutation;
 export const addNewSubcategory = objectSubcategoryEntityQuery.useAddNewSubcatMutation;
 export const getSubcategoryTypes = objectSubcategoryEntityQuery.useGetSubcategoryTypesQuery;
+export const toggleSubcat = objectSubcategoryEntityQuery.useToggleSubcatMutation;

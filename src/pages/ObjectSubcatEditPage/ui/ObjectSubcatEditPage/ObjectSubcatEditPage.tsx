@@ -12,7 +12,7 @@ import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
 import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
 import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
 import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
-import { SubcategoryAnswer, addNewSubcategory, deleteSubcat, getObjectSubcategoryData } from "entities/ObjectSubCategory";
+import { SubcategoryAnswer, addNewSubcategory, deleteSubcat, getObjectSubcategoryData, toggleSubcat } from "entities/ObjectSubCategory";
 import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
 import LittlePlusIcon from "shared/assets/icons/LittlePlusIcon.svg";
 interface ObjectSubcatEditPageProps {
@@ -48,6 +48,7 @@ const ObjectSubcatEditPage = (props: PropsWithChildren<ObjectSubcatEditPageProps
     const dispatch = useAppDispatch();
     const [toggled,setToggled] = useState(false);
     const [deleteMutation] = deleteSubcat();
+    const [toggleMutation] = toggleSubcat();
     const [addSubcat] = addNewSubcategory();
     const {data:objectData,isLoading:objectIsLoading} = getObjectSubcategoryData(Number(objID));
     useEffect(()=>{
@@ -119,14 +120,14 @@ const ObjectSubcatEditPage = (props: PropsWithChildren<ObjectSubcatEditPageProps
                                                 <HFlexBox width="33%" height="40%">
                                                     <input
                                                         className={cls.switchCheckbox}
-                                                        id={"react-switch-new"}
+                                                        id={`react-switch-new${el.id}`}
                                                         type="checkbox"
-                                                        checked={toggled}
-                                                        onChange={(e)=>setToggled(e.target.checked)}
+                                                        checked={el.enabled}
+                                                        onChange={(e)=>toggleMutation({id:el.id,enabled:!el.enabled})}
                                                     />
                                                     <label
                                                         className={cls.switchLabel}
-                                                        htmlFor={"react-switch-new"}
+                                                        htmlFor={`react-switch-new${el.id}`}
                                                     >
                                                         <span className={cls.switchButton} />
                                                     </label>
