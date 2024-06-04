@@ -24,6 +24,7 @@ import { SubHeader } from "features/PageHeader/SubHeader/SubHeader";
 import { SimpleReport } from "../ArchiveView/SimpleReport/SimpleReport";
 import { ReportSettings } from "../ArchiveView/ReportSettings/ReportSettings";
 import { ReportFilesView } from "../ArchiveView/ReportFilesView/ReportFilesView";
+import { MockComponent } from "shared/ui/MockComponent/MockComponent";
 interface HeatSubcategoryPageProps {
  className?: string;
 }

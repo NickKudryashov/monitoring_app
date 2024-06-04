@@ -1,6 +1,6 @@
 import { url } from "inspector";
 import { rtkApi } from "shared/api/rtkApi";
-import { GetDeviceQuery } from "../model/types/electroDevice";
+import { ElectroCounter, GetDeviceQuery } from "../model/types/electroDevice";
 
 const electroDevicesQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -11,8 +11,16 @@ const electroDevicesQuery = rtkApi.injectEndpoints({
                 };
             },
         }),
+        getElectroCountersByCan: build.query<ElectroCounter[],{id:string,counterInterface:string}>({
+            query: ({id,counterInterface}) => {
+                return {
+                    url:`electro_top_level_device/${id}/${counterInterface}`,
+                };
+            },
+        }),
     }),
     overrideExisting: false,
 });
 
 export const getElectroDeviceData = electroDevicesQuery.useGetElectroDeviceDataQuery;
+export const getElectroDeviceCountersByCan = electroDevicesQuery.useGetElectroCountersByCanQuery;

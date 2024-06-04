@@ -9,7 +9,7 @@ interface MockComponentProps {
 
 export function MockComponent(props: PropsWithChildren<MockComponentProps>) {
     const { className,name } = props;
-
+    alert("CALLED");
     return (
         <div>
             {`Заглушка ${name}`}

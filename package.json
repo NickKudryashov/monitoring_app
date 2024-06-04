@@ -8,6 +8,7 @@
     "build:prod": "webpack --env mode=production --env api=https://avs.eco/api/v1/",
     "build:dev": "webpack --env mode=development api=http://localhost/api/v1/",
     "start:dev": "webpack serve --env api=http://localhost:8000/api/v1/  ",
+    "start:dev:vite": "vite",
     "start:prod": "webpack serve --env api=http://avs.eco:8000/api/v1/ mode=production ",
     "lint:ts": "eslint \"**/*.{ts,tsx}\"",
     "lint:ts:fix": "eslint \"**/*.{ts,tsx}\" --fix",
@@ -63,7 +64,7 @@
     "mini-css-extract-plugin": "^2.5.3",
     "reg-cli": "^0.17.7",
     "regenerator-runtime": "^0.13.11",
-    "sass": "^1.49.9",
+    "sass": "^1.77.4",
     "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",
     "stylelint": "^15.1.0",
@@ -72,6 +73,8 @@
     "ts-loader": "^9.2.6",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5",
+    "vite": "^3.1.0",
+    "vite-plugin-svgr": "^2.2.1",
     "webpack": "^5.69.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.7.4"
@@ -79,6 +82,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
     "@types/react-resizable": "^3.0.7",
+    "@vitejs/plugin-react": "^2.1.0",
     "axios": "^0.26.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
