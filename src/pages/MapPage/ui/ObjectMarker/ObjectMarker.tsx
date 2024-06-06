@@ -26,6 +26,9 @@ export const ObjectMarker = (props: { id: number }): ReactElement => {
                     key={el.id}
                     alignItems="center"
                     align="center"
+                    onClick={() =>
+                        navigate(ROUTE_MAPPER[el.subcategory_type] + el.id)
+                    }
                     className={classNames(
                         cls.systemRow,
                         {
@@ -37,13 +40,7 @@ export const ObjectMarker = (props: { id: number }): ReactElement => {
                         []
                     )}
                 >
-                    <p
-                        onClick={() =>
-                            navigate(ROUTE_MAPPER[el.subcategory_type] + el.id)
-                        }
-                    >
-                        {el.name}
-                    </p>
+                    <p>{el.name}</p>
                 </HFlexBox>
             ))}
         </VFlexBox>

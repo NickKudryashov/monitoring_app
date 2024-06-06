@@ -6,6 +6,8 @@
 .systemRow {
     box-shadow: var(--shadow-redesign);
     border-radius: var(--border-radius-type-3);
+    user-select: none;
+    cursor: pointer;
 }
 
 .greymarker{
