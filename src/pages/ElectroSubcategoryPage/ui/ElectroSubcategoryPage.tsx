@@ -106,9 +106,7 @@ const ElectroSubcategoryPage = (
                 <GeneralInfoBlock
                   device_num={devData?.device_num}
                   device_type_verbose_name={devData?.device_type_verbose_name}
-                  systems={
-                    devData ? Object.keys(devData.counters_by_can).length : 0
-                  }
+                  systems={devData ? Object.keys(devData?.statistic).length : 0}
                   address={generalData?.adress}
                   name={generalData?.user_object_name}
                 />

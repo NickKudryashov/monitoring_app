@@ -12,6 +12,7 @@ import { SubcatCardsSchema } from "features/ObjectCategoryCardView";
 import { SubCategoryPageSchema } from "pages/SubcartegoryPage";
 import { rtkApi } from "shared/api/rtkApi";
 import { DeviceListState } from "widgets/DeviceList";
+import { NavbarStateSchema } from "widgets/Navbar";
 
 export interface StateSchema {
     [rtkApi.reducerPath]:ReturnType<typeof rtkApi.reducer>;
@@ -28,6 +29,7 @@ export interface StateSchema {
     subCatPage:SubCategoryPageSchema;
     subcatCards:SubcatCardsSchema;
     archiveEvents:ArchiveEventsSliceSchema;
+    navbar:NavbarStateSchema;
 }
 
 export interface ThunkConfig<T> {

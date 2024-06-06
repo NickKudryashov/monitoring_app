@@ -4,3 +4,4 @@ export {fetchByObjId} from "./model/actions/fetchSubCats";
 export {SubcategoryCard} from "./ui/SubcategoryCard/SubcategoryCard";
 export {deleteSubcat,getObjectSubcategoryData,editSubcatOrder,addNewSubcategory,getSubcategoryTypes,toggleSubcat } from "./api/api";
 export type {SubcategoryAnswer} from "./api/api";
+export {SubcategoryStatus} from "./api/api";

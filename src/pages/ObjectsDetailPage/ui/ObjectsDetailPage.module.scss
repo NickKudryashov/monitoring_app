@@ -1,7 +1,6 @@
 .detail {
     // width:75%;
     display: flex;
-    justify-content: center;
     gap:3%;
     width:90%;
     height:100%;
@@ -44,4 +43,7 @@
     color:rgb(53 94 171 / 50%);
     white-space: nowrap;
     cursor: pointer;
+}
+
+.rowsdata {
 }

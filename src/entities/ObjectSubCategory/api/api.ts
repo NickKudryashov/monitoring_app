@@ -4,6 +4,11 @@ import { rtkApi } from "shared/api/rtkApi";
 const TEMP = ["heat_energy_node","auto_node","pump_station_node","electro_energy_node",] as const;
 
 type SubcatType = "heat_energy_node" | "auto_node"| "pump_station_node"| "electro_energy_node"
+export const SubcategoryStatus = {
+    no_answer:"no_answer",
+    success:"success"
+} as const;
+export type SubcategoryStatus = typeof SubcategoryStatus [ keyof typeof  SubcategoryStatus]
 export interface SubcategoryAnswer {
     id:number;
     name:string;
@@ -11,7 +16,7 @@ export interface SubcategoryAnswer {
     // subcategory_type:string;
     order_index:number;
     user_object:number;
-    status:string;
+    status:SubcategoryStatus;
     last_update:string;
     enabled:boolean;
 }

@@ -5,9 +5,11 @@
     justify-content: space-between;
     flex-direction: column;
 }
+
 .detail {
     width:100%;
     height:100%;
+
     // border:1px solid black;
     border-left: none;
 
@@ -17,4 +19,32 @@
     width:100%;
     height:100%;
 
+}
+
+
+.driverCard {
+    width: 400px;
+    height: 400px;
+
+    // имейте ввиду, что больше 400px будет показано с прокруткой
+}
+  
+.ymaps-2-1-79-balloon {
+    box-shadow: none !important;
+}
+  
+.ymaps-2-1-79-balloon__content {
+    padding: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+}
+  
+.ymaps-2-1-79-balloon__layout {
+    background: transparent !important;
+    border: none !important;
+}
+
+.baloonContent {
+    width:100%;
+    height:100%;
 }

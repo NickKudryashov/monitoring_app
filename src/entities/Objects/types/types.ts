@@ -5,6 +5,7 @@ export interface PidsIds {
 export interface ObjectResponse {
     name:string;
     address:string;
+    abonent:string;
     id:number;
     category:number;
     pids_with_ids?:PidsIds

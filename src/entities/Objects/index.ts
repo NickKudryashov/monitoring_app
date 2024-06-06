@@ -8,3 +8,4 @@ import { ObjectDetail } from "./ui/ObjectDetail/ObjectDetail";
 import { ObjectItem,objectState } from "./reducers/reducers";
 export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectDetail,objectsDelRequest};
 export type {ObjectResponse,ObjectItem,objectState};
+export {getUserObjectData} from "./api/api";
