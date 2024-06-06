@@ -33,7 +33,7 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
                 <div className={cls.content}>
                     {sidebar}
                     <div className={cls.dtlWrapper}>
-                        <HFlexBox gap="25px" align="flex-end">
+                        <HFlexBox gap="25px" align="center">
                             {DetailView}
                         </HFlexBox>
                     </div>
