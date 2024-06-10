@@ -32,7 +32,7 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
     const { className } = props;
     const {id} = useParams<{id:string}>();
     const [selectedSystem,setSeelctedSystem] = useState(0);
-    const [selectedTab,setSeelctedTab] = useState(0);
+    const [selectedTab,setSelectedTab] = useState(0);
     const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id);
     const {data:device,isLoading:isLoadingDevices} = getPumpDevs(id);
     const {data:deviceData,isLoading:isDevLoading,refetch} = getPumpData(device?.length ? String(device[0]) : undefined,{pollingInterval:15000}); 
@@ -61,16 +61,25 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
             });
             return result;
         }};
+
+    const wheelHandler = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
+        if (e.deltaY > 0) {
+            setSelectedTab((prev) => (prev === 5 ? 0 : prev + 1));
+        } else {
+            setSelectedTab((prev) => (prev === 0 ? 5 : prev - 1));
+        }
+    }, []);
+
     const params = useMemo(()=>getParams(),[deviceData]);
     const content = (
-        <DetailView className={cls.detail}>
+        <DetailView className={cls.detail} onWheel={wheelHandler}>
             <VFlexBox width={"90%"}>
                 <PageHeader poll={poll} generalData={generalData}/>
                 
                 <HFlexBox className={cls.contentBox} gap="5px" align="space-between">
                     <SubcategoryTabs
                         selectedTab={selectedTab}
-                        setSelectedTab={setSeelctedTab}
+                        setSelectedTab={setSelectedTab}
                         content={
                             {
                                 0:<GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={0} address={generalData?.adress} name={generalData?.user_object_name} />,
@@ -109,7 +118,7 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
                                 >
                                     <Panel defaultSize={75}>
 
-                                        {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}
+                                        {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSelectedTab} /> */}
                                         {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
                                         {
                                             deviceData && deviceData.parameters &&

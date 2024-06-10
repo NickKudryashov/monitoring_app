@@ -79,10 +79,18 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const params:ParametersDict = useMemo(()=>getParams(allParams),[deviceData]);
     const instantParams:ParametersDict = useMemo(()=>getParams(filterInstant),[deviceData]);
     const accumulateParams:ParametersDict = useMemo(()=>getParams(filterAccumulate),[deviceData]);
+    const wheelHandler = useCallback((e:React.WheelEvent<HTMLDivElement>)=>{
+        if (e.deltaY>0){
+            setSeelctedTab((prev)=>prev===5 ? 0 : prev+1);
+        }
+        else {
+            setSeelctedTab((prev)=>prev===0 ? 5 : prev-1);
+        }
+    },[]);
 
     const content = (
-        <DetailView className={cls.detail}>
-            <VFlexBox  width="90%">
+        <DetailView onWheel={wheelHandler} className={cls.detail} >
+            <VFlexBox width="90%">
                 <PageHeader poll={poll} generalData={generalData}/>
                 
                 <HFlexBox className={cls.contentBox} gap="5px" align="space-between">
