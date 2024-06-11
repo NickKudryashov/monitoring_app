@@ -22,6 +22,7 @@ import {
 import { getElectroDevId } from "../api/api";
 import { Loader } from "shared/ui/Loader/Loader";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
 interface ElectroSubcategoryPageProps {
     className?: string;
 }
@@ -59,12 +60,8 @@ const ElectroSubcategoryPage = (
             refetchGeneral();
         },
     });
-    const wheelHandler = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
-        if (e.deltaY > 0) {
-            setSelectedTab((prev) => (prev === 5 ? 0 : prev + 1));
-        } else {
-            setSelectedTab((prev) => (prev === 0 ? 5 : prev - 1));
-        }
+    const scrollHandler = useCallback(() => {
+        setSelectedTab((prev) => (prev === 5 ? 0 : prev + 1));
     }, []);
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>(
@@ -98,8 +95,8 @@ const ElectroSubcategoryPage = (
     };
 
     const content = (
-        <DetailView onWheel={wheelHandler}>
-            <VFlexBox width="90%">
+        <DetailView onScroll={scrollHandler}>
+            <FlexSubcategoryPageWrap>
                 <PageHeader
                     poll={poll}
                     report={() => downloadXLSFile(devData)}
@@ -184,7 +181,7 @@ const ElectroSubcategoryPage = (
                         </VFlexBox>
                     </VFlexBox>
                 </HFlexBox>
-            </VFlexBox>
+            </FlexSubcategoryPageWrap>
         </DetailView>
     );
 

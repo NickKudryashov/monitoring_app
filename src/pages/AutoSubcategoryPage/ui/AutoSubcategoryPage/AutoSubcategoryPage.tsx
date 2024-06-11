@@ -17,6 +17,7 @@ import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { PumpParameter } from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
 import { Footer } from "shared/ui/Footer/Footer";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
 interface AutoSubcategoryPageProps {
     className?: string;
 }
@@ -99,17 +100,13 @@ const AutoSubcategoryPage = (
             systemsCard.push(i + 1);
         }
     }
-    const wheelHandler = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
-        if (e.deltaY > 0) {
-            setSeelctedTab((prev) => (prev === 5 ? 0 : prev + 1));
-        } else {
-            setSeelctedTab((prev) => (prev === 0 ? 5 : prev - 1));
-        }
+    const scrollHandler = useCallback(() => {
+        setSeelctedTab((prev) => (prev === 5 ? 0 : prev + 1));
     }, []);
 
     const content = (
-        <DetailView onWheel={wheelHandler}>
-            <VFlexBox width="90%">
+        <DetailView onScroll={scrollHandler}>
+            <FlexSubcategoryPageWrap>
                 <PageHeader poll={poll} generalData={generalData} />
 
                 <HFlexBox
@@ -188,7 +185,7 @@ const AutoSubcategoryPage = (
                         </VFlexBox>
                     </VFlexBox>
                 </HFlexBox>
-            </VFlexBox>
+            </FlexSubcategoryPageWrap>
         </DetailView>
     );
 

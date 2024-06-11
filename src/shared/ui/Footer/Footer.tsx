@@ -21,13 +21,23 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
     const wrapRef = useRef<HTMLDivElement>(null);
     const scrollOnLoad = useRef<boolean>(true);
     const inView = useRef<boolean>(true);
-    const setInView = useCallback((arg: boolean) => { inView.current = arg; }, []);
-    useViewportCheck({ changeStatus: setInView, triggerRef: footRef, wrapperRef: wrapRef });
+    const setInView = useCallback((arg: boolean) => {
+        inView.current = arg;
+    }, []);
+    useViewportCheck({
+        changeStatus: setInView,
+        triggerRef: footRef,
+        wrapperRef: wrapRef,
+    });
     const fetchEvents = async () => {
         const temp = await pollCallback();
         setEvents(temp.events);
         if (scrollOnLoad.current || inView.current) {
-            footRef.current.scrollIntoView({ behavior: "smooth" });
+            footRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+                inline: "nearest",
+            });
             scrollOnLoad.current = false;
         }
     };
@@ -45,19 +55,27 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
                 setEvents([]);
             };
         }
-
     }, [pollCallback]);
     return (
-        <Panel style={{ "overflowY": "auto" }} id={"footer"} order={2} className={classNames(cls.Footer, {}, [className])} defaultSize={20} minSize={20} maxSize={40}>
-            <VFlexBox alignItems="start" ref={wrapRef}>
-                {
-                    events.map((el, i) =>
-                        <p key={i}>{el}</p>
-                    )
-                }
+        <Panel
+            style={{ overflowY: "auto" }}
+            id={"footer"}
+            order={2}
+            defaultSize={20}
+            minSize={20}
+            maxSize={40}
+        >
+            <VFlexBox
+                onScroll={(e) => e.stopPropagation()}
+                className={classNames(cls.Footer, {}, [className])}
+                alignItems="start"
+                ref={wrapRef}
+            >
+                {events.map((el, i) => (
+                    <p key={i}>{el}</p>
+                ))}
                 <div ref={footRef} />
             </VFlexBox>
-
         </Panel>
     );
 });

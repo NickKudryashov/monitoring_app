@@ -25,6 +25,7 @@ import { SimpleReport } from "../ArchiveView/SimpleReport/SimpleReport";
 import { ReportSettings } from "../ArchiveView/ReportSettings/ReportSettings";
 import { ReportFilesView } from "../ArchiveView/ReportFilesView/ReportFilesView";
 import { MockComponent } from "shared/ui/MockComponent/MockComponent";
+import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
 interface HeatSubcategoryPageProps {
  className?: string;
 }
@@ -79,18 +80,14 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const params:ParametersDict = useMemo(()=>getParams(allParams),[deviceData]);
     const instantParams:ParametersDict = useMemo(()=>getParams(filterInstant),[deviceData]);
     const accumulateParams:ParametersDict = useMemo(()=>getParams(filterAccumulate),[deviceData]);
-    const wheelHandler = useCallback((e:React.WheelEvent<HTMLDivElement>)=>{
-        if (e.deltaY>0){
-            setSeelctedTab((prev)=>prev===5 ? 0 : prev+1);
-        }
-        else {
-            setSeelctedTab((prev)=>prev===0 ? 5 : prev-1);
-        }
-    },[]);
+    const scrollHandler = useCallback(()=>{
+        setSeelctedTab((prev)=>prev===5 ? 0 : prev+1);
+        console.log(selectedTab);
+    },[selectedTab]);
 
     const content = (
-        <DetailView onWheel={wheelHandler} className={cls.detail} >
-            <VFlexBox width="90%">
+        <DetailView onScroll={scrollHandler} className={cls.detail} >
+            <FlexSubcategoryPageWrap>
                 <PageHeader poll={poll} generalData={generalData}/>
                 
                 <HFlexBox className={cls.contentBox} gap="5px" align="space-between">
@@ -129,7 +126,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                         {selectedTab===3 && selectedArchiveGroup==2 && !archLoading && !isDevLoading  &&  <ReportSettings archData={archData} generalData={generalData} deviceData={deviceData}/>}
                                         {selectedTab===3 && selectedArchiveGroup==3 && !archLoading && !isDevLoading  &&  <ReportFilesView archData={archData} generalData={generalData} deviceData={deviceData}/>}
                                         {selectedTab===0 && 
-                                        <ParameterView  params={params}/>
+                                            <ParameterView  params={params}/>
                                         }
 
                                         {selectedTab===1 && <ParameterView  params={params}/>}
@@ -149,7 +146,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                         </VFlexBox>
                     </VFlexBox>
                 </HFlexBox>
-            </VFlexBox>
+            </FlexSubcategoryPageWrap>
         </DetailView>
     );
 

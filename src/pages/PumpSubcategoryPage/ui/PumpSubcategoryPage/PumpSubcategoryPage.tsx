@@ -18,6 +18,7 @@ import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
 import { ParameterColumn } from "../ParameterView/ParameterView";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
 
 interface PumpSubcategoryPageProps {
  className?: string;
@@ -62,18 +63,14 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
             return result;
         }};
 
-    const wheelHandler = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
-        if (e.deltaY > 0) {
-            setSelectedTab((prev) => (prev === 5 ? 0 : prev + 1));
-        } else {
-            setSelectedTab((prev) => (prev === 0 ? 5 : prev - 1));
-        }
+    const scrollHandler = useCallback(() => {
+        setSelectedTab((prev) => (prev === 5 ? 0 : prev + 1));
     }, []);
 
     const params = useMemo(()=>getParams(),[deviceData]);
     const content = (
-        <DetailView className={cls.detail} onWheel={wheelHandler}>
-            <VFlexBox width={"90%"}>
+        <DetailView className={cls.detail} onScroll={scrollHandler}>
+            <FlexSubcategoryPageWrap>
                 <PageHeader poll={poll} generalData={generalData}/>
                 
                 <HFlexBox className={cls.contentBox} gap="5px" align="space-between">
@@ -147,7 +144,7 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
                         </VFlexBox>
                     </VFlexBox>
                 </HFlexBox>
-            </VFlexBox>
+            </FlexSubcategoryPageWrap>
         </DetailView>
     );
 
