@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserData } from "../Models/User";
 import { DefaultAuthCheckResponse, DefaultAuthResponse, } from "../types/types";
-import { defaultAuthCheck, defaultLogin, getUserData } from "./actionCreators";
+import { defaultAuthCheck, defaultLogin, getUserData, getVersion } from "./actionCreators";
 
 export interface UserState {
     isAuth:boolean;
@@ -9,13 +9,15 @@ export interface UserState {
     rulesAccepted:boolean;
     personalDataAccepted:boolean;
     userdata?:UserData;
+    version?:string;
 }
 
 const initialState:UserState = {
     isAuth:false,
     licenseAccepted:false,
     rulesAccepted: false,
-    personalDataAccepted: false
+    personalDataAccepted: false,
+    version:""
 };
 
 
@@ -49,6 +51,10 @@ export const userSlice = createSlice({
         },
         [getUserData.fulfilled.type]: (state,action:PayloadAction<UserData>)=>{
             state.userdata=action.payload;
+
+        },
+        [getVersion.fulfilled.type]: (state,action:PayloadAction<string>)=>{
+            state.version=action.payload;
 
         }
     }

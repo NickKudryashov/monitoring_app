@@ -24,4 +24,10 @@ export default class UserService {
         return response;
     }
 
+    static async getVersion () {
+        const access_token = localStorage.getItem("access_token");
+        const response = await $api.get<{version:string}>("version");
+        return response;
+    }
+
 }

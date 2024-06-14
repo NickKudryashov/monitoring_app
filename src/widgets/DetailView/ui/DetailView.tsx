@@ -25,7 +25,7 @@ interface DetailViewProps {
     generalSelected?: boolean;
     setTabSelected?: (val: boolean) => void;
     setGeneralSelected?: (val: boolean) => void;
-    onScroll?: () => void;
+    onScroll?: (isScrollDown: boolean) => void;
 }
 const GENERALTABSELECTEDKEY = "main_tab_selected";
 export function DetailView(props: DetailViewProps) {
@@ -38,37 +38,64 @@ export function DetailView(props: DetailViewProps) {
         setGeneralSelected,
         onScroll,
     } = props;
-    const wheelCountRef = useRef<number>(0);
+    const initRef = useRef<boolean>(false);
+    const previousScrollPosition = useRef<number>(0);
     const [startAnimation, setStartAnimation] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
     if (generalSelected && tabSelected) {
         setTabSelected(false);
     }
+
+    const firstScrollToCenter = useCallback(() => {
+        initRef.current = true;
+        console.log("on load");
+        if (onScroll) {
+            wrapperRef.current.scrollTo({
+                top: wrapperRef.current.scrollHeight * 0.2,
+            });
+            previousScrollPosition.current = wrapperRef.current.scrollTop;
+        }
+    }, [onScroll]);
+
     useEffect(() => {
-        wheelCountRef.current = 0;
-        window.scrollTo({ top: 0 });
+        setTimeout(firstScrollToCenter, 200);
         return () => {
-            wheelCountRef.current = 0;
+            initRef.current = false;
         };
     }, []);
-    const debouncedScroll = useDebounce(onScroll, 150);
+    const debouncedScroll = useDebounce(onScroll, 250);
     const onScrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-        if (!onScroll) {
+        if (!onScroll || initRef.current) {
+            initRef.current = false;
             return;
         }
         const scrollPositionKoefficient =
             wrapperRef.current.scrollTop / wrapperRef.current.scrollHeight;
-        console.log(scrollPositionKoefficient);
-        if (scrollPositionKoefficient < 0.086) {
+        const isScrollDown =
+            wrapperRef.current.scrollTop < previousScrollPosition.current;
+        previousScrollPosition.current = wrapperRef.current.scrollTop;
+        if (
+            scrollPositionKoefficient < 0.23 &&
+            scrollPositionKoefficient > 0.095
+        ) {
             setStartAnimation(false);
         }
-        if (scrollPositionKoefficient >= 0.086) {
+        if (
+            scrollPositionKoefficient >= 0.23 ||
+            scrollPositionKoefficient <= 0.097
+        ) {
             setStartAnimation(true);
         }
-        if (scrollPositionKoefficient > 0.15) {
-            wrapperRef.current.scrollTo({ top: 0 });
-            debouncedScroll();
+        if (
+            scrollPositionKoefficient > 0.3 ||
+            scrollPositionKoefficient < 0.01
+        ) {
+            wrapperRef.current.scrollTo({
+                top: wrapperRef.current.scrollHeight * 0.2,
+            });
+
+            debouncedScroll(isScrollDown);
         }
     };
 
@@ -92,7 +119,7 @@ export function DetailView(props: DetailViewProps) {
                     alignItems="center"
                     className={cls.onPageScroll}
                 >
-                    <p>Прокрутите вниз для смены страницы...</p>
+                    <p>Прокрутите для смены страницы...</p>
                     <LoaderCircle />
                 </HFlexBox>
             )}

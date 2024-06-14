@@ -7,6 +7,8 @@ import { Panel } from "react-resizable-panels";
 import { useInfinityScroll } from "shared/hooks/useInfinityScroll";
 import { VFlexBox } from "../FlexBox/VFlexBox/VFlexBox";
 import { useViewportCheck } from "shared/hooks/useCheckInViewport";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 
 interface FooterProps {
     className?: string;

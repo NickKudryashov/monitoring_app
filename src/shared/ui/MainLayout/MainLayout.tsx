@@ -6,6 +6,8 @@ import type { PropsWithChildren } from "react";
 import { Footer } from "../Footer/Footer";
 import ChatIcon from "shared/assets/icons/ChatIcon.svg";
 import { HFlexBox } from "../FlexBox/HFlexBox/HFlexBox";
+import { useSelector } from "react-redux";
+import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 interface MainLayoutProps {
     className?: string;
     navbar: React.ReactNode;
@@ -25,7 +27,7 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
         sidebar,
         children,
     } = props;
-
+    const { version } = useSelector((state: StateSchema) => state.user);
     return (
         <div className={classNames(cls.MainLayout, {}, [className])}>
             {navbar}
@@ -39,7 +41,7 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
                     </div>
                 </div>
             </div>
-            <p className={cls.version}>v5.6.1 06.06.24</p>
+            <p className={cls.version}>{version}</p>
         </div>
     );
 });

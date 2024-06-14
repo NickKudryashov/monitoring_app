@@ -4,48 +4,52 @@ import { Suspense, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "shared/hooks/hooks";
-import { RouteConfigPublic,RouteConfigAuth } from "../config/RouteConfig";
+import { RouteConfigPublic, RouteConfigAuth } from "../config/RouteConfig";
 import { MainLayoutPageLoader } from "pages/MainLayoutPageLoader";
 import { Footer } from "shared/ui/Footer/Footer";
 import { MainLayout } from "shared/ui/MainLayout/MainLayout";
 import { DeviceList } from "widgets/DeviceList";
 import { Navbar } from "widgets/Navbar";
 import { Sidebar } from "widgets/Sidebar";
+import { getVersion } from "entities/user/Store/actionCreators";
 
 export const AppRouter = () => {
-
-    const isAuth = useSelector((state:StateSchema) => state.user?.isAuth);
+    const isAuth = useSelector((state: StateSchema) => state.user?.isAuth);
     const dispatch = useAppDispatch();
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(defaultAuthCheck());
         dispatch(getUserData());
-    },[dispatch]);
-    
+        dispatch(getVersion());
+    }, [dispatch]);
+
     return (
-        <Suspense  fallback={<MainLayoutPageLoader/>}>
+        <Suspense fallback={<MainLayoutPageLoader />}>
             <Routes>
-                {Object.values(isAuth ? RouteConfigAuth  : RouteConfigPublic).map(({path,element})=>(
-                    <Route 
-                        key={path} 
-                        path={path} 
+                {Object.values(
+                    isAuth ? RouteConfigAuth : RouteConfigPublic
+                ).map(({ path, element }) => (
+                    <Route
+                        key={path}
+                        path={path}
                         element={
-                            <div className='page-wrapper'>
-                            {isAuth ? 
-                                <MainLayout
-                                deviceList={<DeviceList/>}
-                                footer={<Footer/>}
-                                navbar={<Navbar/>}
-                                sidebar={<Sidebar/>}
-                                DetailView={element}
-                                /> :
-                                element
-                            }
+                            <div className="page-wrapper">
+                                {isAuth ? (
+                                    <MainLayout
+                                        deviceList={<DeviceList />}
+                                        footer={<Footer />}
+                                        navbar={<Navbar />}
+                                        sidebar={<Sidebar />}
+                                        DetailView={element}
+                                    />
+                                ) : (
+                                    element
+                                )}
                             </div>
-                        }/>
+                        }
+                    />
                 ))}
             </Routes>
         </Suspense>
-
     );
 };

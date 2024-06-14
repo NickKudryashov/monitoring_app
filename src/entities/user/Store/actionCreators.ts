@@ -16,3 +16,8 @@ export const getUserData = createAsyncThunk("user/userData",async(_,thunkAPI)=>{
     const response = await UserService.getUserInfo();
     return response.data;
 });
+
+export const getVersion = createAsyncThunk("user/version",async(_,thunkAPI)=>{
+    const response = await UserService.getVersion();
+    return response.data.version;
+});

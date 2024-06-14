@@ -10,9 +10,10 @@ export const FlexSubcategoryPageWrap = (
 ): ReactElement => {
     const { children } = props;
     return (
-        <VFlexBox width="90%" height="135%">
-            <VFlexBox height="74%">{children}</VFlexBox>
-            <VFlexBox height="26%" />
+        <VFlexBox width="90%" height="170%">
+            <VFlexBox height="21%" />
+            <VFlexBox height="58%">{children}</VFlexBox>
+            <VFlexBox height="21%" />
         </VFlexBox>
     );
 };

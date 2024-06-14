@@ -26,6 +26,7 @@ import { ReportSettings } from "../ArchiveView/ReportSettings/ReportSettings";
 import { ReportFilesView } from "../ArchiveView/ReportFilesView/ReportFilesView";
 import { MockComponent } from "shared/ui/MockComponent/MockComponent";
 import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
+import { SubcategoryTabsList } from "widgets/SubcategoryTabs";
 interface HeatSubcategoryPageProps {
  className?: string;
 }
@@ -40,14 +41,33 @@ interface GroupClickProps {
     archive?:number;
 }
 
+const ParameterSubTabs = {
+    configParameters:0,
+    instantParameters:1,
+    storedParameters:2,
+    settingsParameters:3,
+} as const;
+type ParameterSubTabs = typeof ParameterSubTabs [keyof typeof ParameterSubTabs]
+const ArchivesSubTabs = {
+    requestArchive:0,
+    createArchiveReport:1,
+    settingsArchive:2,
+    downloadArchive:3,
+} as const;
+type ArchivesSubTabs = typeof ArchivesSubTabs [keyof typeof ArchivesSubTabs]
+
+interface TabState  {
+    tab:SubcategoryTabsList,
+    subtabs:ArchivesSubTabs | ParameterSubTabs | undefined;
+}
 
 const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>) => {
     const { className } = props;
     const {id} = useParams<{id:string}>();
     const [selectedSystem,setSeelctedSystem] = useState(0);
-    const [selectedTab,setSeelctedTab] = useState(0);
-    const [selectedParamGroup,setSelectedParamGroup] = useState(undefined);
-    const [selectedArchiveGroup,setSelectedArchiveGroup] = useState(undefined);
+    const [selectedTab,setSeelctedTab] = useState<number>(0);
+    const [selectedParamGroup,setSelectedParamGroup] = useState<number>(undefined);
+    const [selectedArchiveGroup,setSelectedArchiveGroup] = useState<number>(undefined);
     const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id);
     const {data:archData,isLoading:archLoading} = getArchives(id);
     const {data:device,isLoading:isLoadingDevices} = getHeatDevs(id);
@@ -80,10 +100,19 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const params:ParametersDict = useMemo(()=>getParams(allParams),[deviceData]);
     const instantParams:ParametersDict = useMemo(()=>getParams(filterInstant),[deviceData]);
     const accumulateParams:ParametersDict = useMemo(()=>getParams(filterAccumulate),[deviceData]);
-    const scrollHandler = useCallback(()=>{
-        setSeelctedTab((prev)=>prev===5 ? 0 : prev+1);
-        console.log(selectedTab);
-    },[selectedTab]);
+    
+    const _scrollHandler = (isScrollDown:boolean)=>{
+        if (!isScrollDown) {
+            setSeelctedTab(prev=>prev===0 ? 5 : prev-1);
+        }         
+        else {
+            setSeelctedTab(prev=>prev===5 ? 0 : prev+1);
+        }            
+    };
+    
+    const scrollHandler = useCallback((isScrollDown:boolean)=>{
+        _scrollHandler(isScrollDown);
+    },[selectedTab,selectedParamGroup,selectedArchiveGroup]);
 
     const content = (
         <DetailView onScroll={scrollHandler} className={cls.detail} >
@@ -131,7 +160,7 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
 
                                         {selectedTab===1 && <ParameterView  params={params}/>}
                                         {selectedTab===2 && selectedParamGroup===0 && <SystemsInfoBLock systems={deviceData?.systems} />}
-                                        {selectedTab===2 && selectedParamGroup===1 && <ParameterView  params={instantParams}  />}
+                                        {selectedTab===2 && (selectedParamGroup===1 || selectedParamGroup==undefined) && <ParameterView  params={instantParams}  />}
                                         {selectedTab===2 && selectedParamGroup===2 && <ParameterView  params={accumulateParams}  />}
                                         {selectedTab===2 && selectedParamGroup===3 && <ConfigParameterColumn  configParameters={configParameters}  />}
                                         {selectedTab===5 && <ParameterView  params={params}/>}
