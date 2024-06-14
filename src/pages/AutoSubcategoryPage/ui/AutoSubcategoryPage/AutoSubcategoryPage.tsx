@@ -100,8 +100,15 @@ const AutoSubcategoryPage = (
             systemsCard.push(i + 1);
         }
     }
-    const scrollHandler = useCallback(() => {
-        setSeelctedTab((prev) => (prev === 5 ? 0 : prev + 1));
+    const _scrollHandler = (isScrollDown: boolean) => {
+        if (!isScrollDown) {
+            setSeelctedTab((prev) => (prev === 0 ? 5 : prev - 1));
+        } else {
+            setSeelctedTab((prev) => (prev === 5 ? 0 : prev + 1));
+        }
+    };
+    const scrollHandler = useCallback((isScrollDown: boolean) => {
+        _scrollHandler(isScrollDown);
     }, []);
 
     const content = (

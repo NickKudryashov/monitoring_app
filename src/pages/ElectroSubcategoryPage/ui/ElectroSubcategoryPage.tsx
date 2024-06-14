@@ -60,8 +60,16 @@ const ElectroSubcategoryPage = (
             refetchGeneral();
         },
     });
-    const scrollHandler = useCallback(() => {
-        setSelectedTab((prev) => (prev === 5 ? 0 : prev + 1));
+    const _scrollHandler = (isScrollDown: boolean) => {
+        if (!isScrollDown) {
+            setSelectedTab((prev) => (prev === 0 ? 5 : prev - 1));
+        } else {
+            setSelectedTab((prev) => (prev === 5 ? 0 : prev + 1));
+        }
+    };
+
+    const scrollHandler = useCallback((isScrollDown: boolean) => {
+        _scrollHandler(isScrollDown);
     }, []);
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>(
