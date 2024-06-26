@@ -1,0 +1,14 @@
+.buttons {
+    flex-wrap: wrap;
+    align-content: flex-start;
+    row-gap: 5px;
+}
+
+.btn{
+    flex:0 0 30%;
+    height:8%;
+    color:var(--subcolor-9);
+    font-size:0.8vw;
+
+    // width:30%;
+}

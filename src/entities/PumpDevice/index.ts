@@ -8,3 +8,5 @@ export {usePumpPoll} from "./lib/hooks/usePumpPoll";
 export {getPumpDataDetail} from "./api/pumpApi";
 
 export {DetailParameter} from "./ui/DetailParameterTable/DetailParameterTable";
+
+export {PumpParameterColumn} from "./ui/PumpParameterColumn/PumpParameterColumn";

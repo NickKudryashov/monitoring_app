@@ -1,0 +1,53 @@
+.paramNameField {
+    font:var(--font-16-px);
+    font-size: 0.75vw;
+    font-weight: bold;
+    width:10%;
+}
+
+.paramValueWrapper {
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-11);
+    font:var(--font-12-px);
+    width:100%;
+}
+
+.dimensionField {
+    font:var(--font-8-px);
+    width:25%;
+    font-size:0.6vw;
+    white-space: nowrap;
+}
+
+.valueField {
+    width:70%;
+    font-size:0.6vw;
+
+}
+
+.paramVerboseWrapper {
+    display:flex;
+    align-items: center;
+    padding-left:15px;
+    height:100%;
+    border: 1px solid rgb(53 94 171 / 20%);
+    font:var(--font-10-px);
+    font-size: 0.7vw;
+    color:rgb(3 22 59 / 70%);;
+    width:50%;
+    border-radius: var(--border-radius-type-3);
+}
+
+.inp {
+    font:var(--font-10-px);
+    font-size: 0.7vw;
+    width:90%;
+    border: none;
+    color: rgb(3 22 59 / 70%);
+    outline: none;
+    background: transparent;
+}
+
+.redMark {
+    background:rgb(235 141 141);
+}

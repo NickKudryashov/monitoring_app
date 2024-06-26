@@ -1,0 +1,37 @@
+.paramValueWrapper {
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-11);
+    font:var(--font-12-px);
+    width:40%;
+}
+
+.valueField {
+    width:70%;
+}
+
+.paramVerboseWrapper {
+    display:flex;
+    align-items: center;
+    padding-left:15px;
+    height:100%;
+
+    // font:var(--font-10-px);
+    color:rgb(3 22 59 / 70%);
+    width:45%;
+    border-radius: var(--border-radius-type-3);
+}
+
+.paramRow {
+    // max-height: 5%;
+    // min-height: 5%;
+    flex-shrink: 0;
+    font-size: 0.70vw;
+    font-weight: normal;
+}
+
+.tagWrap {
+    width:35%;
+    border: 1px solid var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
+    font-size: 0.65vw;
+}

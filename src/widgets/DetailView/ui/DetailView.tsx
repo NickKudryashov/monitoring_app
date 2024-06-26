@@ -3,6 +3,7 @@ import cls from "./DetailView.module.scss";
 
 import {
     ReactNode,
+    memo,
     useCallback,
     useEffect,
     useMemo,
@@ -27,47 +28,37 @@ interface DetailViewProps {
     setGeneralSelected?: (val: boolean) => void;
     onScroll?: (isScrollDown: boolean) => void;
 }
-const GENERALTABSELECTEDKEY = "main_tab_selected";
-export function DetailView(props: DetailViewProps) {
-    const {
-        className,
-        children,
-        setTabSelected,
-        tabSelected,
-        generalSelected,
-        setGeneralSelected,
-        onScroll,
-    } = props;
+export const DetailView = memo((props: DetailViewProps) => {
+    const { className, children, onScroll } = props;
     const initRef = useRef<boolean>(false);
     const previousScrollPosition = useRef<number>(0);
     const [startAnimation, setStartAnimation] = useState(false);
+    const [enableScrollHandler, setEnabledScrollHandler] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const navigate = useNavigate();
-    if (generalSelected && tabSelected) {
-        setTabSelected(false);
-    }
 
     const firstScrollToCenter = useCallback(() => {
-        initRef.current = true;
         console.log("on load");
         if (onScroll) {
             wrapperRef.current.scrollTo({
                 top: wrapperRef.current.scrollHeight * 0.2,
+                behavior: "auto",
             });
             previousScrollPosition.current = wrapperRef.current.scrollTop;
         }
     }, [onScroll]);
 
     useEffect(() => {
-        setTimeout(firstScrollToCenter, 200);
+        const timeout = setTimeout(firstScrollToCenter, 250);
+        const timeout1 = setTimeout(() => setEnabledScrollHandler(true), 350);
         return () => {
             initRef.current = false;
+            clearTimeout(timeout);
         };
     }, []);
-    const debouncedScroll = useDebounce(onScroll, 250);
-    const onScrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-        if (!onScroll || initRef.current) {
-            initRef.current = false;
+
+    const debouncedScroll = useDebounce(onScroll, 200);
+    const onScrollHandler = () => {
+        if (!onScroll || !enableScrollHandler) {
             return;
         }
         const scrollPositionKoefficient =
@@ -125,4 +116,4 @@ export function DetailView(props: DetailViewProps) {
             )}
         </div>
     );
-}
+});

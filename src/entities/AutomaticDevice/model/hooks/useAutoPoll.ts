@@ -13,7 +13,6 @@ export const useAutoPoll = (props:HeatHookProps):()=>Promise<void> =>{
     const loop_ref = useRef<ReturnType <typeof setInterval>>();
     const pollFlag = useRef<boolean>();
     pollFlag.current=false;
-    console.log("В хуке: ",id,autoPoll);
     useEffect(()=>{
         return ()=>{
             if (timer_ref.current){

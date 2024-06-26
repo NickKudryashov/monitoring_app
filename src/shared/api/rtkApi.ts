@@ -12,6 +12,13 @@ const baseQuery = fetchBaseQuery({
 }
 );
 
+interface Error {
+    message?:string;
+}
+export interface ApiErrorResponse {
+    status:number;
+    data?:Error;
+}
 const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -33,10 +40,9 @@ const baseQueryWithReauth: BaseQueryFn<
 // Define a service using a base URL and expected endpoints
 export const rtkApi = createApi({
     reducerPath: "baseApi",
-    tagTypes:["Subcats","HeatDevice","Upcols","Downcols","ReportParameters","HeatPeriods","HeatReportFiles"],
+    tagTypes:["Subcats","HeatDevice","Upcols","Downcols","ReportParameters","HeatPeriods","HeatReportFiles","UserEvents"],
     baseQuery: baseQueryWithReauth,
-    endpoints: () => ({}),
-    
+    endpoints: () => ({}),    
 });
 
 

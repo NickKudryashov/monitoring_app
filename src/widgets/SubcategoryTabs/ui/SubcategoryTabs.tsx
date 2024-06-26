@@ -53,7 +53,7 @@ export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = (
             >
                 СОБЫТИЯ
             </AppButon>
-            {selectedTab === 1 && <VFlexBox className={cls.mockcontent} />}
+            {selectedTab === 1 && content[selectedTab]}
             <AppButon
                 className={classNames(
                     cls.btns,

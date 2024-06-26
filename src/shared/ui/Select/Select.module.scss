@@ -1,0 +1,22 @@
+.Wrapper {
+    display: flex;
+    color: var(--subcolor-9);
+    width:100%;
+    font-size: 0.7vw;
+}
+
+.label {
+    margin-right: 5px;
+    width:25%;
+}
+
+.select {
+    outline: none;
+    width:70%;
+    padding: 2px 10px 2px 2px;
+    box-shadow: var(--shadow-redesign);
+}
+
+.option {
+    // background: var(--inverted-bg-color);
+}

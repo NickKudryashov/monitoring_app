@@ -4,10 +4,10 @@ import { ElectroCounter, GetDeviceQuery } from "../model/types/electroDevice";
 
 const electroDevicesQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        getElectroDeviceData: build.query<GetDeviceQuery,string>({
+        getElectroDeviceData: build.query<GetDeviceQuery,number>({
             query: (id) => {
                 return {
-                    url:"electro_top_level_device/"+id,
+                    url:`electro_top_level_device/${id}`,
                 };
             },
         }),

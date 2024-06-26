@@ -30,60 +30,51 @@
 
 .paramNameField {
     font:var(--font-16-px);
-    font-size: 0.75vw;
     font-weight: bold;
     width:10%;
 }
 
 
-.paramValueWrapper {
-    border-radius: var(--border-radius-type-3);
-    background: var(--subcolor-11);
-    font:var(--font-12-px);
-    width:100%;
-}
+
 
 .dimensionField {
     font:var(--font-8-px);
     width:25%;
-    font-size:0.6vw;
-    white-space: nowrap;
 }
 
-.valueField {
-    width:70%;
-    font-size:0.6vw;
 
-}
 
-.paramVerboseWrapper {
-    display:flex;
-    align-items: center;
-    padding-left:15px;
-    height:100%;
-    border: 1px solid rgb(53 94 171 / 20%);
-    font:var(--font-10-px);
-    font-size: 0.7vw;
-    color:rgb(3 22 59 / 70%);;
-    width:50%;
-    border-radius: var(--border-radius-type-3);
-}
 
 .rows {
-    row-gap: 2%;
+    row-gap: 10px;
     overflow-y: auto;
 }
 
-.inp {
-    font:var(--font-10-px);
-    font-size: 0.7vw;
-    width:90%;
-    border: none;
-    color: rgb(3 22 59 / 70%);
-    outline: none;
-    background: transparent;
+.groupWrap {
+    flex:1;
+    padding-top: 5px;
+    align-items: stretch;
+    min-height: 100%;
+
 }
 
-.redMark {
-    background:rgb(235 141 141);
+.row {
+    height:10%;
+    min-height:10%;
+    flex-shrink: 0;
 }
+
+
+.groupLabel {
+    color:rgb(3 22 59 / 70%);
+    font:var(--font-14-px);
+    text-decoration: underline;
+    text-transform: uppercase;
+    font-weight: bold;
+    height:5%;
+    padding-left: 15px;
+    font-size: 0.70vw;
+    margin-bottom: 7px;
+}
+
+

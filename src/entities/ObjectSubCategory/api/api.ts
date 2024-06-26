@@ -1,9 +1,8 @@
 import { url } from "inspector";
 import { rtkApi } from "shared/api/rtkApi";
+import { SubcatTypes } from "../model/types/ObjectSubCategorySchema";
 
-const TEMP = ["heat_energy_node","auto_node","pump_station_node","electro_energy_node",] as const;
 
-type SubcatType = "heat_energy_node" | "auto_node"| "pump_station_node"| "electro_energy_node"
 export const SubcategoryStatus = {
     no_answer:"no_answer",
     success:"success"
@@ -12,7 +11,7 @@ export type SubcategoryStatus = typeof SubcategoryStatus [ keyof typeof  Subcate
 export interface SubcategoryAnswer {
     id:number;
     name:string;
-    subcategory_type:SubcatType;
+    subcategory_type:SubcatTypes;
     // subcategory_type:string;
     order_index:number;
     user_object:number;
@@ -35,6 +34,34 @@ interface ObjectAnswer {
 }
 const objectSubcategoryEntityQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
+        getHeatDevIdBySubcat: build.query<{device:number},string>({
+            query: (id) => {
+                return {
+                    url:"subcategory/"+id+"/heat",
+                };
+            },
+        }),
+        getAutoDevIdBySubcat: build.query<{device:number},string>({
+            query: (id) => {
+                return {
+                    url:"subcategory/"+id+"/auto",
+                };
+            },
+        }),
+        getElectroDevIdBySubcat: build.query<{device:number},string>({
+            query: (id) => {
+                return {
+                    url:"subcategory/"+id+"/electro",
+                };
+            },
+        }),
+        getPumpDevIdBySubcat: build.query<{device:number},string>({
+            query: (id) => {
+                return {
+                    url:"subcategory/"+id+"/pump",
+                };
+            },
+        }),
         getObjectSubcategorys: build.query<ObjectAnswer,number>({
             query: (id) => {
                 return {
@@ -91,6 +118,11 @@ const objectSubcategoryEntityQuery = rtkApi.injectEndpoints({
     }),
     overrideExisting: false,
 });
+
+export const getHeatDeviceIdBySystem = objectSubcategoryEntityQuery.useGetHeatDevIdBySubcatQuery;
+export const getAutoDeviceIdBySystem = objectSubcategoryEntityQuery.useGetAutoDevIdBySubcatQuery;
+export const getElectroDeviceIdBySystem = objectSubcategoryEntityQuery.useGetElectroDevIdBySubcatQuery;
+export const getPumpDeviceIdBySystem = objectSubcategoryEntityQuery.useGetPumpDevIdBySubcatQuery;
 
 export const deleteSubcat = objectSubcategoryEntityQuery.useDeleteSubcatMutation;
 export const getObjectSubcategoryData = objectSubcategoryEntityQuery.useGetObjectSubcategorysQuery;

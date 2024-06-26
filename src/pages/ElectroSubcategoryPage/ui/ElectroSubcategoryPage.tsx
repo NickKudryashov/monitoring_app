@@ -10,7 +10,6 @@ import classNames from "shared/lib/classNames/classNames";
 import $api, { API_URL } from "shared/api";
 import { GeneralInfoBlock } from "features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
-import { PumpParameter } from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
 import { Footer } from "shared/ui/Footer/Footer";
 import {
     ElectroCounterDeviceDetail,
@@ -19,21 +18,12 @@ import {
     getElectroDeviceData,
     useElectroPoll,
 } from "entities/ElectroDevice";
-import { getElectroDevId } from "../api/api";
 import { Loader } from "shared/ui/Loader/Loader";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
+import { getElectroDeviceIdBySystem } from "entities/ObjectSubCategory";
 interface ElectroSubcategoryPageProps {
     className?: string;
-}
-
-export interface ParamRecord {
-    parameters: PumpParameter[];
-    name: string;
-}
-
-interface AutoParamsDict {
-    [key: string]: ParamRecord[];
 }
 const ElectroSubcategoryPage = (
     props: PropsWithChildren<ElectroSubcategoryPageProps>
@@ -46,12 +36,13 @@ const ElectroSubcategoryPage = (
         refetch: refetchGeneral,
         isLoading,
     } = getSubcatGeneralInfo(id);
-    const { data: elData, isLoading: idIsLoading } = getElectroDevId(id);
+    const { data: elData, isLoading: idIsLoading } =
+        getElectroDeviceIdBySystem(id);
     const {
         data: devData,
         refetch: refetchDev,
         isLoading: devIsLoading,
-    } = getElectroDeviceData(elData ? String(elData[0]) : undefined);
+    } = getElectroDeviceData(elData?.device, { skip: !elData?.device });
     const poll = useElectroPoll({
         id: devData?.id,
         autoPoll: devData?.connection_info.connection_type !== "GSM",

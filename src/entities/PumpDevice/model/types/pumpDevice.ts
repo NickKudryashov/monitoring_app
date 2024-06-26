@@ -26,6 +26,7 @@ export interface PumpDeviceData {
     autopoll?:boolean;
     interval?:number;
     connection_info:ConnInfo;
+    parametersByGroup:Record<string,PumpParameter[]>
 }
 
 export interface PumpParameter {

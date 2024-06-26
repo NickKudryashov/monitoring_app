@@ -66,13 +66,7 @@ export interface ReportFiles {
 
 const heatSubcatQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        getHeatSubcat: build.query<number[],string>({
-            query: (id) => {
-                return {
-                    url:"subcategory/"+id+"/heat",
-                };
-            },
-        }),
+
         getSystemConfigParams: build.query<ConfigurationParameterAnswer[],string>({
             query: (id) => {
                 return {
@@ -237,7 +231,6 @@ const heatSubcatQuery = rtkApi.injectEndpoints({
     overrideExisting: false,
 });
 
-export const getHeatDevs = heatSubcatQuery.useGetHeatSubcatQuery;
 export const getConfigParams = heatSubcatQuery.useGetSystemConfigParamsQuery;
 export const getArchives = heatSubcatQuery.useGetArchivesStatQuery;
 export const getUpCols = heatSubcatQuery.useGetUpColsQuery;

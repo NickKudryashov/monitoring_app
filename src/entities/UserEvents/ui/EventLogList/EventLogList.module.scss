@@ -1,0 +1,9 @@
+.EventLogList {
+    row-gap: 10px;
+}
+
+.logRow {
+    box-shadow: var(--shadow-redesign);
+    color:var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
+}

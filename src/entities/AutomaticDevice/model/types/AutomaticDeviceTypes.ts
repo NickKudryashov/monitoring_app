@@ -1,7 +1,16 @@
 interface ConnInfo {
     connection_type:string;
 }
+
+export interface ParamRecord {
+    parameters: AutoParameter[];
+    name: string;
+}
+
+
 export interface AutomaticDeviceData {
+    resultParamGroup:Record<number,ParameterGroup[]>
+    systemParamGroup:Record<number,ParameterGroup[]>
     system_params:ParameterGroup[];
     name:string;
     system_count:number;
@@ -22,12 +31,12 @@ export interface AutomaticDeviceData {
 export interface ParameterGroup {
     name:string;
     index:number;
-    parameters:PumpParameter[];
+    parameters:AutoParameter[];
     id:number;
 }
 
 
-export interface PumpParameter {
+export interface AutoParameter {
     verbose:number;
     system_index:number;
     value:number;

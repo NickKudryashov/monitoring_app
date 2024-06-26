@@ -9,3 +9,5 @@ import { ObjectItem,objectState } from "./reducers/reducers";
 export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectDetail,objectsDelRequest};
 export type {ObjectResponse,ObjectItem,objectState};
 export {getUserObjectData} from "./api/api";
+export {getAllObjects} from "./selectors/getAllObjects";
+export {ObjectList} from "./ui/ObjectList/ObjectList";

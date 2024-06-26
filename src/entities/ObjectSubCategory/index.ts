@@ -5,3 +5,7 @@ export {SubcategoryCard} from "./ui/SubcategoryCard/SubcategoryCard";
 export {deleteSubcat,getObjectSubcategoryData,editSubcatOrder,addNewSubcategory,getSubcategoryTypes,toggleSubcat } from "./api/api";
 export type {SubcategoryAnswer} from "./api/api";
 export {SubcategoryStatus} from "./api/api";
+export {SubcategoryListByObject} from "./ui/SubcategoryListByObject/SubcategoryListByObject";
+export {SubcatTypes} from "./model/types/ObjectSubCategorySchema";
+
+export {getAutoDeviceIdBySystem,getElectroDeviceIdBySystem,getHeatDeviceIdBySystem,getPumpDeviceIdBySystem} from "./api/api";

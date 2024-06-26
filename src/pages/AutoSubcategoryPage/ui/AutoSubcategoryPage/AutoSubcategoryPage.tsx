@@ -8,43 +8,53 @@ import { DetailView } from "widgets/DetailView";
 import cls from "./AutoSubcategoryPage.module.scss";
 import classNames from "shared/lib/classNames/classNames";
 import { getAutomaticDevice } from "entities/AutomaticDevice/api/AutomaticDeviceApi";
-import { getAutomaticDevId } from "pages/AutoSubcategoryPage/api/api";
 import $api from "shared/api";
-import { ParameterColumn } from "../ParameterColumn/ParameterColumn";
-import { useAutoPoll } from "entities/AutomaticDevice";
+import { AutoParameterColumn, useAutoPoll } from "entities/AutomaticDevice";
 import { GeneralInfoBlock } from "features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
-import { PumpParameter } from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
 import { Footer } from "shared/ui/Footer/Footer";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
+import {
+    ParamRecord,
+    ParameterGroup,
+} from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
+import { getAutoDeviceIdBySystem } from "entities/ObjectSubCategory";
+import {
+    EventCardList,
+    EventLogList,
+    getUserEventsByAuto,
+    getUserEventsProcessingByAuto,
+} from "entities/UserEvents";
+import { EventEditor } from "widgets/EventEditor";
 interface AutoSubcategoryPageProps {
     className?: string;
 }
 
-export interface ParamRecord {
-    parameters: PumpParameter[];
-    name: string;
-}
-
 interface AutoParamsDict {
-    [key: string]: ParamRecord[];
+    [key: string]: ParameterGroup[];
 }
 const AutoSubcategoryPage = (
     props: PropsWithChildren<AutoSubcategoryPageProps>
 ) => {
     const { className } = props;
     const { id } = useParams<{ id: string }>();
-    const [selectedSystem, setSeelctedSystem] = useState(0);
     const [selectedTab, setSeelctedTab] = useState(0);
+    const [selectedEventGroup, setSelectedEventGroup] = useState<number>(0);
     const { data: generalData, refetch: refetchGeneral } =
         getSubcatGeneralInfo(id);
-    const { data: dataID, isLoading: isLoadingDataId } = getAutomaticDevId(id);
+    const { data: dataID, isLoading: isLoadingDataId } =
+        getAutoDeviceIdBySystem(id);
     const {
         data: devData,
         isLoading: devIsLoading,
         refetch: refetchDev,
-    } = getAutomaticDevice(dataID ? String(dataID[0]) : undefined);
+    } = getAutomaticDevice(dataID?.device, { skip: !dataID?.device });
+    const { data: events } = getUserEventsByAuto(Number(id));
+    const { data: processingEvents } = getUserEventsProcessingByAuto(
+        Number(id)
+    );
+
     const poll = useAutoPoll({
         id: devData?.id,
         onUpdate: refetchDev,
@@ -56,43 +66,6 @@ const AutoSubcategoryPage = (
         );
         return response.data;
     }, [id]);
-    const paramDict = useMemo(() => {
-        if (!devData) {
-            return {};
-        }
-        const temp: AutoParamsDict = {};
-        devData?.parameters?.map((gr) => {
-            const tempIndex = String(gr.index === 0 ? 2 : gr.index);
-            temp[tempIndex]
-                ? (temp[tempIndex] = [
-                      ...temp[tempIndex],
-                      { name: gr.name, parameters: gr.parameters },
-                  ])
-                : (temp[tempIndex] = [
-                      { name: gr.name, parameters: gr.parameters },
-                  ]);
-        });
-        return temp;
-    }, [devData]);
-
-    const paramDictSystems = useMemo(() => {
-        if (!devData) {
-            return {};
-        }
-        const temp: AutoParamsDict = {};
-        devData?.system_params?.map((gr) => {
-            const tempIndex = String(gr.index === 0 ? 2 : gr.index);
-            temp[tempIndex]
-                ? (temp[tempIndex] = [
-                      ...temp[tempIndex],
-                      { name: gr.name, parameters: gr.parameters },
-                  ])
-                : (temp[tempIndex] = [
-                      { name: gr.name, parameters: gr.parameters },
-                  ]);
-        });
-        return temp;
-    }, [devData]);
 
     const systemsCard = [];
     if (devData) {
@@ -136,6 +109,52 @@ const AutoSubcategoryPage = (
                                     name={generalData?.user_object_name}
                                 />
                             ),
+                            1: (
+                                <VFlexBox
+                                    className={cls.paramTitleBox}
+                                    gap={"10px"}
+                                >
+                                    <p
+                                        onClick={() => setSelectedEventGroup(0)}
+                                        className={classNames(
+                                            cls.paramTitle,
+                                            {
+                                                [cls.paramTitleSelected]:
+                                                    selectedEventGroup === 0,
+                                            },
+                                            []
+                                        )}
+                                    >
+                                        СПИСОК СОБЫТИЙ
+                                    </p>
+                                    <p
+                                        onClick={() => setSelectedEventGroup(1)}
+                                        className={classNames(
+                                            cls.paramTitle,
+                                            {
+                                                [cls.paramTitleSelected]:
+                                                    selectedEventGroup === 1,
+                                            },
+                                            []
+                                        )}
+                                    >
+                                        ЛОГ СОБЫТИЙ
+                                    </p>
+                                    <p
+                                        onClick={() => setSelectedEventGroup(2)}
+                                        className={classNames(
+                                            cls.paramTitle,
+                                            {
+                                                [cls.paramTitleSelected]:
+                                                    selectedEventGroup === 2,
+                                            },
+                                            []
+                                        )}
+                                    >
+                                        ДОБАВИТЬ СОБЫТИЕ
+                                    </p>
+                                </VFlexBox>
+                            ),
                             2: (
                                 <VFlexBox
                                     className={cls.paramTitleBox}
@@ -157,32 +176,44 @@ const AutoSubcategoryPage = (
                                     >
                                         {selectedTab === 0 &&
                                             devData &&
-                                            Object.values(paramDictSystems).map(
-                                                (el, i) => (
-                                                    <ParameterColumn
-                                                        fullHeight
-                                                        key={i}
-                                                        header={`Контур ${
-                                                            i + 1
-                                                        }`}
-                                                        params={el}
-                                                    />
-                                                )
-                                            )}
+                                            Object.values(
+                                                devData?.systemParamGroup
+                                            ).map((el, i) => (
+                                                <AutoParameterColumn
+                                                    fullHeight
+                                                    key={i}
+                                                    header={`Контур ${i + 1}`}
+                                                    params={el}
+                                                />
+                                            ))}
                                         {selectedTab === 2 &&
-                                            paramDict &&
-                                            Object.values(paramDict).map(
-                                                (params, i) => (
-                                                    <ParameterColumn
-                                                        detail
-                                                        fullHeight
-                                                        key={i}
-                                                        header={`Контур ${
-                                                            i + 1
-                                                        }`}
-                                                        params={params}
-                                                    />
-                                                )
+                                            devData &&
+                                            Object.values(
+                                                devData?.resultParamGroup
+                                            ).map((params, i) => (
+                                                <AutoParameterColumn
+                                                    detail
+                                                    fullHeight
+                                                    key={i}
+                                                    header={`Контур ${i + 1}`}
+                                                    params={params}
+                                                />
+                                            ))}
+                                        {selectedTab === 1 &&
+                                            selectedEventGroup === 2 && (
+                                                <EventEditor />
+                                            )}
+                                        {selectedTab === 1 &&
+                                            selectedEventGroup === 1 && (
+                                                <EventLogList
+                                                    events={processingEvents}
+                                                />
+                                            )}
+                                        {selectedTab === 1 &&
+                                            selectedEventGroup === 0 && (
+                                                <EventCardList
+                                                    events={events}
+                                                />
                                             )}
                                     </HFlexBox>
                                 </Panel>

@@ -62,3 +62,4 @@ export const userSlice = createSlice({
 
 // export const userReducer = userSlice.reducer;
 export const {reducer:userReducer} = userSlice;
+export const {actions:userActions} = userSlice;

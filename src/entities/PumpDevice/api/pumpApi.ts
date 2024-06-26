@@ -1,20 +1,32 @@
 import { url } from "inspector";
 import { rtkApi } from "shared/api/rtkApi";
-import { PumpDetailInfo, PumpDeviceData } from "../model/types/pumpDevice";
+import { PumpDetailInfo, PumpDeviceData, PumpParameter } from "../model/types/pumpDevice";
 
 const pumpDeviceQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        getPumpData: build.query<PumpDeviceData,string>({
+        getPumpData: build.query<PumpDeviceData,number>({
             query: (id) => {
                 return {
-                    url:"pump/"+id,
+                    url:`pump/${id}`,
                 };
             },
+            transformResponse(response:PumpDeviceData) {
+                const parameterByGroup:Record<string,PumpParameter[]> = {};
+                response.parameters.forEach((el)=>{
+                    if (!parameterByGroup[el.parameter_verbose_group]) {
+                        parameterByGroup[el.parameter_verbose_group] = [el,];
+                    }
+                    else {
+                        parameterByGroup[el.parameter_verbose_group] = [... parameterByGroup[el.parameter_verbose_group],el];
+                    }
+                });
+                return {...response,parametersByGroup:parameterByGroup};
+            }
         }),
-        getPumpDataDetail: build.query<PumpDetailInfo,string>({
+        getPumpDataDetail: build.query<PumpDetailInfo,number>({
             query: (id) => {
                 return {
-                    url:"pump/detail/"+id,
+                    url:`pump/detail/${id}`,
                 };
             },
         }),

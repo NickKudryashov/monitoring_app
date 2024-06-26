@@ -4,10 +4,10 @@ import { rtkApi } from "shared/api/rtkApi";
 
 const heatDeviceQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        getHeatDevice: build.query<HeatDevice,string>({
+        getHeatDevice: build.query<HeatDevice,number>({
             query: (id) => {
                 return {
-                    url:"device/"+id,
+                    url:`device/${id}`,
                 };
             },
             providesTags: (result) =>

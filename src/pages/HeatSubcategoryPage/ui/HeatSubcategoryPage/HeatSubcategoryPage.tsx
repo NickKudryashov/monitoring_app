@@ -7,7 +7,7 @@ import { DetailView } from "widgets/DetailView";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { Footer } from "shared/ui/Footer/Footer";
-import { getArchives, getConfigParams, getHeatDevs } from "../../api/api";
+import { getArchives, getConfigParams } from "../../api/api";
 import { getHeatDeviceData, useHeatPoll } from "entities/Heatcounters";
 import { HeatParameters } from "entities/Heatcounters/types/type";
 import $api from "shared/api";
@@ -24,9 +24,11 @@ import { SubHeader } from "features/PageHeader/SubHeader/SubHeader";
 import { SimpleReport } from "../ArchiveView/SimpleReport/SimpleReport";
 import { ReportSettings } from "../ArchiveView/ReportSettings/ReportSettings";
 import { ReportFilesView } from "../ArchiveView/ReportFilesView/ReportFilesView";
-import { MockComponent } from "shared/ui/MockComponent/MockComponent";
 import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
 import { SubcategoryTabsList } from "widgets/SubcategoryTabs";
+import { EventEditor } from "widgets/EventEditor";
+import { getHeatDeviceIdBySystem } from "entities/ObjectSubCategory";
+import { EventCard, EventCardList, EventLogList, getUserEventsByHeat, getUserEventsProcessingByHeat } from "entities/UserEvents";
 interface HeatSubcategoryPageProps {
  className?: string;
 }
@@ -68,11 +70,16 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const [selectedTab,setSeelctedTab] = useState<number>(0);
     const [selectedParamGroup,setSelectedParamGroup] = useState<number>(undefined);
     const [selectedArchiveGroup,setSelectedArchiveGroup] = useState<number>(undefined);
+    const [selectedEventGroup,setSelectedEventGroup] = useState<number>(0);
+
     const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id);
-    const {data:archData,isLoading:archLoading} = getArchives(id);
-    const {data:device,isLoading:isLoadingDevices} = getHeatDevs(id);
-    const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.length ? String(device[0]) : undefined,{pollingInterval:15000});
-    const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem]?.id));
+    const {data:archData,isLoading:archLoading} = getArchives(id,{skip:id===undefined});
+    const {data:device,isLoading:isLoadingDevices} = getHeatDeviceIdBySystem(id,{skip:id===undefined});
+    const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.device,{pollingInterval:15000,skip:device?.device===undefined});
+    const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem]?.id),{skip:deviceData===undefined || deviceData?.systems===undefined});
+    const {data:events} = getUserEventsByHeat(Number(id));
+    const {data:processingEvents} = getUserEventsProcessingByHeat(Number(id));
+    console.log(processingEvents);
     const poll = useHeatPoll({autoPoll:deviceData?.connection_info.connection_type!=="GSM",id:deviceData?.id,onUpdate:()=>{refetch();refetchGeneral();}});
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>("subcategory_events/"+id);
@@ -125,6 +132,11 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                         setSelectedTab={setSeelctedTab}
                         content={
                             {0:<GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={deviceData?.systems.length} address={generalData?.adress} name={generalData?.abonent} />,
+                                1:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
+                                    <p onClick={()=>setSelectedEventGroup(0)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedEventGroup===0},[])}>СПИСОК СОБЫТИЙ</p>
+                                    <p onClick={()=>setSelectedEventGroup(1)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedEventGroup===1},[])}>ЛОГ СОБЫТИЙ</p>
+                                    <p onClick={()=>setSelectedEventGroup(2)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedEventGroup===2},[])}>ДОБАВИТЬ СОБЫТИЕ</p>
+                                </VFlexBox>,
                                 2:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
                                     <p onClick={()=>onParamGroupClick({parameters:0})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===0},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>
                                     <p onClick={()=>onParamGroupClick({parameters:1})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===1},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>
@@ -158,7 +170,9 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                             <ParameterView  params={params}/>
                                         }
 
-                                        {selectedTab===1 && <ParameterView  params={params}/>}
+                                        {selectedTab===1 && selectedEventGroup===2 && <EventEditor/>}
+                                        {selectedTab===1 && selectedEventGroup===1 && <EventLogList events={processingEvents} />}
+                                        {selectedTab===1 && selectedEventGroup===0 && <EventCardList events={events} /> }
                                         {selectedTab===2 && selectedParamGroup===0 && <SystemsInfoBLock systems={deviceData?.systems} />}
                                         {selectedTab===2 && (selectedParamGroup===1 || selectedParamGroup==undefined) && <ParameterView  params={instantParams}  />}
                                         {selectedTab===2 && selectedParamGroup===2 && <ParameterView  params={accumulateParams}  />}
