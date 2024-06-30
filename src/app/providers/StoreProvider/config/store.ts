@@ -15,6 +15,8 @@ import { rtkApi } from "shared/api/rtkApi";
 import { subcatCardSliceReducer } from "features/ObjectCategoryCardView";
 import { archiveEventsReducer } from "entities/ArchiveEvent";
 import { navbarReducer } from "widgets/Navbar";
+import { tabSliceReducer } from "widgets/SubcategoryTabs";
+import { pumpPageSliceReducer } from "pages/PumpSubcategoryPage";
 
 
 
@@ -34,6 +36,8 @@ export function createReduxStore(initialState?:StateSchema) {
         subcatCards:subcatCardSliceReducer,
         archiveEvents:archiveEventsReducer,
         navbar:navbarReducer,
+        tabs:tabSliceReducer,
+        pumpPage:pumpPageSliceReducer,
         [rtkApi.reducerPath]:rtkApi.reducer
 
     };

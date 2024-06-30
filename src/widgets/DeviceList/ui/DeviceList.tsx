@@ -5,22 +5,19 @@ import { useAppDispatch } from "shared/hooks/hooks";
 import { categoriesAllRequest } from "entities/Category";
 import { objectsAllRequest } from "entities/Objects";
 interface DeviceListProps {
- className?: string;
- parentID?:number;
- onSubCatMove?:()=>void
- onClick?:()=>void;
+    className?: string;
+    parentID?: number;
+    onSubCatMove?: () => void;
+    onClick?: () => void;
 }
 
 export function DeviceList(props: PropsWithChildren<DeviceListProps>) {
-    const {className,onClick,onSubCatMove} = props;
-    const dispatch = useAppDispatch();
+    // const {className,onClick,onSubCatMove} = props;
+    // const dispatch = useAppDispatch();
 
-    useEffect(()=>{
-        dispatch(categoriesAllRequest());
-        dispatch(objectsAllRequest());
-    },[dispatch]);
-    return (
-        <div className={classNames(cls.DeviceList,{},[className])}>
-        </div>
-    );
+    // useEffect(()=>{
+    //     dispatch(categoriesAllRequest());
+    //     dispatch(objectsAllRequest());
+    // },[dispatch]);
+    return <div className={classNames(cls.DeviceList, {}, [])}></div>;
 }

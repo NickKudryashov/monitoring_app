@@ -1,0 +1,22 @@
+.preview {
+    font-size:0.6vw;
+    flex-grow: 0;
+}
+
+.previewVal {
+    width:20%;
+    height:90%;
+    background: var(--subcolor-1);
+    color:white;
+    border-radius: var(--border-radius-type-4);
+    text-align: center;
+}
+
+.previewName {
+    width:65%;
+    height:90%;
+}
+
+.previewBox {
+    padding-left: 10%;
+}

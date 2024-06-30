@@ -7,3 +7,14 @@ export const SubcategoryTabsList = {
     schemaTab:5,
 } as const;
 export type SubcategoryTabsList = typeof SubcategoryTabsList [keyof typeof SubcategoryTabsList]
+
+
+export type TabContentLength = Record<SubcategoryTabsList,number>
+
+export interface SubcategoryTabStateSchema {
+    currentTab:SubcategoryTabsList;
+    currentSubTab:number | undefined;
+    tabContentLength?:TabContentLength;
+    nonEmptyTabs?:SubcategoryTabsList[];
+
+}

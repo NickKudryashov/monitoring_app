@@ -15,6 +15,7 @@ import {
     ElectroCounterDeviceDetail,
     ElectroStatistic,
     TopLevelElectroDevice,
+    downloadXLSFile,
     getElectroDeviceData,
     useElectroPoll,
 } from "entities/ElectroDevice";
@@ -22,6 +23,9 @@ import { Loader } from "shared/ui/Loader/Loader";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
 import { getElectroDeviceIdBySystem } from "entities/ObjectSubCategory";
+import { PageMapper } from "./PageMapper/PageMapper";
+import { useAppDispatch } from "shared/hooks/hooks";
+import { tabSliceActions } from "widgets/SubcategoryTabs";
 interface ElectroSubcategoryPageProps {
     className?: string;
 }
@@ -30,7 +34,7 @@ const ElectroSubcategoryPage = (
 ) => {
     const { className } = props;
     const { id } = useParams<{ id: string }>();
-    const [selectedTab, setSelectedTab] = useState(0);
+    const dispatch = useAppDispatch();
     const {
         data: generalData,
         refetch: refetchGeneral,
@@ -51,16 +55,13 @@ const ElectroSubcategoryPage = (
             refetchGeneral();
         },
     });
-    const _scrollHandler = (isScrollDown: boolean) => {
-        if (!isScrollDown) {
-            setSelectedTab((prev) => (prev === 0 ? 5 : prev - 1));
-        } else {
-            setSelectedTab((prev) => (prev === 5 ? 0 : prev + 1));
-        }
-    };
 
     const scrollHandler = useCallback((isScrollDown: boolean) => {
-        _scrollHandler(isScrollDown);
+        if (!isScrollDown) {
+            dispatch(tabSliceActions.moveUp());
+        } else {
+            dispatch(tabSliceActions.moveDown());
+        }
     }, []);
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>(
@@ -72,26 +73,6 @@ const ElectroSubcategoryPage = (
     if (devIsLoading || isLoading || idIsLoading) {
         return <Loader />;
     }
-
-    const downloadXLSFile = async (dev: TopLevelElectroDevice) => {
-        const response = $api.post(`electro_report/${dev.id}`);
-        fetch(`${API_URL}electro_report/${dev.id}`, {
-            method: "PUT",
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("access_token"),
-            },
-        }).then((response) => {
-            response.blob().then((blob) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                // console.log(url);
-                a.href = url;
-                a.download = `${dev.name}_${dev.device_type_verbose_name}_отчет.xlsx`;
-                a.click();
-                a.remove();
-            });
-        });
-    };
 
     const content = (
         <DetailView onScroll={scrollHandler}>
@@ -108,31 +89,27 @@ const ElectroSubcategoryPage = (
                     align="space-between"
                 >
                     <SubcategoryTabs
-                        selectedTab={selectedTab}
-                        setSelectedTab={setSelectedTab}
                         content={{
-                            0: (
+                            0: [
                                 <GeneralInfoBlock
+                                    key="general"
                                     device_num={devData?.device_num}
                                     device_type_verbose_name={
                                         devData?.device_type_verbose_name
                                     }
-                                    systems={
-                                        devData
-                                            ? Object.keys(devData?.statistic)
-                                                  .length
-                                            : 0
-                                    }
+                                    systems={devData.systemCount}
                                     address={generalData?.adress}
                                     name={generalData?.user_object_name}
-                                />
-                            ),
-                            2: (
-                                <VFlexBox
-                                    className={cls.paramTitleBox}
-                                    gap={"10px"}
-                                />
-                            ),
+                                />,
+                            ],
+                            2: [
+                                <p
+                                    className={cls.paramTitle}
+                                    key={"parameters_1"}
+                                >
+                                    ПАРАМЕТРЫ
+                                </p>,
+                            ],
                         }}
                     />
                     <VFlexBox width={"70%"} gap={"15px"}>
@@ -146,32 +123,7 @@ const ElectroSubcategoryPage = (
                                         gap="30px"
                                         className={cls.tableContentFlexbox}
                                     >
-                                        {selectedTab === 0 && devData && (
-                                            <VFlexBox align="space-around">
-                                                <ElectroStatistic
-                                                    className={cls.statistic}
-                                                    autoPollMode={
-                                                        devData.autopoll
-                                                    }
-                                                    id={devData.id}
-                                                    last_poll_seconds={
-                                                        devData.last_poll_seconds
-                                                    }
-                                                    last_update={
-                                                        devData.last_update
-                                                    }
-                                                    pollInterval={
-                                                        devData.interval
-                                                    }
-                                                />
-                                                <ElectroCounterDeviceDetail
-                                                    stat={devData?.statistic}
-                                                    className={cls.counters}
-                                                    devname={devData?.name}
-                                                    dev_id={String(devData?.id)}
-                                                />
-                                            </VFlexBox>
-                                        )}
+                                        <PageMapper devData={devData} />
                                     </HFlexBox>
                                 </Panel>
                                 <PanelResizeHandle />

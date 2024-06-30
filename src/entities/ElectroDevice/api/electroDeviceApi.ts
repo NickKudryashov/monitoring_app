@@ -10,6 +10,9 @@ const electroDevicesQuery = rtkApi.injectEndpoints({
                     url:`electro_top_level_device/${id}`,
                 };
             },
+            transformResponse:(response:GetDeviceQuery)=>{
+                return {...response,systemCount:Object.keys(response?.statistic).length};
+            }
         }),
         getElectroCountersByCan: build.query<ElectroCounter[],{id:string,counterInterface:string}>({
             query: ({id,counterInterface}) => {

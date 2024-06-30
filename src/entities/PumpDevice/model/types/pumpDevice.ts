@@ -43,8 +43,14 @@ export interface PumpErrorDetail extends PumpParameter {
     translate:string;
 }
 
+    
+type SystemIndexWithNameMapper = Record<number,string>;
+type GroupWithParameters = Record<string,PumpDetailInfoBySystem>;
+
 export interface PumpDetailInfo {
-    [key:string]:PumpDetailInfoBySystem;
+    parametersByGroup:GroupWithParameters;
+    systemIndexByName:SystemIndexWithNameMapper
+
 }
 
 export interface PumpDetailInfoBySystem {

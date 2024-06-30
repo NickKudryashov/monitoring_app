@@ -9,10 +9,12 @@ import { TelegramChatSchema } from "entities/TelegramChat";
 import { UserState } from "entities/user";
 import { HeatArchivesSchema } from "features/HeatArchives";
 import { SubcatCardsSchema } from "features/ObjectCategoryCardView";
+import { PumpPageStateSchema } from "pages/PumpSubcategoryPage";
 import { SubCategoryPageSchema } from "pages/SubcartegoryPage";
 import { rtkApi } from "shared/api/rtkApi";
 import { DeviceListState } from "widgets/DeviceList";
 import { NavbarStateSchema } from "widgets/Navbar";
+import { SubcategoryTabStateSchema } from "widgets/SubcategoryTabs";
 
 export interface StateSchema {
     [rtkApi.reducerPath]:ReturnType<typeof rtkApi.reducer>;
@@ -30,6 +32,8 @@ export interface StateSchema {
     subcatCards:SubcatCardsSchema;
     archiveEvents:ArchiveEventsSliceSchema;
     navbar:NavbarStateSchema;
+    tabs:SubcategoryTabStateSchema;
+    pumpPage:PumpPageStateSchema;
 }
 
 export interface ThunkConfig<T> {

@@ -6,6 +6,7 @@ import {
     memo,
     useCallback,
     useEffect,
+    useLayoutEffect,
     useMemo,
     useRef,
     useState,
@@ -33,38 +34,47 @@ export const DetailView = memo((props: DetailViewProps) => {
     const initRef = useRef<boolean>(false);
     const previousScrollPosition = useRef<number>(0);
     const [startAnimation, setStartAnimation] = useState(false);
-    const [enableScrollHandler, setEnabledScrollHandler] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     const firstScrollToCenter = useCallback(() => {
-        console.log("on load");
         if (onScroll) {
+            previousScrollPosition.current =
+                wrapperRef.current.scrollHeight * 0.21;
             wrapperRef.current.scrollTo({
-                top: wrapperRef.current.scrollHeight * 0.2,
+                top: wrapperRef.current.scrollHeight * 0.21,
                 behavior: "auto",
             });
-            previousScrollPosition.current = wrapperRef.current.scrollTop;
+            console.log(
+                window.innerHeight,
+                wrapperRef.current.offsetHeight,
+                wrapperRef.current.scrollTop,
+                wrapperRef.current.scrollHeight
+            );
+            initRef.current = true;
         }
     }, [onScroll]);
 
     useEffect(() => {
-        const timeout = setTimeout(firstScrollToCenter, 250);
-        const timeout1 = setTimeout(() => setEnabledScrollHandler(true), 350);
+        // const timeout = setTimeout(firstScrollToCenter, 110);
         return () => {
             initRef.current = false;
-            clearTimeout(timeout);
+            // clearTimeout(timeout);
         };
     }, []);
-
     const debouncedScroll = useDebounce(onScroll, 200);
     const onScrollHandler = () => {
-        if (!onScroll || !enableScrollHandler) {
+        return;
+        if (!onScroll || !initRef.current) {
+            console.log("prevented on ", wrapperRef.current.scrollTop);
             return;
         }
         const scrollPositionKoefficient =
             wrapperRef.current.scrollTop / wrapperRef.current.scrollHeight;
         const isScrollDown =
             wrapperRef.current.scrollTop < previousScrollPosition.current;
+        if (wrapperRef.current.scrollTop === previousScrollPosition.current) {
+            return;
+        }
         previousScrollPosition.current = wrapperRef.current.scrollTop;
         if (
             scrollPositionKoefficient < 0.23 &&
@@ -89,7 +99,6 @@ export const DetailView = memo((props: DetailViewProps) => {
             debouncedScroll(isScrollDown);
         }
     };
-
     return (
         <div
             // onWheel={wheelHandler}

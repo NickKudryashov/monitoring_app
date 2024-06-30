@@ -1,34 +1,25 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./HeatSubcategoryPage.module.scss";
 
-import { useState, type PropsWithChildren, useCallback, useMemo } from "react";
+import { type PropsWithChildren, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { DetailView } from "widgets/DetailView";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { Footer } from "shared/ui/Footer/Footer";
-import { getArchives, getConfigParams } from "../../api/api";
 import { getHeatDeviceData, useHeatPoll } from "entities/Heatcounters";
 import { HeatParameters } from "entities/Heatcounters/types/type";
 import $api from "shared/api";
 import { EventAnswer } from "shared/types/eventTypes";
 import { GeneralInfoBlock } from "../../../../features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
-import { ParameterView } from "../ParameterView/ParameterView";
 import { PageHeader, getSubcatGeneralInfo } from "features/PageHeader";
-import { SystemsInfoBLock } from "../SystemsInfoBlock/SystemsInfoBlock";
-import { ConfigParameterColumn } from "../ConfigParameterColumn/ConfigParameterColumn";
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { PollBlock } from "../ArchiveView/PollBlock/PollBlock";
-import { SubHeader } from "features/PageHeader/SubHeader/SubHeader";
-import { SimpleReport } from "../ArchiveView/SimpleReport/SimpleReport";
-import { ReportSettings } from "../ArchiveView/ReportSettings/ReportSettings";
-import { ReportFilesView } from "../ArchiveView/ReportFilesView/ReportFilesView";
 import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
-import { SubcategoryTabsList } from "widgets/SubcategoryTabs";
-import { EventEditor } from "widgets/EventEditor";
+import { tabSliceActions } from "widgets/SubcategoryTabs";
 import { getHeatDeviceIdBySystem } from "entities/ObjectSubCategory";
-import { EventCard, EventCardList, EventLogList, getUserEventsByHeat, getUserEventsProcessingByHeat } from "entities/UserEvents";
+import { PageTabMapper } from "../PageMapper/PageMapper";
+import { useAppDispatch } from "shared/hooks/hooks";
 interface HeatSubcategoryPageProps {
  className?: string;
 }
@@ -38,88 +29,31 @@ interface SystemParameters {
 } 
 export type ParametersDict = Record<number,SystemParameters>
 
-interface GroupClickProps {
-    parameters?:number;
-    archive?:number;
-}
 
-const ParameterSubTabs = {
-    configParameters:0,
-    instantParameters:1,
-    storedParameters:2,
-    settingsParameters:3,
-} as const;
-type ParameterSubTabs = typeof ParameterSubTabs [keyof typeof ParameterSubTabs]
-const ArchivesSubTabs = {
-    requestArchive:0,
-    createArchiveReport:1,
-    settingsArchive:2,
-    downloadArchive:3,
-} as const;
-type ArchivesSubTabs = typeof ArchivesSubTabs [keyof typeof ArchivesSubTabs]
-
-interface TabState  {
-    tab:SubcategoryTabsList,
-    subtabs:ArchivesSubTabs | ParameterSubTabs | undefined;
-}
 
 const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>) => {
     const { className } = props;
     const {id} = useParams<{id:string}>();
-    const [selectedSystem,setSeelctedSystem] = useState(0);
-    const [selectedTab,setSeelctedTab] = useState<number>(0);
-    const [selectedParamGroup,setSelectedParamGroup] = useState<number>(undefined);
-    const [selectedArchiveGroup,setSelectedArchiveGroup] = useState<number>(undefined);
-    const [selectedEventGroup,setSelectedEventGroup] = useState<number>(0);
 
     const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id);
-    const {data:archData,isLoading:archLoading} = getArchives(id,{skip:id===undefined});
     const {data:device,isLoading:isLoadingDevices} = getHeatDeviceIdBySystem(id,{skip:id===undefined});
     const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.device,{pollingInterval:15000,skip:device?.device===undefined});
-    const {data:configParameters} = getConfigParams(String(deviceData?.systems[selectedSystem]?.id),{skip:deviceData===undefined || deviceData?.systems===undefined});
-    const {data:events} = getUserEventsByHeat(Number(id));
-    const {data:processingEvents} = getUserEventsProcessingByHeat(Number(id));
-    console.log(processingEvents);
     const poll = useHeatPoll({autoPoll:deviceData?.connection_info.connection_type!=="GSM",id:deviceData?.id,onUpdate:()=>{refetch();refetchGeneral();}});
+    const dispatch = useAppDispatch();
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>("subcategory_events/"+id);
         return response.data;
     },[id]);
-    const filterInstant = (params:HeatParameters[])=>params?.filter((el)=>el.parameter_type==="instant_parameter");
-    const filterAccumulate = (params:HeatParameters[])=>params?.filter((el)=>el.parameter_type==="accumulate_parameter");
-    const allParams = (params:HeatParameters[])=>params?.filter((el)=>!el.exclude && el.parameter_type==="instant_parameter");
-    const getParams = (filt:(params:HeatParameters[])=>HeatParameters[])=>{
-        const result:ParametersDict = {};
-        if (deviceData?.systems) {
-            deviceData.systems.map((el)=>{
-                const temp = filt(el.parameters) ?? [];
-                result[el.id] = {systemName:el.name,parameters:temp};
-            });
-            return result;
-        }};
-    
-    const onParamGroupClick = ({archive,parameters}:GroupClickProps)=>{
-        setSelectedParamGroup(parameters);
-        setSelectedArchiveGroup(archive);
-    };
-
-
-    const params:ParametersDict = useMemo(()=>getParams(allParams),[deviceData]);
-    const instantParams:ParametersDict = useMemo(()=>getParams(filterInstant),[deviceData]);
-    const accumulateParams:ParametersDict = useMemo(()=>getParams(filterAccumulate),[deviceData]);
-    
-    const _scrollHandler = (isScrollDown:boolean)=>{
-        if (!isScrollDown) {
-            setSeelctedTab(prev=>prev===0 ? 5 : prev-1);
-        }         
-        else {
-            setSeelctedTab(prev=>prev===5 ? 0 : prev+1);
-        }            
-    };
     
     const scrollHandler = useCallback((isScrollDown:boolean)=>{
-        _scrollHandler(isScrollDown);
-    },[selectedTab,selectedParamGroup,selectedArchiveGroup]);
+        if (!isScrollDown) {
+            dispatch(tabSliceActions.moveUp());
+        }         
+        else {
+            dispatch(tabSliceActions.moveDown());
+
+        }     
+    },[]);
 
     const content = (
         <DetailView onScroll={scrollHandler} className={cls.detail} >
@@ -128,27 +62,25 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                 
                 <HFlexBox className={cls.contentBox} gap="5px" align="space-between">
                     <SubcategoryTabs
-                        selectedTab={selectedTab}
-                        setSelectedTab={setSeelctedTab}
                         content={
-                            {0:<GeneralInfoBlock device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={deviceData?.systems.length} address={generalData?.adress} name={generalData?.abonent} />,
-                                1:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
-                                    <p onClick={()=>setSelectedEventGroup(0)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedEventGroup===0},[])}>СПИСОК СОБЫТИЙ</p>
-                                    <p onClick={()=>setSelectedEventGroup(1)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedEventGroup===1},[])}>ЛОГ СОБЫТИЙ</p>
-                                    <p onClick={()=>setSelectedEventGroup(2)} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedEventGroup===2},[])}>ДОБАВИТЬ СОБЫТИЕ</p>
-                                </VFlexBox>,
-                                2:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
-                                    <p onClick={()=>onParamGroupClick({parameters:0})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===0},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>
-                                    <p onClick={()=>onParamGroupClick({parameters:1})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===1},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>
-                                    <p onClick={()=>onParamGroupClick({parameters:2})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===2},[])}>НАКОПЛЕННЫЕ ПАРАМЕТРЫ</p>
-                                    <p onClick={()=>onParamGroupClick({parameters:3})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedParamGroup===3},[])}>ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ</p>
-                                </VFlexBox>,
-                                3:<VFlexBox className={cls.paramTitleBox} gap={"10px"}>
-                                    <p onClick={()=>onParamGroupClick({archive:0})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedArchiveGroup===0},[])}>СНЯТЬ АРХИВ</p>
-                                    <p onClick={()=>onParamGroupClick({archive:1})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedArchiveGroup===1},[])}>СФОРМИРОВАТЬ АРХИВ</p>
-                                    <p onClick={()=>onParamGroupClick({archive:2})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedArchiveGroup===2},[])}>НАСТРОЙКА ФОРМИРОВАНИЯ АРХИВА</p>
-                                    <p onClick={()=>onParamGroupClick({archive:3})} className={classNames(cls.paramTitle,{[cls.paramTitleSelected]:selectedArchiveGroup===3},[])}>СКАЧАТЬ СФОРМИРОВАННЫЙ АРХИВ</p>
-                                </VFlexBox>
+                            {0:[<GeneralInfoBlock key={"general"} device_num={deviceData?.device_num} device_type_verbose_name={deviceData?.device_type_verbose_name} systems={deviceData?.systems.length} address={generalData?.adress} name={generalData?.abonent} />],
+                                1:[
+                                    <p key={"events_1"} className={classNames(cls.paramTitle,{},[])}>СПИСОК СОБЫТИЙ</p>,
+                                    <p key={"events_2"} className={classNames(cls.paramTitle,{},[])}>ЛОГ СОБЫТИЙ</p>,
+                                    <p key={"events_3"} className={classNames(cls.paramTitle,{},[])}>ДОБАВИТЬ СОБЫТИЕ</p>,
+                                ],
+                                2:[
+                                    <p key={"parameters_1"} className={classNames(cls.paramTitle,{},[])}>ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ</p>,
+                                    <p key={"parameters_2"} className={classNames(cls.paramTitle,{},[])}>МГНОВЕННЫЕ ПАРАМЕТРЫ</p>,
+                                    <p key={"parameters_3"} className={classNames(cls.paramTitle,{},[])}>НАКОПЛЕННЫЕ ПАРАМЕТРЫ</p>,
+                                    <p key={"parameters_4"} className={classNames(cls.paramTitle,{},[])}>ПРЕДУСТАНОВЛЕННЫЕ ПАРАМЕТРЫ</p>,
+                                ],
+                                3:[
+                                    <p key={"archives_1"} className={classNames(cls.paramTitle,{},[])}>СНЯТЬ АРХИВ</p>,
+                                    <p key={"archives_2"} className={classNames(cls.paramTitle,{},[])}>СФОРМИРОВАТЬ АРХИВ</p>,
+                                    <p key={"archives_3"} className={classNames(cls.paramTitle,{},[])}>НАСТРОЙКА ФОРМИРОВАНИЯ АРХИВА</p>,
+                                    <p key={"archives_4"} className={classNames(cls.paramTitle,{},[])}>СКАЧАТЬ СФОРМИРОВАННЫЙ АРХИВ</p>,
+                                ]
                             }}  
                     />
                     <VFlexBox width={"70%"} gap={"15px"}>
@@ -158,34 +90,14 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                     direction="vertical"
                                     autoSaveId="example"
                                 >
-                                    {/* <SubcatTabs selectedTab={selectedTab} onTabSelect={setSeelctedTab} /> */}
-                                    {/* <ParameterView className={cls.contentPaddings} configParameters={configParameters} params={params}/> */}
                                     <Panel defaultSize={75}>
-                                        {selectedTab===3 && <SubHeader generalData={generalData} />}
-                                        {selectedTab===3 && selectedArchiveGroup==0 && <PollBlock deviceData={deviceData}/>}
-                                        {selectedTab===3 && (selectedArchiveGroup==1 || selectedArchiveGroup==undefined) && <SimpleReport deviceData={deviceData}/>}
-                                        {selectedTab===3 && selectedArchiveGroup==2 && !archLoading && !isDevLoading  &&  <ReportSettings archData={archData} generalData={generalData} deviceData={deviceData}/>}
-                                        {selectedTab===3 && selectedArchiveGroup==3 && !archLoading && !isDevLoading  &&  <ReportFilesView archData={archData} generalData={generalData} deviceData={deviceData}/>}
-                                        {selectedTab===0 && 
-                                            <ParameterView  params={params}/>
-                                        }
-
-                                        {selectedTab===1 && selectedEventGroup===2 && <EventEditor/>}
-                                        {selectedTab===1 && selectedEventGroup===1 && <EventLogList events={processingEvents} />}
-                                        {selectedTab===1 && selectedEventGroup===0 && <EventCardList events={events} /> }
-                                        {selectedTab===2 && selectedParamGroup===0 && <SystemsInfoBLock systems={deviceData?.systems} />}
-                                        {selectedTab===2 && (selectedParamGroup===1 || selectedParamGroup==undefined) && <ParameterView  params={instantParams}  />}
-                                        {selectedTab===2 && selectedParamGroup===2 && <ParameterView  params={accumulateParams}  />}
-                                        {selectedTab===2 && selectedParamGroup===3 && <ConfigParameterColumn  configParameters={configParameters}  />}
-                                        {selectedTab===5 && <ParameterView  params={params}/>}
-                                        {selectedTab===4 && <ParameterView  params={params}/>}
+                                        <PageTabMapper deviceData={deviceData} generalData={generalData}  />
                                     </Panel>
                                     <PanelResizeHandle />
                                     <Footer pollCallback={fetchEvents}/>
                                 </PanelGroup>
 
                             </VFlexBox>
-                            {/* {deviceData && deviceData.connection_info.connection_type!=="GSM" && <HeatPoll autoPoll={true} id={deviceData.id} onUpdate={()=>{refetch();refetchGeneral();}} />} */}
                         </VFlexBox>
                     </VFlexBox>
                 </HFlexBox>

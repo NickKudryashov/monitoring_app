@@ -98,6 +98,7 @@ export interface GetDeviceQuery {
     interval?:number;
     last_poll_seconds?:number;
     statistic?:Dict<TopLevelDeviceStatistic>
+    systemCount?:number;
     user_object:number;
     id:number;
     name:string;
