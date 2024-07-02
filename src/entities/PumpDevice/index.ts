@@ -12,3 +12,4 @@ export {DetailParameter} from "./ui/DetailParameterTable/DetailParameterTable";
 export {PumpParameterColumn} from "./ui/PumpParameterColumn/PumpParameterColumn";
 
 export {Preview as PumpPreview} from "./ui/Preview/Preview";
+export {ParametersComposition as PumpParametersComposition} from "./ui/ParametersComposition/ParametersComposition";

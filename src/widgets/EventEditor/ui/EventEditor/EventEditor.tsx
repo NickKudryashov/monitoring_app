@@ -1,5 +1,5 @@
 import { ReactElement, memo, useCallback, useState } from "react";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { AppButon } from "shared/ui/AppButton/AppButton";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./EventEditor.module.scss";
 import { AppInput } from "shared/ui/AppInput/AppInput";
@@ -14,31 +14,36 @@ import {
 } from "entities/ObjectSubCategory";
 import { StandartButtonsComposition } from "../StandartButtonsCompoition/StandartButtonsCompoition";
 import {
-    ParameterColumnBySystem,
+    AllParametersView,
+    HeatParameters,
     getHeatDeviceData,
 } from "entities/Heatcounters";
-import {
-    PumpParameterColumn,
-    getPumpData,
-    getPumpDataDetail,
-} from "entities/PumpDevice";
+import { PumpParametersComposition, getPumpData } from "entities/PumpDevice";
 import { getAutomaticDevice } from "entities/AutomaticDevice/api/AutomaticDeviceApi";
 import {
+    AutoDevParametersComposition,
     AutoParameter,
-    AutoParameterColumn,
-    AutoParameterRow,
 } from "entities/AutomaticDevice";
 import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
 import {
     UserEventTypeSelect,
     createUserEvent,
     editUserEvent,
-    getUserEventsTypes,
 } from "entities/UserEvents";
 import { UserEvent } from "entities/UserEvents/model/types/type";
+import { GeneralAnswer } from "features/PageHeader/api/api";
+
+interface SubcatStateProps {
+    id: number;
+    subcat_type: SubcatTypes;
+}
+
 export const EventEditor = memo(
-    (props: { event?: UserEvent }): ReactElement => {
-        const { event } = props;
+    (props: {
+        event?: UserEvent;
+        subcatData?: GeneralAnswer;
+    }): ReactElement => {
+        const { event, subcatData } = props;
         const [eventEnabled, setEventEnabled] = useState<boolean>(
             event?.enabled ?? true
         );
@@ -81,9 +86,17 @@ export const EventEditor = memo(
             }
         };
 
-        const [selectedObject, setSelectedObject] = useState<number>(null);
-        const [selectedSubcat, setSelectedSubcat] =
-            useState<{ id: number; subcat_type: SubcatTypes }>(null);
+        const [selectedObject, setSelectedObject] = useState<number>(
+            subcatData ? subcatData.user_object : null
+        );
+        const [selectedSubcat, setSelectedSubcat] = useState<SubcatStateProps>(
+            subcatData
+                ? {
+                      id: subcatData.id,
+                      subcat_type: subcatData.subcategory_type,
+                  }
+                : null
+        );
         const { data: heatDeviceId } = getHeatDeviceIdBySystem(
             String(selectedSubcat?.id),
             {
@@ -118,14 +131,53 @@ export const EventEditor = memo(
         const { data: autoDevice } = getAutomaticDevice(autoDeviceId?.device, {
             skip: !autoDeviceId?.device,
         });
+        const heatParameterClickHandler = useCallback(
+            (parameter: HeatParameters) => {
+                setExpression((prev) => [
+                    ...prev,
+                    ` heatparam_${parameter.id} `,
+                ]);
+            },
+            []
+        );
+        const pumpParameterClickHandler = useCallback(
+            (parameter: PumpParameter) => {
+                setExpression((prev) => [
+                    ...prev,
+                    ` pumpparam_${parameter.id} `,
+                ]);
+            },
+            []
+        );
+        const autoParameterClickHandler = useCallback(
+            (parameter: AutoParameter) => {
+                setExpression((prev) => [
+                    ...prev,
+                    ` autoparam_${parameter.id} `,
+                ]);
+            },
+            []
+        );
         return (
             <VFlexBox>
                 <HFlexBox align="space-between" height="90%">
                     {isError && error && "data" in error && <p>{}</p>}
                     <VFlexBox align="space-between" width="35%">
-                        <ObjectList onSelectObject={setSelectedObject} />
+                        <ObjectList
+                            onSelectObject={setSelectedObject}
+                            selectedObject={selectedObject}
+                        />
                         <SubcategoryListByObject
                             objectID={selectedObject}
+                            preselectedSubcategory={
+                                subcatData
+                                    ? {
+                                          id: subcatData?.id,
+                                          subcat_type:
+                                              subcatData?.subcategory_type,
+                                      }
+                                    : undefined
+                            }
                             setSelectedSubcategory={setSelectedSubcat}
                         />
                         <UserEventTypeSelect
@@ -161,66 +213,24 @@ export const EventEditor = memo(
                         height="90%"
                         className={cls.parametersPlate}
                     >
-                        {heatDevice &&
-                            selectedSubcat?.subcat_type === SubcatTypes.heat &&
-                            heatDevice?.systems?.map((system) => (
-                                <ParameterColumnBySystem
-                                    key={system.id}
-                                    params={system.parameters}
-                                    header={system.name}
-                                    onParameterClick={(parameter) =>
-                                        setExpression((prev) => [
-                                            ...prev,
-                                            ` heatparam_${parameter.id} `,
-                                        ])
-                                    }
-                                />
-                            ))}
-                        {autoDevice &&
-                            selectedSubcat?.subcat_type ===
-                                SubcatTypes.auto && (
-                                <VFlexBox>
-                                    <HFlexBox>
-                                        {Object.values(
-                                            autoDevice?.resultParamGroup
-                                        ).map((parameter, i) => (
-                                            <AutoParameterColumn
-                                                key={i}
-                                                header={"Контур"}
-                                                fullHeight
-                                                params={parameter}
-                                                onParameterClick={(parameter) =>
-                                                    setExpression((prev) => [
-                                                        ...prev,
-                                                        ` autoparam_${parameter.id} `,
-                                                    ])
-                                                }
-                                            />
-                                        ))}
-                                    </HFlexBox>
-                                </VFlexBox>
-                            )}
-                        {pumpDevice &&
-                            selectedSubcat?.subcat_type === SubcatTypes.pump &&
-                            Object.keys(pumpDevice?.parametersByGroup)?.map(
-                                (group, i) => (
-                                    <PumpParameterColumn
-                                        key={i}
-                                        header={group}
-                                        onParameterClick={(
-                                            parameter: PumpParameter
-                                        ) =>
-                                            setExpression((prev) => [
-                                                ...prev,
-                                                ` pumpparam_${parameter.id} `,
-                                            ])
-                                        }
-                                        params={
-                                            pumpDevice.parametersByGroup[group]
-                                        }
-                                    />
-                                )
-                            )}
+                        {selectedSubcat?.subcat_type === SubcatTypes.heat && (
+                            <AllParametersView
+                                heatDevice={heatDevice}
+                                onParameterClick={heatParameterClickHandler}
+                            />
+                        )}
+                        {selectedSubcat?.subcat_type === SubcatTypes.auto && (
+                            <AutoDevParametersComposition
+                                autoDevice={autoDevice}
+                                onParameterClick={autoParameterClickHandler}
+                            />
+                        )}
+                        {selectedSubcat?.subcat_type === SubcatTypes.pump && (
+                            <PumpParametersComposition
+                                onParameterClick={pumpParameterClickHandler}
+                                pumpDevice={pumpDevice}
+                            />
+                        )}
                     </HFlexBox>
                 </HFlexBox>
                 <AppButon onClick={onCreateEvent}>Отправить</AppButon>

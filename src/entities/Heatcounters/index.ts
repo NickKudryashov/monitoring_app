@@ -17,3 +17,4 @@ export type {HeatParameters} from "./types/type";
 export {useHeatPoll} from "./lib/useHeatPoll";
 export {HeatParameterRow} from "./ui/HeatParameterRow/HeatParameterRow";
 export {ParameterColumnBySystem} from "./ui/ParameterColumnBySystem/ParameterColumnBySystem";
+export {AllParametersView} from "./ui/AllParametersView/AllParametersView";

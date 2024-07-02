@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import cls from "./ObjectList.module.scss";
 import { useSelector } from "react-redux";
 import { getAllObjects } from "entities/Objects/selectors/getAllObjects";
@@ -8,14 +8,19 @@ import { Select } from "shared/ui/Select/Select";
 
 interface ObjectListProps {
     onSelectObject: (objectID: number) => void;
+    selectedObject?: number;
 }
 
 export const ObjectList = (props: ObjectListProps): ReactElement => {
-    const { onSelectObject } = props;
+    const { onSelectObject, selectedObject } = props;
     const { objects } = useSelector(getAllObjects);
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(objectsAllRequest());
+        if (selectedObject) {
+            onSelectObject(selectedObject);
+        }
+        return () => onSelectObject(null);
     }, []);
     const options = [
         { value: "0", content: "" },
@@ -37,6 +42,7 @@ export const ObjectList = (props: ObjectListProps): ReactElement => {
             onChange={(val) => onSelectObject(Number(val))}
             label="Объекты"
             options={options}
+            value={String(selectedObject)}
         />
     );
 };

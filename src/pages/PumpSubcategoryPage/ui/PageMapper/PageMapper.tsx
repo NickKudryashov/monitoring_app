@@ -19,12 +19,15 @@ import { EventEditor } from "widgets/EventEditor";
 import { getSubTab, getTab } from "widgets/SubcategoryTabs";
 import cls from "./PageMapper.module.scss";
 import { useParams } from "react-router-dom";
+import { GeneralAnswer } from "features/PageHeader/api/api";
+import { ChartBuilder } from "widgets/ChartBuilder";
 interface PageMapperProps {
     deviceDataDetail: PumpDetailInfo;
     devData: PumpDeviceData;
+    generalData: GeneralAnswer;
 }
 export const PageMapper = (props: PageMapperProps): ReactElement => {
-    const { deviceDataDetail, devData } = props;
+    const { deviceDataDetail, devData, generalData } = props;
     const { id } = useParams<{ id: string }>();
     const selectedTab = useSelector(getTab);
     const selectedSubTab = useSelector(getSubTab);
@@ -100,13 +103,16 @@ export const PageMapper = (props: PageMapperProps): ReactElement => {
                         }
                     />
                 )}
-            {selectedTab === 1 && selectedSubTab === 2 && <EventEditor />}
+            {selectedTab === 1 && selectedSubTab === 2 && (
+                <EventEditor subcatData={generalData} />
+            )}
             {selectedTab === 1 && selectedSubTab === 1 && (
                 <EventLogList events={processingEvents} />
             )}
             {selectedTab === 1 && selectedSubTab === 0 && (
                 <EventCardList events={events} />
             )}
+            {selectedTab === 4 && <ChartBuilder subcatData={generalData} />}
         </HFlexBox>
     );
 };

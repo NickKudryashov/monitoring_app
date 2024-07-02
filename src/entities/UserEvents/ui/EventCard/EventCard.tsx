@@ -5,9 +5,9 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { LoaderCircle } from "shared/ui/LoaderCircle/LoaderCircle";
 import { AppInput } from "shared/ui/AppInput/AppInput";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { editUserEvent } from "entities/UserEvents/api/api";
+import { deleteUserEvent, editUserEvent } from "entities/UserEvents/api/api";
 import classNames from "shared/lib/classNames/classNames";
-
+import DeleteIcon from "shared/assets/icons/SubcatDeleteIcon.svg";
 interface EventCardProps {
     className?: string;
     event: UserEvent;
@@ -21,6 +21,7 @@ export const EventCard = memo((props: EventCardProps) => {
         event?.description
     );
     const [toggleEvent] = editUserEvent();
+    const [deleteMutation] = deleteUserEvent();
     const onEventToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEventEnabled((prev) => !prev);
         toggleEvent({ id: event.id, enabled: e.target.checked });
@@ -35,7 +36,10 @@ export const EventCard = memo((props: EventCardProps) => {
             height="20%"
             className={classNames(cls.eventCard, {}, [className])}
         >
-            <p style={{ textAlign: "center" }}>{event?.title}</p>
+            <HFlexBox height="20%" alignItems="center" align="center">
+                <p style={{ textAlign: "center" }}>{event?.title}</p>
+                <DeleteIcon onClick={() => deleteMutation({ id: event?.id })} />
+            </HFlexBox>
             <HFlexBox alignItems="center" align="center" height="20%">
                 <p>Включено:</p>
                 <AppInput

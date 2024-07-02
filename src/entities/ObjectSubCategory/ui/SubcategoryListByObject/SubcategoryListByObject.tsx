@@ -1,6 +1,6 @@
 import { getObjectSubcategoryData } from "entities/ObjectSubCategory/api/api";
 import { SubcatTypes } from "entities/ObjectSubCategory/model/types/ObjectSubCategorySchema";
-import { ReactElement, useEffect, useMemo } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { LoaderCircle } from "shared/ui/LoaderCircle/LoaderCircle";
 import { Select } from "shared/ui/Select/Select";
 interface SubcategorySelectArgs {
@@ -10,19 +10,32 @@ interface SubcategorySelectArgs {
 interface SubcategoryListProps {
     objectID: number;
     setSelectedSubcategory: (args: SubcategorySelectArgs) => void;
+    preselectedSubcategory?: SubcategorySelectArgs;
 }
 export const SubcategoryListByObject = (
     props: SubcategoryListProps
 ): ReactElement => {
-    const { objectID, setSelectedSubcategory } = props;
+    const { objectID, setSelectedSubcategory, preselectedSubcategory } = props;
+    const [subcatVal, setSubcatVal] = useState(
+        String(preselectedSubcategory?.id) || null
+    );
     const { data: subcatData, isLoading: isLoadingSubcat } =
         getObjectSubcategoryData(objectID, {
             skip: !objectID,
         });
 
     useEffect(() => {
-        setSelectedSubcategory(null);
+        return () => {
+            setSelectedSubcategory(null);
+        };
     }, [objectID]);
+    useEffect(() => {
+        if (preselectedSubcategory === undefined) {
+            setSelectedSubcategory(null);
+        } else {
+            setSelectedSubcategory(preselectedSubcategory);
+        }
+    }, []);
 
     const options = useMemo(() => {
         let opt = [{ value: "0", content: "" }];
@@ -39,6 +52,7 @@ export const SubcategoryListByObject = (
     }, [subcatData]);
 
     const onSelectChangeHandler = (val: string) => {
+        setSubcatVal(val);
         const [selectedSubcat] =
             subcatData?.data.filter((el) => el.id === Number(val)) || [];
         if (selectedSubcat) {
@@ -65,6 +79,7 @@ export const SubcategoryListByObject = (
             onChange={onSelectChangeHandler}
             options={options}
             label="Системы"
+            value={subcatVal}
         />
     );
 };

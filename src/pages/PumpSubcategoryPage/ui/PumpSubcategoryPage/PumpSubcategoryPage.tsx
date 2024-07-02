@@ -91,7 +91,7 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
                                     <Panel defaultSize={75}>
                                         {
                                             deviceData && deviceData.parameters &&
-                                            <PageMapper devData={deviceData} deviceDataDetail={deviceDataDetail}/>
+                                            <PageMapper devData={deviceData} deviceDataDetail={deviceDataDetail} generalData={generalData}/>
 
                                         }
                                     </Panel>

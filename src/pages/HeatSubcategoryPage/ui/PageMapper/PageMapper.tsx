@@ -24,6 +24,8 @@ import { ConfigParameterColumn } from "../ConfigParameterColumn/ConfigParameterC
 import { GeneralAnswer } from "features/PageHeader/api/api";
 import { useParams } from "react-router-dom";
 import { SystemsInfoBLock } from "../SystemsInfoBlock/SystemsInfoBlock";
+import { BaseChart } from "entities/Chart";
+import { ChartBuilder } from "widgets/ChartBuilder";
 
 interface PageTabMapperProps {
     deviceData: HeatDevice;
@@ -86,7 +88,9 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
         <>
             {selectedTab === 0 && <ParameterView params={params} />}
 
-            {selectedTab === 1 && selectedSubTab === 2 && <EventEditor />}
+            {selectedTab === 1 && selectedSubTab === 2 && (
+                <EventEditor subcatData={generalData} />
+            )}
             {selectedTab === 1 && selectedSubTab === 1 && (
                 <EventLogList events={processingEvents} />
             )}
@@ -135,7 +139,7 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
                         deviceData={deviceData}
                     />
                 )}
-            {selectedTab === 4 && <ParameterView params={params} />}
+            {selectedTab === 4 && <ChartBuilder subcatData={generalData} />}
             {selectedTab === 5 && <ParameterView params={params} />}
         </>
     );

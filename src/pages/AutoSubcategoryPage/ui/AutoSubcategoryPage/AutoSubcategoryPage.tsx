@@ -125,7 +125,10 @@ const AutoSubcategoryPage = (
                                         gap="30px"
                                         className={cls.tableContentFlexbox}
                                     >
-                                        <PageMapper devData={devData} />
+                                        <PageMapper
+                                            devData={devData}
+                                            generalData={generalData}
+                                        />
                                     </HFlexBox>
                                 </Panel>
                                 <PanelResizeHandle />

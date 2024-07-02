@@ -80,6 +80,9 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
                                     <p key={"archives_2"} className={classNames(cls.paramTitle,{},[])}>СФОРМИРОВАТЬ АРХИВ</p>,
                                     <p key={"archives_3"} className={classNames(cls.paramTitle,{},[])}>НАСТРОЙКА ФОРМИРОВАНИЯ АРХИВА</p>,
                                     <p key={"archives_4"} className={classNames(cls.paramTitle,{},[])}>СКАЧАТЬ СФОРМИРОВАННЫЙ АРХИВ</p>,
+                                ],
+                                4:[
+                                    <p key={"graph_1"} className={classNames(cls.paramTitle,{},[])}>СФОРМИРОВАТЬ ГРАФИК</p>,
                                 ]
                             }}  
                     />

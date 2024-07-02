@@ -17,6 +17,7 @@ import { archiveEventsReducer } from "entities/ArchiveEvent";
 import { navbarReducer } from "widgets/Navbar";
 import { tabSliceReducer } from "widgets/SubcategoryTabs";
 import { pumpPageSliceReducer } from "pages/PumpSubcategoryPage";
+import { chartReducer } from "entities/Chart";
 
 
 
@@ -38,6 +39,7 @@ export function createReduxStore(initialState?:StateSchema) {
         navbar:navbarReducer,
         tabs:tabSliceReducer,
         pumpPage:pumpPageSliceReducer,
+        chart:chartReducer,
         [rtkApi.reducerPath]:rtkApi.reducer
 
     };

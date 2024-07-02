@@ -1,5 +1,6 @@
 import { ArchiveEventsSliceSchema } from "entities/ArchiveEvent";
 import { categoryState } from "entities/Category";
+import { ChartStateSchema } from "entities/Chart";
 import { ElectroDeviceSchema } from "entities/ElectroDevice";
 import { HeatDeviceSchema } from "entities/Heatcounters";
 import { ObjectSubCategorySchema } from "entities/ObjectSubCategory";
@@ -34,6 +35,7 @@ export interface StateSchema {
     navbar:NavbarStateSchema;
     tabs:SubcategoryTabStateSchema;
     pumpPage:PumpPageStateSchema;
+    chart:ChartStateSchema;
 }
 
 export interface ThunkConfig<T> {
