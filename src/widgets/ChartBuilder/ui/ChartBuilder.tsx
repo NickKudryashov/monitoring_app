@@ -27,7 +27,14 @@ import { PumpParametersComposition, getPumpData } from "entities/PumpDevice";
 import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
 import { UserEventTypeSelect } from "entities/UserEvents";
 import { GeneralAnswer } from "features/PageHeader/api/api";
-import { ReactElement, memo, useCallback, useState } from "react";
+import {
+    ReactElement,
+    memo,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { AppButon } from "shared/ui/AppButton/AppButton";
 import { AppInput } from "shared/ui/AppInput/AppInput";
@@ -61,6 +68,8 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
     });
     const [startDate, setStartDate] = useState<string>();
     const [endDate, setEndDate] = useState<string>();
+    const prevStartDate = useRef<string>();
+    const prevEndDate = useRef<string>();
     const { data: heatDeviceId } = getHeatDeviceIdBySystem(
         String(selectedSubcat?.id),
         {
@@ -156,7 +165,22 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
         },
         [endDate, startDate]
     );
-    console.log(selectedParameters);
+    useEffect(() => {
+        if (
+            !(!!startDate && !!endDate) ||
+            (endDate === prevEndDate.current &&
+                startDate === prevStartDate.current)
+        ) {
+            return;
+        } else {
+            setSelectedParameters({
+                [SubcatTypes.heat]: [],
+                [SubcatTypes.auto]: [],
+                [SubcatTypes.pump]: [],
+            });
+            dispatch(chartActions.clearDatasets());
+        }
+    }, [dispatch, endDate, startDate]);
     return (
         <HFlexBox align="space-between">
             <BaseChart start_date={startDate} end_date={endDate} />
@@ -171,13 +195,23 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                     <AppInput
                         type="date"
                         value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
+                        onChange={(e) =>
+                            setStartDate((prev) => {
+                                prevStartDate.current = prev;
+                                return e.target.value;
+                            })
+                        }
                     />
                     <p>{"по  "}</p>
                     <AppInput
                         type="date"
                         value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
+                        onChange={(e) =>
+                            setEndDate((prev) => {
+                                prevEndDate.current = prev;
+                                return e.target.value;
+                            })
+                        }
                     />
                 </HFlexBox>
                 <ObjectList
@@ -189,7 +223,10 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                     setSelectedSubcategory={setSelectedSubcat}
                     preselectedSubcategory={selectedSubcat}
                 />
-                <AppButon onClick={() => setParameterModalIsOpen(true)}>
+                <AppButon
+                    disabled={!(!!startDate && !!endDate)}
+                    onClick={() => setParameterModalIsOpen(true)}
+                >
                     Выбрать параметры
                 </AppButon>
                 <Modal

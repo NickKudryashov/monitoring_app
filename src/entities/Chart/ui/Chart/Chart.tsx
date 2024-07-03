@@ -34,6 +34,9 @@ export const BaseChart = (props: {
             min: new Date(start_date).getTime(),
             max: new Date(end_date).getTime(),
             tickAmount: 6,
+            labels: {
+                datetimeUTC: false,
+            },
         },
     };
     return (
