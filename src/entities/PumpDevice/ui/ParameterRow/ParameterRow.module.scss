@@ -1,0 +1,25 @@
+.selected {
+    opacity:0.8;
+}
+
+.paramValueWrapper {
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-11);
+    font:var(--font-12-px);
+    width:40%;
+}
+
+.valueField {
+    width:70%;
+}
+
+.paramVerboseWrapper {
+    display:flex;
+    align-items: center;
+    padding-left:15px;
+    height:100%;
+    font:var(--font-10-px);
+    color:rgb(3 22 59 / 70%);;
+    width:50%;
+    border-radius: var(--border-radius-type-3);
+}

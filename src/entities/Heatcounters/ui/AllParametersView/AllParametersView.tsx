@@ -7,9 +7,17 @@ export const AllParametersView = memo(
     (props: {
         heatDevice: HeatDevice;
         onParameterClick?: (parameter: HeatParameters) => void;
+        onParameterUnClick?: (parameter: HeatParameters) => void;
         className?: string;
+        selectedParametersIDs?: number[];
     }): ReactElement => {
-        const { heatDevice, onParameterClick, className } = props;
+        const {
+            heatDevice,
+            onParameterClick,
+            onParameterUnClick,
+            className,
+            selectedParametersIDs,
+        } = props;
         return (
             <HFlexBox className={className}>
                 {heatDevice &&
@@ -19,6 +27,8 @@ export const AllParametersView = memo(
                             params={system.parameters}
                             header={system.name}
                             onParameterClick={onParameterClick}
+                            onParameterUnClick={onParameterUnClick}
+                            selectedParametersIDs={selectedParametersIDs}
                         />
                     ))}
             </HFlexBox>

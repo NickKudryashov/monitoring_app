@@ -10,10 +10,18 @@ import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 export const ParameterComposition = memo(
     (props: {
         autoDevice: AutomaticDeviceData;
-        onParameterClick: (parameter: AutoParameter) => void;
+        onParameterClick?: (parameter: AutoParameter) => void;
+        onParameterUnClick?: (parameter: AutoParameter) => void;
+        selectedParametersIDs?: number[];
         className?: string;
     }): ReactElement => {
-        const { autoDevice, onParameterClick, className } = props;
+        const {
+            autoDevice,
+            onParameterClick,
+            className,
+            onParameterUnClick,
+            selectedParametersIDs,
+        } = props;
         return (
             <HFlexBox className={className}>
                 {autoDevice &&
@@ -25,6 +33,8 @@ export const ParameterComposition = memo(
                                 fullHeight
                                 params={parameter}
                                 onParameterClick={onParameterClick}
+                                onParameterUnClick={onParameterUnClick}
+                                selectedParametersIDs={selectedParametersIDs}
                             />
                         )
                     )}

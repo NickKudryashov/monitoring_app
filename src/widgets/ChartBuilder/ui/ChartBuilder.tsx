@@ -32,6 +32,7 @@ import {
     memo,
     useCallback,
     useEffect,
+    useMemo,
     useRef,
     useState,
 } from "react";
@@ -44,6 +45,10 @@ import { Modal } from "shared/ui/Modal/Modal";
 import cls from "./ChartBuilder.module.scss";
 interface ChartBuilderProps {
     subcatData?: GeneralAnswer;
+}
+interface SubtabContent {
+    name: string;
+    id: number;
 }
 
 export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
@@ -61,7 +66,9 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
     );
     const [parametersModalIsOpen, setParameterModalIsOpen] = useState(false);
     const dispatch = useAppDispatch();
-    const [selectedParameters, setSelectedParameters] = useState({
+    const [selectedParameters, setSelectedParameters] = useState<
+        Record<string, SubtabContent[]>
+    >({
         [SubcatTypes.heat]: [],
         [SubcatTypes.auto]: [],
         [SubcatTypes.pump]: [],
@@ -107,9 +114,20 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
 
     const heatParameterClickHandler = useCallback(
         async (parameter: HeatParameters) => {
+            if (
+                selectedParameters[SubcatTypes.heat].filter(
+                    (el) => el.id === parameter.id && el.name === parameter.name
+                ).length > 0
+            ) {
+                return;
+            }
+            console.log(selectedParameters[SubcatTypes.heat]);
             setSelectedParameters((prev) => ({
                 ...prev,
-                [SubcatTypes.heat]: [...prev[SubcatTypes.heat], parameter.id],
+                [SubcatTypes.heat]: [
+                    ...prev[SubcatTypes.heat],
+                    { id: parameter.id, name: parameter.name },
+                ],
             }));
             const parameterDataset = await getHeatParameterForChart({
                 startDate: startDate,
@@ -120,16 +138,29 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 chartActions.addDataset({
                     name: parameter.name,
                     data: parameterDataset,
+                    id: parameter.id,
                 })
             );
         },
-        [endDate, startDate]
+        [dispatch, endDate, selectedParameters, startDate]
     );
     const pumpParameterClickHandler = useCallback(
         async (parameter: PumpParameter) => {
+            if (
+                selectedParameters[SubcatTypes.pump].filter(
+                    (el) =>
+                        el.id === parameter.id &&
+                        el.name === parameter.verbose_name
+                ).length > 0
+            ) {
+                return;
+            }
             setSelectedParameters((prev) => ({
                 ...prev,
-                [SubcatTypes.pump]: [...prev[SubcatTypes.pump], parameter.id],
+                [SubcatTypes.pump]: [
+                    ...prev[SubcatTypes.pump],
+                    { id: parameter.id, name: parameter.verbose_name },
+                ],
             }));
             const parameterDataset = await getPumpParameterForChart({
                 startDate: startDate,
@@ -140,16 +171,27 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 chartActions.addDataset({
                     name: parameter.verbose_name,
                     data: parameterDataset,
+                    id: parameter.id,
                 })
             );
         },
-        [endDate, startDate]
+        [dispatch, endDate, selectedParameters, startDate]
     );
     const autoParameterClickHandler = useCallback(
         async (parameter: AutoParameter) => {
+            if (
+                selectedParameters[SubcatTypes.auto].filter(
+                    (el) => el.id === parameter.id && el.name === parameter.tag
+                ).length > 0
+            ) {
+                return;
+            }
             setSelectedParameters((prev) => ({
                 ...prev,
-                [SubcatTypes.auto]: [...prev[SubcatTypes.auto], parameter.id],
+                [SubcatTypes.auto]: [
+                    ...prev[SubcatTypes.auto],
+                    { id: parameter.id, name: parameter.tag },
+                ],
             }));
             const parameterDataset = await getAutoParameterForChart({
                 startDate: startDate,
@@ -160,11 +202,23 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 chartActions.addDataset({
                     name: parameter.tag,
                     data: parameterDataset,
+                    id: parameter.id,
                 })
             );
         },
-        [endDate, startDate]
+        [endDate, startDate, selectedParameters]
     );
+
+    const getParametersIdByHeatSubtype = useMemo(() => {
+        return selectedParameters[SubcatTypes.heat].map((el) => el.id);
+    }, [selectedParameters]);
+    const getParametersIdByAutoSubtype = useMemo(() => {
+        return selectedParameters[SubcatTypes.auto].map((el) => el.id);
+    }, [selectedParameters]);
+    const getParametersIdByPumpSubtype = useMemo(() => {
+        return selectedParameters[SubcatTypes.pump].map((el) => el.id);
+    }, [selectedParameters]);
+
     useEffect(() => {
         if (
             !(!!startDate && !!endDate) ||
@@ -181,8 +235,27 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
             dispatch(chartActions.clearDatasets());
         }
     }, [dispatch, endDate, startDate]);
+
+    const removeParameter = useCallback(
+        (subtype: string, content: SubtabContent) => {
+            setSelectedParameters((prev) => ({
+                ...prev,
+                [subtype]: prev[subtype].filter(
+                    (el) => !(el.id === content.id && el.name === content.name)
+                ),
+            }));
+            dispatch(
+                chartActions.removeDataset({
+                    id: content.id,
+                    name: content.name,
+                })
+            );
+        },
+        [dispatch]
+    );
+
     return (
-        <HFlexBox align="space-between">
+        <HFlexBox align="space-between" className={cls.chartBuilder}>
             <BaseChart start_date={startDate} end_date={endDate} />
             <VFlexBox width="50%">
                 <HFlexBox
@@ -229,6 +302,19 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 >
                     Выбрать параметры
                 </AppButon>
+                <VFlexBox gap="7px">
+                    {Object.keys(selectedParameters).map((subtype) =>
+                        selectedParameters[subtype].map((el) => (
+                            <p
+                                onClick={() => removeParameter(subtype, el)}
+                                key={`${el.name}_${el.id}_${subtype}`}
+                                className={cls.selectedParameters}
+                            >
+                                {el.name}
+                            </p>
+                        ))
+                    )}
+                </VFlexBox>
                 <Modal
                     onClose={() => setParameterModalIsOpen(false)}
                     isOpen={parametersModalIsOpen}
@@ -239,6 +325,15 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                                 heatDevice={heatDevice}
                                 className={cls.parametersModal}
                                 onParameterClick={heatParameterClickHandler}
+                                onParameterUnClick={(parameter) =>
+                                    removeParameter(SubcatTypes.heat, {
+                                        id: parameter.id,
+                                        name: parameter.name,
+                                    })
+                                }
+                                selectedParametersIDs={
+                                    getParametersIdByHeatSubtype
+                                }
                             />
                         )}
                         {selectedSubcat?.subcat_type === SubcatTypes.auto && (
@@ -246,6 +341,15 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                                 autoDevice={autoDevice}
                                 className={cls.parametersModalAuto}
                                 onParameterClick={autoParameterClickHandler}
+                                onParameterUnClick={(parameter) =>
+                                    removeParameter(SubcatTypes.auto, {
+                                        id: parameter.id,
+                                        name: parameter.tag,
+                                    })
+                                }
+                                selectedParametersIDs={
+                                    getParametersIdByAutoSubtype
+                                }
                             />
                         )}
                         {selectedSubcat?.subcat_type === SubcatTypes.pump && (
@@ -253,6 +357,15 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                                 onParameterClick={pumpParameterClickHandler}
                                 className={cls.parametersModalAuto}
                                 pumpDevice={pumpDevice}
+                                onParameterUnClick={(parameter) =>
+                                    removeParameter(SubcatTypes.pump, {
+                                        id: parameter.id,
+                                        name: parameter.verbose_name,
+                                    })
+                                }
+                                selectedParametersIDs={
+                                    getParametersIdByPumpSubtype
+                                }
                             />
                         )}
                     </VFlexBox>

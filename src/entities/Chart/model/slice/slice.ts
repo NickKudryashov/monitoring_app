@@ -10,6 +10,9 @@ export const chartSlice = createSlice({
         addDataset(state,action:PayloadAction<ParameterDataSet>) {
             state.datasets = [...state.datasets,action.payload];
         },
+        removeDataset(state,action:PayloadAction<Omit<ParameterDataSet,"data">>) {
+            state.datasets = state.datasets.filter((el)=>!(el.id===action.payload.id && el.name===action.payload.name));
+        },
         clearDatasets(state) {
             state.datasets = [];
         },

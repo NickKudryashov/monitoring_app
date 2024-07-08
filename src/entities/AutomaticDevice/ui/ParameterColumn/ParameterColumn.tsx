@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useCallback } from "react";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ParameterColumn.module.scss";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
@@ -16,6 +16,8 @@ interface ParameterColumnProps {
     detail?: boolean;
     className?: string;
     onParameterClick?: (parameter: AutoParameter) => void;
+    onParameterUnClick?: (parameter: AutoParameter) => void;
+    selectedParametersIDs?: number[];
 }
 
 export function ParameterColumn(props: ParameterColumnProps): ReactElement {
@@ -24,10 +26,18 @@ export function ParameterColumn(props: ParameterColumnProps): ReactElement {
         className,
         header,
         onParameterClick,
+        onParameterUnClick,
+        selectedParametersIDs,
         fullWidth = false,
         fullHeight = false,
         detail = false,
     } = props;
+    const preSelected = useCallback(
+        (id) => {
+            return selectedParametersIDs?.includes(id);
+        },
+        [selectedParametersIDs]
+    );
     return (
         <VFlexBox
             width={fullWidth ? "100%" : "45%"}
@@ -52,10 +62,12 @@ export function ParameterColumn(props: ParameterColumnProps): ReactElement {
                         {elem.parameters.map((param) => (
                             <ParameterRow
                                 onParameterClick={onParameterClick}
+                                onParameterUnClick={onParameterUnClick}
                                 className={cls.row}
                                 key={param.id}
                                 parameter={param}
                                 detailInfo={detail}
+                                preSelected={preSelected(param.id)}
                             />
                         ))}
                     </VFlexBox>

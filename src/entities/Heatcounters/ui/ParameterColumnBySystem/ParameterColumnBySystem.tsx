@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useCallback, useMemo } from "react";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ParameterColumnBySystem.module.scss";
 import { HeatParameterRow, HeatParameters } from "entities/Heatcounters";
@@ -7,13 +7,26 @@ interface ParameterColumnBySystemProps {
     params: HeatParameters[];
     header: string;
     onParameterClick?: (parameter: HeatParameters) => void;
+    onParameterUnClick?: (parameter: HeatParameters) => void;
+    selectedParametersIDs?: number[];
 }
 
 export function ParameterColumnBySystem(
     props: ParameterColumnBySystemProps
 ): ReactElement {
-    const { header, params, onParameterClick } = props;
-
+    const {
+        header,
+        params,
+        onParameterClick,
+        onParameterUnClick,
+        selectedParametersIDs,
+    } = props;
+    const preSelected = useCallback(
+        (id) => {
+            return selectedParametersIDs?.includes(id);
+        },
+        [selectedParametersIDs]
+    );
     return (
         <VFlexBox
             width={"45%"}
@@ -32,6 +45,8 @@ export function ParameterColumnBySystem(
                         key={elem.id}
                         elem={elem}
                         onParameterClick={onParameterClick}
+                        onParameterUnClick={onParameterUnClick}
+                        preSelected={preSelected(elem.id)}
                     />
                 ))}
             </VFlexBox>

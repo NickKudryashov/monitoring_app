@@ -18,3 +18,14 @@
     color:var(--subcolor-9);
     font-size: 0.7vw;
 }
+
+.chartBuilder {
+    color:var(--subcolor-9);
+    font-size:0.7vw;
+}
+
+.selectedParameters {
+    cursor: pointer;
+    box-shadow: var(--shadow-redesign);
+    text-align: center;
+} 

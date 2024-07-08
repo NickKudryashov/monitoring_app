@@ -5,6 +5,10 @@
     width:10%;
 }
 
+.paramRow {
+    user-select: none;
+}
+
 .paramValueWrapper {
     border-radius: var(--border-radius-type-3);
     background: var(--subcolor-11);
@@ -50,4 +54,8 @@
 
 .redMark {
     background:rgb(235 141 141);
+}
+
+.selected {
+    opacity: 0.7;
 }

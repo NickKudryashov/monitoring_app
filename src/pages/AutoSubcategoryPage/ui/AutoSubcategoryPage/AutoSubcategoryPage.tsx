@@ -112,6 +112,18 @@ const AutoSubcategoryPage = (
                                     ПАРАМЕТРЫ
                                 </p>,
                             ],
+                            4: [
+                                <p
+                                    key={"graph_1"}
+                                    className={classNames(
+                                        cls.paramTitle,
+                                        {},
+                                        []
+                                    )}
+                                >
+                                    СФОРМИРОВАТЬ ГРАФИК
+                                </p>,
+                            ],
                         }}
                     />
                     <VFlexBox width={"70%"} gap={"15px"}>

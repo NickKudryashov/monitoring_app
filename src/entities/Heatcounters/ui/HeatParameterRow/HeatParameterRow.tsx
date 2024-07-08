@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { HeatParameters } from "../../types/type";
 import { useDebounce } from "shared/hooks/useDebounce";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
@@ -9,23 +9,50 @@ import { editHeatParameterName } from "entities/Heatcounters/api/heatcountersapi
 interface HeatParameterRowProps {
     elem: HeatParameters;
     onParameterClick?: (parameter: HeatParameters) => void;
+    onParameterUnClick?: (parameter: HeatParameters) => void;
+    preSelected?: boolean;
 }
 export const HeatParameterRow = (props: HeatParameterRowProps) => {
-    const { elem, onParameterClick } = props;
+    const { elem, onParameterClick, onParameterUnClick, preSelected } = props;
     const [paramName, setParamName] = useState(elem.name);
+    const [selected, setSelected] = useState(preSelected);
     const [edit] = editHeatParameterName();
     const debouncedEdit = useDebounce(edit, 1500);
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setParamName(e.target.value);
         debouncedEdit({ id: elem.id, comment: e.target.value });
     };
+
+    useEffect(() => {
+        setSelected(preSelected);
+    }, [preSelected]);
+
+    const onClickHandler = useCallback(() => {
+        if (!(onParameterClick && onParameterUnClick)) {
+            return;
+        }
+        if (selected) {
+            if (onParameterUnClick) {
+                onParameterUnClick(elem);
+            }
+        } else {
+            if (onParameterClick) {
+                onParameterClick(elem);
+            }
+        }
+        setSelected((prev) => !prev);
+    }, [elem, onParameterClick, onParameterUnClick, selected]);
     return (
         <HFlexBox
             height={"10%"}
-            className={cls.paramRow}
+            className={classNames(
+                cls.paramRow,
+                { [cls.selected]: selected },
+                []
+            )}
             alignItems="end"
             align="space-around"
-            onClick={() => onParameterClick(elem)}
+            onClick={onClickHandler}
         >
             <div className={cls.paramVerboseWrapper}>
                 <AppInput

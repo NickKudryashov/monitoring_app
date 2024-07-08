@@ -28,39 +28,9 @@
 
 
 
-.paramNameField {
-    font:var(--font-16-px);
-    font-weight: bold;
-    width:10%;
-}
 
 
-.paramValueWrapper {
-    border-radius: var(--border-radius-type-3);
-    background: var(--subcolor-11);
-    font:var(--font-12-px);
-    width:40%;
-}
 
-.dimensionField {
-    font:var(--font-8-px);
-    width:25%;
-}
-
-.valueField {
-    width:70%;
-}
-
-.paramVerboseWrapper {
-    display:flex;
-    align-items: center;
-    padding-left:15px;
-    height:100%;
-    font:var(--font-10-px);
-    color:rgb(3 22 59 / 70%);;
-    width:50%;
-    border-radius: var(--border-radius-type-3);
-}
 
 .rows {
     row-gap: 2%;

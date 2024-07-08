@@ -6,6 +6,7 @@ export interface ParameterDataRecord {
 
 export interface ParameterDataSet {
     name:string;
+    id:number;
     data:ParameterDataRecord[]
 }
 

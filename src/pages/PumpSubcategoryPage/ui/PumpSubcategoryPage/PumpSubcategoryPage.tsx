@@ -77,7 +77,19 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
                                     <p key={"events_2"} className={cls.paramTitle}>ЛОГ СОБЫТИЙ</p>,
                                     <p key={"events_3"} className={cls.paramTitle}>ДОБАВИТЬ СОБЫТИЕ</p>,
                                 ],
-                                2:ParameterLinks({deviceDataDetail:deviceDataDetail}) 
+                                2:ParameterLinks({deviceDataDetail:deviceDataDetail}),
+                                4: [
+                                    <p
+                                        key={"graph_1"}
+                                        className={classNames(
+                                            cls.paramTitle,
+                                            {},
+                                            []
+                                        )}
+                                    >
+                                        СФОРМИРОВАТЬ ГРАФИК
+                                    </p>,
+                                ], 
                             }
                         }
                     />

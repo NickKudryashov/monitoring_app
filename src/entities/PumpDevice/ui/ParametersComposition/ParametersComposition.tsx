@@ -10,10 +10,18 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 export const ParametersComposition = memo(
     (props: {
         pumpDevice: PumpDeviceData;
-        onParameterClick: (parameter: PumpParameter) => void;
+        onParameterClick?: (parameter: PumpParameter) => void;
+        onParameterUnClick?: (parameter: PumpParameter) => void;
+        selectedParametersIDs?: number[];
         className?: string;
     }): ReactElement => {
-        const { onParameterClick, pumpDevice, className } = props;
+        const {
+            onParameterClick,
+            pumpDevice,
+            className,
+            onParameterUnClick,
+            selectedParametersIDs,
+        } = props;
         return (
             <HFlexBox className={className}>
                 {pumpDevice &&
@@ -23,6 +31,8 @@ export const ParametersComposition = memo(
                                 key={i}
                                 header={group}
                                 onParameterClick={onParameterClick}
+                                onParameterUnClick={onParameterUnClick}
+                                selectedParametersIDs={selectedParametersIDs}
                                 params={pumpDevice.parametersByGroup[group]}
                             />
                         )

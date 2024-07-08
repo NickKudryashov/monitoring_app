@@ -1,32 +1,23 @@
 import { ReactElement, useCallback, useEffect, useState } from "react";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./ParameterRow.module.scss";
+import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
 import classNames from "shared/lib/classNames/classNames";
-import { AutoParameter } from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
 interface ParameterRowProps {
-    parameter: AutoParameter;
-    detailInfo?: boolean;
-    className?: string;
-    onParameterClick?: (parameter: AutoParameter) => void;
-    onParameterUnClick?: (parameter: AutoParameter) => void;
+    parameter: PumpParameter;
+    onParameterClick?: (parameter: PumpParameter) => void;
+    onParameterUnClick?: (parameter: PumpParameter) => void;
     preSelected?: boolean;
 }
 export const ParameterRow = (props: ParameterRowProps): ReactElement => {
-    const {
-        parameter,
-        className,
-        onParameterClick,
-        onParameterUnClick,
-        preSelected,
-        detailInfo = false,
-    } = props;
-
+    const { parameter, onParameterClick, onParameterUnClick, preSelected } =
+        props;
     const [selected, setSelected] = useState(preSelected);
     useEffect(() => {
         setSelected(preSelected);
     }, [preSelected]);
 
-    const onParameterClickHandler = useCallback(() => {
+    const onClickHandler = useCallback(() => {
         if (!onParameterClick || !onParameterUnClick) {
             return;
         }
@@ -44,30 +35,24 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
 
     return (
         <HFlexBox
-            className={classNames(cls.paramRow, { [cls.selected]: selected }, [
-                className,
-            ])}
+            onClick={onClickHandler}
+            height={"10%"}
+            className={classNames(
+                cls.paramRow,
+                { [cls.selected]: selected },
+                []
+            )}
             alignItems="end"
-            align="space-between"
-            onClick={onParameterClickHandler}
+            align="space-around"
         >
             <div className={cls.paramVerboseWrapper}>
-                <p>{parameter.verbose}</p>
+                <p>{parameter.verbose_name}</p>
             </div>
-            {detailInfo && (
-                <div
-                    className={classNames(cls.paramVerboseWrapper, {}, [
-                        cls.tagWrap,
-                    ])}
-                >
-                    <p>{parameter.tag}</p>
-                </div>
-            )}
             <HFlexBox
                 alignItems="center"
                 align="space-around"
                 className={cls.paramValueWrapper}
-                width={"15%"}
+                width={"20%"}
             >
                 <p className={cls.valueField}>{parameter.value}</p>
             </HFlexBox>
