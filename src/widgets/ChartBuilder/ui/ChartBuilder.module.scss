@@ -28,4 +28,43 @@
     cursor: pointer;
     box-shadow: var(--shadow-redesign);
     text-align: center;
-} 
+}
+
+.settingsBox{
+    width:27%;
+    height:90%;
+    transition: width 0.3s;
+    box-shadow: var(--shadow-redesign);
+    position: relative;
+}
+
+.chart {
+    width:70%;
+    transition: width 0.3s;
+}
+
+.chartFull {
+    width:90%;
+}
+
+.collapsed {
+    width:10%;
+
+    
+}
+
+.collapseBtn {
+    position: absolute;
+    left: -15px;
+    bottom: 50%;
+    height:20px;
+    width:15px;
+    background: none;
+    border:none;
+    border-left:1px solid rgb(53 94 171 / 32%) ;
+    border-top:1px solid rgb(53 94 171 / 32%)  ;
+    border-bottom:1px solid rgb(53 94 171 / 32%)  ;
+}
+
+
+

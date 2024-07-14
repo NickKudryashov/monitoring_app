@@ -22,11 +22,6 @@ export function ObjectListItem(props: PropsWithChildren<ObjectListItemProps>) {
     const {objects} = useSelector((state:StateSchema)=>state.objects);
     const dispatch = useAppDispatch();
     const currentObject = getObjectById(id);
-    const onClickHandler = (obj:ObjectResponse) => {
-        // dispatch(objectSlice.actions.expand(obj.id));
-        dispatch(objectSlice.actions.openObj(obj.id));
-        onObjectClick(obj);
-    };
     // useEffect(()=>{console.log("expanded");},[currentObject?.expanded]);
     const mods:Record<string,boolean> = {
         [cls.selected]:currentObject.expanded

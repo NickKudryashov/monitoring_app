@@ -4,13 +4,14 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./EventEditor.module.scss";
 import { AppInput } from "shared/ui/AppInput/AppInput";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { ObjectList } from "entities/Objects";
+import { getSelectedUserObject, ObjectList } from "entities/Objects";
 import {
     SubcatTypes,
     SubcategoryListByObject,
     getAutoDeviceIdBySystem,
     getHeatDeviceIdBySystem,
     getPumpDeviceIdBySystem,
+    getSelectedSubcategory,
 } from "entities/ObjectSubCategory";
 import { StandartButtonsComposition } from "../StandartButtonsCompoition/StandartButtonsCompoition";
 import {
@@ -32,6 +33,7 @@ import {
 } from "entities/UserEvents";
 import { UserEvent } from "entities/UserEvents/model/types/type";
 import { GeneralAnswer } from "features/PageHeader/api/api";
+import { useSelector } from "react-redux";
 
 interface SubcatStateProps {
     id: number;
@@ -86,23 +88,14 @@ export const EventEditor = memo(
             }
         };
 
-        const [selectedObject, setSelectedObject] = useState<number>(
-            subcatData ? subcatData.user_object : null
-        );
-        const [selectedSubcat, setSelectedSubcat] = useState<SubcatStateProps>(
-            subcatData
-                ? {
-                      id: subcatData.id,
-                      subcat_type: subcatData.subcategory_type,
-                  }
-                : null
-        );
+        const selectedObject = useSelector(getSelectedUserObject);
+        const selectedSubcat = useSelector(getSelectedSubcategory);
         const { data: heatDeviceId } = getHeatDeviceIdBySystem(
             String(selectedSubcat?.id),
             {
                 skip:
                     !selectedSubcat?.id ||
-                    selectedSubcat.subcat_type !== SubcatTypes.heat,
+                    selectedSubcat.subcategory_type !== SubcatTypes.heat,
             }
         );
         const { data: autoDeviceId } = getAutoDeviceIdBySystem(
@@ -110,7 +103,7 @@ export const EventEditor = memo(
             {
                 skip:
                     !selectedSubcat?.id ||
-                    selectedSubcat.subcat_type !== SubcatTypes.auto,
+                    selectedSubcat.subcategory_type !== SubcatTypes.auto,
             }
         );
         const { data: pumpDeviceId } = getPumpDeviceIdBySystem(
@@ -118,7 +111,7 @@ export const EventEditor = memo(
             {
                 skip:
                     !selectedSubcat?.id ||
-                    selectedSubcat.subcat_type !== SubcatTypes.pump,
+                    selectedSubcat.subcategory_type !== SubcatTypes.pump,
             }
         );
 
@@ -163,22 +156,10 @@ export const EventEditor = memo(
                 <HFlexBox align="space-between" height="90%">
                     {isError && error && "data" in error && <p>{}</p>}
                     <VFlexBox align="space-between" width="35%">
-                        <ObjectList
-                            onSelectObject={setSelectedObject}
-                            selectedObject={selectedObject}
-                        />
+                        <ObjectList selectedObject={subcatData?.user_object} />
                         <SubcategoryListByObject
-                            objectID={selectedObject}
-                            preselectedSubcategory={
-                                subcatData
-                                    ? {
-                                          id: subcatData?.id,
-                                          subcat_type:
-                                              subcatData?.subcategory_type,
-                                      }
-                                    : undefined
-                            }
-                            setSelectedSubcategory={setSelectedSubcat}
+                            objectID={selectedObject?.id}
+                            preselectedSubcategory={subcatData?.id}
                         />
                         <UserEventTypeSelect
                             onChange={setEventType}
@@ -213,19 +194,22 @@ export const EventEditor = memo(
                         height="90%"
                         className={cls.parametersPlate}
                     >
-                        {selectedSubcat?.subcat_type === SubcatTypes.heat && (
+                        {selectedSubcat?.subcategory_type ===
+                            SubcatTypes.heat && (
                             <AllParametersView
                                 heatDevice={heatDevice}
                                 onParameterClick={heatParameterClickHandler}
                             />
                         )}
-                        {selectedSubcat?.subcat_type === SubcatTypes.auto && (
+                        {selectedSubcat?.subcategory_type ===
+                            SubcatTypes.auto && (
                             <AutoDevParametersComposition
                                 autoDevice={autoDevice}
                                 onParameterClick={autoParameterClickHandler}
                             />
                         )}
-                        {selectedSubcat?.subcat_type === SubcatTypes.pump && (
+                        {selectedSubcat?.subcategory_type ===
+                            SubcatTypes.pump && (
                             <PumpParametersComposition
                                 onParameterClick={pumpParameterClickHandler}
                                 pumpDevice={pumpDevice}

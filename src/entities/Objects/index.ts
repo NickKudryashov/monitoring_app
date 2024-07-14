@@ -1,4 +1,4 @@
-import { objectReducer } from "./reducers/reducers";
+import { objectReducer,userObjectActions } from "./reducers/reducers";
 import { objectsAllRequest,objectsDelRequest } from "./reducers/actionCreator";
 import { ObjectListItem } from "./ui/ObjectListItem/ObjectListItem";
 import { ObjectCard } from "./ui/ObjectCard/ObjectCard";
@@ -6,8 +6,8 @@ import { objectSlice } from "./reducers/reducers";
 import { ObjectResponse } from "./types/types";
 import { ObjectDetail } from "./ui/ObjectDetail/ObjectDetail";
 import { ObjectItem,objectState } from "./reducers/reducers";
-export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectDetail,objectsDelRequest};
+export {objectReducer,objectsAllRequest,ObjectListItem,ObjectCard,objectSlice,ObjectDetail,objectsDelRequest,userObjectActions};
 export type {ObjectResponse,ObjectItem,objectState};
 export {getUserObjectData} from "./api/api";
-export {getAllObjects} from "./selectors/getAllObjects";
+export {getAllObjects,getSelectedUserObject} from "./selectors/getAllObjects";
 export {ObjectList} from "./ui/ObjectList/ObjectList";

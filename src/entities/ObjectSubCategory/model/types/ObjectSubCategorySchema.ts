@@ -1,4 +1,5 @@
 import { EntityState } from "@reduxjs/toolkit";
+import { SubcategoryAnswer } from "entities/ObjectSubCategory/api/api";
 
 export interface ObjectSubCategoryType {
     id:number;
@@ -12,6 +13,7 @@ export interface ObjectSubCategorySchema extends EntityState<ObjectSubCategoryTy
     isLoading:boolean;
     lastExpandedId:number | undefined;
     selectedItemToDrop:number | undefined;
+    selectedSubcategory:SubcategoryAnswer | null
 }
 
 export const SubcatTypes = {

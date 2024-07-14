@@ -28,9 +28,6 @@ export const HeatParameterRow = (props: HeatParameterRowProps) => {
     }, [preSelected]);
 
     const onClickHandler = useCallback(() => {
-        if (!(onParameterClick && onParameterUnClick)) {
-            return;
-        }
         if (selected) {
             if (onParameterUnClick) {
                 onParameterUnClick(elem);
@@ -40,7 +37,9 @@ export const HeatParameterRow = (props: HeatParameterRowProps) => {
                 onParameterClick(elem);
             }
         }
-        setSelected((prev) => !prev);
+        if (onParameterClick && onParameterUnClick) {
+            setSelected((prev) => !prev);
+        }
     }, [elem, onParameterClick, onParameterUnClick, selected]);
     return (
         <HFlexBox

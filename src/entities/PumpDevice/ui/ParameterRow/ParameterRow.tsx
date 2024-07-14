@@ -18,9 +18,6 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
     }, [preSelected]);
 
     const onClickHandler = useCallback(() => {
-        if (!onParameterClick || !onParameterUnClick) {
-            return;
-        }
         if (selected) {
             if (onParameterUnClick) {
                 onParameterUnClick(parameter);
@@ -30,7 +27,9 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
                 onParameterClick(parameter);
             }
         }
-        setSelected((prev) => !prev);
+        if (onParameterClick && onParameterUnClick) {
+            setSelected((prev) => !prev);
+        }
     }, [onParameterClick, onParameterUnClick, parameter, selected]);
 
     return (

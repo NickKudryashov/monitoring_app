@@ -1,6 +1,10 @@
 import { getObjectSubcategoryData } from "entities/ObjectSubCategory/api/api";
+import { getSelectedSubcategory } from "entities/ObjectSubCategory/model/selectors/selectors";
+import { objSubCategoryActions } from "entities/ObjectSubCategory/model/slice/subcatSlice";
 import { SubcatTypes } from "entities/ObjectSubCategory/model/types/ObjectSubCategorySchema";
 import { ReactElement, useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "shared/hooks/hooks";
 import { LoaderCircle } from "shared/ui/LoaderCircle/LoaderCircle";
 import { Select } from "shared/ui/Select/Select";
 interface SubcategorySelectArgs {
@@ -9,33 +13,31 @@ interface SubcategorySelectArgs {
 }
 interface SubcategoryListProps {
     objectID: number;
-    setSelectedSubcategory: (args: SubcategorySelectArgs) => void;
-    preselectedSubcategory?: SubcategorySelectArgs;
+    setSelectedSubcategory?: (args: SubcategorySelectArgs) => void;
+    preselectedSubcategory?: number;
 }
 export const SubcategoryListByObject = (
     props: SubcategoryListProps
 ): ReactElement => {
-    const { objectID, setSelectedSubcategory, preselectedSubcategory } = props;
-    const [subcatVal, setSubcatVal] = useState(
-        String(preselectedSubcategory?.id) || null
-    );
+    const { objectID, preselectedSubcategory } = props;
+    const selectedSubcat = useSelector(getSelectedSubcategory);
+    const dispatch = useAppDispatch();
     const { data: subcatData, isLoading: isLoadingSubcat } =
         getObjectSubcategoryData(objectID, {
             skip: !objectID,
         });
 
     useEffect(() => {
-        return () => {
-            setSelectedSubcategory(null);
-        };
+        dispatch(objSubCategoryActions.selectSubcategory(null));
     }, [objectID]);
     useEffect(() => {
-        if (preselectedSubcategory === undefined) {
-            setSelectedSubcategory(null);
-        } else {
-            setSelectedSubcategory(preselectedSubcategory);
+        const subcat = subcatData?.data?.filter(
+            (el) => el.id === preselectedSubcategory
+        );
+        if (subcat) {
+            dispatch(objSubCategoryActions.selectSubcategory(subcat[0]));
         }
-    }, []);
+    }, [dispatch, preselectedSubcategory, subcatData?.data]);
 
     const options = useMemo(() => {
         let opt = [{ value: "0", content: "" }];
@@ -52,34 +54,21 @@ export const SubcategoryListByObject = (
     }, [subcatData]);
 
     const onSelectChangeHandler = (val: string) => {
-        setSubcatVal(val);
-        const [selectedSubcat] =
+        const [selectedSubcatByData] =
             subcatData?.data.filter((el) => el.id === Number(val)) || [];
-        if (selectedSubcat) {
-            setSelectedSubcategory({
-                id: selectedSubcat.id,
-                subcat_type: selectedSubcat.subcategory_type,
-            });
+        if (selectedSubcatByData) {
+            dispatch(
+                objSubCategoryActions.selectSubcategory(selectedSubcatByData)
+            );
         }
     };
 
     return (
-        // <select onChange={onSelectChangeHandler}>
-        //     <option value={null}>Выберите систему</option>
-        //     {objectID &&
-        //         !isLoadingSubcat &&
-        //         subcatData.data.map((el) => (
-        //             <option key={el.id} value={String(el.id)}>
-        //                 {el.name}
-        //             </option>
-        //         ))}
-        //     {objectID && isLoadingSubcat && <LoaderCircle />}
-        // </select>
         <Select
             onChange={onSelectChangeHandler}
             options={options}
             label="Системы"
-            value={subcatVal}
+            value={String(selectedSubcat?.id)}
         />
     );
 };

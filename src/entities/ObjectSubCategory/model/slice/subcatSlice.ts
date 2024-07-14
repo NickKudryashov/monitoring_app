@@ -2,6 +2,7 @@ import { PayloadAction, createEntityAdapter, createSlice } from "@reduxjs/toolki
 import { ObjectSubCategorySchema, ObjectSubCategoryType } from "../types/ObjectSubCategorySchema";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { deleteSubCat, editSubCat, fetchByObjId } from "../actions/fetchSubCats";
+import { SubcategoryAnswer } from "entities/ObjectSubCategory/api/api";
 
 export const ObjSubcategoryAdapter = createEntityAdapter<ObjectSubCategoryType>({
     selectId:(instance)=>instance.id
@@ -15,25 +16,14 @@ export const objSubCatSlice = createSlice({
         entities:{},
         lastExpandedId:undefined,
         selectedItemToDrop:undefined,
+        selectedSubcategory:null,
         ids:[]}),
     reducers:{
-        changeExpand (state,action:PayloadAction<number | undefined>) {
-            if (!action.payload) {
-                localStorage.removeItem("subcategory_"+state.lastExpandedId);
-                state.lastExpandedId = undefined;
-            }
-            else if (state.lastExpandedId === action.payload) {
-                state.lastExpandedId = undefined;
-                localStorage.removeItem("subcategory_"+action.payload);
-            }
-            else {
-                if (state.lastExpandedId && state.entities[state.lastExpandedId].id!==state.entities[action.payload].parent) {
-                    localStorage.removeItem("subcategory_"+state.lastExpandedId);
-                }
-                localStorage.setItem("subcategory_"+action.payload,"1");
-                
-                state.lastExpandedId = action.payload;
-            }
+        selectSubcategory (state,action:PayloadAction<SubcategoryAnswer>) {
+            state.selectedSubcategory = action.payload;
+        },
+        clearSelection (state) {
+            state.selectedSubcategory = null;
         },
         update (state,action:PayloadAction<ObjectSubCategoryType>) {
             ObjSubcategoryAdapter.updateOne(state,{id:action.payload.id,changes:action.payload});

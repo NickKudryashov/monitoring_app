@@ -15,53 +15,23 @@ export interface ObjectItem {
 
 export interface objectState {
     objects:ObjectItem[]
+    selectedObject:ObjectItem | null
 }
 
-const initialState:objectState = {objects:[]};
+const initialState:objectState = {objects:[],selectedObject:null};
 
 export const objectSlice = createSlice({
     name:"objects",
     initialState,
     reducers:{
-        expand(state,action:PayloadAction<number>) {
-            state.objects.map(element=>{if (element.id === action.payload) {
-                element.expanded=!element.expanded;
-                localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
-            }});
-        },
-        openObj(state,action:PayloadAction<number>) {
-            state.objects.map(element=>{if (element.id === action.payload) {
-                element.expanded=true;
-                localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
-            }});
-        },
-        closeObj(state,action:PayloadAction<number>) {
-            state.objects.map(element=>{if (element.id === action.payload) {
-                element.expanded=false;
-                localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
-            }});
-        },
-        closeAllObjExceptSelected(state,action:PayloadAction<ObjectItem>) {
-            state.objects.map(element=>{if (element.id === action.payload.id) {
-                element.expanded=true;
+        selectObject(state,action:PayloadAction<number>) {
+            const object = state.objects.filter((el)=>el.id===action.payload);
+            if (object) {
+                state.selectedObject = object[0];
             }
-            else {
-                element.expanded=false;
-            }
-            localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
-            });
         },
-        closeAllObjByCategoryId(state,action:PayloadAction<number>) {
-            state.objects.map(element=>{if (element.category === action.payload) {
-                element.expanded=false;
-            }
-            localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
-            });
-        },
-        closeAllObj(state) {
-            state.objects.map(element=>{element.expanded=false;
-                localStorage.setItem(`object_${element.id}`,String(element.expanded || ""));
-            });
+        clearSelectObject(state){
+            state.selectedObject = null;
         }
     },
     extraReducers:{
@@ -79,3 +49,4 @@ export const objectSlice = createSlice({
 
 
 export const objectReducer = objectSlice.reducer;
+export const {actions:userObjectActions} = objectSlice;

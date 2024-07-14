@@ -1,27 +1,42 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import cls from "./ObjectList.module.scss";
 import { useSelector } from "react-redux";
-import { getAllObjects } from "entities/Objects/selectors/getAllObjects";
+import {
+    getAllObjects,
+    getSelectedUserObject,
+} from "entities/Objects/selectors/getAllObjects";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { objectsAllRequest } from "entities/Objects/reducers/actionCreator";
 import { Select } from "shared/ui/Select/Select";
+import { userObjectActions } from "entities/Objects/reducers/reducers";
 
 interface ObjectListProps {
-    onSelectObject: (objectID: number) => void;
+    onSelectObject?: (objectID: number) => void;
     selectedObject?: number;
 }
 
 export const ObjectList = (props: ObjectListProps): ReactElement => {
-    const { onSelectObject, selectedObject } = props;
+    const { selectedObject } = props;
     const { objects } = useSelector(getAllObjects);
+    const objectSelectedState = useSelector(getSelectedUserObject);
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(objectsAllRequest());
-        if (selectedObject) {
-            onSelectObject(selectedObject);
-        }
-        return () => onSelectObject(null);
+        return () => {
+            dispatch(userObjectActions.clearSelectObject());
+        };
     }, []);
+    useEffect(() => {
+        if (selectedObject) {
+            dispatch(userObjectActions.selectObject(selectedObject));
+        }
+    }, [selectedObject, objects]);
+    const onSelectObject = useCallback(
+        (val: string) => {
+            dispatch(userObjectActions.selectObject(Number(val)));
+        },
+        [dispatch]
+    );
     const options = [
         { value: "0", content: "" },
         ...objects.map((el) => ({
@@ -39,10 +54,10 @@ export const ObjectList = (props: ObjectListProps): ReactElement => {
         //     ))}
         // </select>
         <Select
-            onChange={(val) => onSelectObject(Number(val))}
+            onChange={onSelectObject}
             label="Объекты"
             options={options}
-            value={String(selectedObject)}
+            value={String(objectSelectedState?.id)}
         />
     );
 };

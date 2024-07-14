@@ -13,6 +13,7 @@ import { SubcatCardsSchema } from "features/ObjectCategoryCardView";
 import { PumpPageStateSchema } from "pages/PumpSubcategoryPage";
 import { SubCategoryPageSchema } from "pages/SubcartegoryPage";
 import { rtkApi } from "shared/api/rtkApi";
+import { ChartBuilderStateSchema } from "widgets/ChartBuilder";
 import { DeviceListState } from "widgets/DeviceList";
 import { NavbarStateSchema } from "widgets/Navbar";
 import { SubcategoryTabStateSchema } from "widgets/SubcategoryTabs";
@@ -36,6 +37,7 @@ export interface StateSchema {
     tabs:SubcategoryTabStateSchema;
     pumpPage:PumpPageStateSchema;
     chart:ChartStateSchema;
+    chartBuilder:ChartBuilderStateSchema;
 }
 
 export interface ThunkConfig<T> {

@@ -9,3 +9,4 @@ export {SubcategoryListByObject} from "./ui/SubcategoryListByObject/SubcategoryL
 export {SubcatTypes} from "./model/types/ObjectSubCategorySchema";
 
 export {getAutoDeviceIdBySystem,getElectroDeviceIdBySystem,getHeatDeviceIdBySystem,getPumpDeviceIdBySystem} from "./api/api";
+export {getSelectedSubcategory} from "./model/selectors/selectors";
