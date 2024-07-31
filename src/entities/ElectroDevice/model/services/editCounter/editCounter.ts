@@ -1,8 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ThunkConfig } from "app/providers/StoreProvider/config/stateSchema";
-import { ElectroCounter, ElectroData, TopLevelElectroDevice } from "../../types/electroDevice";
+import { ElectroCounter } from "../../types/electroDevice";
 import api from "shared/api";
-import { createCanDict, createDeviceDict } from "entities/ElectroDevice/helpers/countersMapper";
 
 interface editingCounterProps {
     devId:number;

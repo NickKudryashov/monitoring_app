@@ -1,7 +1,7 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "./classNames";
 
 describe("classnames",()=>{
     test("firsttest",()=>{
-        expect(classNames("aboba")).toBe("aboba");
+        expect(classNames("aboba")).toBe("aboba1");
     });
 });

@@ -283,6 +283,12 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
             dispatch(chartActions.clearDatasets());
         }
     }, [dispatch, endDate, startDate]);
+    useEffect(() => {
+        return () => {
+            dispatch(chartBuilderActions.cleanup());
+            dispatch(chartActions.clearDatasets());
+        };
+    });
     const removeParameter = useCallback(
         (subtype: string, content: SubtabContentDeleteProps) => {
             const [selectedParameter] = selectedParameters[

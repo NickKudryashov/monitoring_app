@@ -1,24 +1,24 @@
 import { DetailView } from "widgets/DetailView";
 import cls from "./MapPage.module.scss";
-import { Map, Placemark } from "react-yandex-maps";
 import { getMapMarkers } from "entities/MapMarker";
-import { ReactElement, useEffect, useState } from "react";
-import { ObjectCategoryView } from "features/ObjectCategoryCardView";
-import { createPortal } from "react-dom";
+import { useEffect, useState } from "react";
 import "./MapPage.module.scss";
 import { BaloonPortal } from "./BaloonPortal/BaloonPortal";
 import { ObjectMarker } from "./ObjectMarker/ObjectMarker";
+import { useMapLib } from "shared/lib/components/MapProvider/MapProvider";
+import Dub from "shared/assets/icons/loveUtoo.svg";
 const MapPage = () => {
     const { data: markers, refetch } = getMapMarkers();
     const [activePortal, setActivePortal] = useState(0);
-    console.log(markers);
+    const { mapLib, loaded } = useMapLib();
     useEffect(() => {
         refetch();
     }, []);
     return (
         <div className={cls.MapPage}>
             <DetailView className={cls.detail}>
-                <Map
+                <Dub />
+                <mapLib.Map
                     className={cls.map}
                     defaultState={{ center: [55.75, 37.57], zoom: 9 }}
                     modules={[
@@ -28,7 +28,7 @@ const MapPage = () => {
                 >
                     {/* <Placemark  geometry={[55.684758, 37.738521]} /> */}
                     {markers?.map((el) => (
-                        <Placemark
+                        <mapLib.Placemark
                             key={el.id}
                             geometry={[el.latitude, el.longitude]}
                             options={
@@ -47,7 +47,7 @@ const MapPage = () => {
                             }}
                         />
                     ))}
-                </Map>
+                </mapLib.Map>
                 {activePortal && (
                     <BaloonPortal getHTMLElementId={`driver-${activePortal}`}>
                         {/* ставим свой компонент */}

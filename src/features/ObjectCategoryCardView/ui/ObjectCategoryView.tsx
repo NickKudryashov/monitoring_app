@@ -2,10 +2,6 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryView.module.scss";
 
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
-import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
-import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
-import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
-import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
@@ -15,6 +11,7 @@ import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { subcatCardSliceActions } from "../model/cardSlice";
 import {
+    SubcatIcon,
     SubcategoryAnswer,
     SubcategoryStatus,
     editSubcatOrder,
@@ -28,12 +25,6 @@ interface ObjectCategoryViewProps {
     last_update: string;
     id: number;
 }
-const IconMapper: any = {
-    1: HeatIcon,
-    2: ElectroIcon,
-    3: AutoIcon,
-    4: PumpIcon,
-};
 
 export function ObjectCategoryView(
     props: PropsWithChildren<ObjectCategoryViewProps>
@@ -131,20 +122,9 @@ export function ObjectCategoryView(
                             onDrop={(e) => dropHandler(e, el)}
                         >
                             <p style={{ width: "75%" }}>{el.name}</p>
-                            {el.subcategory_type === "heat_energy_node" && (
-                                <HeatIcon className={cls.icon} />
-                            )}
-                            {el.subcategory_type === "pump_station_node" && (
-                                <PumpIcon className={cls.icon} />
-                            )}
-                            {el.subcategory_type !== "heat_energy_node" &&
-                                el.subcategory_type !== "pump_station_node" &&
-                                el.subcategory_type !== "auto_node" && (
-                                    <ElectroIcon className={cls.icon} />
-                                )}
-                            {el.subcategory_type === "auto_node" && (
-                                <AutoIcon className={cls.icon} />
-                            )}
+                            <SubcatIcon
+                                subcategory_type={el.subcategory_type}
+                            />
                         </HFlexBox>
                     ))}
                 <div className={classNames(cls.systemLine, {}, [])}>

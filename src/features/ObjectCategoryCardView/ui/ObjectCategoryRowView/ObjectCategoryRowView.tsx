@@ -1,23 +1,17 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryRowView.module.scss";
 
-import { PropsWithChildren, useCallback, useEffect, useMemo } from "react";
-import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
-import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
-import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
-import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
+import { PropsWithChildren, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
-import { cp } from "fs";
 import PlusIcon from "shared/assets/icons/plusSystemIcon.svg";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { count } from "console";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { subcatCardSliceActions } from "features/ObjectCategoryCardView/model/cardSlice";
 import {
+    SubcatIcon,
     SubcategoryAnswer,
     SubcategoryStatus,
     editSubcatOrder,
@@ -33,12 +27,6 @@ interface ObjectCategoryRowViewProps {
     last_update: string;
     id: number;
 }
-const IconMapper: any = {
-    heat_energy_node: HeatIcon,
-    2: ElectroIcon,
-    auto_node: AutoIcon,
-    pump_station_node: PumpIcon,
-};
 export function ObjectCategoryRowView(
     props: PropsWithChildren<ObjectCategoryRowViewProps>
 ) {
@@ -56,11 +44,6 @@ export function ObjectCategoryRowView(
         (state: StateSchema) => state.subcatCards
     );
     const [editOrder, { isLoading: isUpdating }] = editSubcatOrder();
-    const markerIcon = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-    const markerColor = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-    const Icon = IconMapper[markerIcon] as React.FunctionComponent<
-        React.SVGAttributes<SVGElement>
-    >;
     const onSubcatClick = (el: SubcategoryAnswer) => {
         navigate(ROUTE_MAPPER[el.subcategory_type] + el.id);
     };
@@ -153,20 +136,9 @@ export function ObjectCategoryRowView(
                                     alignItems="center"
                                     width="20%"
                                 >
-                                    {el.subcategory_type ===
-                                        "heat_energy_node" && (
-                                        <HeatIcon className={cls.icon} />
-                                    )}
-                                    {!el.subcategory_type && (
-                                        <ElectroIcon className={cls.icon} />
-                                    )}
-                                    {el.subcategory_type === "auto_node" && (
-                                        <AutoIcon className={cls.icon} />
-                                    )}
-                                    {el.subcategory_type ===
-                                        "pump_station_node" && (
-                                        <PumpIcon className={cls.icon} />
-                                    )}
+                                    <SubcatIcon
+                                        subcategory_type={el.subcategory_type}
+                                    />
                                     <p className={cls.nameField}>{el.name}</p>
                                 </HFlexBox>
 

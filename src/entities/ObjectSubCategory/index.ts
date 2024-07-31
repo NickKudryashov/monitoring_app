@@ -7,6 +7,6 @@ export type {SubcategoryAnswer} from "./api/api";
 export {SubcategoryStatus} from "./api/api";
 export {SubcategoryListByObject} from "./ui/SubcategoryListByObject/SubcategoryListByObject";
 export {SubcatTypes} from "./model/types/ObjectSubCategorySchema";
-
+export {SubcatIcon} from "./ui/SubcatIcon/SubcatIcon";
 export {getAutoDeviceIdBySystem,getElectroDeviceIdBySystem,getHeatDeviceIdBySystem,getPumpDeviceIdBySystem} from "./api/api";
 export {getSelectedSubcategory} from "./model/selectors/selectors";
