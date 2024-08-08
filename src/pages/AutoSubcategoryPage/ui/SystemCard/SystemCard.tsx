@@ -17,7 +17,9 @@ export function SystemCard(props: SystemCardProps): React.ReactElement {
     return (
         <HFlexBox height="45%" className={cls.card}>
             <VFlexBox className={cls.systemCardFlexInfoPart}>
-                <p className={cls.systemCardTitle}>{"КОНТУР №" + index}</p>
+                <p className={cls.systemCardTitle}>
+                    {index === 0 ? "ОБЩИЕ" : "КОНТУР №" + index}
+                </p>
                 {params[index].map((param) => (
                     <HFlexBox
                         height={"9%"}

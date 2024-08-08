@@ -4,7 +4,6 @@ import {
     PumpDeviceData,
     PumpParameter,
 } from "entities/PumpDevice/model/types/pumpDevice";
-import { PumpDeviceProps } from "../PumpDevice";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 
 export const ParametersComposition = memo(

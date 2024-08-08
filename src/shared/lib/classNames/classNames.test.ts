@@ -2,6 +2,6 @@ import classNames from "./classNames";
 
 describe("classnames",()=>{
     test("firsttest",()=>{
-        expect(classNames("aboba")).toBe("aboba1");
+        expect(classNames("aboba")).toBe("aboba");
     });
 });

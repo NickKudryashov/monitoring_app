@@ -34,11 +34,7 @@ import {
 import { UserEvent } from "entities/UserEvents/model/types/type";
 import { GeneralAnswer } from "features/PageHeader/api/api";
 import { useSelector } from "react-redux";
-
-interface SubcatStateProps {
-    id: number;
-    subcat_type: SubcatTypes;
-}
+import { MOCK_ID } from "shared/lib/util/constants";
 
 export const EventEditor = memo(
     (props: {
@@ -115,15 +111,24 @@ export const EventEditor = memo(
             }
         );
 
-        const { data: heatDevice } = getHeatDeviceData(heatDeviceId?.device, {
-            skip: !heatDeviceId?.device,
-        });
-        const { data: pumpDevice } = getPumpData(pumpDeviceId?.device, {
-            skip: !pumpDeviceId?.device,
-        });
-        const { data: autoDevice } = getAutomaticDevice(autoDeviceId?.device, {
-            skip: !autoDeviceId?.device,
-        });
+        const { data: heatDevice } = getHeatDeviceData(
+            heatDeviceId?.device || MOCK_ID,
+            {
+                skip: !heatDeviceId?.device,
+            }
+        );
+        const { data: pumpDevice } = getPumpData(
+            pumpDeviceId?.device || MOCK_ID,
+            {
+                skip: !pumpDeviceId?.device,
+            }
+        );
+        const { data: autoDevice } = getAutomaticDevice(
+            autoDeviceId?.device || MOCK_ID,
+            {
+                skip: !autoDeviceId?.device,
+            }
+        );
         const heatParameterClickHandler = useCallback(
             (parameter: HeatParameters) => {
                 setExpression((prev) => [
@@ -158,7 +163,7 @@ export const EventEditor = memo(
                     <VFlexBox align="space-between" width="35%">
                         <ObjectList selectedObject={subcatData?.user_object} />
                         <SubcategoryListByObject
-                            objectID={selectedObject?.id}
+                            objectID={selectedObject?.id ?? 0}
                             preselectedSubcategory={subcatData?.id}
                         />
                         <UserEventTypeSelect
@@ -195,26 +200,29 @@ export const EventEditor = memo(
                         className={cls.parametersPlate}
                     >
                         {selectedSubcat?.subcategory_type ===
-                            SubcatTypes.heat && (
-                            <AllParametersView
-                                heatDevice={heatDevice}
-                                onParameterClick={heatParameterClickHandler}
-                            />
-                        )}
+                            SubcatTypes.heat &&
+                            heatDevice && (
+                                <AllParametersView
+                                    heatDevice={heatDevice}
+                                    onParameterClick={heatParameterClickHandler}
+                                />
+                            )}
                         {selectedSubcat?.subcategory_type ===
-                            SubcatTypes.auto && (
-                            <AutoDevParametersComposition
-                                autoDevice={autoDevice}
-                                onParameterClick={autoParameterClickHandler}
-                            />
-                        )}
+                            SubcatTypes.auto &&
+                            autoDevice && (
+                                <AutoDevParametersComposition
+                                    autoDevice={autoDevice}
+                                    onParameterClick={autoParameterClickHandler}
+                                />
+                            )}
                         {selectedSubcat?.subcategory_type ===
-                            SubcatTypes.pump && (
-                            <PumpParametersComposition
-                                onParameterClick={pumpParameterClickHandler}
-                                pumpDevice={pumpDevice}
-                            />
-                        )}
+                            SubcatTypes.pump &&
+                            pumpDevice && (
+                                <PumpParametersComposition
+                                    onParameterClick={pumpParameterClickHandler}
+                                    pumpDevice={pumpDevice}
+                                />
+                            )}
                     </HFlexBox>
                 </HFlexBox>
                 <AppButon onClick={onCreateEvent}>Отправить</AppButon>

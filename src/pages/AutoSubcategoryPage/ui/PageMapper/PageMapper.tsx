@@ -17,8 +17,8 @@ import { EventEditor } from "widgets/EventEditor";
 import { getSubTab, getTab } from "widgets/SubcategoryTabs";
 
 interface PageMapperProps {
-    devData: AutomaticDeviceData;
-    generalData: GeneralAnswer;
+    devData?: AutomaticDeviceData;
+    generalData?: GeneralAnswer;
 }
 
 export const PageMapper = (props: PageMapperProps): ReactElement => {
@@ -38,7 +38,7 @@ export const PageMapper = (props: PageMapperProps): ReactElement => {
                     <AutoParameterColumn
                         fullHeight
                         key={i}
-                        header={`Контур ${i + 1}`}
+                        header={i === 0 ? "ОБЩИЕ" : `КОНТУР №${i}`}
                         params={el}
                     />
                 ))}

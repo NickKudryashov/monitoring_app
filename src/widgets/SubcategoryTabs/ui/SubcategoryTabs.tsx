@@ -32,7 +32,7 @@ const TAB_NAMES = [
 ];
 export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = memo(
     (props: SubcategoryTabsProps) => {
-        const { className, content, children } = props;
+        const { className = "", content, children } = props;
         const dispatch = useAppDispatch();
         const tab = useSelector(getTab);
         const subTab = useSelector(getSubTab);

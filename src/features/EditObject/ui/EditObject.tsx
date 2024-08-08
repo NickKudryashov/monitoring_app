@@ -17,7 +17,7 @@ interface EditObjectProps {
 }
 
 export function EditObject(props: PropsWithChildren<EditObjectProps>) {
-    const { className, object, isOpen, onClose } = props;
+    const { className = "", object, isOpen, onClose } = props;
     const url = `objects/${object.id}`;
     const [name, setName] = useState(object.name);
     const req = $api.put;
@@ -31,7 +31,9 @@ export function EditObject(props: PropsWithChildren<EditObjectProps>) {
         };
         await req(url, body);
         dispatch(objectsAllRequest());
-        onClose();
+        if (onClose) {
+            onClose();
+        }
     };
 
     return (

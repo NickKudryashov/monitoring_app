@@ -20,6 +20,7 @@ import { tabSliceActions } from "widgets/SubcategoryTabs";
 import { getHeatDeviceIdBySystem } from "entities/ObjectSubCategory";
 import { PageTabMapper } from "../PageMapper/PageMapper";
 import { useAppDispatch } from "shared/hooks/hooks";
+import { MOCK_ID, MOCK_STR_ID } from "shared/lib/util/constants";
 interface HeatSubcategoryPageProps {
  className?: string;
 }
@@ -35,10 +36,10 @@ const HeatSubcategoryPage = (props: PropsWithChildren<HeatSubcategoryPageProps>)
     const { className } = props;
     const {id} = useParams<{id:string}>();
 
-    const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id);
-    const {data:device,isLoading:isLoadingDevices} = getHeatDeviceIdBySystem(id,{skip:id===undefined});
-    const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.device,{pollingInterval:15000,skip:device?.device===undefined});
-    const poll = useHeatPoll({autoPoll:deviceData?.connection_info.connection_type!=="GSM",id:deviceData?.id,onUpdate:()=>{refetch();refetchGeneral();}});
+    const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id ?? MOCK_STR_ID);
+    const {data:device,isLoading:isLoadingDevices} = getHeatDeviceIdBySystem(id ?? MOCK_STR_ID,{skip:id===undefined});
+    const {data:deviceData,isLoading:isDevLoading,refetch} = getHeatDeviceData(device?.device ?? MOCK_ID,{pollingInterval:15000,skip:device?.device===undefined});
+    const poll = useHeatPoll({autoPoll:deviceData?.connection_info.connection_type!=="GSM",id:deviceData?.id ?? MOCK_ID,onUpdate:()=>{refetch();refetchGeneral();}});
     const dispatch = useAppDispatch();
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>("subcategory_events/"+id);

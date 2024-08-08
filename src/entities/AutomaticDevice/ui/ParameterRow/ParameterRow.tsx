@@ -14,7 +14,7 @@ interface ParameterRowProps {
 export const ParameterRow = (props: ParameterRowProps): ReactElement => {
     const {
         parameter,
-        className,
+        className = "",
         onParameterClick,
         onParameterUnClick,
         preSelected,

@@ -9,9 +9,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export const createPdfByChartId = async (chartId: string,lines:string[]=[]) => {
     return await ApexCharts.exec(chartId, "dataURI").then(
         ({ imgURI }: { imgURI: string }) => {
-            const canvas = document.getElementById("chartCanvas");
-            const width = canvas.clientWidth;
-            const height = canvas.clientHeight;
+            // const canvas = document.getElementById("chartCanvas");
             const docDefinition:TDocumentDefinitions = {
                 pageOrientation:"landscape",
                 content: [

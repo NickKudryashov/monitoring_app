@@ -11,7 +11,7 @@ const userEventsQuery = rtkApi.injectEndpoints({
                     url:`user_event/${id}`,
                 };
             },
-            providesTags:(result)=>[{ type: "UserEvents", id: result.id }]
+            providesTags:(result)=>[{ type: "UserEvents", id: result?.id }]
 
         }),
         getUserEventsTypes:build.query<Record<string,string>,void>({

@@ -6,14 +6,14 @@ import type { PropsWithChildren } from "react";
 import { StaffAction } from "../StaffActions/StaffAction";
 
 interface StaffRowProps {
- className?: string;
+    className?: string;
 }
 
 export const StaffRow = memo((props: PropsWithChildren<StaffRowProps>) => {
-    const { className } = props;
+    const { className = "" } = props;
 
     return (
-        <div className={classNames(cls.StaffRow,{},[className])}>
+        <div className={classNames(cls.StaffRow, {}, [className])}>
             <div className={cls.dataColumn}>
                 <p>Организация</p>
                 <p>ООО Алвик-Сервис</p>
@@ -37,7 +37,7 @@ export const StaffRow = memo((props: PropsWithChildren<StaffRowProps>) => {
                 <p>Роль</p>
                 <p>Администратор</p>
             </div>
-            <StaffAction/>
+            <StaffAction />
         </div>
     );
 });

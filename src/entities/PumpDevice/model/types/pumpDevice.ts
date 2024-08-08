@@ -1,6 +1,6 @@
 export interface PumpDeviceSchema {
 isLoading: boolean;
-data?: PumpDeviceData[];
+data: PumpDeviceData[];
 error?: string;
 task_id?:string;
 }

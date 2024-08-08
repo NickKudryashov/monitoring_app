@@ -23,6 +23,7 @@ import { ParameterLinks } from "../ParameterLinks/ParameterLinks";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { tabSliceActions } from "widgets/SubcategoryTabs";
 import { pumpPageSliceActions } from "pages/PumpSubcategoryPage/model/slice";
+import { MOCK_ID, MOCK_STR_ID } from "shared/lib/util/constants";
 
 interface PumpSubcategoryPageProps {
  className?: string;
@@ -33,12 +34,12 @@ export type ParametersDict = Record<string,PumpParameter[]>
 const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>) => {
     const { className } = props;
     const {id} = useParams<{id:string}>();
-    const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id);
-    const {data:device,isLoading:isLoadingDevices} = getPumpDeviceIdBySystem(id);
+    const {data:generalData,refetch:refetchGeneral,} = getSubcatGeneralInfo(id ?? MOCK_STR_ID );
+    const {data:device,isLoading:isLoadingDevices} = getPumpDeviceIdBySystem(id ?? MOCK_STR_ID );
     const dispatch = useAppDispatch();
-    const {data:deviceData,isLoading:isDevLoading,refetch} = getPumpData(device?.device,{pollingInterval:15000,skip:!device?.device}); 
-    const {data:deviceDataDetail,isLoading:isDevDetailLoading1,refetch:refetchDetail} = getPumpDataDetail(device?.device,{pollingInterval:15000,skip:!device?.device});
-    const poll = usePumpPoll({autoPoll:deviceData?.connection_info.connection_type!=="GSM",id:deviceData?.id,onUpdate:()=>{refetch();refetchGeneral();refetchDetail();}});
+    const {data:deviceData,isLoading:isDevLoading,refetch} = getPumpData(device?.device ?? MOCK_ID,{pollingInterval:15000,skip:!device?.device}); 
+    const {data:deviceDataDetail,isLoading:isDevDetailLoading1,refetch:refetchDetail} = getPumpDataDetail(device?.device ?? MOCK_ID,{pollingInterval:15000,skip:!device?.device});
+    const poll = usePumpPoll({autoPoll:deviceData?.connection_info.connection_type!=="GSM",id:deviceData?.id ?? MOCK_ID,onUpdate:()=>{refetch();refetchGeneral();refetchDetail();}});
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>("subcategory_events/"+id);
         return response.data;
@@ -102,7 +103,7 @@ const PumpSubcategoryPage = (props: PropsWithChildren<PumpSubcategoryPageProps>)
                                 >
                                     <Panel defaultSize={75}>
                                         {
-                                            deviceData && deviceData.parameters &&
+                                            deviceData && deviceData.parameters && deviceDataDetail && generalData &&
                                             <PageMapper devData={deviceData} deviceDataDetail={deviceDataDetail} generalData={generalData}/>
 
                                         }

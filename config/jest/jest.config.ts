@@ -16,6 +16,11 @@ export default {
     // cacheDirectory: "C:\\Users\\Alina\\AppData\\Local\\Temp\\jest",
 
     // Automatically clear mock calls, instances, contexts and results before every test
+    globals: {
+        __IS_DEV__: true,
+        __API__: "",
+        __PROJECT__: "jest",
+    },
     clearMocks: true,
     coveragePathIgnorePatterns: [
         "\\\\node_modules\\\\"
@@ -41,11 +46,14 @@ export default {
         "<rootDir>src/**/*(*.)@(spec|test).[tj]s?(x)",
     ],
     rootDir: "../../",
+    // setupFiles: [
+    // "<rootDir>config/jest/jestEnv.ts"
+    // ],
     setupFilesAfterEnv:["<rootDir>config/jest/setupTests.ts"],
     moduleNameMapper: {
         "\\.(scss)$": "identity-obj-proxy",
         "\\.svg":path.resolve(__dirname,"jestEmptyComponent.tsx")
-    }
+    },
     // Indicates whether the coverage information should be collected while executing the test
     // collectCoverage: false,
 
@@ -149,7 +157,6 @@ export default {
     // runner: "jest-runner",
 
     // The paths to modules that run some code to configure or set up the testing environment before each test
-    // setupFiles: [],
 
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
     // setupFilesAfterEnv: [],

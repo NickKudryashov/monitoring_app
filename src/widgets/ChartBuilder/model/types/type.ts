@@ -66,7 +66,7 @@ export interface ChartFragmentProps {
 
 export interface ChartBuilderStateSchema {
     selectedParameters:SelectedParameters;
-    reportData?:Record<number,UserObjectFragment>;
+    reportData:Record<number,UserObjectFragment>;
 }
 
 export interface DeleteParameterArgs {

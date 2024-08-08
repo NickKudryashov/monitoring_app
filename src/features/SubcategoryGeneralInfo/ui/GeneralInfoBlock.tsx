@@ -5,11 +5,11 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { memo } from "react";
 
 interface GeneralInfoBlockProps {
-    systems: number;
-    device_type_verbose_name: string;
-    device_num: number;
-    address: string;
-    name: string;
+    systems: number | undefined;
+    device_type_verbose_name: string | undefined;
+    device_num: number | undefined;
+    address: string | undefined;
+    name: string | undefined;
 }
 
 export const GeneralInfoBlock = memo(function _GeneralInfoBlock(

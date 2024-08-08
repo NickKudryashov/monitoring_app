@@ -8,13 +8,23 @@ import { Colontitul } from "../Colontitul/Colontitul";
 import { getArchives } from "pages/HeatSubcategoryPage/api/api";
 import { HeatDevice } from "entities/Heatcounters";
 import { GeneralAnswer } from "features/PageHeader/api/api";
-function ArchiveView(props:{id:string,deviceData:HeatDevice,generalData:GeneralAnswer}):ReactElement {
-    const {id,deviceData,generalData} = props;
-    const {data,isLoading} = getArchives(id);
-    return(
+function ArchiveView(props: {
+    id: string;
+    deviceData: HeatDevice;
+    generalData: GeneralAnswer;
+}): ReactElement {
+    const { id, deviceData, generalData } = props;
+    const { data, isLoading } = getArchives(id);
+    return (
         <VFlexBox gap="20px" className={cls.ArchiveView}>
             <HFlexBox align="space-between" height="70%">
-                {!isLoading && <CreateReportBlock generalData={generalData} deviceData={deviceData} archData={data}/>}
+                {!isLoading && data && (
+                    <CreateReportBlock
+                        generalData={generalData}
+                        deviceData={deviceData}
+                        archData={data}
+                    />
+                )}
             </HFlexBox>
             <HFlexBox align="space-between" height="20%">
                 {/* <Colontitul/> */}
@@ -24,4 +34,4 @@ function ArchiveView(props:{id:string,deviceData:HeatDevice,generalData:GeneralA
     );
 }
 
-export {ArchiveView};
+export { ArchiveView };

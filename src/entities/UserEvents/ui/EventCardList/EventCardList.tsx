@@ -7,11 +7,11 @@ import { EventCard } from "../EventCard/EventCard";
 
 interface EventCardListProps {
     className?: string;
-    events: UserEvent[];
+    events: UserEvent[] | undefined;
 }
 
 export const EventCardList = memo((props: EventCardListProps): ReactElement => {
-    const { events, className } = props;
+    const { events = [], className = "" } = props;
     return (
         <VFlexBox className={classNames("", {}, [className])}>
             {events &&

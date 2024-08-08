@@ -17,7 +17,7 @@ interface ObjectListProps {
 
 export const ObjectList = (props: ObjectListProps): ReactElement => {
     const { selectedObject } = props;
-    const { objects } = useSelector(getAllObjects);
+    const objects = useSelector(getAllObjects);
     const objectSelectedState = useSelector(getSelectedUserObject);
     const dispatch = useAppDispatch();
     useEffect(() => {

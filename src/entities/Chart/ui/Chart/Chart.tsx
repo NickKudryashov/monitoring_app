@@ -12,7 +12,7 @@ export const BaseChart = (props: {
     end_date: string;
     className?: string;
 }): ReactElement => {
-    const { start_date, end_date, className } = props;
+    const { start_date = "", end_date = "", className = "" } = props;
     const datasets = useSelector(getDatasets);
     const series = useMemo(() => {
         const result = datasets.map((el) => {

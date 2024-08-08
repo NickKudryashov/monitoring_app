@@ -14,12 +14,8 @@ interface EventCardProps {
 }
 
 export const EventCard = memo((props: EventCardProps) => {
-    const { event, className } = props;
+    const { event, className = "" } = props;
     const [eventEnabled, setEventEnabled] = useState<boolean>(event?.enabled);
-    const [eventTitle, setEventTitle] = useState<string>(event?.title);
-    const [eventMessage, setEventMessage] = useState<string>(
-        event?.description
-    );
     const [toggleEvent] = editUserEvent();
     const [deleteMutation] = deleteUserEvent();
     const onEventToggle = (e: React.ChangeEvent<HTMLInputElement>) => {

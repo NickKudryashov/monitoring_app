@@ -10,67 +10,123 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 
 interface ElectroStatisticProps {
     className?: string;
-    last_poll_seconds:number;
-    last_update:string;
-    autoPollMode:boolean;
-    pollInterval:number;
-    id:number;
-    setAutoPollmode?:(a:boolean)=>void;
-    setPollInterval?:(a:number)=>void;
-    onEdit?:()=>void;
+    last_poll_seconds: number | undefined;
+    last_update: string;
+    autoPollMode: boolean | undefined;
+    pollInterval: number | undefined;
+    id: number;
+    setAutoPollmode?: (a: boolean) => void;
+    setPollInterval?: (a: number) => void;
+    onEdit?: () => void;
 }
 
-export const ElectroStatistic = memo((props: PropsWithChildren<ElectroStatisticProps>) => {
-    const { className,last_poll_seconds,last_update,autoPollMode,pollInterval,onEdit,setAutoPollmode,setPollInterval,id } = props;
-    const [autoFlag,setAutoFlag] = useState(autoPollMode);
-    const mods = {
-        [cls.inverted]:!autoFlag
-    };
-    return (
-        <VFlexBox align="space-between" className={classNames(cls.titleBlock,{},[className,])}>
-            <HFlexBox height="17%" className={cls.headerBlock} align="center" alignItems="center" >
-                <p>{"Название прибора"}</p>
-            </HFlexBox>
-            <VFlexBox align="space-around" className={cls.data} height="78%">
-                <HFlexBox width="50%" align="space-between" gap="30px" height="20%">
-                    <p className={classNames(cls.item,{},[cls.datetimeItem])}>ДАТА ПОСЛЕДНЕГО ОПРОСА</p>
-                    <HFlexBox width="33%" height="70%"  className={classNames(cls.field,{},[cls.dtfield,])}>
-                        {timeConvert(last_update)}
-                    </HFlexBox>
+export const ElectroStatistic = memo(
+    (props: PropsWithChildren<ElectroStatisticProps>) => {
+        const {
+            className = "",
+            last_poll_seconds,
+            last_update,
+            autoPollMode,
+            pollInterval,
+            onEdit,
+            setAutoPollmode,
+            setPollInterval,
+            id,
+        } = props;
+        const [autoFlag, setAutoFlag] = useState(autoPollMode);
+        const mods = {
+            [cls.inverted]: !autoFlag,
+        };
+        return (
+            <VFlexBox
+                align="space-between"
+                className={classNames(cls.titleBlock, {}, [className])}
+            >
+                <HFlexBox
+                    height="17%"
+                    className={cls.headerBlock}
+                    align="center"
+                    alignItems="center"
+                >
+                    <p>{"Название прибора"}</p>
                 </HFlexBox>
-                <HFlexBox width="50%" align="space-between" gap="30px" height="20%">
-                    <p className={cls.item}>ДЛИТЕЛЬНОСТЬ ПРЕДЫДУЩЕГО ОПРОСА</p>
-                    <HFlexBox width="33%" height="70%">
-
-                        <HFlexBox width="50%"   className={cls.field}>
-                            {
-                                last_poll_seconds ?
-                                    Math.round(last_poll_seconds / 60) :
-                                    "не опрашивался"
-                            }
+                <VFlexBox
+                    align="space-around"
+                    className={cls.data}
+                    height="78%"
+                >
+                    <HFlexBox
+                        width="50%"
+                        align="space-between"
+                        gap="30px"
+                        height="20%"
+                    >
+                        <p
+                            className={classNames(cls.item, {}, [
+                                cls.datetimeItem,
+                            ])}
+                        >
+                            ДАТА ПОСЛЕДНЕГО ОПРОСА
+                        </p>
+                        <HFlexBox
+                            width="33%"
+                            height="70%"
+                            className={classNames(cls.field, {}, [cls.dtfield])}
+                        >
+                            {timeConvert(last_update)}
                         </HFlexBox>
                     </HFlexBox>
-
-                </HFlexBox>
-                <HFlexBox width="50%" align="space-between" gap="30px" height="20%">
-                    <p className={cls.item}>ВЫКЛЮЧИТЬ АВТООПРОС</p>
-                    <HFlexBox width="33%" height="70%">
-                        <HFlexBox onClick={()=>setAutoFlag((prev)=>!prev)} width="50%"   className={classNames(cls.field,mods,[])}>
-                            {autoPollMode}
+                    <HFlexBox
+                        width="50%"
+                        align="space-between"
+                        gap="30px"
+                        height="20%"
+                    >
+                        <p className={cls.item}>
+                            ДЛИТЕЛЬНОСТЬ ПРЕДЫДУЩЕГО ОПРОСА
+                        </p>
+                        <HFlexBox width="33%" height="70%">
+                            <HFlexBox width="50%" className={cls.field}>
+                                {last_poll_seconds
+                                    ? Math.round(last_poll_seconds / 60)
+                                    : "не опрашивался"}
+                            </HFlexBox>
                         </HFlexBox>
                     </HFlexBox>
-                    
-                </HFlexBox>
-                <HFlexBox width="50%" align="space-between" gap="30px" height="20%">
-                    <p className={cls.item}>ИНТЕРВАЛ АВТООПРОСА В МИНУТАХ</p>
-                    <HFlexBox width="33%" height="70%">
-                        <HFlexBox width="50%"   className={cls.field}>
-                            {pollInterval}
+                    <HFlexBox
+                        width="50%"
+                        align="space-between"
+                        gap="30px"
+                        height="20%"
+                    >
+                        <p className={cls.item}>ВЫКЛЮЧИТЬ АВТООПРОС</p>
+                        <HFlexBox width="33%" height="70%">
+                            <HFlexBox
+                                onClick={() => setAutoFlag((prev) => !prev)}
+                                width="50%"
+                                className={classNames(cls.field, mods, [])}
+                            >
+                                {autoPollMode ?? "не задан"}
+                            </HFlexBox>
                         </HFlexBox>
                     </HFlexBox>
-                    
-                </HFlexBox>
+                    <HFlexBox
+                        width="50%"
+                        align="space-between"
+                        gap="30px"
+                        height="20%"
+                    >
+                        <p className={cls.item}>
+                            ИНТЕРВАЛ АВТООПРОСА В МИНУТАХ
+                        </p>
+                        <HFlexBox width="33%" height="70%">
+                            <HFlexBox width="50%" className={cls.field}>
+                                {pollInterval ?? "не задан"}
+                            </HFlexBox>
+                        </HFlexBox>
+                    </HFlexBox>
+                </VFlexBox>
             </VFlexBox>
-        </VFlexBox>
-    );
-});
+        );
+    }
+);

@@ -1,7 +1,7 @@
 export interface TelegramChatSchema {
     isLoading?:boolean;
     chats?: TelegramChat[]
-    messagesByChat?:MessagesByChat
+    messagesByChat:MessagesByChat
 }
 
 export interface MessagesByChat {

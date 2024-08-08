@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import { ManualPoll } from "../ui/ElectroPoll/Service/Polling";
+import { MutableRefObject, useEffect, useRef } from "react";
 
 interface HeatHookProps {
     onUpdate:()=>void;
@@ -7,10 +6,29 @@ interface HeatHookProps {
     autoPoll?:boolean;
 }
 
+import $api from "shared/api";
+export interface TaskResponse {
+    result:boolean;
+}
+
+export interface TaskRequest {
+    task_id:string;
+}
+export class ManualPoll {
+    static async pollDevice(id:number){
+        return $api.post<TaskRequest>(`electropoll/${id}`);
+    }
+
+    static async getTaskStatus(id:number,task_id:string) {
+        return $api.put<TaskResponse>(`electropoll/${id}`,{task_id:task_id});
+    }
+}
+
+
 export const useElectroPoll = (props:HeatHookProps):()=>Promise<void> =>{
     const {onUpdate,id,autoPoll=false } = props;
-    const timer_ref = useRef<ReturnType <typeof setInterval>>();
-    const loop_ref = useRef<ReturnType <typeof setInterval>>();
+    const timer_ref = useRef<ReturnType <typeof setInterval>>() as MutableRefObject<ReturnType <typeof setInterval> | null>;
+    const loop_ref = useRef<ReturnType <typeof setInterval>>() as MutableRefObject<ReturnType <typeof setInterval> | null>;
     const pollFlag = useRef<boolean>();
     pollFlag.current=false;
     console.log("В хуке: ",id,autoPoll);
@@ -57,7 +75,10 @@ export const useElectroPoll = (props:HeatHookProps):()=>Promise<void> =>{
         timer_ref.current = setInterval(async ()=>{
             const response = await ManualPoll.getTaskStatus(id,task_id);
             if  (response.data.result!==null) {
-                clearInterval(timer_ref.current);
+                if (timer_ref.current) {
+                    clearInterval(timer_ref.current);
+
+                }
                 timer_ref.current = null;
                 pollFlag.current=false;
                 onUpdate();

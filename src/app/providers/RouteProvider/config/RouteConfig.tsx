@@ -3,7 +3,6 @@ import { AuthPage } from "pages/AuthPage/ui/AuthPage";
 import AutoSubcategoryPage from "pages/AutoSubcategoryPage/ui/AutoSubcategoryPage/AutoSubcategoryPage";
 import { CategoryPage } from "pages/CategoryPage";
 import { ElectroSubcategoryPage } from "pages/ElectroSubcategoryPage";
-import { GeneralInfoPage } from "pages/GeneralInfoPage";
 import { HeatSubcatPage } from "pages/HeatSubcategoryPage";
 import { MapPage } from "pages/MapPage";
 import { MockPage } from "pages/MockPage";
@@ -13,7 +12,6 @@ import { ObjectDetailPage } from "pages/ObjectsDetailPage";
 import { PumpSubcategoryPage } from "pages/PumpSubcategoryPage";
 import { RegPage } from "pages/RegistrationPage";
 import { SettingsPage } from "pages/SettingsPage";
-import { SubCategoryPage } from "pages/SubcartegoryPage";
 import { RouteProps } from "react-router-dom";
 import {
     RoutePathPublic,
@@ -38,7 +36,7 @@ export const RouteConfigPublic: Record<string, RouteProps> = {
 };
 export const RouteConfigAuth: Record<string, RouteProps> = {
     [AppRoutesAuth.CATEGORY]: {
-        path: `${RoutePathAuth.category}:id`,
+        path: `${RoutePathAuth.category}`,
         element: <CategoryPage />,
     },
     [AppRoutesAuth.OBJECT]: {
@@ -60,14 +58,6 @@ export const RouteConfigAuth: Record<string, RouteProps> = {
     [AppRoutesAuth.ADMINISTRATION]: {
         path: RoutePathAuth.administration,
         element: <AdministrationPage />,
-    },
-    [AppRoutesAuth.GENERALINFO]: {
-        path: RoutePathAuth.general,
-        element: <GeneralInfoPage />,
-    },
-    [AppRoutesAuth.SUBCAT]: {
-        path: `${RoutePathAuth.subcat}:id`,
-        element: <SubCategoryPage />,
     },
     [AppRoutesAuth.HEAT_SUBCAT]: {
         path: `${RoutePathAuth.heat_subcat}:id`,

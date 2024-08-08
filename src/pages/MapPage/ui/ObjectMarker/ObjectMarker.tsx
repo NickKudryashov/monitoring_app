@@ -3,7 +3,6 @@ import {
     getObjectSubcategoryData,
 } from "entities/ObjectSubCategory";
 import { getUserObjectData } from "entities/Objects";
-import { getObjectById } from "entities/Objects/helpers/objectHelper";
 import { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_MAPPER } from "shared/lib/helpers/subcategoryTypeMapper";

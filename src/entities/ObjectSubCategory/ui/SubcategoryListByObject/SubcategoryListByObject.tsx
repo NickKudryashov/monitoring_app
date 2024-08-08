@@ -28,7 +28,7 @@ export const SubcategoryListByObject = (
         });
 
     useEffect(() => {
-        dispatch(objSubCategoryActions.selectSubcategory(null));
+        dispatch(objSubCategoryActions.clearSelection());
     }, [objectID]);
     useEffect(() => {
         const subcat = subcatData?.data?.filter(

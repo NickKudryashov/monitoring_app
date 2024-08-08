@@ -11,27 +11,30 @@ import { Chat } from "entities/TelegramChat";
 import { fetchChats } from "entities/TelegramChat/model/services/telegramChatActions";
 
 interface ObjectDetailProps {
- className?: string;
- obj: ObjectItem;
+    className?: string;
+    obj: ObjectItem;
 }
 
 export function ObjectDetail(props: PropsWithChildren<ObjectDetailProps>) {
-    const { className,obj,children } = props;
+    const { className = "", obj, children } = props;
     const dispatch = useAppDispatch();
-    useEffect(()=>{
+    useEffect(() => {
         // dispatch(objectsAllRequest());
         dispatch(fetchChats());
-    },[dispatch]);
+    }, [dispatch]);
     return (
-        <div className={cls.wrap} >
-            <div className={classNames(cls.ObjectDetail,{},[className])}>
-                {
-                    obj ? <b className={cls.title}>{`${obj.name} общая информация:`}</b> : <Loader/>
-                }
+        <div className={cls.wrap}>
+            <div className={classNames(cls.ObjectDetail, {}, [className])}>
+                {obj ? (
+                    <b
+                        className={cls.title}
+                    >{`${obj.name} общая информация:`}</b>
+                ) : (
+                    <Loader />
+                )}
                 {children}
             </div>
             {/* {obj?.id && <Chat obj_id={obj.id}/>} */}
-        
         </div>
     );
 }

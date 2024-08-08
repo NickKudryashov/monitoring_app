@@ -6,16 +6,16 @@ import type { PropsWithChildren } from "react";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 
 interface CardProps {
- className?: string;
+    className?: string;
 }
 
 export const Card = memo((props: PropsWithChildren<CardProps>) => {
-    const { className } = props;
+    const { className = "" } = props;
 
     return (
-        <div className={classNames(cls.Card,{},[className])}>
+        <div className={classNames(cls.Card, {}, [className])}>
             {"УК ООО РЕШАЕМ ВМЕСТЕ "}
-            <br/>
+            <br />
             {"ИНН КПП ОГРН ..."}
             <AppButon theme={AppButtonTheme.SHADOW}>Редактировать</AppButon>
         </div>

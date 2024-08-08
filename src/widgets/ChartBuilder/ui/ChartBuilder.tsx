@@ -47,6 +47,9 @@ import { Modal } from "shared/ui/Modal/Modal";
 import cls from "./ChartBuilder.module.scss";
 import classNames from "shared/lib/classNames/classNames";
 import {
+    getAutoParameters,
+    getHeatParameters,
+    getPumpParameters,
     getReportData,
     getSelectedParameters,
 } from "../model/selectors/selectors";
@@ -54,6 +57,7 @@ import { useSelector } from "react-redux";
 import { chartBuilderActions } from "../model/slice/slice";
 import { SubtabContent, SubtabContentDeleteProps } from "../model/types/type";
 import { dataToString } from "../helpers/reportDataToStrings";
+import { MOCK_ID } from "shared/lib/util/constants";
 interface ChartBuilderProps {
     subcatData?: GeneralAnswer;
 }
@@ -62,13 +66,16 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
     const { subcatData } = props;
     const selectedObject = useSelector(getSelectedUserObject);
     const selectedSubcat = useSelector(getSelectedSubcategory);
+    const selectedHeatParamaters = useSelector(getHeatParameters);
+    const selectedAutoParamaters = useSelector(getAutoParameters);
+    const selectedPumpParamaters = useSelector(getPumpParameters);
     const [parametersModalIsOpen, setParameterModalIsOpen] = useState(false);
     const [panelHide, setPanelHide] = useState(false);
     const dispatch = useAppDispatch();
     const selectedParameters = useSelector(getSelectedParameters);
     const reportData = useSelector(getReportData);
-    const [startDate, setStartDate] = useState<string>();
-    const [endDate, setEndDate] = useState<string>();
+    const [startDate, setStartDate] = useState<string>("");
+    const [endDate, setEndDate] = useState<string>("");
     const prevStartDate = useRef<string>();
     const prevEndDate = useRef<string>();
     const { data: heatDeviceId } = getHeatDeviceIdBySystem(
@@ -96,18 +103,27 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
         }
     );
 
-    const { data: heatDevice } = getHeatDeviceData(heatDeviceId?.device, {
-        skip: !heatDeviceId?.device,
-    });
-    const { data: pumpDevice } = getPumpData(pumpDeviceId?.device, {
+    const { data: heatDevice } = getHeatDeviceData(
+        heatDeviceId?.device ?? MOCK_ID,
+        {
+            skip: !heatDeviceId?.device,
+        }
+    );
+    const { data: pumpDevice } = getPumpData(pumpDeviceId?.device ?? MOCK_ID, {
         skip: !pumpDeviceId?.device,
     });
-    const { data: autoDevice } = getAutomaticDevice(autoDeviceId?.device, {
-        skip: !autoDeviceId?.device,
-    });
+    const { data: autoDevice } = getAutomaticDevice(
+        autoDeviceId?.device ?? MOCK_ID,
+        {
+            skip: !autoDeviceId?.device,
+        }
+    );
 
     const heatParameterClickHandler = useCallback(
         async (parameter: HeatParameters) => {
+            if (!selectedSubcat || !selectedObject || !heatDevice) {
+                return;
+            }
             const parameterNameVerb = `${parameter.verbose_name} ${parameter.tag}`;
 
             dispatch(
@@ -160,6 +176,9 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
     );
     const pumpParameterClickHandler = useCallback(
         async (parameter: PumpParameter) => {
+            if (!selectedSubcat || !selectedObject || !pumpDevice) {
+                return;
+            }
             const parameterNameVerb = parameter.verbose_name;
             dispatch(
                 chartBuilderActions.addPumpParameter({
@@ -211,6 +230,9 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
     );
     const autoParameterClickHandler = useCallback(
         async (parameter: AutoParameter) => {
+            if (!selectedSubcat || !selectedObject || !autoDevice) {
+                return;
+            }
             const parameterNameVerb = parameter.tag;
             dispatch(
                 chartBuilderActions.addAutoParameter({
@@ -291,9 +313,29 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
     });
     const removeParameter = useCallback(
         (subtype: string, content: SubtabContentDeleteProps) => {
-            const [selectedParameter] = selectedParameters[
-                subtype as SubcatTypes
-            ].filter((el) => el.id === content.id && el.name === content.name);
+            let parameterCollection: SubtabContent[];
+            switch (subtype as SubcatTypes) {
+                case SubcatTypes.heat:
+                    parameterCollection = selectedHeatParamaters.filter(
+                        (el) => el.id === content.id && el.name === content.name
+                    );
+                    break;
+                case SubcatTypes.auto:
+                    parameterCollection = selectedAutoParamaters.filter(
+                        (el) => el.id === content.id && el.name === content.name
+                    );
+                    break;
+                case SubcatTypes.pump:
+                    parameterCollection = selectedPumpParamaters.filter(
+                        (el) => el.id === content.id && el.name === content.name
+                    );
+                    break;
+                default:
+                    parameterCollection = [];
+            }
+            const [selectedParameter] = parameterCollection.filter(
+                (el) => el.id === content.id && el.name === content.name
+            );
             dispatch(
                 chartActions.removeDataset({
                     id: selectedParameter.id,
@@ -314,12 +356,19 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 })
             );
         },
-        [dispatch, selectedParameters]
+        [
+            dispatch,
+            selectedAutoParamaters,
+            selectedHeatParamaters,
+            selectedPumpParamaters,
+        ]
     );
 
     const pdfCreateClickHandler = useCallback(() => {
-        const content = dataToString(reportData);
-        createPdfByChartId("simple-bar", content);
+        if (reportData) {
+            const content = dataToString(reportData);
+            createPdfByChartId("simple-bar", content);
+        }
     }, [reportData]);
 
     return (
@@ -373,7 +422,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                         </HFlexBox>
                         <ObjectList selectedObject={subcatData?.user_object} />
                         <SubcategoryListByObject
-                            objectID={selectedObject ? selectedObject.id : null}
+                            objectID={selectedObject ? selectedObject.id : 0}
                             preselectedSubcategory={subcatData?.id}
                         />
                         <AppButon
@@ -387,7 +436,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                         </AppButon>
                         <VFlexBox gap="7px">
                             {Object.keys(selectedParameters).map((subtype) =>
-                                selectedParameters[subtype as SubcatTypes].map(
+                                selectedParameters[subtype as SubcatTypes]?.map(
                                     (el) => (
                                         <p
                                             onClick={() =>
@@ -416,56 +465,59 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 >
                     <VFlexBox className={cls.modal}>
                         {selectedSubcat?.subcategory_type ===
-                            SubcatTypes.heat && (
-                            <AllParametersView
-                                heatDevice={heatDevice}
-                                className={cls.parametersModal}
-                                onParameterClick={heatParameterClickHandler}
-                                onParameterUnClick={(parameter) =>
-                                    removeParameter(SubcatTypes.heat, {
-                                        id: parameter.id,
-                                        name: `${parameter.verbose_name} ${parameter.tag}`,
-                                    })
-                                }
-                                selectedParametersIDs={
-                                    getParametersIdByHeatSubtype
-                                }
-                            />
-                        )}
+                            SubcatTypes.heat &&
+                            heatDevice && (
+                                <AllParametersView
+                                    heatDevice={heatDevice}
+                                    className={cls.parametersModal}
+                                    onParameterClick={heatParameterClickHandler}
+                                    onParameterUnClick={(parameter) =>
+                                        removeParameter(SubcatTypes.heat, {
+                                            id: parameter.id,
+                                            name: `${parameter.verbose_name} ${parameter.tag}`,
+                                        })
+                                    }
+                                    selectedParametersIDs={
+                                        getParametersIdByHeatSubtype
+                                    }
+                                />
+                            )}
                         {selectedSubcat?.subcategory_type ===
-                            SubcatTypes.auto && (
-                            <AutoDevParametersComposition
-                                autoDevice={autoDevice}
-                                className={cls.parametersModalAuto}
-                                onParameterClick={autoParameterClickHandler}
-                                onParameterUnClick={(parameter) =>
-                                    removeParameter(SubcatTypes.auto, {
-                                        id: parameter.id,
-                                        name: parameter.tag,
-                                    })
-                                }
-                                selectedParametersIDs={
-                                    getParametersIdByAutoSubtype
-                                }
-                            />
-                        )}
+                            SubcatTypes.auto &&
+                            autoDevice && (
+                                <AutoDevParametersComposition
+                                    autoDevice={autoDevice}
+                                    className={cls.parametersModalAuto}
+                                    onParameterClick={autoParameterClickHandler}
+                                    onParameterUnClick={(parameter) =>
+                                        removeParameter(SubcatTypes.auto, {
+                                            id: parameter.id,
+                                            name: parameter.tag,
+                                        })
+                                    }
+                                    selectedParametersIDs={
+                                        getParametersIdByAutoSubtype
+                                    }
+                                />
+                            )}
                         {selectedSubcat?.subcategory_type ===
-                            SubcatTypes.pump && (
-                            <PumpParametersComposition
-                                onParameterClick={pumpParameterClickHandler}
-                                className={cls.parametersModalAuto}
-                                pumpDevice={pumpDevice}
-                                onParameterUnClick={(parameter) =>
-                                    removeParameter(SubcatTypes.pump, {
-                                        id: parameter.id,
-                                        name: parameter.verbose_name,
-                                    })
-                                }
-                                selectedParametersIDs={
-                                    getParametersIdByPumpSubtype
-                                }
-                            />
-                        )}
+                            SubcatTypes.pump &&
+                            pumpDevice && (
+                                <PumpParametersComposition
+                                    onParameterClick={pumpParameterClickHandler}
+                                    className={cls.parametersModalAuto}
+                                    pumpDevice={pumpDevice}
+                                    onParameterUnClick={(parameter) =>
+                                        removeParameter(SubcatTypes.pump, {
+                                            id: parameter.id,
+                                            name: parameter.verbose_name,
+                                        })
+                                    }
+                                    selectedParametersIDs={
+                                        getParametersIdByPumpSubtype
+                                    }
+                                />
+                            )}
                     </VFlexBox>
                 </Modal>
             </VFlexBox>

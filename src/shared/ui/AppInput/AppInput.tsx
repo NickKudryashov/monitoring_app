@@ -19,7 +19,7 @@ interface AppInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export function AppInput(props: PropsWithChildren<AppInputProps>) {
     const {
-        className,
+        className = "",
         theme = InputThemes.AUTH,
         onChange,
         value,

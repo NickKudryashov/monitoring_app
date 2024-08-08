@@ -5,15 +5,17 @@ import AddIcon from "shared/assets/icons/plusIcon.svg";
 import type { PropsWithChildren } from "react";
 
 interface StaffRowAddProps {
- className?: string;
+    className?: string;
 }
 
-export const StaffRowAdd = memo((props: PropsWithChildren<StaffRowAddProps>) => {
-    const { className } = props;
+export const StaffRowAdd = memo(
+    (props: PropsWithChildren<StaffRowAddProps>) => {
+        const { className = "" } = props;
 
-    return (
-        <div className={classNames(cls.StaffRowAdd,{},[className])}>
-            <AddIcon width={"10%"} height={"70%"}  />
-        </div>
-    );
-});
+        return (
+            <div className={classNames(cls.StaffRowAdd, {}, [className])}>
+                <AddIcon width={"10%"} height={"70%"} />
+            </div>
+        );
+    }
+);

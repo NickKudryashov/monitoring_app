@@ -5,10 +5,10 @@ import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./EventLogList.module.scss";
 interface EventLogListProps {
     className?: string;
-    events: UserEventProcessing[];
+    events: UserEventProcessing[] | undefined;
 }
 export const EventLogList = memo((props: EventLogListProps): ReactElement => {
-    const { events, className } = props;
+    const { events = [], className = "" } = props;
     return (
         <VFlexBox className={classNames(cls.EventLogList, {}, [className])}>
             {events &&

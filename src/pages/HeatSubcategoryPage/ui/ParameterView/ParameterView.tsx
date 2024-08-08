@@ -15,7 +15,7 @@ interface ParameterViewProps {
 }
 
 export function ParameterView(props: ParameterViewProps): React.ReactElement {
-    const { params, className } = props;
+    const { params, className = "" } = props;
     return (
         <HFlexBox
             className={classNames(cls.paramGroups, {}, [className])}

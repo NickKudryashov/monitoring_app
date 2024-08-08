@@ -12,7 +12,7 @@ export const tabsSlice = createSlice({
     initialState,
     reducers:{
         setTab(state,action:PayloadAction<SubcategoryTabsList>) {
-            if (state.tabContentLength[action.payload]) {
+            if (state.tabContentLength && state.tabContentLength[action.payload]) {
                 state.currentTab=action.payload;
                 state.currentSubTab=0;    
             }
@@ -35,39 +35,23 @@ export const tabsSlice = createSlice({
             }
         },
         moveDown(state) {
-            if ((state.tabContentLength[state.currentTab] - 1 === state.currentSubTab) ) {
+            if (state.tabContentLength && state.nonEmptyTabs && (state.tabContentLength[state.currentTab] - 1 === state.currentSubTab) ) {
                 const index = state.nonEmptyTabs.findIndex((val)=>val===state.currentTab);
                 index + 1 === state.nonEmptyTabs.length ? state.currentTab=state.nonEmptyTabs[0] : state.currentTab=state.nonEmptyTabs[index+1];
                 state.currentSubTab=0;
-                // if (state.currentTab===5) {
-                //     state.currentTab=0;
-                //     state.currentSubTab=0;
-                // }
-                // else {
-                //     state.currentTab+=1;
-                //     state.currentSubTab=0;
-                // }
             }
             else {
-                state.currentSubTab+=1;
+                state.currentSubTab = state.currentSubTab ? state.currentSubTab+1 : 0 ;
             }
         },
         moveUp(state) {
-            if (state.currentSubTab===0) {
+            if (state.currentSubTab===0 && state.nonEmptyTabs && state.tabContentLength ) {
                 const index = state.nonEmptyTabs.findIndex((val)=>val===state.currentTab);
                 index === 0 ? state.currentTab=state.nonEmptyTabs[-1] : state.currentTab=state.nonEmptyTabs[index-1];
                 state.currentSubTab=state.tabContentLength[state.currentTab as SubcategoryTabsList]-1;
-                // if (state.currentTab===0) {
-                //     state.currentTab=5;
-                //     state.currentSubTab=0;
-                // }
-                // else {
-                //     state.currentTab-=1;
-                //     state.currentSubTab=state.tabContentLength[state.currentTab as SubcategoryTabsList]-1;
-                // }
             }
             else {
-                state.currentSubTab-=1;
+                state.currentSubTab = state.currentSubTab ? state.currentSubTab-1 : 0 ;
             }
         }
     },

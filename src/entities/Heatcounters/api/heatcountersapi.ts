@@ -1,4 +1,3 @@
-import { url } from "inspector";
 import { HeatDevice, HeatParameters } from "../types/type";
 import { rtkApi } from "shared/api/rtkApi";
 

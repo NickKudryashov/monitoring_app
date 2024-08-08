@@ -6,7 +6,7 @@ import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import { memo } from "react";
 
 interface PageHeaderProps {
-    generalData: GeneralAnswer;
+    generalData: GeneralAnswer | undefined;
     poll?: () => void;
     report?: () => void;
 }

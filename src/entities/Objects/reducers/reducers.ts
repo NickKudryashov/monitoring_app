@@ -7,9 +7,9 @@ export interface ObjectItem {
     abonent:string;
     id:number;
     category:number;
-    pids_with_ids?:PidsIds;
-    cats:number[];
-    expanded:boolean;
+    // pids_with_ids?:PidsIds;
+    // cats:number[];
+    // expanded:boolean;
     last_update:string;
 }
 

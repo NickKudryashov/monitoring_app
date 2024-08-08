@@ -6,18 +6,18 @@ import { AuthWidget } from "widgets/AuthWidget/AuthWidget";
 import { Navbar } from "widgets/Navbar";
 import AuthLogoIcon from "shared/assets/icons/AuthLogoIcon.svg";
 interface AuthPageProps {
- className?: string;
+    className?: string;
 }
 
 export function AuthPage(props: PropsWithChildren<AuthPageProps>) {
-    const { className } = props;
+    const { className = "" } = props;
 
     return (
-        <div className={classNames(cls.AuthPage,{},[className])}>
-            <Navbar className={cls.navbar} isAuth={false}/>
-            <AuthLogoIcon/>
+        <div className={classNames(cls.AuthPage, {}, [className])}>
+            <Navbar className={cls.navbar} isAuth={false} />
+            <AuthLogoIcon />
             <div className={cls.form}>
-                <AuthWidget/>
+                <AuthWidget />
             </div>
         </div>
     );

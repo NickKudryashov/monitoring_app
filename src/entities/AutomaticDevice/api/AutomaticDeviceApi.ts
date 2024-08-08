@@ -2,6 +2,12 @@ import { url } from "inspector";
 import { rtkApi } from "shared/api/rtkApi";
 import { AutomaticDeviceData, ParameterGroup } from "../model/types/AutomaticDeviceTypes";
 
+interface TypeResponseFragment {
+    devtype:string;
+    verbose:string;
+}
+
+
 const automaticDeviceQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
         getAutomaticDeviceData: build.query<AutomaticDeviceData,number>({
@@ -33,8 +39,20 @@ const automaticDeviceQuery = rtkApi.injectEndpoints({
                 return {...response,resultParamGroup,systemParamGroup};
             },
         }),
+        getAvailableAutoDevTypes:build.query<TypeResponseFragment[],void>({
+            query: () => {
+                return {
+                    url:"automatic_device/types",
+                };
+            },
+            transformResponse(resp:Record<string,string>, meta, arg) {
+                const result:TypeResponseFragment[] = Object.keys(resp).map((el)=>({devtype:el,verbose:resp[el]}));
+                return result;
+            },
+        })
     }),
     overrideExisting: false,
 });
 
 export const getAutomaticDevice = automaticDeviceQuery.useGetAutomaticDeviceDataQuery;
+export const getAutomaticDeviceTypes = automaticDeviceQuery.useGetAvailableAutoDevTypesQuery;

@@ -11,7 +11,7 @@ interface DetailViewProps {
 export function HeatDeviceDetailView(
     props: PropsWithChildren<DetailViewProps>
 ) {
-    const { className, children, id } = props;
+    const { className = "", children, id } = props;
 
     // console.log("детейл счетчик рендерится");
     return <div className={classNames(cls.DetailView, {}, [className])}></div>;

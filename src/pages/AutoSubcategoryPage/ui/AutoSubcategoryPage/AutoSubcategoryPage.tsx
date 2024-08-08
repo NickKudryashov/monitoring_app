@@ -20,6 +20,7 @@ import { getAutoDeviceIdBySystem } from "entities/ObjectSubCategory";
 import { PageMapper } from "../PageMapper/PageMapper";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { tabSliceActions } from "widgets/SubcategoryTabs";
+import { MOCK_ID, MOCK_STR_ID } from "shared/lib/util/constants";
 interface AutoSubcategoryPageProps {
     className?: string;
 }
@@ -32,19 +33,22 @@ const AutoSubcategoryPage = (
 ) => {
     const { className } = props;
     const { id } = useParams<{ id: string }>();
-    const { data: generalData, refetch: refetchGeneral } =
-        getSubcatGeneralInfo(id);
+    const { data: generalData, refetch: refetchGeneral } = getSubcatGeneralInfo(
+        id ?? MOCK_STR_ID
+    );
     const { data: dataID, isLoading: isLoadingDataId } =
-        getAutoDeviceIdBySystem(id);
+        getAutoDeviceIdBySystem(id ?? MOCK_STR_ID);
     const {
         data: devData,
         isLoading: devIsLoading,
         refetch: refetchDev,
-    } = getAutomaticDevice(dataID?.device, { skip: !dataID?.device });
+    } = getAutomaticDevice(dataID?.device ?? MOCK_ID, {
+        skip: !dataID?.device,
+    });
     const dispatch = useAppDispatch();
 
     const poll = useAutoPoll({
-        id: devData?.id,
+        id: devData?.id ?? MOCK_ID,
         onUpdate: refetchDev,
         autoPoll: devData?.connection_info?.connection_type !== "GSM",
     });
@@ -156,7 +160,6 @@ const AutoSubcategoryPage = (
     return (
         <div className={classNames(cls.AutoSubcategoryPage, {}, [])}>
             {content}
-            {/* {devData && <AutoPoll autoPoll id={devData.id} onUpdate={refetchDev} />} */}
         </div>
     );
 };

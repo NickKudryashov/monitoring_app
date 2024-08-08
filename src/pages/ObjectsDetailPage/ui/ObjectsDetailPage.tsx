@@ -22,14 +22,13 @@ export interface ObjectsDetailPageProps {
 }
 
 const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
-    const { className } = props;
+    const { className = "" } = props;
     const [defaultView, setDefaultView] = useState(
         !localStorage.getItem("view")
     );
     const [openedID, setOpened] = useState<number>(0);
     const searchVal = useSelector(getNavbarSearchValue);
     console.log(searchVal);
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     let content;
     const onChangeViewClick = () => {

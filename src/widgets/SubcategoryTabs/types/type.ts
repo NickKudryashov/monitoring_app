@@ -13,7 +13,7 @@ export type TabContentLength = Record<SubcategoryTabsList,number>
 
 export interface SubcategoryTabStateSchema {
     currentTab:SubcategoryTabsList;
-    currentSubTab:number | undefined;
+    currentSubTab:number;
     tabContentLength?:TabContentLength;
     nonEmptyTabs?:SubcategoryTabsList[];
 

@@ -1,7 +1,7 @@
 import classNames from "shared/lib/classNames/classNames";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import cls from "./Footer.module.scss";
-import type { PropsWithChildren } from "react";
+import type { MutableRefObject, PropsWithChildren } from "react";
 import { EventAnswer } from "shared/types/eventTypes";
 import { Panel } from "react-resizable-panels";
 import { useInfinityScroll } from "shared/hooks/useInfinityScroll";
@@ -16,11 +16,17 @@ interface FooterProps {
 }
 
 export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
-    const { className, pollCallback } = props;
+    const { className = "", pollCallback } = props;
     const [events, setEvents] = useState<string[]>([]);
-    const intervalRef = useRef<ReturnType<typeof setInterval>>(null);
-    const footRef = useRef<HTMLDivElement>(null);
-    const wrapRef = useRef<HTMLDivElement>(null);
+    const intervalRef = useRef<ReturnType<typeof setInterval>>(
+        null
+    ) as MutableRefObject<ReturnType<typeof setInterval>>;
+    const footRef = useRef<HTMLDivElement>(
+        null
+    ) as MutableRefObject<HTMLDivElement>;
+    const wrapRef = useRef<HTMLDivElement>(
+        null
+    ) as MutableRefObject<HTMLDivElement>;
     const scrollOnLoad = useRef<boolean>(true);
     const inView = useRef<boolean>(true);
     const setInView = useCallback((arg: boolean) => {
@@ -32,8 +38,14 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
         wrapperRef: wrapRef,
     });
     const fetchEvents = async () => {
-        const temp = await pollCallback();
-        setEvents(temp.events);
+        if (!pollCallback) {
+            return;
+        }
+        const { events } = await pollCallback();
+        if (!events) {
+            return;
+        }
+        setEvents(events);
         if (scrollOnLoad.current || inView.current) {
             footRef.current.scrollIntoView({
                 behavior: "smooth",

@@ -7,21 +7,26 @@ import { useSelector } from "react-redux";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 
 interface SubcategoryCardProps {
- className?: string;
- catID:number;
- onClick?:()=>void;
+    className?: string;
+    catID: number;
+    onClick?: () => void;
 }
 
-export const SubcategoryCard = memo((props: PropsWithChildren<SubcategoryCardProps>) => {
-    const { className,catID,onClick } = props;
-    const {entities} = useSelector((state:StateSchema)=>state.objSubCat);
+export const SubcategoryCard = memo(
+    (props: PropsWithChildren<SubcategoryCardProps>) => {
+        const { className = "", catID, onClick } = props;
+        const { entities } = useSelector(
+            (state: StateSchema) => state.objSubCat
+        );
 
-    return (
-        <div className={classNames(cls.SubcategoryCard,{},[className])}>
-            {entities[catID] && 
-            <p className={cls.cardContent} onClick={onClick}>
-                {entities[catID].name}
-            </p>}
-        </div>
-    );
-});
+        return (
+            <div className={classNames(cls.SubcategoryCard, {}, [className])}>
+                {entities && entities[catID] && (
+                    <p className={cls.cardContent} onClick={onClick}>
+                        {entities[catID]?.name}
+                    </p>
+                )}
+            </div>
+        );
+    }
+);

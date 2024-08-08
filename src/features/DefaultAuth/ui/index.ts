@@ -1,1 +1,1 @@
-export {};
+export {DefaultAuth} from "./DefaultAuth";

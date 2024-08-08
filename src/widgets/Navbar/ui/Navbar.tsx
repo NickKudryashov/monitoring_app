@@ -1,12 +1,11 @@
 import classNames from "shared/lib/classNames/classNames";
 import cls from "./Navbar.module.scss";
 
-import { MutableRefObject, PropsWithChildren, useRef, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { userSlice } from "entities/user/Store/authReducer";
 import { Modal } from "shared/ui/Modal/Modal";
 import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
 import LogoIcon from "shared/assets/icons/LogoIcon.svg";
 import EventIcon from "shared/assets/icons/EventsIcon.svg";
@@ -20,16 +19,15 @@ import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { AllEventsView } from "entities/ArchiveEvent";
 import { navbarActions } from "../model/slice/slice";
 import { useDebounce } from "shared/hooks/useDebounce";
+import { getUserName } from "entities/user";
 interface NavbarProps {
     className?: string;
     isAuth?: boolean;
 }
 
 export function Navbar(props: PropsWithChildren<NavbarProps>) {
-    const { className, isAuth = true } = props;
-    const email = useSelector(
-        (state: StateSchema) => state.user.userdata?.name
-    );
+    const { className = "", isAuth = true } = props;
+    const email = useSelector(getUserName);
     const [searchVal, setSearchVal] = useState("");
     const [showEvents, setShowEvents] = useState(false);
     const dispatch = useAppDispatch();
@@ -46,10 +44,6 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
         dispatch(navbarActions.clearValue());
         setSearchVal("");
     };
-    // const au = new Audio("/leave.m4a");
-    // au.muted = true;
-    // const onExitHover = () =>au.play();
-    // const onExitHover1 = () =>au.pause();
     return (
         <div className={classNames(cls.Navbar, {}, [className])}>
             <div className={cls.blocks_group}>
@@ -109,8 +103,6 @@ export function Navbar(props: PropsWithChildren<NavbarProps>) {
                             theme={AppButtonTheme.DESIGNED_OUTLINE}
                             onClick={() => dispatch(userSlice.actions.logout())}
                             className={classNames(cls.blocks, {}, [cls.btns])}
-                            // onMouseEnter={onExitHover}
-                            // onMouseLeave={onExitHover1}
                         >
                             выход
                         </AppButon>

@@ -12,9 +12,6 @@ import { GeneralInfoBlock } from "features/SubcategoryGeneralInfo/ui/GeneralInfo
 import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { Footer } from "shared/ui/Footer/Footer";
 import {
-    ElectroCounterDeviceDetail,
-    ElectroStatistic,
-    TopLevelElectroDevice,
     downloadXLSFile,
     getElectroDeviceData,
     useElectroPoll,
@@ -26,6 +23,7 @@ import { getElectroDeviceIdBySystem } from "entities/ObjectSubCategory";
 import { PageMapper } from "./PageMapper/PageMapper";
 import { useAppDispatch } from "shared/hooks/hooks";
 import { tabSliceActions } from "widgets/SubcategoryTabs";
+import { MOCK_ID, MOCK_STR_ID } from "shared/lib/util/constants";
 interface ElectroSubcategoryPageProps {
     className?: string;
 }
@@ -39,16 +37,19 @@ const ElectroSubcategoryPage = (
         data: generalData,
         refetch: refetchGeneral,
         isLoading,
-    } = getSubcatGeneralInfo(id);
-    const { data: elData, isLoading: idIsLoading } =
-        getElectroDeviceIdBySystem(id);
+    } = getSubcatGeneralInfo(id ?? MOCK_STR_ID);
+    const { data: elData, isLoading: idIsLoading } = getElectroDeviceIdBySystem(
+        id ?? MOCK_STR_ID
+    );
     const {
         data: devData,
         refetch: refetchDev,
         isLoading: devIsLoading,
-    } = getElectroDeviceData(elData?.device, { skip: !elData?.device });
+    } = getElectroDeviceData(elData?.device ?? MOCK_ID, {
+        skip: !elData?.device,
+    });
     const poll = useElectroPoll({
-        id: devData?.id,
+        id: devData?.id ?? MOCK_ID,
         autoPoll: devData?.connection_info.connection_type !== "GSM",
         onUpdate: () => {
             refetchDev();
@@ -79,7 +80,7 @@ const ElectroSubcategoryPage = (
             <FlexSubcategoryPageWrap>
                 <PageHeader
                     poll={poll}
-                    report={() => downloadXLSFile(devData)}
+                    report={() => devData && downloadXLSFile(devData)}
                     generalData={generalData}
                 />
 
@@ -97,7 +98,7 @@ const ElectroSubcategoryPage = (
                                     device_type_verbose_name={
                                         devData?.device_type_verbose_name
                                     }
-                                    systems={devData.systemCount}
+                                    systems={devData?.systemCount}
                                     address={generalData?.adress}
                                     name={generalData?.user_object_name}
                                 />,
@@ -139,7 +140,6 @@ const ElectroSubcategoryPage = (
     return (
         <div className={classNames(cls.ElectroSubcategoryPage, {}, [])}>
             {content}
-            {/* {devData && <AutoPoll autoPoll id={devData.id} onUpdate={refetchDev} />} */}
         </div>
     );
 };

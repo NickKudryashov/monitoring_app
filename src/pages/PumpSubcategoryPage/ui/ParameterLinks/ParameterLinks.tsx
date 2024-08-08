@@ -9,7 +9,7 @@ import cls from "./ParameterLinks.module.scss";
 import classNames from "shared/lib/classNames/classNames";
 import { getSubTab, getTab } from "widgets/SubcategoryTabs";
 interface ParameterLinksProps {
-    deviceDataDetail: PumpDetailInfo;
+    deviceDataDetail: PumpDetailInfo | undefined;
 }
 
 export const ParameterLinks = (props: ParameterLinksProps): ReactElement[] => {

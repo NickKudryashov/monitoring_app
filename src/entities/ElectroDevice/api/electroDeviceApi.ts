@@ -11,7 +11,7 @@ const electroDevicesQuery = rtkApi.injectEndpoints({
                 };
             },
             transformResponse:(response:GetDeviceQuery)=>{
-                return {...response,systemCount:Object.keys(response?.statistic).length};
+                return {...response,systemCount:response?.systemCount};
             }
         }),
         getElectroCountersByCan: build.query<ElectroCounter[],{id:string,counterInterface:string}>({
@@ -21,9 +21,17 @@ const electroDevicesQuery = rtkApi.injectEndpoints({
                 };
             },
         }),
+        editElectrocounterName:build.mutation<ElectroCounter, Partial<ElectroCounter> & Pick<ElectroCounter, "id">>({
+            query:({id,...patch})=>({
+                url: `electrocounter/${id}`,
+                method: "PUT",
+                body: patch,
+            }),
+        })
     }),
     overrideExisting: false,
 });
 
 export const getElectroDeviceData = electroDevicesQuery.useGetElectroDeviceDataQuery;
 export const getElectroDeviceCountersByCan = electroDevicesQuery.useGetElectroCountersByCanQuery;
+export const renameElectroCounter = electroDevicesQuery.useEditElectrocounterNameMutation;

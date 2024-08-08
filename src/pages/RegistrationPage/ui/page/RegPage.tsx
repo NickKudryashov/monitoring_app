@@ -14,7 +14,7 @@ interface RegPageProps {
 }
 
 export function RegPage(props: PropsWithChildren<RegPageProps>) {
-    const { className } = props;
+    const { className="" } = props;
     const [companyForm,setCompanyForm] = useState(true);
     const [checked1,setChecked1] = useState(false);
     const [checked2,setChecked2] = useState(false);

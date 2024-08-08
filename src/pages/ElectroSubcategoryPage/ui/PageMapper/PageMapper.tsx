@@ -9,7 +9,7 @@ import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { getSubTab, getTab } from "widgets/SubcategoryTabs";
 import cls from "./PageMapper.module.scss";
 interface PageMapperProps {
-    devData: ElectroApiDeviceResponse;
+    devData?: ElectroApiDeviceResponse;
 }
 
 export const PageMapper = (props: PageMapperProps): ReactElement => {

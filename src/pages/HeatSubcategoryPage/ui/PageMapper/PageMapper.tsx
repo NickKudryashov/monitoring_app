@@ -26,10 +26,11 @@ import { useParams } from "react-router-dom";
 import { SystemsInfoBLock } from "../SystemsInfoBlock/SystemsInfoBlock";
 import { BaseChart } from "entities/Chart";
 import { ChartBuilder } from "widgets/ChartBuilder";
+import { MOCK_STR_ID } from "shared/lib/util/constants";
 
 interface PageTabMapperProps {
-    deviceData: HeatDevice;
-    generalData: GeneralAnswer;
+    deviceData?: HeatDevice;
+    generalData?: GeneralAnswer;
 }
 
 export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
@@ -37,9 +38,12 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
     const { id } = useParams<{ id: string }>();
     const selectedTab = useSelector(getTab);
     const selectedSubTab = useSelector(getSubTab);
-    const { data: archData, isLoading: archLoading } = getArchives(id, {
-        skip: id === undefined,
-    });
+    const { data: archData, isLoading: archLoading } = getArchives(
+        id ?? MOCK_STR_ID,
+        {
+            skip: id === undefined,
+        }
+    );
     const { data: configParameters } = getConfigParams(
         String(deviceData?.systems[selectedSubTab]?.id),
         { skip: deviceData === undefined || deviceData?.systems === undefined }
@@ -72,15 +76,15 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
     };
 
     const params: ParametersDict = useMemo(
-        () => getParams(allParams),
+        () => getParams(allParams) || {},
         [deviceData]
     );
     const instantParams: ParametersDict = useMemo(
-        () => getParams(filterInstant),
+        () => getParams(filterInstant) || {},
         [deviceData]
     );
     const accumulateParams: ParametersDict = useMemo(
-        () => getParams(filterAccumulate),
+        () => getParams(filterAccumulate) || {},
         [deviceData]
     );
 
@@ -98,7 +102,7 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
                 <EventCardList events={events} />
             )}
 
-            {selectedTab === 2 && selectedSubTab === 0 && (
+            {selectedTab === 2 && selectedSubTab === 0 && deviceData && (
                 <SystemsInfoBLock systems={deviceData?.systems} />
             )}
             {selectedTab === 2 &&
@@ -108,21 +112,25 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
             {selectedTab === 2 && selectedSubTab === 2 && (
                 <ParameterView params={accumulateParams} />
             )}
-            {selectedTab === 2 && selectedSubTab === 3 && (
+            {selectedTab === 2 && selectedSubTab === 3 && configParameters && (
                 <ConfigParameterColumn configParameters={configParameters} />
             )}
 
-            {selectedTab === 3 && <SubHeader generalData={generalData} />}
-            {selectedTab === 3 && selectedSubTab == 0 && (
+            {selectedTab === 3 && generalData && (
+                <SubHeader generalData={generalData} />
+            )}
+            {selectedTab === 3 && selectedSubTab == 0 && deviceData && (
                 <PollBlock deviceData={deviceData} />
             )}
-            {selectedTab === 3 && selectedSubTab === 1 && (
+            {selectedTab === 3 && selectedSubTab === 1 && deviceData && (
                 <SimpleReport deviceData={deviceData} />
             )}
             {selectedTab === 3 &&
                 selectedSubTab == 2 &&
                 !archLoading &&
-                deviceData && (
+                deviceData &&
+                archData &&
+                generalData && (
                     <ReportSettings
                         archData={archData}
                         generalData={generalData}
@@ -132,7 +140,9 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
             {selectedTab === 3 &&
                 selectedSubTab == 3 &&
                 !archLoading &&
-                deviceData && (
+                deviceData &&
+                archData &&
+                generalData && (
                     <ReportFilesView
                         archData={archData}
                         generalData={generalData}
