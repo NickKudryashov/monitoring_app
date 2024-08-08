@@ -56,6 +56,7 @@ export function ParameterColumn(props: ParameterColumnProps): ReactElement {
                         className={cls.groupWrap}
                         width="90%"
                         gap="5px"
+                        height={`${50 * elem.parameters.length + 90}px`}
                         key={i}
                     >
                         <p className={cls.groupLabel}>{elem.name}</p>

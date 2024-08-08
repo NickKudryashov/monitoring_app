@@ -17,18 +17,19 @@
     display:flex;
     align-items: center;
     padding-left:15px;
-    height:100%;
-
-    // font:var(--font-10-px);
+    height:80%;
     color:rgb(3 22 59 / 70%);
     width:45%;
     border-radius: var(--border-radius-type-3);
 }
 
+.paramVerboseWrapperWide {
+    width:60%;
+}
+
+
 .paramRow {
-    // max-height: 5%;
-    // min-height: 5%;
-    flex-shrink: 0;
+    flex: 1 50px;
     font-size: 0.70vw;
     font-weight: normal;
 }

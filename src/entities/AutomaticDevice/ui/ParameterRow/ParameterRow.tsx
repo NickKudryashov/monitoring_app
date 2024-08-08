@@ -48,9 +48,14 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
             ])}
             alignItems="end"
             align="space-between"
+            height="55px"
             onClick={onParameterClickHandler}
         >
-            <div className={cls.paramVerboseWrapper}>
+            <div
+                className={classNames(cls.paramVerboseWrapper, {
+                    [cls.paramVerboseWrapperWide]: !detailInfo,
+                })}
+            >
                 <p>{parameter.verbose}</p>
             </div>
             {detailInfo && (
@@ -66,6 +71,7 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
                 alignItems="center"
                 align="space-around"
                 className={cls.paramValueWrapper}
+                height="80%"
                 width={"15%"}
             >
                 <p className={cls.valueField}>{parameter.value}</p>

@@ -56,11 +56,11 @@ describe("tg chats",()=>{
     });
     test("empty",()=>{
         const state:DeepPartial<StateSchema> = {chats:{isLoading:true}};
-        expect(getTelegramChats(state as StateSchema)).toBeUndefined();
+        expect(getTelegramChats(state as StateSchema)).toEqual([]);
     });
     test("only list",()=>{
         const state:DeepPartial<StateSchema> = {chats:{isLoading:false}};
-        expect(getTelegramChats(state as StateSchema)).toBeUndefined();
+        expect(getTelegramChats(state as StateSchema)).toEqual([]);
     });
 });
 
