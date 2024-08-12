@@ -310,7 +310,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
             dispatch(chartBuilderActions.cleanup());
             dispatch(chartActions.clearDatasets());
         };
-    });
+    }, []);
     const removeParameter = useCallback(
         (subtype: string, content: SubtabContentDeleteProps) => {
             let parameterCollection: SubtabContent[];

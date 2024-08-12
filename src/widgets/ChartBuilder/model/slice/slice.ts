@@ -11,7 +11,8 @@ export const chartBuilderSlice = createSlice({
     initialState,
     reducers:{
         cleanup(state) {
-            state=initialState;
+            state.reportData={};
+            state.selectedParameters = initialState.selectedParameters;
         },
         addHeatParameter(state,action:PayloadAction<SubtabContent>) {
             if (
