@@ -12,11 +12,11 @@ interface SubcategoryCardProps {
     onClick?: () => void;
 }
 
-export const SubcategoryCard = memo(
+const SubcategoryCard = memo(
     (props: PropsWithChildren<SubcategoryCardProps>) => {
         const { className = "", catID, onClick } = props;
         const { entities } = useSelector(
-            (state: StateSchema) => state.objSubCat
+            (state: StateSchema) => state.objSubCat,
         );
 
         return (
@@ -28,5 +28,8 @@ export const SubcategoryCard = memo(
                 )}
             </div>
         );
-    }
+    },
 );
+
+SubcategoryCard.displayName = "SubcategoryCard";
+export { SubcategoryCard };

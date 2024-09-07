@@ -1,5 +1,5 @@
 export type {ObjectSubCategorySchema,ObjectSubCategoryType} from "./model/types/ObjectSubCategorySchema";
-export {objSubCategoryActions,objSubCategoryReducer,objSubCatSelector} from "./model/slice/subcatSlice";
+export {objSubCategoryActions,objSubCategoryReducer,objSubCatSelector,useObjSubcatActions} from "./model/slice/subcatSlice";
 export {SubcategoryCard} from "./ui/SubcategoryCard/SubcategoryCard";
 export {deleteSubcat,getObjectSubcategoryData,editSubcatOrder,addNewSubcategory,getSubcategoryTypes,toggleSubcat } from "./api/api";
 export type {SubcategoryAnswer} from "./api/api";
@@ -8,4 +8,4 @@ export {SubcategoryListByObject} from "./ui/SubcategoryListByObject/SubcategoryL
 export {SubcatTypes} from "./model/types/ObjectSubCategorySchema";
 export {SubcatIcon} from "./ui/SubcatIcon/SubcatIcon";
 export {getAutoDeviceIdBySystem,getElectroDeviceIdBySystem,getHeatDeviceIdBySystem,getPumpDeviceIdBySystem} from "./api/api";
-export {getSelectedSubcategory} from "./model/selectors/selectors";
+export {getSelectedSubcategory,useGetSelectedSubcategory} from "./model/selectors/selectors";

@@ -1,12 +1,12 @@
 import webpack from "webpack";
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import path from "path";
+import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin'
+import CircularDependencyPlugin from 'circular-dependency-plugin'
 import { BuildOptions } from "./types/config";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-
 export function buildPLugins({paths,api,isDev}:BuildOptions):webpack.WebpackPluginInstance[]{
-    return [
+    const plugins =  [
         new HTMLWebpackPlugin({
             template:paths.html
         }),
@@ -28,6 +28,15 @@ export function buildPLugins({paths,api,isDev}:BuildOptions):webpack.WebpackPlug
                 memoryLimit:4096,
                 mode: "write-references",
             },
-        })
+        }),
+        new CircularDependencyPlugin({
+            exclude: /node_modules/,
+            failOnError: true,
+        }),
     ];
+    if (isDev) {
+        plugins.push(new ReactRefreshPlugin());
+
+    }
+    return plugins
 }

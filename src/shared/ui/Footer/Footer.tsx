@@ -46,7 +46,7 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
             return;
         }
         setEvents(events);
-        if (scrollOnLoad.current || inView.current) {
+        if ((scrollOnLoad.current || inView.current) && footRef.current) {
             footRef.current.scrollIntoView({
                 behavior: "smooth",
                 block: "nearest",

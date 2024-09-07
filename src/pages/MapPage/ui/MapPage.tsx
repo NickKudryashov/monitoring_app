@@ -4,9 +4,8 @@ import { getMapMarkers } from "entities/MapMarker";
 import { useEffect, useState } from "react";
 import "./MapPage.module.scss";
 import { BaloonPortal } from "./BaloonPortal/BaloonPortal";
-import { ObjectMarker } from "./ObjectMarker/ObjectMarker";
+import { ObjectMarker } from "../ui/ObjectMarker/ObjectMarker";
 import { useMapLib } from "shared/lib/components/MapProvider/MapProvider";
-import Dub from "shared/assets/icons/loveUtoo.svg";
 const MapPage = () => {
     const { data: markers, refetch } = getMapMarkers();
     const [activePortal, setActivePortal] = useState(0);
@@ -17,7 +16,6 @@ const MapPage = () => {
     return (
         <div className={cls.MapPage}>
             <DetailView className={cls.detail}>
-                <Dub />
                 <mapLib.Map
                     className={cls.map}
                     defaultState={{ center: [55.75, 37.57], zoom: 9 }}

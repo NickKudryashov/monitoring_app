@@ -29,7 +29,8 @@ export const useViewportCheck = ({changeStatus,triggerRef,wrapperRef}:ViewportCh
         observer.observe(triggerRef.current);
         return ()=>{
 
-            if (observer) {
+            if (observer && triggerRef.current) {
+                console.log(triggerRef.current);
                 // eslint-disable-next-line react-hooks/exhaustive-deps
                 observer.unobserve(triggerRef.current);
             }

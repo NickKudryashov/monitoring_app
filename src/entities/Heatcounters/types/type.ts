@@ -50,7 +50,7 @@ export interface HeatDevice {
 }
 
 
-export interface HeatDeviceSchema extends EntityState<HeatDevice> {
+export interface HeatDeviceSchema extends EntityState<HeatDevice,number> {
     selectedDeviceID:EntityId;
 }
 

@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChartStateSchema, ParameterDataSet } from "entities/Chart/types/type";
+import { ChartStateSchema, ParameterDataSet } from '../../types/type';
+import { buildSlice } from "shared/store";
 
 const initialState:ChartStateSchema = {datasets:[]};
 
-export const chartSlice = createSlice({
+export const chartSlice = buildSlice({
     name:"chart",
     initialState,
     reducers:{
@@ -22,3 +23,4 @@ export const chartSlice = createSlice({
 
 export const {reducer:chartReducer } = chartSlice;
 export const {actions:chartActions } = chartSlice;
+export const {useActions:useChartActions} = chartSlice

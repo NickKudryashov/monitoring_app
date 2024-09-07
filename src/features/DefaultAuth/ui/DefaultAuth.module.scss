@@ -7,8 +7,9 @@
     justify-content: flex-start;
     align-items:center;
     padding:7% 3.5% 3.5%;
-    font:var(--font-m-mini);
-    font-size:0.9vw;
+
+    // font:var(--font-m-mini);
+    font-size:0.875em;
     color:var(--subcolor-9);
     border-radius: var(--border-radius-type-3);
 }
@@ -16,8 +17,9 @@
 .formHeader {
     margin-bottom: 1.5%;
     color:var(--subcolor-9);
-    font:var(--font-l);
-    font-size:1.2vw;
+
+    // font:var(--font-l);
+    font-size:1.125em;
     font-weight: bold;
 }
 
@@ -34,7 +36,8 @@
 }
 
 .authInp {
-    font:var(--font-m);
+    // font:var(--font-m);
+    font-size: 0,77777777777em ;
     background: transparent;
     border:1px solid var(--subcolor-1);
     border-radius: var(--border-radius-type-3);
@@ -60,11 +63,13 @@
 .confirmButton {
     margin-top: 4%;
     width:70%;
-    font:var(--font-m);
+
+    // font:var(--font-m);
     font-family: var(--font-family-sub-1);
     height:8%;
     font-weight: 600;
     letter-spacing: 2px;
+    font-size: 1em;
 }
 
 .regRef {
@@ -74,8 +79,16 @@
     user-select: none;
     width:55%;
     border-top: 1px solid var(--subcolor-1);
-    font:var(--font-m);
+
+    // font:var(--font-m);
+    font-size:0.77777777777em ;
     color:var(--subcolor-1);
     text-align: center;
     cursor: pointer;
 }
+
+@media screen  and (width <= 400px) {
+    .formHeader {
+      font-size: 0.4em;
+    }
+  }

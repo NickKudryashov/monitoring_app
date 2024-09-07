@@ -27,7 +27,7 @@ export function PumpParameterColumn(
         fullWidth = false,
     } = props;
     const checkSelected = useCallback(
-        (id) => {
+        (id: number) => {
             return selectedParametersIDs?.includes(id);
         },
         [selectedParametersIDs]

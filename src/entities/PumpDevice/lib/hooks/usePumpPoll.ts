@@ -1,6 +1,6 @@
 import { MutableRefObject, useEffect, useRef } from "react";
 import $api from "shared/api";
-import { PumpPollResponse } from "entities/PumpDevice/model/types/pumpDevice";
+import { PumpPollResponse } from "../../model/types/pumpDevice";
 
 interface HeatHookProps {
     onUpdate:()=>void;
@@ -54,10 +54,10 @@ export const usePumpPoll = (props:HeatHookProps):()=>Promise<void> =>{
         }
         pollFlag.current=true;
         const response = await $api.post<{task_id:string}>("pump/poll/"+id);
-        const task_id = response.data.task_id;
+        const task_id = response?.data.task_id;
         timer_ref.current = setInterval(async ()=>{
             const response = await $api.put<PumpPollResponse>("pump/poll/"+id,{task_id:task_id});
-            if  (response.data!==null) {
+            if  (response?.data!==null) {
                 if (timer_ref.current) {
                     clearInterval(timer_ref.current);
                 }   

@@ -33,7 +33,7 @@ export function ParameterColumn(props: ParameterColumnProps): ReactElement {
         detail = false,
     } = props;
     const preSelected = useCallback(
-        (id) => {
+        (id: number) => {
             return selectedParametersIDs?.includes(id);
         },
         [selectedParametersIDs]

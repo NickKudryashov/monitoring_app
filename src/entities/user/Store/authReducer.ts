@@ -25,38 +25,38 @@ export const userSlice = createSlice({
     name:"user",
     initialState,
     reducers: {
-        logout(state,action:PayloadAction){
+        logout(state){
             state.isAuth = false;
             localStorage.setItem("access_token","");
             localStorage.setItem("refresh_token","");
             state.userdata = undefined;
         }
     },
-    extraReducers:{
-        [defaultLogin.fulfilled.type]: (state,action: PayloadAction<DefaultAuthResponse>) => {
+    extraReducers:builder =>{
+        builder.addCase(defaultLogin.fulfilled.type,(state,action: PayloadAction<DefaultAuthResponse>) => {
             state.isAuth = true;
             localStorage.setItem("access_token",action.payload.access);
             localStorage.setItem("refresh_token",action.payload.refresh);
-        },
-        [defaultLogin.rejected.type] : (state,action) => {
+        })
+        .addCase(defaultLogin.rejected.type,(state,action) => {
             state.isAuth = false;
             alert("Авторизация неудачна!");
-        },
-        [defaultAuthCheck.fulfilled.type]: (state,action: PayloadAction<DefaultAuthCheckResponse>)=>{
+        })
+        .addCase(defaultAuthCheck.fulfilled.type,(state,action: PayloadAction<DefaultAuthCheckResponse>)=>{
             state.isAuth = true;
             localStorage.setItem("access_token",action.payload.access);
-        },
-        [defaultAuthCheck.rejected.type]: (state,action: PayloadAction<DefaultAuthCheckResponse>)=>{
+        })
+        .addCase(defaultAuthCheck.rejected.type, (state,action: PayloadAction<DefaultAuthCheckResponse>)=>{
             state.isAuth = false;
-        },
-        [getUserData.fulfilled.type]: (state,action:PayloadAction<UserData>)=>{
+        })
+        .addCase(getUserData.fulfilled.type, (state,action:PayloadAction<UserData>)=>{
             state.userdata=action.payload;
 
-        },
-        [getVersion.fulfilled.type]: (state,action:PayloadAction<string>)=>{
+        })
+        .addCase(getVersion.fulfilled.type, (state,action:PayloadAction<string>)=>{
             state.version=action.payload;
 
-        }
+        })
     }
 });
 

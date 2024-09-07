@@ -4,7 +4,11 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./EventEditor.module.scss";
 import { AppInput } from "shared/ui/AppInput/AppInput";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { getSelectedUserObject, ObjectList } from "entities/Objects";
+import {
+    getSelectedUserObject,
+    ObjectList,
+    useGetSelectedUserObject,
+} from "entities/Objects";
 import {
     SubcatTypes,
     SubcategoryListByObject,
@@ -12,6 +16,7 @@ import {
     getHeatDeviceIdBySystem,
     getPumpDeviceIdBySystem,
     getSelectedSubcategory,
+    useGetSelectedSubcategory,
 } from "entities/ObjectSubCategory";
 import { StandartButtonsComposition } from "../StandartButtonsCompoition/StandartButtonsCompoition";
 import {
@@ -43,19 +48,19 @@ export const EventEditor = memo(
     }): ReactElement => {
         const { event, subcatData } = props;
         const [eventEnabled, setEventEnabled] = useState<boolean>(
-            event?.enabled ?? true
+            event?.enabled ?? true,
         );
         const [eventTitle, setEventTitle] = useState<string>(
-            event?.title ?? ""
+            event?.title ?? "",
         );
         const [eventMessage, setEventMessage] = useState<string>(
-            event?.description ?? ""
+            event?.description ?? "",
         );
         const [expression, setExpression] = useState<string[]>(
-            event?.expression?.split(" ") ?? []
+            event?.expression?.split(" ") ?? [],
         );
         const [eventType, setEventType] = useState<string>(
-            event?.event_type ?? "information"
+            event?.event_type ?? "information",
         );
         const [createEvent, { error, isError }] = createUserEvent();
         const [editEvent] = editUserEvent();
@@ -84,15 +89,15 @@ export const EventEditor = memo(
             }
         };
 
-        const selectedObject = useSelector(getSelectedUserObject);
-        const selectedSubcat = useSelector(getSelectedSubcategory);
+        const selectedObject = useGetSelectedUserObject();
+        const selectedSubcat = useGetSelectedSubcategory();
         const { data: heatDeviceId } = getHeatDeviceIdBySystem(
             String(selectedSubcat?.id),
             {
                 skip:
                     !selectedSubcat?.id ||
                     selectedSubcat.subcategory_type !== SubcatTypes.heat,
-            }
+            },
         );
         const { data: autoDeviceId } = getAutoDeviceIdBySystem(
             String(selectedSubcat?.id),
@@ -100,7 +105,7 @@ export const EventEditor = memo(
                 skip:
                     !selectedSubcat?.id ||
                     selectedSubcat.subcategory_type !== SubcatTypes.auto,
-            }
+            },
         );
         const { data: pumpDeviceId } = getPumpDeviceIdBySystem(
             String(selectedSubcat?.id),
@@ -108,26 +113,26 @@ export const EventEditor = memo(
                 skip:
                     !selectedSubcat?.id ||
                     selectedSubcat.subcategory_type !== SubcatTypes.pump,
-            }
+            },
         );
 
         const { data: heatDevice } = getHeatDeviceData(
             heatDeviceId?.device || MOCK_ID,
             {
                 skip: !heatDeviceId?.device,
-            }
+            },
         );
         const { data: pumpDevice } = getPumpData(
             pumpDeviceId?.device || MOCK_ID,
             {
                 skip: !pumpDeviceId?.device,
-            }
+            },
         );
         const { data: autoDevice } = getAutomaticDevice(
             autoDeviceId?.device || MOCK_ID,
             {
                 skip: !autoDeviceId?.device,
-            }
+            },
         );
         const heatParameterClickHandler = useCallback(
             (parameter: HeatParameters) => {
@@ -136,7 +141,7 @@ export const EventEditor = memo(
                     ` heatparam_${parameter.id} `,
                 ]);
             },
-            []
+            [],
         );
         const pumpParameterClickHandler = useCallback(
             (parameter: PumpParameter) => {
@@ -145,7 +150,7 @@ export const EventEditor = memo(
                     ` pumpparam_${parameter.id} `,
                 ]);
             },
-            []
+            [],
         );
         const autoParameterClickHandler = useCallback(
             (parameter: AutoParameter) => {
@@ -154,7 +159,7 @@ export const EventEditor = memo(
                     ` autoparam_${parameter.id} `,
                 ]);
             },
-            []
+            [],
         );
         return (
             <VFlexBox>
@@ -228,5 +233,7 @@ export const EventEditor = memo(
                 <AppButon onClick={onCreateEvent}>Отправить</AppButon>
             </VFlexBox>
         );
-    }
+    },
 );
+
+EventEditor.displayName = "EventEditorWidget";

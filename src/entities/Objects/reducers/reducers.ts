@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ObjectResponse, PidsIds } from "../types/types";
+import { ObjectResponse } from "../types/types";
 import { objectsAllRequest, objectsDelRequest } from "./actionCreator";
+import { buildSlice } from "shared/store";
 export interface ObjectItem {
     name:string;
     address:string;
@@ -20,7 +21,7 @@ export interface objectState {
 
 const initialState:objectState = {objects:[],selectedObject:null};
 
-export const objectSlice = createSlice({
+export const objectSlice = buildSlice({
     name:"objects",
     initialState,
     reducers:{
@@ -34,19 +35,21 @@ export const objectSlice = createSlice({
             state.selectedObject = null;
         }
     },
-    extraReducers:{
-        [objectsAllRequest.fulfilled.type]: (state,action:PayloadAction<ObjectResponse[]>)=>{
+    extraReducers:builder=> {
+        builder.addCase(objectsAllRequest.fulfilled,(state,action:PayloadAction<ObjectResponse[]>)=>{
             state.objects=action.payload.map(element=>({...element,expanded:Boolean(localStorage.getItem(`object_${element.id}`)) || false})).sort((a,b)=>a.id-b.id);
-        },
-        [objectsAllRequest.rejected.type]: (state,action:PayloadAction<ObjectResponse[]>)=>{
+        })
+        .addCase(objectsAllRequest.rejected.type,(state,action:PayloadAction<ObjectResponse[]>)=>{
             alert("ошибка обновления");
-        },
-        [objectsDelRequest.fulfilled.type]:(state,action:PayloadAction<number>)=>{
+        })
+        .addCase(objectsDelRequest.fulfilled,(state,action:PayloadAction<number>)=>{
             state.objects = state.objects.filter(obj=>obj.id!==action.payload);
-        }
+        })
     }
 });
 
 
-export const objectReducer = objectSlice.reducer;
-export const {actions:userObjectActions} = objectSlice;
+export const {  reducer:objectReducer,
+                actions:userObjectActions,
+                useActions:useUserObjectActions
+                } = objectSlice;

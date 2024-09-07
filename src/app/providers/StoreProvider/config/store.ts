@@ -1,5 +1,5 @@
-import { CombinedState, combineReducers, configureStore, Reducer, ReducersMapObject } from "@reduxjs/toolkit";
-import { objectReducer } from "entities/Objects";
+import { configureStore, ReducersMapObject } from "@reduxjs/toolkit";
+import { objectReducer } from "@/entities/Objects";
 import { userReducer } from "entities/user";
 import { StateSchema } from "./stateSchema";
 import { chatReducer } from "entities/TelegramChat";
@@ -15,7 +15,7 @@ import { chartBuilderReducer } from "widgets/ChartBuilder";
 
 
 
-export function createReduxStore(initialState?:StateSchema) {
+export function createReduxStore(initialState?:DeepPartial<StateSchema>) {
     const rootReducer:ReducersMapObject<StateSchema>= {
         user:userReducer,
         objects:objectReducer,
@@ -34,7 +34,7 @@ export function createReduxStore(initialState?:StateSchema) {
     return configureStore({
         reducer:rootReducer,
         devTools:__IS_DEV__,
-        preloadedState:initialState,
+        preloadedState:initialState as StateSchema,
         middleware:(getDefaultMiddleware)=>
             getDefaultMiddleware().concat(rtkApi.middleware),
     });

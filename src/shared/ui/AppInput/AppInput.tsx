@@ -2,6 +2,7 @@ import classNames from "shared/lib/classNames/classNames";
 import cls from "./AppInput.module.scss";
 
 import type { InputHTMLAttributes, PropsWithChildren } from "react";
+import { Field, Input, Label } from "@headlessui/react";
 
 export enum InputThemes {
     AUTH = "auth",
@@ -35,7 +36,21 @@ export function AppInput(props: PropsWithChildren<AppInputProps>) {
             placeholder={placeholder}
             type={type}
             style={{ width: width }}
+            value={value}
             {...props}
         />
+        // <Field>
+        //     <Input
+        //         className={classNames(cls.AppInput, {}, [
+        //             className,
+        //             cls[theme],
+        //         ])}
+        //         onChange={onChange}
+        //         placeholder={placeholder}
+        //         type={type}
+        //         value={value}
+        //         {...props}
+        //     />
+        // </Field>
     );
 }

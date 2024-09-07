@@ -1,11 +1,10 @@
+import { ParameterColumn as AutoParameterColumn } from "../ParameterColumn/ParameterColumn";
 import {
     AutoParameter,
-    AutoParameterColumn,
     AutomaticDeviceData,
-} from "entities/AutomaticDevice";
+} from "../../model/types/AutomaticDeviceTypes";
 import { ReactElement, memo } from "react";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 
 export const ParameterComposition = memo(
     (props: {
@@ -36,9 +35,10 @@ export const ParameterComposition = memo(
                                 onParameterUnClick={onParameterUnClick}
                                 selectedParametersIDs={selectedParametersIDs}
                             />
-                        )
+                        ),
                     )}
             </HFlexBox>
         );
-    }
+    },
 );
+ParameterComposition.displayName = "AutomaticDevParameterComposition";

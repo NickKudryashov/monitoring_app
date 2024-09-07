@@ -1,7 +1,8 @@
 import { ReactElement, useCallback, useMemo } from "react";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ParameterColumnBySystem.module.scss";
-import { HeatParameterRow, HeatParameters } from "entities/Heatcounters";
+import { HeatParameterRow } from "../HeatParameterRow/HeatParameterRow";
+import { HeatParameters } from "../../types/type";
 import classNames from "shared/lib/classNames/classNames";
 interface ParameterColumnBySystemProps {
     params: HeatParameters[];
@@ -12,7 +13,7 @@ interface ParameterColumnBySystemProps {
 }
 
 export function ParameterColumnBySystem(
-    props: ParameterColumnBySystemProps
+    props: ParameterColumnBySystemProps,
 ): ReactElement {
     const {
         header,
@@ -22,10 +23,10 @@ export function ParameterColumnBySystem(
         selectedParametersIDs,
     } = props;
     const preSelected = useCallback(
-        (id) => {
+        (id: number) => {
             return selectedParametersIDs?.includes(id);
         },
-        [selectedParametersIDs]
+        [selectedParametersIDs],
     );
     return (
         <VFlexBox

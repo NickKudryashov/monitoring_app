@@ -1,4 +1,4 @@
-import { HeatDevice, HeatParameters } from "entities/Heatcounters/types/type";
+import { HeatDevice, HeatParameters } from "../../types/type";
 import { ReactElement, memo } from "react";
 import { ParameterColumnBySystem } from "../ParameterColumnBySystem/ParameterColumnBySystem";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
@@ -33,5 +33,7 @@ export const AllParametersView = memo(
                     ))}
             </HFlexBox>
         );
-    }
+    },
 );
+
+AllParametersView.displayName = "HeatDeviceAllParameterView";

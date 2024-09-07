@@ -1,14 +1,13 @@
 import { PayloadAction, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { ObjectSubCategorySchema, ObjectSubCategoryType } from "../types/ObjectSubCategorySchema";
 import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { SubcategoryAnswer } from "entities/ObjectSubCategory/api/api";
+import { SubcategoryAnswer } from "../../api/api";
+import { buildSelector, buildSlice } from "shared/store";
 
-export const ObjSubcategoryAdapter = createEntityAdapter<ObjectSubCategoryType>({
-    selectId:(instance)=>instance.id
-}
+export const ObjSubcategoryAdapter = createEntityAdapter<ObjectSubCategoryType>({}
 );
 
-export const objSubCatSlice = createSlice({
+export const objSubCatSlice = buildSlice({
     name:"objsubcat",
     initialState:ObjSubcategoryAdapter.getInitialState<ObjectSubCategorySchema>({
         isLoading:false,
@@ -30,6 +29,5 @@ export const objSubCatSlice = createSlice({
     },
 });
 
-export const {reducer:objSubCategoryReducer} = objSubCatSlice;
-export const {actions:objSubCategoryActions} = objSubCatSlice;
+export const {reducer:objSubCategoryReducer,actions:objSubCategoryActions,useActions:useObjSubcatActions} = objSubCatSlice;
 export const objSubCatSelector = ObjSubcategoryAdapter.getSelectors<StateSchema>((state)=>state.objSubCat || ObjSubcategoryAdapter.getInitialState() );

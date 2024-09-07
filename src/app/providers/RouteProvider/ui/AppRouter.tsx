@@ -1,6 +1,5 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
 import { defaultAuthCheck, getIsAuth, getUserData } from "entities/user";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "shared/hooks/hooks";
@@ -25,7 +24,7 @@ export const AppRouter = () => {
         <Suspense fallback={<MainLayoutPageLoader />}>
             <Routes>
                 {Object.values(
-                    isAuth ? RouteConfigAuth : RouteConfigPublic
+                    isAuth ? RouteConfigAuth : RouteConfigPublic,
                 ).map(({ path, element }) => (
                     <Route
                         key={path}

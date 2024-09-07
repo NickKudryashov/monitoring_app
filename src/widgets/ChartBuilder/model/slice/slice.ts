@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ChartBuilderStateSchema, ChartFragmentDeleteProps, ChartFragmentProps, DeleteParameterArgs, SubtabContent, UserObjectFragment } from "../types/type";
+import { buildSlice } from "shared/store";
 
 const initialState:ChartBuilderStateSchema = {
     selectedParameters:{auto_node:[],heat_energy_node:[],pump_station_node:[],electro_energy_node:[]},
     reportData:{}
 };
 
-export const chartBuilderSlice = createSlice({
+export const chartBuilderSlice = buildSlice({
     name:"chartBuilder",
     initialState,
     reducers:{
@@ -46,7 +47,6 @@ export const chartBuilderSlice = createSlice({
         },
         removeParameter(state,action:PayloadAction<DeleteParameterArgs>){
             if (state.selectedParameters && state.selectedParameters[action.payload.subtype] ) {
-                const subtype = action.payload.subtype;
                 state.selectedParameters[action.payload.subtype] = state.selectedParameters[action.payload.subtype]?.filter((el)=>!(el.id === action.payload.content.id && el.name === action.payload.content.name)) || [];
             }
         },
@@ -78,5 +78,7 @@ export const chartBuilderSlice = createSlice({
 });
 
 
-export const {reducer:chartBuilderReducer } = chartBuilderSlice;
-export const {actions:chartBuilderActions } = chartBuilderSlice;
+export const {reducer:chartBuilderReducer,
+    actions:chartBuilderActions,
+    useActions:useChartBuilderActions
+ } = chartBuilderSlice;

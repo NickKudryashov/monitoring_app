@@ -12,6 +12,8 @@ export const buildCssLoader = (isDev:boolean)=>{
                 options:{
                     modules:{
                         auto:(resPath:string) => Boolean(resPath.includes(".module.")),
+                        namedExport: false,
+                        exportLocalsConvention: 'as-is',
                         localIdentName: isDev 
                             ? "[path][name]__[local]__[hash:base64:8]" 
                             : "[hash:base64:8]"

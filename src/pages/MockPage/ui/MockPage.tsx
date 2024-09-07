@@ -3,16 +3,18 @@ import { memo } from "react";
 import cls from "./MockPage.module.scss";
 import type { PropsWithChildren } from "react";
 import { Navbar } from "widgets/Navbar";
-import logoImage from "shared/assets/images/mainImage.png";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
 interface MockPageProps {
     className?: string;
 }
 
-export const MockPage = memo((props: PropsWithChildren<MockPageProps>) => {
+const MockPage = memo((props: PropsWithChildren<MockPageProps>) => {
     const { className = "" } = props;
     return (
-        <div className={classNames(cls.MockPage, {}, [className])}>
+        <div
+            data-testid="MockPage"
+            className={classNames(cls.MockPage, {}, [className])}
+        >
             <VFlexBox>
                 <Navbar className={cls.navbar} isAuth={false} />
                 <h1 className={cls.header}>
@@ -24,3 +26,5 @@ export const MockPage = memo((props: PropsWithChildren<MockPageProps>) => {
         </div>
     );
 });
+MockPage.displayName = "mockPage";
+export { MockPage };

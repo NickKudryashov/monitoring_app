@@ -13,7 +13,10 @@ export function AuthPage(props: PropsWithChildren<AuthPageProps>) {
     const { className = "" } = props;
 
     return (
-        <div className={classNames(cls.AuthPage, {}, [className])}>
+        <div
+            data-testid="AuthPage"
+            className={classNames(cls.AuthPage, {}, [className])}
+        >
             <Navbar className={cls.navbar} isAuth={false} />
             <AuthLogoIcon />
             <div className={cls.form}>

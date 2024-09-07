@@ -4,13 +4,13 @@ import cls from "./Chat.module.scss";
 
 import type { MutableRefObject, PropsWithChildren } from "react";
 import { useAppDispatch } from "shared/hooks/hooks";
-import { chatActions } from "entities/TelegramChat/model/slice/ChatSlice";
-import { fetchMessages } from "entities/TelegramChat/model/services/telegramChatActions";
-import { useSelector } from "react-redux";
 import {
-    TelegramChat,
-    TelegramMessage,
-} from "entities/TelegramChat/model/types/ChatSchema";
+    chatActions,
+    useTelegramChatActions,
+} from "../../model/slice/ChatSlice";
+import { fetchMessages } from "../../model/services/telegramChatActions";
+import { useSelector } from "react-redux";
+import { TelegramChat, TelegramMessage } from "../../model/types/ChatSchema";
 import { useInfinityScroll } from "shared/hooks/useInfinityScroll";
 import { useDebounce } from "shared/hooks/useDebounce";
 import { Modal } from "shared/ui/Modal/Modal";
@@ -21,7 +21,8 @@ import {
     getChatsIsLoading,
     getMessageBuChats,
     getTelegramChats,
-} from "entities/TelegramChat/model/selectors/selector";
+    useGetTelegramChats,
+} from "../../model/selectors/selector";
 const STATIC = __IS_DEV__ ? "http://localhost" : "https://avs.eco";
 interface ChatProps {
     className?: string;
@@ -46,7 +47,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const { className = "", obj_id } = props;
     const dispatch = useAppDispatch();
     const isLoading = useSelector(getChatsIsLoading);
-    const chats = useSelector(getTelegramChats);
+    const chats = useGetTelegramChats();
     const messagesById = useSelector(getMessageBuChats);
     const [startOffset, setStartOffset] = useState(0);
     const chatArray = chats.filter((el) => el.objects.includes(obj_id));
@@ -59,9 +60,9 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const [imagePath, setImagePath] = useState("");
     const [currentDate, setCurrentDate] = useState("");
     const [currentChat, setCurrentChat] = useState<TelegramChat | null>();
-
+    const { setIsLoading } = useTelegramChatActions();
     useEffect(() => {
-        dispatch(chatActions.setIsLoading(true));
+        setIsLoading(true);
         if (chatAvailable) {
             const temp = chats.filter((el) => el.objects.includes(obj_id))[0];
             setCurrentChat(temp);
@@ -70,7 +71,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                     fetchMessages({
                         chat_id: currentChat.id,
                         offset: startOffset,
-                    })
+                    }),
                 );
                 setStartOffset((prev) => prev + 15);
 
@@ -89,7 +90,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
         if (!isLoading && currentChat?.id && !currentDate && chatAvailable) {
             dispatch(chatActions.setIsLoading(true));
             dispatch(
-                fetchMessages({ chat_id: currentChat.id, offset: startOffset })
+                fetchMessages({ chat_id: currentChat.id, offset: startOffset }),
             );
             setStartOffset((prev) => prev + 15);
 
@@ -147,7 +148,8 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                                             className={cls.media}
                                             onClick={() =>
                                                 photoClickHandler(
-                                                    STATIC + el?.photo?.filepath
+                                                    STATIC +
+                                                        el?.photo?.filepath,
                                                 )
                                             }
                                             src={STATIC + el.photo.filepath}
@@ -187,7 +189,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                                         {i === 0 && (
                                             <p className={cls.dateMarker}>
                                                 {returnDate(
-                                                    el?.message_datetime
+                                                    el?.message_datetime,
                                                 )}
                                             </p>
                                         )}
@@ -197,16 +199,16 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                                             ] &&
                                             returnDay(
                                                 messagesById[currentChat?.id][i]
-                                                    .message_datetime
+                                                    .message_datetime,
                                             ) !==
                                                 returnDay(
                                                     messagesById[
                                                         currentChat?.id
-                                                    ][i - 1].message_datetime
+                                                    ][i - 1].message_datetime,
                                                 ) && (
                                                 <p className={cls.dateMarker}>
                                                     {returnDate(
-                                                        el?.message_datetime
+                                                        el?.message_datetime,
                                                     )}
                                                 </p>
                                             )}
@@ -221,7 +223,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                                                         photoClickHandler(
                                                             STATIC +
                                                                 el?.photo
-                                                                    ?.filepath
+                                                                    ?.filepath,
                                                         )
                                                     }
                                                     src={
@@ -280,3 +282,5 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
         </div>
     );
 });
+
+Chat.displayName = "TelegramChat";

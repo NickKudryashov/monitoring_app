@@ -26,8 +26,8 @@ export const useInfinityScroll = ({callback,triggerRef,wrapperRef}:InfinityScrol
             }, options);
             observer.observe(triggerRef.current);
             return ()=>{
-                if (observer) {
-                // eslint-disable-next-line react-hooks/exhaustive-deps
+                if (observer && triggerRef.current ) {
+                    // eslint-disable-next-line react-hooks/exhaustive-deps
                     observer.unobserve(triggerRef.current);
                 }
             };}

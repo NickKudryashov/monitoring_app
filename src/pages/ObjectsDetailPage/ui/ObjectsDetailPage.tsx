@@ -24,7 +24,7 @@ export interface ObjectsDetailPageProps {
 const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
     const { className = "" } = props;
     const [defaultView, setDefaultView] = useState(
-        !localStorage.getItem("view")
+        !localStorage.getItem("view"),
     );
     const [openedID, setOpened] = useState<number>(0);
     const searchVal = useSelector(getNavbarSearchValue);
@@ -104,7 +104,7 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                                     id={el.id}
                                     adress={el.address}
                                 />
-                            )
+                            ),
                     )}
                 {!defaultView && (
                     <VFlexBox
@@ -153,7 +153,7 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                                         openedID={openedID}
                                         setOpened={openHandler}
                                     />
-                                )
+                                ),
                         )}
                     </VFlexBox>
                 )}
@@ -171,6 +171,7 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
         <HFlexBox
             className={classNames(cls.ObjectsDetailPage, {}, [className])}
             align="center"
+            data-testid="ObjSubcatPage"
         >
             {content}
         </HFlexBox>

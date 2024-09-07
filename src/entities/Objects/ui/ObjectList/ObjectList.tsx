@@ -1,14 +1,16 @@
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect } from "react";
 import cls from "./ObjectList.module.scss";
 import { useSelector } from "react-redux";
 import {
     getAllObjects,
     getSelectedUserObject,
-} from "entities/Objects/selectors/getAllObjects";
+    useGetAllObjects,
+    useGetSelectedUserObject,
+} from "../../selectors/getAllObjects";
 import { useAppDispatch } from "shared/hooks/hooks";
-import { objectsAllRequest } from "entities/Objects/reducers/actionCreator";
+import { objectsAllRequest } from "../../reducers/actionCreator";
 import { Select } from "shared/ui/Select/Select";
-import { userObjectActions } from "entities/Objects/reducers/reducers";
+import { useUserObjectActions } from "../../reducers/reducers";
 
 interface ObjectListProps {
     onSelectObject?: (objectID: number) => void;
@@ -17,26 +19,24 @@ interface ObjectListProps {
 
 export const ObjectList = (props: ObjectListProps): ReactElement => {
     const { selectedObject } = props;
-    const objects = useSelector(getAllObjects);
-    const objectSelectedState = useSelector(getSelectedUserObject);
+    const objects = useGetAllObjects();
+    const objectSelectedState = useGetSelectedUserObject();
+    const { clearSelectObject, selectObject } = useUserObjectActions();
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(objectsAllRequest());
         return () => {
-            dispatch(userObjectActions.clearSelectObject());
+            clearSelectObject();
         };
     }, []);
     useEffect(() => {
         if (selectedObject) {
-            dispatch(userObjectActions.selectObject(selectedObject));
+            selectObject(selectedObject);
         }
     }, [selectedObject, objects]);
-    const onSelectObject = useCallback(
-        (val: string) => {
-            dispatch(userObjectActions.selectObject(Number(val)));
-        },
-        [dispatch]
-    );
+    const onSelectObject = useCallback((val: string) => {
+        selectObject(Number(val));
+    }, []);
     const options = [
         { value: "0", content: "" },
         ...objects.map((el) => ({
@@ -45,14 +45,6 @@ export const ObjectList = (props: ObjectListProps): ReactElement => {
         })),
     ];
     return (
-        // <select onChange={(e) => onSelectObject(Number(e.target.value))}>
-        //     <option value={null}>Выберите объект</option>
-        //     {objects?.map((el) => (
-        //         <option key={el.id} value={el.id}>
-        //             {el.address}
-        //         </option>
-        //     ))}
-        // </select>
         <Select
             onChange={onSelectObject}
             label="Объекты"

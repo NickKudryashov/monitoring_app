@@ -8,7 +8,7 @@ import {
     useState,
 } from "react";
 
-type MapImport = typeof import("react-yandex-maps");
+type MapImport = typeof import("@pbe/react-yandex-maps");
 
 export interface MapContextPayload {
     mapLib?: MapImport;
@@ -18,7 +18,7 @@ export interface MapContextPayload {
 const MapContext = createContext<MapContextPayload>({});
 
 const loadLib = async () => {
-    return Promise.all([import("react-yandex-maps")]);
+    return Promise.all([import("@pbe/react-yandex-maps")]);
 };
 
 export const useMapLib = () => {

@@ -1,4 +1,4 @@
-import { getUserEventsTypes } from "entities/UserEvents";
+import { getUserEventsTypes } from "../../api/api";
 import { ReactElement, memo, useMemo } from "react";
 import { Select } from "shared/ui/Select/Select";
 interface UserEventTypeSelectProps {
@@ -9,7 +9,7 @@ interface UserEventTypeSelectProps {
 export const UserEventTypeSelect = memo(
     (props: UserEventTypeSelectProps): ReactElement => {
         const { onChange, value, className } = props;
-        const { data: eventTypes, isLoading } = getUserEventsTypes();
+        const { data: eventTypes } = getUserEventsTypes();
         const options = useMemo(() => {
             if (!eventTypes) {
                 return [];
@@ -28,5 +28,6 @@ export const UserEventTypeSelect = memo(
                 className={className}
             />
         );
-    }
+    },
 );
+UserEventTypeSelect.displayName = "UserEventsTypeSelector";

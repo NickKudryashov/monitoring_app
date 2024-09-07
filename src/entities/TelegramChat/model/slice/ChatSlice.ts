@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TelegramChatSchema, TelegramMessage } from "../types/ChatSchema";
+import { TelegramChatSchema } from "../types/ChatSchema";
 import { fetchChats, fetchMessages } from "../services/telegramChatActions";
+import { buildSlice } from "shared/store";
 
 const initialState: TelegramChatSchema = {
     isLoading: false,
@@ -8,7 +9,7 @@ const initialState: TelegramChatSchema = {
     messagesByChat:{}
 };
 
-export const telegramChatSlice = createSlice({
+export const telegramChatSlice = buildSlice({
     name: "telegramChat",
     initialState,
     reducers: {
@@ -46,3 +47,4 @@ export const telegramChatSlice = createSlice({
 
 export const { actions: chatActions } = telegramChatSlice;
 export const { reducer: chatReducer } = telegramChatSlice;
+export const {useActions:useTelegramChatActions} = telegramChatSlice

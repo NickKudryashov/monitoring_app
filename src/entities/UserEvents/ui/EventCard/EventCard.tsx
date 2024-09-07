@@ -5,7 +5,7 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { LoaderCircle } from "shared/ui/LoaderCircle/LoaderCircle";
 import { AppInput } from "shared/ui/AppInput/AppInput";
 import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { deleteUserEvent, editUserEvent } from "entities/UserEvents/api/api";
+import { deleteUserEvent, editUserEvent } from "../../api/api";
 import classNames from "shared/lib/classNames/classNames";
 import DeleteIcon from "shared/assets/icons/SubcatDeleteIcon.svg";
 interface EventCardProps {
@@ -51,3 +51,5 @@ export const EventCard = memo((props: EventCardProps) => {
         </VFlexBox>
     );
 });
+
+EventCard.displayName = "EventCard";

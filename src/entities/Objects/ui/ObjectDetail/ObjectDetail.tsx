@@ -1,14 +1,11 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./ObjectDetail.module.scss";
 
 import { PropsWithChildren, useEffect } from "react";
-import { ObjectResponse } from "entities/Objects/types/types";
-import { ObjectItem } from "entities/Objects/reducers/reducers";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { objectsAllRequest } from "entities/Objects/reducers/actionCreator";
-import { Loader } from "shared/ui/Loader/Loader";
-import { Chat } from "entities/TelegramChat";
-import { fetchChats } from "entities/TelegramChat/model/services/telegramChatActions";
+import { ObjectItem } from "../../reducers/reducers";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { Loader } from "@/shared/ui/Loader/Loader";
+import { fetchChats } from "@/entities/TelegramChat/model/services/telegramChatActions";
 
 interface ObjectDetailProps {
     className?: string;

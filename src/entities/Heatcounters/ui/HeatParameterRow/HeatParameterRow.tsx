@@ -5,7 +5,7 @@ import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./HeatParameterRow.module.scss";
 import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
 import classNames from "shared/lib/classNames/classNames";
-import { editHeatParameterName } from "entities/Heatcounters/api/heatcountersapi";
+import { editHeatParameterName } from "../../api/heatcountersapi";
 interface HeatParameterRowProps {
     elem: HeatParameters;
     onParameterClick?: (parameter: HeatParameters) => void;
@@ -47,7 +47,7 @@ export const HeatParameterRow = (props: HeatParameterRowProps) => {
             className={classNames(
                 cls.paramRow,
                 { [cls.selected]: selected },
-                []
+                [],
             )}
             alignItems="end"
             align="space-around"
@@ -68,7 +68,7 @@ export const HeatParameterRow = (props: HeatParameterRowProps) => {
                 className={classNames(
                     cls.paramValueWrapper,
                     { [cls.redMark]: !elem.updated },
-                    []
+                    [],
                 )}
                 width={"30%"}
             >

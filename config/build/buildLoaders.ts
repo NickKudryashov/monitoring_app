@@ -15,11 +15,11 @@ export function buildLoaders(options:BuildOptions):webpack.RuleSetRule[]{
         use: ["@svgr/webpack"],
     };
   
-    const typescript_loader = {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
-    };
+    // const typescript_loader = {
+    //     test: /\.tsx?$/,
+    //     use: "ts-loader",
+    //     exclude: /node_modules/,
+    // };
     const image_loader = {
         test: /\.(png|jpe?g|gif|ttf|woff|woff2|eot)$/i,
         use: [

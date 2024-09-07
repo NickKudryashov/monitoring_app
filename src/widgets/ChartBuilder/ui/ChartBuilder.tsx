@@ -5,11 +5,11 @@ import {
 import { getAutomaticDevice } from "entities/AutomaticDevice/api/AutomaticDeviceApi";
 import {
     BaseChart,
-    chartActions,
     createPdfByChartId,
     getAutoParameterForChart,
     getHeatParameterForChart,
     getPumpParameterForChart,
+    useChartActions,
 } from "entities/Chart";
 import {
     AllParametersView,
@@ -23,11 +23,15 @@ import {
     getHeatDeviceIdBySystem,
     getPumpDeviceIdBySystem,
     getSelectedSubcategory,
+    useGetSelectedSubcategory,
 } from "entities/ObjectSubCategory";
-import { getSelectedUserObject, ObjectList } from "entities/Objects";
+import {
+    getSelectedUserObject,
+    ObjectList,
+    useGetSelectedUserObject,
+} from "entities/Objects";
 import { PumpParametersComposition, getPumpData } from "entities/PumpDevice";
 import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
-import { UserEventTypeSelect } from "entities/UserEvents";
 import { GeneralAnswer } from "features/PageHeader/api/api";
 import {
     ReactElement,
@@ -38,7 +42,6 @@ import {
     useRef,
     useState,
 } from "react";
-import { useAppDispatch } from "shared/hooks/hooks";
 import { AppButon } from "shared/ui/AppButton/AppButton";
 import { AppInput } from "shared/ui/AppInput/AppInput";
 import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
@@ -54,7 +57,7 @@ import {
     getSelectedParameters,
 } from "../model/selectors/selectors";
 import { useSelector } from "react-redux";
-import { chartBuilderActions } from "../model/slice/slice";
+import { useChartBuilderActions } from "../model/slice/slice";
 import { SubtabContent, SubtabContentDeleteProps } from "../model/types/type";
 import { dataToString } from "../helpers/reportDataToStrings";
 import { MOCK_ID } from "shared/lib/util/constants";
@@ -64,27 +67,36 @@ interface ChartBuilderProps {
 
 export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
     const { subcatData } = props;
-    const selectedObject = useSelector(getSelectedUserObject);
-    const selectedSubcat = useSelector(getSelectedSubcategory);
+    const selectedObject = useGetSelectedUserObject();
+    const selectedSubcat = useGetSelectedSubcategory();
     const selectedHeatParamaters = useSelector(getHeatParameters);
     const selectedAutoParamaters = useSelector(getAutoParameters);
     const selectedPumpParamaters = useSelector(getPumpParameters);
     const [parametersModalIsOpen, setParameterModalIsOpen] = useState(false);
     const [panelHide, setPanelHide] = useState(false);
-    const dispatch = useAppDispatch();
     const selectedParameters = useSelector(getSelectedParameters);
     const reportData = useSelector(getReportData);
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
     const prevStartDate = useRef<string>();
     const prevEndDate = useRef<string>();
+    const { addDataset, clearDatasets, removeDataset } = useChartActions();
+    const {
+        addAutoParameter,
+        addChartData,
+        addHeatParameter,
+        addPumpParameter,
+        cleanup,
+        removeChartData,
+        removeParameter: removeParameterAction,
+    } = useChartBuilderActions();
     const { data: heatDeviceId } = getHeatDeviceIdBySystem(
         String(selectedSubcat?.id),
         {
             skip:
                 !selectedSubcat?.id ||
                 selectedSubcat.subcategory_type !== SubcatTypes.heat,
-        }
+        },
     );
     const { data: autoDeviceId } = getAutoDeviceIdBySystem(
         String(selectedSubcat?.id),
@@ -92,7 +104,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
             skip:
                 !selectedSubcat?.id ||
                 selectedSubcat.subcategory_type !== SubcatTypes.auto,
-        }
+        },
     );
     const { data: pumpDeviceId } = getPumpDeviceIdBySystem(
         String(selectedSubcat?.id),
@@ -100,14 +112,14 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
             skip:
                 !selectedSubcat?.id ||
                 selectedSubcat.subcategory_type !== SubcatTypes.pump,
-        }
+        },
     );
 
     const { data: heatDevice } = getHeatDeviceData(
         heatDeviceId?.device ?? MOCK_ID,
         {
             skip: !heatDeviceId?.device,
-        }
+        },
     );
     const { data: pumpDevice } = getPumpData(pumpDeviceId?.device ?? MOCK_ID, {
         skip: !pumpDeviceId?.device,
@@ -116,7 +128,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
         autoDeviceId?.device ?? MOCK_ID,
         {
             skip: !autoDeviceId?.device,
-        }
+        },
     );
 
     const heatParameterClickHandler = useCallback(
@@ -126,53 +138,39 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
             }
             const parameterNameVerb = `${parameter.verbose_name} ${parameter.tag}`;
 
-            dispatch(
-                chartBuilderActions.addHeatParameter({
-                    id: parameter.id,
-                    name: parameterNameVerb,
-                    subcat_id: selectedSubcat.id,
-                    user_object_id: selectedObject.id,
-                })
-            );
+            addHeatParameter({
+                id: parameter.id,
+                name: parameterNameVerb,
+                subcat_id: selectedSubcat.id,
+                user_object_id: selectedObject.id,
+            });
             const parameterDataset = await getHeatParameterForChart({
                 startDate: startDate,
                 endDate: endDate,
                 id: parameter.id,
             });
-            dispatch(
-                chartBuilderActions.addChartData({
-                    userObjectData: selectedObject,
-                    system: {
-                        systemInfo: {
-                            ...selectedSubcat,
-                            name: `${selectedSubcat.name} ${heatDevice.device_type_verbose_name} №${heatDevice.device_num}`,
-                        },
-                        parameter: {
-                            id: parameter.id,
-                            max_value: parameterDataset.max,
-                            min_value: parameterDataset.min,
-                            name: parameterNameVerb,
-                        },
+            addChartData({
+                userObjectData: selectedObject,
+                system: {
+                    systemInfo: {
+                        ...selectedSubcat,
+                        name: `${selectedSubcat.name} ${heatDevice.device_type_verbose_name} №${heatDevice.device_num}`,
                     },
-                })
-            );
-
-            dispatch(
-                chartActions.addDataset({
-                    name: parameterNameVerb,
-                    data: parameterDataset.datalist,
-                    id: parameter.id,
-                })
-            );
+                    parameter: {
+                        id: parameter.id,
+                        max_value: parameterDataset.max,
+                        min_value: parameterDataset.min,
+                        name: parameterNameVerb,
+                    },
+                },
+            });
+            addDataset({
+                name: parameterNameVerb,
+                data: parameterDataset.datalist,
+                id: parameter.id,
+            });
         },
-        [
-            dispatch,
-            endDate,
-            heatDevice,
-            selectedObject,
-            selectedSubcat,
-            startDate,
-        ]
+        [endDate, heatDevice, selectedObject, selectedSubcat, startDate],
     );
     const pumpParameterClickHandler = useCallback(
         async (parameter: PumpParameter) => {
@@ -180,53 +178,40 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 return;
             }
             const parameterNameVerb = parameter.verbose_name;
-            dispatch(
-                chartBuilderActions.addPumpParameter({
-                    id: parameter.id,
-                    name: parameter.verbose_name,
-                    subcat_id: selectedSubcat.id,
-                    user_object_id: selectedObject.id,
-                })
-            );
+            addPumpParameter({
+                id: parameter.id,
+                name: parameter.verbose_name,
+                subcat_id: selectedSubcat.id,
+                user_object_id: selectedObject.id,
+            });
             const parameterDataset = await getPumpParameterForChart({
                 startDate: startDate,
                 endDate: endDate,
                 id: parameter.id,
             });
-            dispatch(
-                chartBuilderActions.addChartData({
-                    userObjectData: selectedObject,
-                    system: {
-                        systemInfo: {
-                            ...selectedSubcat,
-                            name: `${selectedSubcat.name} ${pumpDevice.device_type_verbose_name}`,
-                        },
-                        parameter: {
-                            id: parameter.id,
-                            max_value: parameterDataset.max,
-                            min_value: parameterDataset.min,
-                            name: parameterNameVerb,
-                        },
+            addChartData({
+                userObjectData: selectedObject,
+                system: {
+                    systemInfo: {
+                        ...selectedSubcat,
+                        name: `${selectedSubcat.name} ${pumpDevice.device_type_verbose_name}`,
                     },
-                })
-            );
+                    parameter: {
+                        id: parameter.id,
+                        max_value: parameterDataset.max,
+                        min_value: parameterDataset.min,
+                        name: parameterNameVerb,
+                    },
+                },
+            });
 
-            dispatch(
-                chartActions.addDataset({
-                    name: parameterNameVerb,
-                    data: parameterDataset.datalist,
-                    id: parameter.id,
-                })
-            );
+            addDataset({
+                name: parameterNameVerb,
+                data: parameterDataset.datalist,
+                id: parameter.id,
+            });
         },
-        [
-            dispatch,
-            endDate,
-            pumpDevice,
-            selectedObject,
-            selectedSubcat,
-            startDate,
-        ]
+        [endDate, pumpDevice, selectedObject, selectedSubcat, startDate],
     );
     const autoParameterClickHandler = useCallback(
         async (parameter: AutoParameter) => {
@@ -234,53 +219,40 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 return;
             }
             const parameterNameVerb = parameter.tag;
-            dispatch(
-                chartBuilderActions.addAutoParameter({
-                    id: parameter.id,
-                    name: parameter.tag,
-                    subcat_id: selectedSubcat.id,
-                    user_object_id: selectedObject.id,
-                })
-            );
+            addAutoParameter({
+                id: parameter.id,
+                name: parameter.tag,
+                subcat_id: selectedSubcat.id,
+                user_object_id: selectedObject.id,
+            });
             const parameterDataset = await getAutoParameterForChart({
                 startDate: startDate,
                 endDate: endDate,
                 id: parameter.id,
             });
-            dispatch(
-                chartBuilderActions.addChartData({
-                    userObjectData: selectedObject,
-                    system: {
-                        systemInfo: {
-                            ...selectedSubcat,
-                            name: `${selectedSubcat.name} ${autoDevice.device_type_verbose}`,
-                        },
-                        parameter: {
-                            id: parameter.id,
-                            max_value: parameterDataset.max,
-                            min_value: parameterDataset.min,
-                            name: parameterNameVerb,
-                        },
+            addChartData({
+                userObjectData: selectedObject,
+                system: {
+                    systemInfo: {
+                        ...selectedSubcat,
+                        name: `${selectedSubcat.name} ${autoDevice.device_type_verbose}`,
                     },
-                })
-            );
+                    parameter: {
+                        id: parameter.id,
+                        max_value: parameterDataset.max,
+                        min_value: parameterDataset.min,
+                        name: parameterNameVerb,
+                    },
+                },
+            });
 
-            dispatch(
-                chartActions.addDataset({
-                    name: parameterNameVerb,
-                    data: parameterDataset.datalist,
-                    id: parameter.id,
-                })
-            );
+            addDataset({
+                name: parameterNameVerb,
+                data: parameterDataset.datalist,
+                id: parameter.id,
+            });
         },
-        [
-            dispatch,
-            selectedSubcat,
-            selectedObject,
-            autoDevice,
-            startDate,
-            endDate,
-        ]
+        [selectedSubcat, selectedObject, autoDevice, startDate, endDate],
     );
 
     const getParametersIdByHeatSubtype = useMemo(() => {
@@ -301,14 +273,14 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
         ) {
             return;
         } else {
-            dispatch(chartBuilderActions.cleanup());
-            dispatch(chartActions.clearDatasets());
+            cleanup();
+            clearDatasets();
         }
-    }, [dispatch, endDate, startDate]);
+    }, [endDate, startDate]);
     useEffect(() => {
         return () => {
-            dispatch(chartBuilderActions.cleanup());
-            dispatch(chartActions.clearDatasets());
+            cleanup();
+            clearDatasets();
         };
     }, []);
     const removeParameter = useCallback(
@@ -317,51 +289,47 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
             switch (subtype as SubcatTypes) {
                 case SubcatTypes.heat:
                     parameterCollection = selectedHeatParamaters.filter(
-                        (el) => el.id === content.id && el.name === content.name
+                        (el) =>
+                            el.id === content.id && el.name === content.name,
                     );
                     break;
                 case SubcatTypes.auto:
                     parameterCollection = selectedAutoParamaters.filter(
-                        (el) => el.id === content.id && el.name === content.name
+                        (el) =>
+                            el.id === content.id && el.name === content.name,
                     );
                     break;
                 case SubcatTypes.pump:
                     parameterCollection = selectedPumpParamaters.filter(
-                        (el) => el.id === content.id && el.name === content.name
+                        (el) =>
+                            el.id === content.id && el.name === content.name,
                     );
                     break;
                 default:
                     parameterCollection = [];
             }
             const [selectedParameter] = parameterCollection.filter(
-                (el) => el.id === content.id && el.name === content.name
+                (el) => el.id === content.id && el.name === content.name,
             );
-            dispatch(
-                chartActions.removeDataset({
-                    id: selectedParameter.id,
-                    name: selectedParameter.name,
-                })
-            );
-            dispatch(
-                chartBuilderActions.removeParameter({
-                    subtype: subtype as SubcatTypes,
-                    content: selectedParameter,
-                })
-            );
-            dispatch(
-                chartBuilderActions.removeChartData({
-                    id: selectedParameter.id,
-                    subcat_id: selectedParameter.subcat_id,
-                    user_object_id: selectedParameter.user_object_id,
-                })
-            );
+            removeDataset({
+                id: selectedParameter.id,
+                name: selectedParameter.name,
+            });
+            removeParameterAction({
+                subtype: subtype as SubcatTypes,
+                content: selectedParameter,
+            });
+            removeChartData({
+                id: selectedParameter.id,
+                subcat_id: selectedParameter.subcat_id,
+                user_object_id: selectedParameter.user_object_id,
+            });
         },
         [
-            dispatch,
             selectedAutoParamaters,
             selectedHeatParamaters,
             selectedPumpParamaters,
-        ]
+        ],
     );
 
     const pdfCreateClickHandler = useCallback(() => {
@@ -377,7 +345,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 className={classNames(
                     cls.chart,
                     { [cls.chartFull]: panelHide },
-                    []
+                    [],
                 )}
                 start_date={startDate}
                 end_date={endDate}
@@ -386,7 +354,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 className={classNames(
                     cls.settingsBox,
                     { [cls.collapsed]: panelHide },
-                    []
+                    [],
                 )}
             >
                 {!panelHide && (
@@ -447,8 +415,8 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                                         >
                                             {el.name}
                                         </p>
-                                    )
-                                )
+                                    ),
+                                ),
                             )}
                         </VFlexBox>
                     </>
@@ -524,3 +492,5 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
         </HFlexBox>
     );
 });
+
+ChartBuilder.displayName = "ChartBuilderWidget";
