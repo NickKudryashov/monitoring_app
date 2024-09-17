@@ -1,17 +1,17 @@
 import { PropsWithChildren, useState } from "react";
-import { DetailView } from "widgets/DetailView";
+import { DetailView } from "@/widgets/DetailView";
 import cls from "./SettingsPage.module.scss";
-import classNames from "shared/lib/classNames/classNames";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { AddCategory } from "features/AddCategory";
-import { AddHeatDevice } from "features/AddHeatDevice";
-import { AddElectroDevice } from "features/AddElectroDevice";
-import { AddPumpDevice } from "features/AddPumpStationDevice";
-import { AddAutoDevice } from "features/AddAutoDevice";
-import { AddObject } from "features/AddObject";
+import classNames from "@/shared/lib/classNames/classNames";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AddCategory } from "@/features/AddCategory";
+import { AddHeatDevice } from "@/features/AddHeatDevice";
+import { AddElectroDevice } from "@/features/AddElectroDevice";
+import { AddPumpDevice } from "@/features/AddPumpStationDevice";
+import { AddAutoDevice } from "@/features/AddAutoDevice";
+import { AddObject } from "@/features/AddObject";
 import { useNavigate } from "react-router-dom";
-import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { RoutePathAuth } from "@/shared/config/RouteConfig/RouteConfig";
 import { FeatureBlock } from "../FeatureBlock/FeatureBlock";
 interface SettingsPageProps {
     className?: string;

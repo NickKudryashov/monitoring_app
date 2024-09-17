@@ -1,20 +1,20 @@
 import {
     AutoParameterColumn,
     AutomaticDeviceData,
-} from "entities/AutomaticDevice";
+} from "@/entities/AutomaticDevice";
 import {
     EventCardList,
     EventLogList,
     getUserEventsByAuto,
     getUserEventsProcessingByAuto,
-} from "entities/UserEvents";
-import { GeneralAnswer } from "features/PageHeader/api/api";
+} from "@/entities/UserEvents";
+import { GeneralAnswer } from "@/features/PageHeader/api/api";
 import { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { ChartBuilder } from "widgets/ChartBuilder";
-import { EventEditor } from "widgets/EventEditor";
-import { getSubTab, getTab } from "widgets/SubcategoryTabs";
+import { ChartBuilder } from "@/widgets/ChartBuilder";
+import { EventEditor } from "@/widgets/EventEditor";
+import { getSubTab, getTab } from "@/widgets/SubcategoryTabs";
 
 interface PageMapperProps {
     devData?: AutomaticDeviceData;

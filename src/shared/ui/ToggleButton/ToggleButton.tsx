@@ -1,7 +1,7 @@
 import { BaseHTMLAttributes, HTMLAttributes, InputHTMLAttributes } from "react";
 import cls from "./ToggleButton.module.scss";
 import { HFlexBox } from "../FlexBox/HFlexBox/HFlexBox";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 
 interface ToggleButtonProps extends InputHTMLAttributes<HTMLDivElement> {
     toggled: boolean;

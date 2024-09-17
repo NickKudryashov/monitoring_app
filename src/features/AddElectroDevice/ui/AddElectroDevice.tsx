@@ -1,15 +1,15 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo, useCallback, useState } from "react";
 import cls from "./AddElectroDevice.module.scss";
 
 import type { PropsWithChildren } from "react";
 import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { Modal } from "shared/ui/Modal/Modal";
-import $api from "shared/api";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { getObjectSubcategoryData } from "entities/ObjectSubCategory";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
+import { Modal } from "@/shared/ui/Modal/Modal";
+import $api from "@/shared/api";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { getObjectSubcategoryData } from "@/entities/ObjectSubCategory";
 
 interface AddElectroDeviceProps {
     className?: string;

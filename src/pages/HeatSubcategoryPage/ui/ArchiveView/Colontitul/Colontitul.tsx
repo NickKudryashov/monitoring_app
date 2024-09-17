@@ -1,17 +1,17 @@
 import { ReactElement, useCallback, useEffect, useState } from "react";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./Colontitul.module.scss";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import {
     ColontitulResponse,
     createUpCol,
     editDownCol,
     editUpCol,
-} from "pages/HeatSubcategoryPage/api/api";
-import { useDebounce } from "shared/hooks/useDebounce";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+} from "@/pages/HeatSubcategoryPage/api/api";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 const MOCK_ROWS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
 interface ColontitulProps {

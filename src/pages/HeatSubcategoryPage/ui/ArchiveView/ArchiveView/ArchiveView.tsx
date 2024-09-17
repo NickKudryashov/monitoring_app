@@ -1,13 +1,13 @@
 import { ReactElement, useState } from "react";
 import { PollBlock } from "../PollBlock/PollBlock";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ArchiveView.module.scss";
 import { CreateReportBlock } from "../CreateReportBlock/CreateReportBlock";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { Colontitul } from "../Colontitul/Colontitul";
-import { getArchives } from "pages/HeatSubcategoryPage/api/api";
-import { HeatDevice } from "entities/Heatcounters";
-import { GeneralAnswer } from "features/PageHeader/api/api";
+import { getArchives } from "@/pages/HeatSubcategoryPage/api/api";
+import { HeatDevice } from "@/entities/Heatcounters";
+import { GeneralAnswer } from "@/features/PageHeader/api/api";
 function ArchiveView(props: {
     id: string;
     deviceData: HeatDevice;

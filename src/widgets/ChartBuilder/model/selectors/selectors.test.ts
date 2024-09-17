@@ -1,4 +1,4 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { getReportData, getSelectedParameters } from "./selectors";
 import { SelectedParameters, UserObjectFragment } from "../types/type";
 

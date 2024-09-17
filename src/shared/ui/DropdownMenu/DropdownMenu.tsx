@@ -1,6 +1,6 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./DropdownMenu.module.scss";
-import DropdownIcon from "shared/assets/icons/dropdownIcon.svg";
+import DropdownIcon from "@/shared/assets/icons/dropdownIcon.svg";
 import {
     LegacyRef,
     PropsWithChildren,

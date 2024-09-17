@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import Chart from "react-apexcharts";
 import cls from "./Chart.module.scss";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { useSeries } from "../../hooks/useSeries";
 import { useChartOptions } from "../../hooks/useChartOptions";
 export const BaseChart = (props: {

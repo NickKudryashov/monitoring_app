@@ -1,7 +1,7 @@
 import cls from "./SubHeader.module.scss";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { GeneralAnswer } from "../api/api";
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 
 interface SubHeaderProps {
     generalData:GeneralAnswer;

@@ -1,12 +1,12 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo, useState } from "react";
 import cls from "./ElectroCounterDetailView.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { ElectroCounter } from "entities/ElectroDevice/model/types/electroDevice";
-import { useDebounce } from "shared/hooks/useDebounce";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { renameElectroCounter } from "entities/ElectroDevice/api/electroDeviceApi";
+import { ElectroCounter } from "@/entities/ElectroDevice/model/types/electroDevice";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { renameElectroCounter } from "@/entities/ElectroDevice/api/electroDeviceApi";
 
 interface ElectroCounterDetailViewProps {
     className?: string;

@@ -1,14 +1,14 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryView.module.scss";
 
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { useAppDispatch } from "shared/hooks/hooks";
+import { RoutePathAuth } from "@/shared/config/RouteConfig/RouteConfig";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { useAppDispatch } from "@/shared/hooks/hooks";
 import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { subcatCardSliceActions } from "../../model/cardSlice";
 import {
     SubcatIcon,
@@ -16,9 +16,10 @@ import {
     SubcategoryStatus,
     editSubcatOrder,
     getObjectSubcategoryData,
-} from "entities/ObjectSubCategory";
-import { ROUTE_MAPPER } from "shared/lib/helpers/subcategoryTypeMapper";
+} from "@/entities/ObjectSubCategory";
+import { ROUTE_MAPPER } from "@/shared/lib/helpers/subcategoryTypeMapper";
 import { getSelectedSystemCard } from "../../model/selectors/selectors";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 interface ObjectCategoryViewProps {
     className?: string;
     adress: string;
@@ -28,7 +29,7 @@ interface ObjectCategoryViewProps {
 }
 
 export function ObjectCategoryView(
-    props: PropsWithChildren<ObjectCategoryViewProps>
+    props: PropsWithChildren<ObjectCategoryViewProps>,
 ) {
     const { className = "", id, adress, last_update, abonent } = props;
     const { data, isLoading, refetch } = getObjectSubcategoryData(id);
@@ -37,6 +38,7 @@ export function ObjectCategoryView(
     }, []);
     const [editOrder, { isLoading: isUpdating }] = editSubcatOrder();
     const dispatch = useAppDispatch();
+    const isMobile = useMobilDeviceDetect();
     const selectedItem = useSelector(getSelectedSystemCard);
     const navigate = useNavigate();
     const onSubcatClick = (el: SubcategoryAnswer) => {
@@ -49,12 +51,12 @@ export function ObjectCategoryView(
             [cls.greenmarker]:
                 data?.data[index].status === SubcategoryStatus.success,
         }),
-        [data]
+        [data],
     );
 
     const dragStartHandler = (
         e: React.DragEvent<HTMLDivElement>,
-        el: SubcategoryAnswer
+        el: SubcategoryAnswer,
     ) => {
         // console.log("старт на ",el.name,el.user_object);
         dispatch(subcatCardSliceActions.setItem(el));
@@ -67,7 +69,7 @@ export function ObjectCategoryView(
     };
     const dropHandler = (
         e: React.DragEvent<HTMLDivElement>,
-        el: SubcategoryAnswer
+        el: SubcategoryAnswer,
     ) => {
         e.preventDefault();
         const success =
@@ -111,7 +113,7 @@ export function ObjectCategoryView(
                             className={classNames(
                                 cls.systemLine,
                                 calculateMods(i),
-                                []
+                                [],
                             )}
                             draggable={true}
                             onDragStart={(e) => dragStartHandler(e, el)}
@@ -126,9 +128,11 @@ export function ObjectCategoryView(
                             />
                         </HFlexBox>
                     ))}
-                <div className={classNames(cls.systemLine, {}, [])}>
-                    <p>{"+ добавить систему"}</p>
-                </div>
+                {!isMobile && (
+                    <div className={classNames(cls.systemLine, {}, [])}>
+                        <p>{"+ добавить систему"}</p>
+                    </div>
+                )}
             </VFlexBox>
             {/* <p className={cls.datetimeField}>{"дата последнего обновления:  "+last_update ?? "-"}</p> */}
         </VFlexBox>

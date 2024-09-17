@@ -1,8 +1,8 @@
 import { ReactElement, useCallback, useEffect, useState } from "react";
 import cls from "./ParameterRow.module.scss";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
-import classNames from "shared/lib/classNames/classNames";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { PumpParameter } from "@/entities/PumpDevice/model/types/pumpDevice";
+import classNames from "@/shared/lib/classNames/classNames";
 interface ParameterRowProps {
     parameter: PumpParameter;
     onParameterClick?: (parameter: PumpParameter) => void;

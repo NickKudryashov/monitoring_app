@@ -1,8 +1,8 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./AuthWidget.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { DefaultAuth } from "pages/AuthPage";
+import { DefaultAuth } from "@/pages/AuthPage";
 
 interface AuthWidgetProps {
     className?: string;

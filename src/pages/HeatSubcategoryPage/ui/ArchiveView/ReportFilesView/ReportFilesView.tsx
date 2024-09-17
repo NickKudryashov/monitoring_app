@@ -1,12 +1,12 @@
 import { ReactElement } from "react";
 import cls from "./ReportFilesView.module.scss";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { HeatDevice } from "entities/Heatcounters";
-import { ArchivesRecord, deleteFile, getFiles } from "pages/HeatSubcategoryPage/api/api";
-import { GeneralAnswer } from "features/PageHeader/api/api";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { API_URL } from "shared/api";
-import DelIcon from "shared/assets/icons/SubcatDeleteIcon.svg";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HeatDevice } from "@/entities/Heatcounters";
+import { ArchivesRecord, deleteFile, getFiles } from "@/pages/HeatSubcategoryPage/api/api";
+import { GeneralAnswer } from "@/features/PageHeader/api/api";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { API_URL } from "@/shared/api";
+import DelIcon from "@/shared/assets/icons/SubcatDeleteIcon.svg";
 function ReportFilesView(props:{deviceData:HeatDevice,archData:ArchivesRecord,generalData:GeneralAnswer}):ReactElement {
     const {deviceData,archData,generalData} = props;
     const {data:files,refetch:refetchFiles} = getFiles(deviceData?.id);

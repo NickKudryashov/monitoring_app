@@ -1,0 +1,20 @@
+.subcatTabs {
+    width:100%;
+}
+
+.detail {
+    min-width: 95%;
+    overflow-y: auto;
+    height: auto;
+}
+
+.contentBox{
+    // overflow-y: auto;
+}
+
+.mobileContent {
+    min-height: 360px;
+    font-size: 16px;
+    gap: 10px;
+    margin-top: 5px;
+}

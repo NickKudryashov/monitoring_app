@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ReportParameterSettings.module.scss";
 const MOCK_ROWS = [1,2,3,4];
 function ReportParameterSettings():ReactElement {

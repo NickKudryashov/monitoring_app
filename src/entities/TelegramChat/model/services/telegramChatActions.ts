@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import $api from "shared/api";
-import { ThunkConfig } from "app/providers/StoreProvider/config/stateSchema";
+import $api from "@/shared/api";
+import { ThunkConfig } from "@/app/providers/StoreProvider/config/stateSchema";
 import { MessagesByChat, TelegramChat, TelegramMessage } from "../types/ChatSchema";
 
 

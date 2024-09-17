@@ -1,7 +1,7 @@
 import type { HTMLProps, PropsWithChildren } from "react";
 import cls from "./HFlexBox.module.scss";
 import { ALIGNITEMS, GAP, JUSTIFYCONTENT } from "../props";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 
 interface HFlexBoxProps extends HTMLProps<HTMLDivElement> {
     className?: string;

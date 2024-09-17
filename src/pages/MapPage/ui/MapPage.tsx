@@ -1,11 +1,11 @@
-import { DetailView } from "widgets/DetailView";
+import { DetailView } from "@/widgets/DetailView";
 import cls from "./MapPage.module.scss";
-import { getMapMarkers } from "entities/MapMarker";
+import { getMapMarkers } from "@/entities/MapMarker";
 import { useEffect, useState } from "react";
 import "./MapPage.module.scss";
 import { BaloonPortal } from "./BaloonPortal/BaloonPortal";
 import { ObjectMarker } from "../ui/ObjectMarker/ObjectMarker";
-import { useMapLib } from "shared/lib/components/MapProvider/MapProvider";
+import { useMapLib } from "@/shared/lib/components/MapProvider/MapProvider";
 const MapPage = () => {
     const { data: markers, refetch } = getMapMarkers();
     const [activePortal, setActivePortal] = useState(0);

@@ -1,14 +1,15 @@
 import { memo, useEffect } from "react";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./CategoryPage.module.scss";
-import { DetailView } from "widgets/DetailView";
+import { DetailView } from "@/widgets/DetailView";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { Loader } from "shared/ui/Loader/Loader";
-import { ObjectCard, objectsAllRequest } from "entities/Objects";
-import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { Loader } from "@/shared/ui/Loader/Loader";
+import { ObjectCard, objectsAllRequest } from "@/entities/Objects";
+import { RoutePathAuth } from "@/shared/config/RouteConfig/RouteConfig";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 
 export interface CategoryPageProps {
     className?: string;
@@ -32,6 +33,8 @@ const CategoryPage = memo((props: CategoryPageProps) => {
                     <ObjectCard
                         key={el.id}
                         name={el.name}
+                        address={el.address}
+                        lastUpdate={el.last_update}
                         onClick={() => navigate(RoutePathAuth.object + el.id)}
                     />
                 ))}

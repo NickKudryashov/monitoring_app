@@ -3,8 +3,8 @@ import { PumpParameterColumn } from "../PumpParameterColumn/PumpParameterColumn"
 import {
     PumpDeviceData,
     PumpParameter,
-} from "entities/PumpDevice/model/types/pumpDevice";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+} from "@/entities/PumpDevice/model/types/pumpDevice";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 
 export const ParametersComposition = memo(
     (props: {

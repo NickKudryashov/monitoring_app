@@ -1,24 +1,24 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryRowView.module.scss";
 
 import { PropsWithChildren, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import PlusIcon from "shared/assets/icons/plusSystemIcon.svg";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { useAppDispatch } from "shared/hooks/hooks";
+import PlusIcon from "@/shared/assets/icons/plusSystemIcon.svg";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { useAppDispatch } from "@/shared/hooks/hooks";
 import { useSelector } from "react-redux";
-import { subcatCardSliceActions } from "features/ObjectCategoryCardView/model/cardSlice";
+import { subcatCardSliceActions } from "@/features/ObjectCategoryCardView/model/cardSlice";
 import {
     SubcatIcon,
     SubcategoryAnswer,
     SubcategoryStatus,
     editSubcatOrder,
     getObjectSubcategoryData,
-} from "entities/ObjectSubCategory";
-import { ROUTE_MAPPER } from "shared/lib/helpers/subcategoryTypeMapper";
-import { getSelectedSystemCard } from "features/ObjectCategoryCardView/model/selectors/selectors";
-import { LoaderCircle } from "shared/ui/LoaderCircle/LoaderCircle";
+} from "@/entities/ObjectSubCategory";
+import { ROUTE_MAPPER } from "@/shared/lib/helpers/subcategoryTypeMapper";
+import { getSelectedSystemCard } from "@/features/ObjectCategoryCardView/model/selectors/selectors";
+import { LoaderCircle } from "@/shared/ui/LoaderCircle/LoaderCircle";
 interface ObjectCategoryRowViewProps {
     className?: string;
     openedID: number;

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ObjectResponse } from "../types/types";
 import { objectsAllRequest, objectsDelRequest } from "./actionCreator";
-import { buildSlice } from "shared/store";
+import { buildSlice } from "@/shared/store";
 export interface ObjectItem {
     name:string;
     address:string;

@@ -1,4 +1,4 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { getSelectedSubcategory } from "./selectors";
 import { SubcategoryAnswer } from "../../api/api";
 

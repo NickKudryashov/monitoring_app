@@ -1,5 +1,5 @@
 import axios from "axios";
-import $api, { API_URL } from "shared/api";
+import $api, { API_URL } from "@/shared/api";
 import { UserData } from "../Models/User";
 import { DefaultAuthCheckResponse, DefaultAuthResponse } from "../types/types";
 

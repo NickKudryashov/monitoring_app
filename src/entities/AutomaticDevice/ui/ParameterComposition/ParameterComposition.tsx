@@ -4,7 +4,7 @@ import {
     AutomaticDeviceData,
 } from "../../model/types/AutomaticDeviceTypes";
 import { ReactElement, memo } from "react";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 
 export const ParameterComposition = memo(
     (props: {

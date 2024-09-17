@@ -2,11 +2,11 @@ import {
     ElectroApiDeviceResponse,
     ElectroCounterDeviceDetail,
     ElectroStatistic,
-} from "entities/ElectroDevice";
+} from "@/entities/ElectroDevice";
 import { ReactElement } from "react";
 import { useSelector } from "react-redux";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { getSubTab, getTab } from "widgets/SubcategoryTabs";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { getSubTab, getTab } from "@/widgets/SubcategoryTabs";
 import cls from "./PageMapper.module.scss";
 interface PageMapperProps {
     devData?: ElectroApiDeviceResponse;

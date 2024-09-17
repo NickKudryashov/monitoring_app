@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { SubcategoryTabStateSchema, SubcategoryTabsList, TabContentLength } from "widgets/SubcategoryTabs/types/type";
+import { SubcategoryTabStateSchema, SubcategoryTabsList, TabContentLength } from "@/widgets/SubcategoryTabs/types/type";
 
 const initialState:SubcategoryTabStateSchema = {
     currentSubTab:0,

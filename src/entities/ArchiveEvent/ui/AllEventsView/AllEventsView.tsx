@@ -39,6 +39,7 @@ export const AllEventsView = (): ReactElement => {
             width="95%"
             alignItems="center"
             height="70%"
+            data-testid="ArchiveAllEventsView"
             ref={wrapRef}
             className={cls.modalWin}
         >

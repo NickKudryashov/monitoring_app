@@ -1,3 +1,3 @@
-import { DefaultAuth } from "features/DefaultAuth/ui/DefaultAuth";
+import { DefaultAuth } from "@/features/DefaultAuth/ui/DefaultAuth";
 
 export {DefaultAuth};

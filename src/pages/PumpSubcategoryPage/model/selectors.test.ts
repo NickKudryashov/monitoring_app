@@ -1,4 +1,4 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { getPumpPageParameterGroup } from "./selectors";
 
 describe("subcatCards selector",()=>{

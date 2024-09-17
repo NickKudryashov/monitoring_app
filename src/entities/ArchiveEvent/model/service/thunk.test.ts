@@ -1,10 +1,10 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ArchiveEvent } from "entities/ArchiveEvent/types/type";
+import { ArchiveEvent } from "@/entities/ArchiveEvent/types/type";
 import { fetchEvents } from "./fetchEvents";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import $api from "shared/api";
-import { AsyncThunkTest } from "shared/lib/tests/AsyncThunkTest/thunkTest";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
+import $api from "@/shared/api";
+import { AsyncThunkTest } from "@/shared/lib/tests/AsyncThunkTest/thunkTest";
 // jest.mock("axios");
 jest.mock("axios", () => {
     return {

@@ -1,5 +1,5 @@
-import { SubcategoryAnswer } from "entities/ObjectSubCategory";
-import { rtkApi } from "shared/api/rtkApi";
+import { SubcategoryAnswer } from "@/entities/ObjectSubCategory";
+import { rtkApi } from "@/shared/api/rtkApi";
 
 export interface GeneralAnswer extends SubcategoryAnswer {
     id:number;

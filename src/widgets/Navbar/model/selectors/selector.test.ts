@@ -1,4 +1,4 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { getNavbarSearchValue } from "./getNavbarSearchValue";
 
 describe("navbar selector",()=>{

@@ -1,14 +1,14 @@
 import { ReactElement, memo, useCallback, useState } from "react";
-import { AppButon } from "shared/ui/AppButton/AppButton";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { AppButon } from "@/shared/ui/AppButton/AppButton";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./EventEditor.module.scss";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import {
     getSelectedUserObject,
     ObjectList,
     useGetSelectedUserObject,
-} from "entities/Objects";
+} from "@/entities/Objects";
 import {
     SubcatTypes,
     SubcategoryListByObject,
@@ -17,29 +17,29 @@ import {
     getPumpDeviceIdBySystem,
     getSelectedSubcategory,
     useGetSelectedSubcategory,
-} from "entities/ObjectSubCategory";
+} from "@/entities/ObjectSubCategory";
 import { StandartButtonsComposition } from "../StandartButtonsCompoition/StandartButtonsCompoition";
 import {
     AllParametersView,
     HeatParameters,
     getHeatDeviceData,
-} from "entities/Heatcounters";
-import { PumpParametersComposition, getPumpData } from "entities/PumpDevice";
-import { getAutomaticDevice } from "entities/AutomaticDevice/api/AutomaticDeviceApi";
+} from "@/entities/Heatcounters";
+import { PumpParametersComposition, getPumpData } from "@/entities/PumpDevice";
+import { getAutomaticDevice } from "@/entities/AutomaticDevice/api/AutomaticDeviceApi";
 import {
     AutoDevParametersComposition,
     AutoParameter,
-} from "entities/AutomaticDevice";
-import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
+} from "@/entities/AutomaticDevice";
+import { PumpParameter } from "@/entities/PumpDevice/model/types/pumpDevice";
 import {
     UserEventTypeSelect,
     createUserEvent,
     editUserEvent,
-} from "entities/UserEvents";
-import { UserEvent } from "entities/UserEvents/model/types/type";
-import { GeneralAnswer } from "features/PageHeader/api/api";
+} from "@/entities/UserEvents";
+import { UserEvent } from "@/entities/UserEvents/model/types/type";
+import { GeneralAnswer } from "@/features/PageHeader/api/api";
 import { useSelector } from "react-redux";
-import { MOCK_ID } from "shared/lib/util/constants";
+import { MOCK_ID } from "@/shared/lib/util/constants";
 
 export const EventEditor = memo(
     (props: {

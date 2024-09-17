@@ -1,6 +1,6 @@
-import { HeatDevice } from "entities/Heatcounters";
+import { HeatDevice } from "@/entities/Heatcounters";
 import { url } from "inspector";
-import { rtkApi } from "shared/api/rtkApi";
+import { rtkApi } from "@/shared/api/rtkApi";
 
 
 export interface ConfigurationParameterAnswer {

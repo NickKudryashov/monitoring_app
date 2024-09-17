@@ -1,7 +1,7 @@
-import type { HTMLProps, PropsWithChildren } from "react";
+import type { CSSProperties, HTMLProps, PropsWithChildren } from "react";
 import cls from "./VFlexBox.module.scss";
 import { ALIGNITEMS, GAP, JUSTIFYCONTENT } from "../props";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 interface VFlexBoxProps extends HTMLProps<HTMLDivElement> {
     className?: string;
     name?: string;
@@ -25,16 +25,18 @@ export function VFlexBox(props: PropsWithChildren<VFlexBoxProps>) {
         ...propss
     } = props;
 
+    const styleProps: CSSProperties = {
+        gap: gap,
+        justifyContent: align,
+        alignItems: alignItems,
+        width,
+        height,
+    };
+
     return (
         <div
             className={classNames(cls.VFlexBox, {}, [className])}
-            style={{
-                gap: gap,
-                justifyContent: align,
-                alignItems: alignItems,
-                width,
-                height,
-            }}
+            style={height ? { ...styleProps, height } : styleProps}
             {...propss}
         >
             {children}

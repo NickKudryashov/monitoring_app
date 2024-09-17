@@ -1,10 +1,10 @@
 import { memo, ReactElement } from "react";
-import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
-import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
-import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
-import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
+import HeatIcon from "@/shared/assets/icons/SystemHeatNodeIcon.svg";
+import ElectroIcon from "@/shared/assets/icons/SystemElectroNodeIcon.svg";
+import PumpIcon from "@/shared/assets/icons/SystemPumpNodeIcon.svg";
+import AutoIcon from "@/shared/assets/icons/SystemAutomaticNodeIcon.svg";
 import cls from "./SubcatIcon.module.scss";
-import { SubcatTypes } from "entities/ObjectSubCategory/model/types/ObjectSubCategorySchema";
+import { SubcatTypes } from "@/entities/ObjectSubCategory/model/types/ObjectSubCategorySchema";
 export const SubcatIcon = memo(
     (props: { subcategory_type: SubcatTypes }): ReactElement => {
         const { subcategory_type } = props;

@@ -1,4 +1,4 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { getAllObjects,getSelectedUserObject } from "./getAllObjects";
 import { ObjectItem } from "../reducers/reducers";
 

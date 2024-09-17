@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { PumpPageStateSchema } from "../types/type";
-import { PumpDetailInfoBySystem } from "entities/PumpDevice";
+import { PumpDetailInfoBySystem } from "@/entities/PumpDevice";
 
 const initialState:PumpPageStateSchema = {
 };

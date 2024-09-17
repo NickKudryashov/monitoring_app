@@ -1,10 +1,10 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo } from "react";
 import cls from "./SubcategoryCard.module.scss";
 
 import type { PropsWithChildren } from "react";
 import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 
 interface SubcategoryCardProps {
     className?: string;

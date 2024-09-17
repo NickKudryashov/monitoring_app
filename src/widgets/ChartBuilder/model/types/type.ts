@@ -1,5 +1,5 @@
-import { ObjectItem } from "entities/Objects";
-import { SubcategoryAnswer, SubcatTypes } from "entities/ObjectSubCategory";
+import { ObjectItem } from "@/entities/Objects";
+import { SubcategoryAnswer, SubcatTypes } from "@/entities/ObjectSubCategory";
 
 export interface SubtabContent {
     name: string;

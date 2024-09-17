@@ -1,12 +1,12 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./RegPage.module.scss";
 
 import { useState, type PropsWithChildren } from "react";
-import { AuthWidget } from "widgets/AuthWidget/AuthWidget";
-import { Navbar } from "widgets/Navbar";
-import AuthLogoIcon from "shared/assets/icons/AuthLogoIcon.svg";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { AppCheckbox } from "shared/ui/AppCheckbox/AppCheckbox";
+import { AuthWidget } from "@/widgets/AuthWidget/AuthWidget";
+import { Navbar } from "@/widgets/Navbar";
+import AuthLogoIcon from "@/shared/assets/icons/AuthLogoIcon.svg";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
+import { AppCheckbox } from "@/shared/ui/AppCheckbox/AppCheckbox";
 import { CompanyForm } from "../companyform/CompanyReg";
 import { PersonalForm } from "../userform/PersonalReg";
 interface RegPageProps {

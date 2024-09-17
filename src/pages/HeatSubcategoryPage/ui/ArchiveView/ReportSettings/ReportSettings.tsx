@@ -1,11 +1,11 @@
 import { ReactElement, useState } from "react";
 import cls from "./ReportSettings.module.scss";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 import { Colontitul } from "../Colontitul/Colontitul";
-import { HeatDevice } from "entities/Heatcounters";
+import { HeatDevice } from "@/entities/Heatcounters";
 import {
     ArchivesRecord,
     createPeriod,
@@ -16,8 +16,8 @@ import {
     getParameters,
     getPeriods,
     getUpCols,
-} from "pages/HeatSubcategoryPage/api/api";
-import { GeneralAnswer } from "features/PageHeader/api/api";
+} from "@/pages/HeatSubcategoryPage/api/api";
+import { GeneralAnswer } from "@/features/PageHeader/api/api";
 import { ReportParameters } from "../ReportParameters/ReportParameters";
 function ReportSettings(props: {
     deviceData: HeatDevice;

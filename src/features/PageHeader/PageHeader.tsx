@@ -1,9 +1,10 @@
 import cls from "./PageHeader.module.scss";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import classNames from "shared/lib/classNames/classNames";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import classNames from "@/shared/lib/classNames/classNames";
 import { GeneralAnswer } from "./api/api";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 import { memo } from "react";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 
 interface PageHeaderProps {
     generalData: GeneralAnswer | undefined;
@@ -12,9 +13,27 @@ interface PageHeaderProps {
 }
 
 export const PageHeader = memo(function _PageHeader(
-    props: PageHeaderProps
+    props: PageHeaderProps,
 ): React.ReactElement {
     const { generalData, poll = () => {}, report = () => {} } = props;
+    const isMobile = useMobilDeviceDetect();
+    if (isMobile) {
+        return (
+            <div
+                className={classNames("", {}, [
+                    cls.headerBox,
+                    cls.headers,
+                    cls.mobileHeader,
+                ])}
+            >
+                <div className={cls.subCatNameWrapper}>
+                    <p className={cls.subsystemNameField}>
+                        {generalData ? generalData.subcat_name : "..."}
+                    </p>
+                </div>
+            </div>
+        );
+    }
     return (
         <HFlexBox
             className={cls.headerBox}

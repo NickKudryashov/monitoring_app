@@ -1,15 +1,15 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo, useEffect, useState } from "react";
 import cls from "./AddPumpDevice.module.scss";
 
 import type { PropsWithChildren } from "react";
-import $api from "shared/api";
-import { AppInput } from "shared/ui/AppInput/AppInput";
+import $api from "@/shared/api";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
 import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { Modal } from "shared/ui/Modal/Modal";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { getObjectSubcategoryData } from "entities/ObjectSubCategory";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
+import { Modal } from "@/shared/ui/Modal/Modal";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { getObjectSubcategoryData } from "@/entities/ObjectSubCategory";
 
 interface AddPumpDeviceProps {
     className?: string;

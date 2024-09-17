@@ -1,26 +1,26 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./Navbar.module.scss";
 
 import { PropsWithChildren, useState } from "react";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { userSlice } from "entities/user/Store/authReducer";
-import { Modal } from "shared/ui/Modal/Modal";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { userSlice } from "@/entities/user/Store/authReducer";
+import { Modal } from "@/shared/ui/Modal/Modal";
 import { useSelector } from "react-redux";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import LogoIcon from "shared/assets/icons/LogoIcon.svg";
-import EventIcon from "shared/assets/icons/EventsIcon.svg";
-import CrossIcon from "shared/assets/icons/CrossIcon.svg";
-import ProfileIcon from "shared/assets/icons/ProfileIcon.svg";
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
+import LogoIcon from "@/shared/assets/icons/LogoIcon.svg";
+import EventIcon from "@/shared/assets/icons/EventsIcon.svg";
+import CrossIcon from "@/shared/assets/icons/CrossIcon.svg";
+import ProfileIcon from "@/shared/assets/icons/ProfileIcon.svg";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 import { useNavigate } from "react-router-dom";
-import { RoutePathPublic } from "shared/config/RouteConfig/RouteConfig";
-import SearchIcon from "shared/assets/icons/NavbarSearchIcon.svg";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { AllEventsView } from "entities/ArchiveEvent";
-import { navbarActions } from "../model/slice/slice";
-import { useDebounce } from "shared/hooks/useDebounce";
-import { getUserName } from "entities/user";
-interface NavbarProps {
+import { RoutePathPublic } from "@/shared/config/RouteConfig/RouteConfig";
+import SearchIcon from "@/shared/assets/icons/NavbarSearchIcon.svg";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AllEventsView } from "@/entities/ArchiveEvent";
+import { navbarActions } from "../../model/slice/slice";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { getUserName } from "@/entities/user";
+export interface NavbarProps {
     className?: string;
     isAuth?: boolean;
 }

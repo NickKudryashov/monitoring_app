@@ -1,4 +1,4 @@
-import $api from "shared/api";
+import $api from "@/shared/api";
 import { HeatDevice, TaskRequest, TaskResponse } from "../types/type";
 
 export default class HeatDeviceService{

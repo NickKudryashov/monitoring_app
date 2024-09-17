@@ -1,17 +1,17 @@
 import { configureStore, ReducersMapObject } from "@reduxjs/toolkit";
 import { objectReducer } from "@/entities/Objects";
-import { userReducer } from "entities/user";
+import { userReducer } from "@/entities/user";
 import { StateSchema } from "./stateSchema";
-import { chatReducer } from "entities/TelegramChat";
-import { objSubCategoryReducer } from "entities/ObjectSubCategory";
-import { rtkApi } from "shared/api/rtkApi";
-import { subcatCardSliceReducer } from "features/ObjectCategoryCardView";
-import { archiveEventsReducer } from "entities/ArchiveEvent";
-import { navbarReducer } from "widgets/Navbar";
-import { tabSliceReducer } from "widgets/SubcategoryTabs";
-import { pumpPageSliceReducer } from "pages/PumpSubcategoryPage";
-import { chartReducer } from "entities/Chart";
-import { chartBuilderReducer } from "widgets/ChartBuilder";
+import { chatReducer } from "@/entities/TelegramChat";
+import { objSubCategoryReducer } from "@/entities/ObjectSubCategory";
+import { rtkApi } from "@/shared/api/rtkApi";
+import { subcatCardSliceReducer } from "@/features/ObjectCategoryCardView";
+import { archiveEventsReducer } from "@/entities/ArchiveEvent";
+import { navbarReducer } from "@/widgets/Navbar";
+import { tabSliceReducer } from "@/widgets/SubcategoryTabs";
+import { pumpPageSliceReducer } from "@/pages/PumpSubcategoryPage";
+import { chartReducer } from "@/entities/Chart";
+import { chartBuilderReducer } from "@/widgets/ChartBuilder";
 
 
 

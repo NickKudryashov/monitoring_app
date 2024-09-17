@@ -1,40 +1,41 @@
-import { SubHeader } from "features/PageHeader/SubHeader/SubHeader";
+import { SubHeader } from "@/features/PageHeader/SubHeader/SubHeader";
 import { ReactElement, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { getSubTab, getTab } from "widgets/SubcategoryTabs";
+import { getSubTab, getTab } from "@/widgets/SubcategoryTabs";
 import { PollBlock } from "../ArchiveView/PollBlock/PollBlock";
 import {
     getArchives,
     getConfigParams,
-} from "pages/HeatSubcategoryPage/api/api";
+} from "@/pages/HeatSubcategoryPage/api/api";
 import {
     EventCardList,
     EventLogList,
     getUserEventsByHeat,
     getUserEventsProcessingByHeat,
-} from "entities/UserEvents";
+} from "@/entities/UserEvents";
 import { ParametersDict } from "../HeatSubcategoryPage/HeatSubcategoryPage";
-import { HeatDevice, HeatParameters } from "entities/Heatcounters";
+import { HeatDevice, HeatParameters } from "@/entities/Heatcounters";
 import { SimpleReport } from "../ArchiveView/SimpleReport/SimpleReport";
 import { ReportSettings } from "../ArchiveView/ReportSettings/ReportSettings";
 import { ReportFilesView } from "../ArchiveView/ReportFilesView/ReportFilesView";
 import { ParameterView } from "../ParameterView/ParameterView";
-import { EventEditor } from "widgets/EventEditor";
+import { EventEditor } from "@/widgets/EventEditor";
 import { ConfigParameterColumn } from "../ConfigParameterColumn/ConfigParameterColumn";
-import { GeneralAnswer } from "features/PageHeader/api/api";
+import { GeneralAnswer } from "@/features/PageHeader/api/api";
 import { useParams } from "react-router-dom";
 import { SystemsInfoBLock } from "../SystemsInfoBlock/SystemsInfoBlock";
-import { BaseChart } from "entities/Chart";
-import { ChartBuilder } from "widgets/ChartBuilder";
-import { MOCK_STR_ID } from "shared/lib/util/constants";
+import { ChartBuilder } from "@/widgets/ChartBuilder";
+import { MOCK_STR_ID } from "@/shared/lib/util/constants";
+import classNames from "@/shared/lib/classNames/classNames";
 
 interface PageTabMapperProps {
     deviceData?: HeatDevice;
     generalData?: GeneralAnswer;
+    className?: string;
 }
 
 export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
-    const { deviceData, generalData } = props;
+    const { deviceData, generalData, className = "" } = props;
     const { id } = useParams<{ id: string }>();
     const selectedTab = useSelector(getTab);
     const selectedSubTab = useSelector(getSubTab);
@@ -42,16 +43,16 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
         id ?? MOCK_STR_ID,
         {
             skip: id === undefined,
-        }
+        },
     );
     const { data: configParameters } = getConfigParams(
         String(deviceData?.systems[selectedSubTab]?.id),
-        { skip: deviceData === undefined || deviceData?.systems === undefined }
+        { skip: deviceData === undefined || deviceData?.systems === undefined },
     );
     const { data: events } = getUserEventsByHeat(Number(id));
 
     const { data: processingEvents } = getUserEventsProcessingByHeat(
-        Number(id)
+        Number(id),
     );
 
     const filterInstant = (params: HeatParameters[]) =>
@@ -60,10 +61,10 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
         params?.filter((el) => el.parameter_type === "accumulate_parameter");
     const allParams = (params: HeatParameters[]) =>
         params?.filter(
-            (el) => !el.exclude && el.parameter_type === "instant_parameter"
+            (el) => !el.exclude && el.parameter_type === "instant_parameter",
         );
     const getParams = (
-        filt: (params: HeatParameters[]) => HeatParameters[]
+        filt: (params: HeatParameters[]) => HeatParameters[],
     ) => {
         const result: ParametersDict = {};
         if (deviceData?.systems) {
@@ -77,20 +78,22 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
 
     const params: ParametersDict = useMemo(
         () => getParams(allParams) || {},
-        [deviceData]
+        [deviceData],
     );
     const instantParams: ParametersDict = useMemo(
         () => getParams(filterInstant) || {},
-        [deviceData]
+        [deviceData],
     );
     const accumulateParams: ParametersDict = useMemo(
         () => getParams(filterAccumulate) || {},
-        [deviceData]
+        [deviceData],
     );
 
     return (
         <>
-            {selectedTab === 0 && <ParameterView params={params} />}
+            {selectedTab === 0 && (
+                <ParameterView className={className} params={params} />
+            )}
 
             {selectedTab === 1 && selectedSubTab === 2 && (
                 <EventEditor subcatData={generalData} />
@@ -107,13 +110,22 @@ export const PageTabMapper = (props: PageTabMapperProps): ReactElement => {
             )}
             {selectedTab === 2 &&
                 (selectedSubTab === 1 || selectedSubTab == undefined) && (
-                    <ParameterView params={instantParams} />
+                    <ParameterView
+                        className={className}
+                        params={instantParams}
+                    />
                 )}
             {selectedTab === 2 && selectedSubTab === 2 && (
-                <ParameterView params={accumulateParams} />
+                <ParameterView
+                    className={className}
+                    params={accumulateParams}
+                />
             )}
             {selectedTab === 2 && selectedSubTab === 3 && configParameters && (
-                <ConfigParameterColumn configParameters={configParameters} />
+                <ConfigParameterColumn
+                    className={className}
+                    configParameters={configParameters}
+                />
             )}
 
             {selectedTab === 3 && generalData && (

@@ -1,4 +1,4 @@
-import { rtkApi } from "shared/api/rtkApi";
+import { rtkApi } from "@/shared/api/rtkApi";
 import { UserEvent, UserEventProcessing } from "../model/types/type";
 
 

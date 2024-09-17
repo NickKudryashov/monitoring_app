@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ThunkConfig } from "app/providers/StoreProvider/config/stateSchema";
-import { ArchiveEvent } from "entities/ArchiveEvent/types/type";
-import $api from "shared/api";
+import { ThunkConfig } from "@/app/providers/StoreProvider/config/stateSchema";
+import { ArchiveEvent } from "@/entities/ArchiveEvent/types/type";
+import $api from "@/shared/api";
 
 interface FetchEventsProps {
     offset:number;

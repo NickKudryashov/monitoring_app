@@ -1,5 +1,5 @@
 import { url } from "inspector";
-import { rtkApi } from "shared/api/rtkApi";
+import { rtkApi } from "@/shared/api/rtkApi";
 import { SubcatTypes } from "../model/types/ObjectSubCategorySchema";
 
 

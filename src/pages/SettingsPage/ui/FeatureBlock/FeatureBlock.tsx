@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode } from "react";
 import cls from "./FeatureBlock.module.scss";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 export const FeatureBlock = (props:{title:string,children?:ReactNode}):ReactElement=>{
     const {title,children} = props;
     return (

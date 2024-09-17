@@ -1,11 +1,11 @@
 import {
     PumpErrorDetail,
     PumpParameter,
-} from "entities/PumpDevice/model/types/pumpDevice";
+} from "@/entities/PumpDevice/model/types/pumpDevice";
 import { ReactElement } from "react";
-import classNames from "shared/lib/classNames/classNames";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import classNames from "@/shared/lib/classNames/classNames";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./DetailParameterTable.module.scss";
 interface DetailParameterProps {
     params?: PumpParameter[];

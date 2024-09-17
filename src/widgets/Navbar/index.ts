@@ -1,4 +1,4 @@
-import { Navbar } from "./ui/Navbar";
+import { NavbarByDevice as Navbar } from "./ui/NavbarByDevice/NavbarByDevice";
 
 export {Navbar};
 export type {NavbarStateSchema} from "./model/types/type";

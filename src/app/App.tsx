@@ -1,4 +1,4 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { useTheme } from "./providers/ThemeProvider";
 import { AppRouter } from "./providers/RouteProvider";
 import { YMaps } from "@pbe/react-yandex-maps";

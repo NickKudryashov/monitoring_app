@@ -1,4 +1,4 @@
-import $api, { API_URL } from "shared/api";
+import $api, { API_URL } from "@/shared/api";
 import { TopLevelElectroDevice } from "../model/types/electroDevice";
 
 export const downloadXLSFile = async (dev: TopLevelElectroDevice) => {

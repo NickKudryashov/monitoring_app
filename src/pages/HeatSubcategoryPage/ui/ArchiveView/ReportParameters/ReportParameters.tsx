@@ -1,12 +1,12 @@
 import { ReactElement } from "react";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ReportParameters.module.scss";
 import {
     ParametersResponse,
     editParameter,
-} from "pages/HeatSubcategoryPage/api/api";
+} from "@/pages/HeatSubcategoryPage/api/api";
 const MOCK_ROWS = [
     "Дата",
     "Время",

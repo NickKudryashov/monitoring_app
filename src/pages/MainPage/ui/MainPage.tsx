@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { DetailView } from "widgets/DetailView";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { DetailView } from "@/widgets/DetailView";
 import cls from "./MainPage.module.scss";
-import { getUserData } from "entities/user";
+import { getUserData } from "@/entities/user";
 const MainPage = () => {
     const dispatch = useAppDispatch();
     useEffect(() => {

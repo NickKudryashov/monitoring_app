@@ -1,9 +1,9 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import cls from "./Chat.module.scss";
 
 import type { MutableRefObject, PropsWithChildren } from "react";
-import { useAppDispatch } from "shared/hooks/hooks";
+import { useAppDispatch } from "@/shared/hooks/hooks";
 import {
     chatActions,
     useTelegramChatActions,
@@ -11,12 +11,12 @@ import {
 import { fetchMessages } from "../../model/services/telegramChatActions";
 import { useSelector } from "react-redux";
 import { TelegramChat, TelegramMessage } from "../../model/types/ChatSchema";
-import { useInfinityScroll } from "shared/hooks/useInfinityScroll";
-import { useDebounce } from "shared/hooks/useDebounce";
-import { Modal } from "shared/ui/Modal/Modal";
-import { Loader } from "shared/ui/Loader/Loader";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { AppInput } from "shared/ui/AppInput/AppInput";
+import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { Modal } from "@/shared/ui/Modal/Modal";
+import { Loader } from "@/shared/ui/Loader/Loader";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
 import {
     getChatsIsLoading,
     getMessageBuChats,

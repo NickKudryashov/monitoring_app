@@ -1,7 +1,7 @@
 import { ReactElement, memo, useCallback } from "react";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./StandartButtonsCompoition.module.scss";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 
 const BUTTONS_WITHOUT_SPACE = [
     "0",

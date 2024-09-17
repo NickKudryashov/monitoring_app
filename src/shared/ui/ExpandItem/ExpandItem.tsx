@@ -1,4 +1,4 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./ExpandItem.module.scss";
 
 import { PropsWithChildren, useState } from "react";

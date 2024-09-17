@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ChartStateSchema, ParameterDataSet } from '../../types/type';
-import { buildSlice } from "shared/store";
+import { buildSlice } from "@/shared/store";
 
 const initialState:ChartStateSchema = {datasets:[]};
 

@@ -1,13 +1,13 @@
-import { PumpDetailInfo, PumpPreview } from "entities/PumpDevice";
-import { getPumpPageParameterGroup } from "pages/PumpSubcategoryPage/model/selectors";
-import { pumpPageSliceActions } from "pages/PumpSubcategoryPage/model/slice";
+import { PumpDetailInfo, PumpPreview } from "@/entities/PumpDevice";
+import { getPumpPageParameterGroup } from "@/pages/PumpSubcategoryPage/model/selectors";
+import { pumpPageSliceActions } from "@/pages/PumpSubcategoryPage/model/slice";
 import { ReactElement, memo, useCallback } from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ParameterLinks.module.scss";
-import classNames from "shared/lib/classNames/classNames";
-import { getSubTab, getTab } from "widgets/SubcategoryTabs";
+import classNames from "@/shared/lib/classNames/classNames";
+import { getSubTab, getTab } from "@/widgets/SubcategoryTabs";
 interface ParameterLinksProps {
     deviceDataDetail: PumpDetailInfo | undefined;
 }

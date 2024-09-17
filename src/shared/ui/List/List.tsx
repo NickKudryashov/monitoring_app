@@ -1,4 +1,4 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./List.module.scss";
 
 import type { PropsWithChildren } from "react";

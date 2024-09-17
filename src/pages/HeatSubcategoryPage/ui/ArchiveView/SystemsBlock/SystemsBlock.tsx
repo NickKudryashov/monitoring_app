@@ -1,12 +1,12 @@
 import { ReactElement, useEffect, useMemo, useState } from "react";
-import { AppButon } from "shared/ui/AppButton/AppButton";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AppButon } from "@/shared/ui/AppButton/AppButton";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./SystemsBlock.module.scss";
-import { HeatDevice } from "entities/Heatcounters";
-import { ArchivesInfo, ArchivesRecord } from "pages/HeatSubcategoryPage/api/api";
-import { convertToDatetimeInput } from "shared/lib/helpers/datetimeConvert";
+import { HeatDevice } from "@/entities/Heatcounters";
+import { ArchivesInfo, ArchivesRecord } from "@/pages/HeatSubcategoryPage/api/api";
+import { convertToDatetimeInput } from "@/shared/lib/helpers/datetimeConvert";
 const SCHEMA_MOCK = [
     "ТС1 М[2ип]",
     "ТС1 1",

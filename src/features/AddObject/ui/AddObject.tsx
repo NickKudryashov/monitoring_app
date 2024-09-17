@@ -1,10 +1,10 @@
-import { objectsAllRequest } from "entities/Objects";
+import { objectsAllRequest } from "@/entities/Objects";
 import { PropsWithChildren, useState } from "react";
-import $api from "shared/api";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { AppButon } from "shared/ui/AppButton/AppButton";
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
-import { Modal } from "shared/ui/Modal/Modal";
+import $api from "@/shared/api";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { AppButon } from "@/shared/ui/AppButton/AppButton";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
+import { Modal } from "@/shared/ui/Modal/Modal";
 import cls from "./AddObject.module.scss";
 interface AddObjectProps {
     className?: string;

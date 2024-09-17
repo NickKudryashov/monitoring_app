@@ -1,13 +1,13 @@
 import { memo, useState } from "react";
 import { UserEvent } from "../../model/types/type";
 import cls from "./EventCard.module.scss";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { LoaderCircle } from "shared/ui/LoaderCircle/LoaderCircle";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { LoaderCircle } from "@/shared/ui/LoaderCircle/LoaderCircle";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { deleteUserEvent, editUserEvent } from "../../api/api";
-import classNames from "shared/lib/classNames/classNames";
-import DeleteIcon from "shared/assets/icons/SubcatDeleteIcon.svg";
+import classNames from "@/shared/lib/classNames/classNames";
+import DeleteIcon from "@/shared/assets/icons/SubcatDeleteIcon.svg";
 interface EventCardProps {
     className?: string;
     event: UserEvent;

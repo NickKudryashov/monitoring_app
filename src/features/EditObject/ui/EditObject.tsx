@@ -1,13 +1,13 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./EditObject.module.scss";
 
 import { PropsWithChildren, useState } from "react";
-import $api from "shared/api";
-import { Modal } from "shared/ui/Modal/Modal";
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
-import { AppButon } from "shared/ui/AppButton/AppButton";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { ObjectResponse, objectsAllRequest } from "entities/Objects";
+import $api from "@/shared/api";
+import { Modal } from "@/shared/ui/Modal/Modal";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
+import { AppButon } from "@/shared/ui/AppButton/AppButton";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { ObjectResponse, objectsAllRequest } from "@/entities/Objects";
 
 interface EditObjectProps {
     className?: string;

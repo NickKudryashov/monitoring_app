@@ -6,7 +6,7 @@ interface HeatHookProps {
     autoPoll?:boolean;
 }
 
-import $api from "shared/api";
+import $api from "@/shared/api";
 export interface TaskResponse {
     result:boolean;
 }

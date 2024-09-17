@@ -3,24 +3,24 @@ import {
     PumpDetailInfo,
     PumpDeviceData,
     PumpParameterColumn,
-} from "entities/PumpDevice";
+} from "@/entities/PumpDevice";
 import {
     EventCardList,
     EventLogList,
     getUserEventsByPump,
     getUserEventsProcessingByPump,
-} from "entities/UserEvents";
-import { getPumpPageParameterGroup } from "pages/PumpSubcategoryPage/model/selectors";
+} from "@/entities/UserEvents";
+import { getPumpPageParameterGroup } from "@/pages/PumpSubcategoryPage/model/selectors";
 import { ReactElement } from "react";
 import { useSelector } from "react-redux";
-import classNames from "shared/lib/classNames/classNames";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { EventEditor } from "widgets/EventEditor";
-import { getSubTab, getTab } from "widgets/SubcategoryTabs";
+import classNames from "@/shared/lib/classNames/classNames";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { EventEditor } from "@/widgets/EventEditor";
+import { getSubTab, getTab } from "@/widgets/SubcategoryTabs";
 import cls from "./PageMapper.module.scss";
 import { useParams } from "react-router-dom";
-import { GeneralAnswer } from "features/PageHeader/api/api";
-import { ChartBuilder } from "widgets/ChartBuilder";
+import { GeneralAnswer } from "@/features/PageHeader/api/api";
+import { ChartBuilder } from "@/widgets/ChartBuilder";
 interface PageMapperProps {
     deviceDataDetail: PumpDetailInfo;
     devData: PumpDeviceData;

@@ -3,7 +3,7 @@ import { useGetSelectedSubcategory } from "../../model/selectors/selectors";
 import { useObjSubcatActions } from "../../model/slice/subcatSlice";
 import { SubcatTypes } from "../../model/types/ObjectSubCategorySchema";
 import { ReactElement, useEffect, useMemo } from "react";
-import { Select } from "shared/ui/Select/Select";
+import { Select } from "@/shared/ui/Select/Select";
 interface SubcategorySelectArgs {
     id: number;
     subcat_type: SubcatTypes;

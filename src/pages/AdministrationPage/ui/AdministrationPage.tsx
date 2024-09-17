@@ -1,14 +1,14 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo } from "react";
 import cls from "./AdministrationPage.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { DetailView } from "widgets/DetailView";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { DetailView } from "@/widgets/DetailView";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { useNavigate } from "react-router-dom";
-import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { RoutePathAuth } from "@/shared/config/RouteConfig/RouteConfig";
 
 interface AdministrationPageProps {
     className?: string;

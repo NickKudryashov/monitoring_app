@@ -1,5 +1,6 @@
-import { StoreProvider } from "app/providers/StoreProvider";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StoreProvider } from "@/app/providers/StoreProvider";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
+import { render } from "@testing-library/react";
 import { ReactElement } from "react";
 import { MemoryRouter } from "react-router-dom";
 
@@ -13,11 +14,11 @@ export const componentRender = (
     options: ComponentRenderProps,
 ) => {
     const { initialState, route = "/" } = options;
-    return (
+    render(
         <MemoryRouter initialEntries={[route]}>
             <StoreProvider initialState={initialState}>
                 {component}
             </StoreProvider>
-        </MemoryRouter>
+        </MemoryRouter>,
     );
 };

@@ -1,16 +1,16 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo, useState } from "react";
 import cls from "./ElectroCounterDeviceDetail.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { ElectroCounterDetailView } from "../ElectroCounterDetailView/ElectroCounterDetailView";
-import { getElectroDeviceCountersByCan } from "entities/ElectroDevice/api/electroDeviceApi";
+import { getElectroDeviceCountersByCan } from "@/entities/ElectroDevice/api/electroDeviceApi";
 import {
     Dict,
     TopLevelDeviceStatistic,
-} from "entities/ElectroDevice/model/types/electroDevice";
+} from "@/entities/ElectroDevice/model/types/electroDevice";
 
 interface ElectroCounterDeviceDetailProps {
     className?: string;

@@ -1,6 +1,6 @@
 import { url } from "inspector";
 import { ArchiveEvent } from "../types/type";
-import { rtkApi } from "shared/api/rtkApi";
+import { rtkApi } from "@/shared/api/rtkApi";
 
 const heatArchiveEventsQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({

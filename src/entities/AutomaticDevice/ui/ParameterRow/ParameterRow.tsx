@@ -1,8 +1,8 @@
 import { ReactElement, useCallback, useEffect, useState } from "react";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./ParameterRow.module.scss";
-import classNames from "shared/lib/classNames/classNames";
-import { AutoParameter } from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
+import classNames from "@/shared/lib/classNames/classNames";
+import { AutoParameter } from "@/entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
 interface ParameterRowProps {
     parameter: AutoParameter;
     detailInfo?: boolean;
@@ -48,6 +48,7 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
             ])}
             alignItems="end"
             align="space-between"
+            data-testid="AutoParameterRow"
             height="55px"
             onClick={onParameterClickHandler}
         >
@@ -74,7 +75,12 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
                 height="80%"
                 width={"15%"}
             >
-                <p className={cls.valueField}>{parameter.value}</p>
+                <p
+                    data-testid="AutoParameterRow.ParameterValue"
+                    className={cls.valueField}
+                >
+                    {parameter.value}
+                </p>
             </HFlexBox>
         </HFlexBox>
     );

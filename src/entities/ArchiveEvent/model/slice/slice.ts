@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ArchiveEventsSliceSchema } from "entities/ArchiveEvent/types/type";
+import { ArchiveEventsSliceSchema } from "@/entities/ArchiveEvent/types/type";
 import { fetchEvents } from "../service/fetchEvents";
 
 const initialState: ArchiveEventsSliceSchema = {

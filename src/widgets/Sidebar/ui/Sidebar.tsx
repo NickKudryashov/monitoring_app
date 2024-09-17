@@ -1,4 +1,4 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./Sidebar.module.scss";
 import {
     MutableRefObject,
@@ -8,23 +8,24 @@ import {
     useRef,
     useState,
 } from "react";
-import AdminIcon from "shared/assets/icons/SidebarAdminIcon.svg";
-import AdressIcon from "shared/assets/icons/SidebarAdressIcon.svg";
-import AnaliticIcon from "shared/assets/icons/SidebarAnaliticsIcon.svg";
-import ArchivesIcon from "shared/assets/icons/SidebarArchivesIcon.svg";
-import EventIcon from "shared/assets/icons/SidebarEventIcon.svg";
-import MapIcon from "shared/assets/icons/SidebarMapIcon.svg";
-import PlannedWorkIcon from "shared/assets/icons/SidebarPlannedWorkIcon.svg";
-import SettingsIcon from "shared/assets/icons/SidebarSettingsIcon.svg";
-import SystemsIcon from "shared/assets/icons/SidebarSystemsIcon.svg";
-import TasksIcon from "shared/assets/icons/SidebarTasksIcon.svg";
-import TicketsIcon from "shared/assets/icons/SidebarTicketsIcon.svg";
-import UserObjectIcon from "shared/assets/icons/SidebarUserObjectIcon.svg";
-import VideoIcon from "shared/assets/icons/SidebarVideoIcon.svg";
+import AdminIcon from "@/shared/assets/icons/SidebarAdminIcon.svg";
+import AdressIcon from "@/shared/assets/icons/SidebarAdressIcon.svg";
+import AnaliticIcon from "@/shared/assets/icons/SidebarAnaliticsIcon.svg";
+import ArchivesIcon from "@/shared/assets/icons/SidebarArchivesIcon.svg";
+import EventIcon from "@/shared/assets/icons/SidebarEventIcon.svg";
+import MapIcon from "@/shared/assets/icons/SidebarMapIcon.svg";
+import PlannedWorkIcon from "@/shared/assets/icons/SidebarPlannedWorkIcon.svg";
+import SettingsIcon from "@/shared/assets/icons/SidebarSettingsIcon.svg";
+import SystemsIcon from "@/shared/assets/icons/SidebarSystemsIcon.svg";
+import TasksIcon from "@/shared/assets/icons/SidebarTasksIcon.svg";
+import TicketsIcon from "@/shared/assets/icons/SidebarTicketsIcon.svg";
+import UserObjectIcon from "@/shared/assets/icons/SidebarUserObjectIcon.svg";
+import VideoIcon from "@/shared/assets/icons/SidebarVideoIcon.svg";
 import { useNavigate } from "react-router-dom";
-import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
-import { useHover } from "shared/hooks/useHover";
-import { useDebounce } from "shared/hooks/useDebounce";
+import { RoutePathAuth } from "@/shared/config/RouteConfig/RouteConfig";
+import { useHover } from "@/shared/hooks/useHover";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 
 interface SidebarProps {
     className?: string;
@@ -35,6 +36,7 @@ export function Sidebar(props: PropsWithChildren<SidebarProps>) {
     const devRef = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
     const collapsedFact = useHover(devRef);
     const [collapsed, setCollapsed] = useState(true);
+    const isMobile = useMobilDeviceDetect();
     const toggle = useDebounce((collapsedFact) => {
         setCollapsed(collapsedFact);
     }, 1000);
@@ -42,6 +44,9 @@ export function Sidebar(props: PropsWithChildren<SidebarProps>) {
         toggle(!collapsedFact);
     }, [collapsedFact]);
     const navigate = useNavigate();
+    if (isMobile) {
+        return null;
+    }
     return (
         <div
             ref={devRef}

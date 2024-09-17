@@ -1,4 +1,4 @@
-import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { RoutePathAuth } from "@/shared/config/RouteConfig/RouteConfig";
 
 export const ROUTE_MAPPER: Record<string, string> = {
     heat_energy_node: RoutePathAuth.heat_subcat,

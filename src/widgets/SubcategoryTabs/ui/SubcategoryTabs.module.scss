@@ -1,6 +1,13 @@
+.SubcatTabs {
+    width:23%;
+    user-select: none;
+
+}
+
 .btns {
     margin-top: 5px;
     height:8%;
+    min-height: 32px;
     z-index: var(--table-z-index);
 }
 
@@ -8,9 +15,6 @@
     box-shadow: 0 2px 2px 0 rgb(3 22 59 / 50%);
 }
 
-.SubcatTabs {
-    user-select: none;
-}
 
 .mockcontent {
     background: var(--subcolor-4);

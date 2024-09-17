@@ -1,9 +1,9 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./DetailView.module.scss";
 
 import { ReactNode, memo, useEffect, useRef, useState } from "react";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { LoaderCircle } from "shared/ui/LoaderCircle/LoaderCircle";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { LoaderCircle } from "@/shared/ui/LoaderCircle/LoaderCircle";
 
 interface DetailViewProps {
     className?: string;

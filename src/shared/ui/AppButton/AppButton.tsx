@@ -1,7 +1,7 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./AppButton.module.scss";
 import type { ButtonHTMLAttributes, PropsWithChildren } from "react";
-import DarkIcon from "shared/assets/icons/darkIcon.svg";
+import DarkIcon from "@/shared/assets/icons/darkIcon.svg";
 interface AppButonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     className?: string;
     theme?: AppButtonTheme;

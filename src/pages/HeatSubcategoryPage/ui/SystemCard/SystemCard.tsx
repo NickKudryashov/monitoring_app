@@ -1,7 +1,7 @@
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./SystemCard.module.scss";
-import { HeatSystem } from "entities/Heatcounters";
+import { HeatSystem } from "@/entities/Heatcounters";
 
 interface SystemCardProps {
     system:HeatSystem

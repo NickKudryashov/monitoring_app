@@ -1,29 +1,29 @@
-import { PageHeader, getSubcatGeneralInfo } from "features/PageHeader";
+import { PageHeader, getSubcatGeneralInfo } from "@/features/PageHeader";
 import { PropsWithChildren, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
-import { EventAnswer } from "shared/types/eventTypes";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { DetailView } from "widgets/DetailView";
+import { EventAnswer } from "@/shared/types/eventTypes";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { DetailView } from "@/widgets/DetailView";
 import cls from "./ElectroSubcategoryPage.module.scss";
-import classNames from "shared/lib/classNames/classNames";
-import $api, { API_URL } from "shared/api";
-import { GeneralInfoBlock } from "features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
-import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
-import { Footer } from "shared/ui/Footer/Footer";
+import classNames from "@/shared/lib/classNames/classNames";
+import $api, { API_URL } from "@/shared/api";
+import { GeneralInfoBlock } from "@/features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
+import { SubcategoryTabs } from "@/widgets/SubcategoryTabs/ui/SubcategoryTabs";
+import { Footer } from "@/shared/ui/Footer/Footer";
 import {
     downloadXLSFile,
     getElectroDeviceData,
     useElectroPoll,
-} from "entities/ElectroDevice";
-import { Loader } from "shared/ui/Loader/Loader";
+} from "@/entities/ElectroDevice";
+import { Loader } from "@/shared/ui/Loader/Loader";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
-import { getElectroDeviceIdBySystem } from "entities/ObjectSubCategory";
+import { FlexSubcategoryPageWrap } from "@/shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
+import { getElectroDeviceIdBySystem } from "@/entities/ObjectSubCategory";
 import { PageMapper } from "./PageMapper/PageMapper";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { tabSliceActions } from "widgets/SubcategoryTabs";
-import { MOCK_ID, MOCK_STR_ID } from "shared/lib/util/constants";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { tabSliceActions } from "@/widgets/SubcategoryTabs";
+import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
 interface ElectroSubcategoryPageProps {
     className?: string;
 }

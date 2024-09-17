@@ -1,5 +1,5 @@
 import { MutableRefObject, useEffect, useRef } from "react";
-import $api from "shared/api";
+import $api from "@/shared/api";
 import { PumpPollResponse } from "../../model/types/pumpDevice";
 
 interface HeatHookProps {

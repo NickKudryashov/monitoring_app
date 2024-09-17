@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./Preview.module.scss";
-import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
+import { PumpParameter } from "@/entities/PumpDevice/model/types/pumpDevice";
 export const Preview = (props: {
     parameters: PumpParameter[];
 }): ReactElement => {

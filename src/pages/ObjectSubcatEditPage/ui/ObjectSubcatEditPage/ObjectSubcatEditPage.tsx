@@ -1,26 +1,26 @@
 import { PropsWithChildren, useEffect, useMemo, useState } from "react";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ObjectSubcatEditPage.module.scss";
-import classNames from "shared/lib/classNames/classNames";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { objectsAllRequest } from "entities/Objects";
+import classNames from "@/shared/lib/classNames/classNames";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { objectsAllRequest } from "@/entities/Objects";
 import { PageHeader } from "../PageHeader/PageHeader";
-import EditIcon from "shared/assets/icons/SubcatEditIcon.svg";
-import DeleteIcon from "shared/assets/icons/SubcatDeleteIcon.svg";
-import HeatIcon from "shared/assets/icons/SystemHeatNodeIcon.svg";
-import ElectroIcon from "shared/assets/icons/SystemElectroNodeIcon.svg";
-import PumpIcon from "shared/assets/icons/SystemPumpNodeIcon.svg";
-import AutoIcon from "shared/assets/icons/SystemAutomaticNodeIcon.svg";
+import EditIcon from "@/shared/assets/icons/SubcatEditIcon.svg";
+import DeleteIcon from "@/shared/assets/icons/SubcatDeleteIcon.svg";
+import HeatIcon from "@/shared/assets/icons/SystemHeatNodeIcon.svg";
+import ElectroIcon from "@/shared/assets/icons/SystemElectroNodeIcon.svg";
+import PumpIcon from "@/shared/assets/icons/SystemPumpNodeIcon.svg";
+import AutoIcon from "@/shared/assets/icons/SystemAutomaticNodeIcon.svg";
 import {
     SubcategoryAnswer,
     addNewSubcategory,
     deleteSubcat,
     getObjectSubcategoryData,
     toggleSubcat,
-} from "entities/ObjectSubCategory";
-import { DropdownMenu } from "shared/ui/DropdownMenu/DropdownMenu";
-import LittlePlusIcon from "shared/assets/icons/LittlePlusIcon.svg";
+} from "@/entities/ObjectSubCategory";
+import { DropdownMenu } from "@/shared/ui/DropdownMenu/DropdownMenu";
+import LittlePlusIcon from "@/shared/assets/icons/LittlePlusIcon.svg";
 interface ObjectSubcatEditPageProps {
     className?: string;
 }

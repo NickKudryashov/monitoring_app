@@ -1,15 +1,15 @@
 import {
     SubcategoryStatus,
     getObjectSubcategoryData,
-} from "entities/ObjectSubCategory";
-import { getUserObjectData } from "entities/Objects";
+} from "@/entities/ObjectSubCategory";
+import { getUserObjectData } from "@/entities/Objects";
 import { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
-import { ROUTE_MAPPER } from "shared/lib/helpers/subcategoryTypeMapper";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { ROUTE_MAPPER } from "@/shared/lib/helpers/subcategoryTypeMapper";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ObjectMarker.module.scss";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 export const ObjectMarker = (props: { id: number }): ReactElement => {
     const { id } = props;
     const { data: userObjectData } = getUserObjectData(id);

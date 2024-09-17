@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ChartBuilderStateSchema, ChartFragmentDeleteProps, ChartFragmentProps, DeleteParameterArgs, SubtabContent, UserObjectFragment } from "../types/type";
-import { buildSlice } from "shared/store";
+import { buildSlice } from "@/shared/store";
 
 const initialState:ChartBuilderStateSchema = {
     selectedParameters:{auto_node:[],heat_energy_node:[],pump_station_node:[],electro_energy_node:[]},

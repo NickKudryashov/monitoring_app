@@ -1,19 +1,19 @@
 // import classNames from 'shared/lib/classNames/classNames';
 // import cls from './AddCategory.module.scss';
 
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { AppButon } from "shared/ui/AppButton/AppButton";
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
-import { Modal } from "shared/ui/Modal/Modal";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { AppButon } from "@/shared/ui/AppButton/AppButton";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
+import { Modal } from "@/shared/ui/Modal/Modal";
 import cls from "./AddCategory.module.scss";
-import { objectsAllRequest } from "entities/Objects";
+import { objectsAllRequest } from "@/entities/Objects";
 import {
     addNewSubcategory,
     getSubcategoryTypes,
-} from "entities/ObjectSubCategory";
+} from "@/entities/ObjectSubCategory";
 interface AddCategoryProps {
     className?: string;
     onClose?: () => void;

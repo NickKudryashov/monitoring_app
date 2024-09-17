@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { HeatParameters } from "../../types/type";
-import { useDebounce } from "shared/hooks/useDebounce";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./HeatParameterRow.module.scss";
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
-import classNames from "shared/lib/classNames/classNames";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
+import classNames from "@/shared/lib/classNames/classNames";
 import { editHeatParameterName } from "../../api/heatcountersapi";
 interface HeatParameterRowProps {
     elem: HeatParameters;
@@ -43,13 +43,12 @@ export const HeatParameterRow = (props: HeatParameterRowProps) => {
     }, [elem, onParameterClick, onParameterUnClick, selected]);
     return (
         <HFlexBox
-            height={"10%"}
             className={classNames(
                 cls.paramRow,
                 { [cls.selected]: selected },
                 [],
             )}
-            alignItems="end"
+            alignItems="center"
             align="space-around"
             onClick={onClickHandler}
         >
@@ -64,7 +63,8 @@ export const HeatParameterRow = (props: HeatParameterRowProps) => {
             <p className={cls.paramNameField}>{elem.tag}</p>
             <HFlexBox
                 alignItems="center"
-                align="space-around"
+                align="center"
+                gap="5px"
                 className={classNames(
                     cls.paramValueWrapper,
                     { [cls.redMark]: !elem.updated },

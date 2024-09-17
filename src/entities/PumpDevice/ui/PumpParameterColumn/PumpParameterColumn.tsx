@@ -1,10 +1,10 @@
 import { ReactElement, useCallback } from "react";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./PumpParameterColumn.module.scss";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { HeatParameters } from "entities/Heatcounters";
-import classNames from "shared/lib/classNames/classNames";
-import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { HeatParameters } from "@/entities/Heatcounters";
+import classNames from "@/shared/lib/classNames/classNames";
+import { PumpParameter } from "@/entities/PumpDevice/model/types/pumpDevice";
 import { ParameterRow } from "../ParameterRow/ParameterRow";
 interface PumpParameterColumnProps {
     params: PumpParameter[];

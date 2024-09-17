@@ -1,22 +1,23 @@
 import { memo, useEffect, useState } from "react";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./ObjectsDetailPage.module.scss";
-import { DetailView } from "widgets/DetailView";
+import { DetailView } from "@/widgets/DetailView";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { Loader } from "shared/ui/Loader/Loader";
-import { objectsAllRequest } from "entities/Objects";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { Loader } from "@/shared/ui/Loader/Loader";
+import { objectsAllRequest } from "@/entities/Objects";
 import {
     ObjectCategoryRowView,
     ObjectCategoryView,
-} from "features/ObjectCategoryCardView";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import FilterIcon from "shared/assets/icons/FilterIcon.svg";
-import ViewChangeIcon from "shared/assets/icons/ViewChangeIcon.svg";
-import { getNavbarSearchValue } from "widgets/Navbar";
+} from "@/features/ObjectCategoryCardView";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import FilterIcon from "@/shared/assets/icons/FilterIcon.svg";
+import ViewChangeIcon from "@/shared/assets/icons/ViewChangeIcon.svg";
+import { getNavbarSearchValue } from "@/widgets/Navbar";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 export interface ObjectsDetailPageProps {
     className?: string;
 }
@@ -28,7 +29,7 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
     );
     const [openedID, setOpened] = useState<number>(0);
     const searchVal = useSelector(getNavbarSearchValue);
-    console.log(searchVal);
+    const isMobile = useMobilDeviceDetect();
     const dispatch = useAppDispatch();
     let content;
     const onChangeViewClick = () => {
@@ -69,25 +70,31 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                     align="center"
                     width="54%"
                 >
-                    <HFlexBox gap="3px" width="10%" alignItems="center">
-                        <p>Нет связи</p>
-                        <FilterIcon />
-                    </HFlexBox>
-                    <HFlexBox gap="3px" width="10%" alignItems="center">
-                        <p>Аварии</p>
-                        <FilterIcon />
-                    </HFlexBox>
-                    <HFlexBox gap="3px" width="10%" alignItems="center">
-                        <p>События</p>
-                        <FilterIcon />
-                    </HFlexBox>
-                    <HFlexBox gap="3px" width="20%" alignItems="center">
-                        <p>Время последнего опроса</p>
-                        <FilterIcon />
-                    </HFlexBox>
-                    <HFlexBox width="10%" alignItems="center">
-                        <p onClick={onChangeViewClick}>Переключить вид</p>
-                    </HFlexBox>
+                    {!isMobile && (
+                        <>
+                            <HFlexBox gap="3px" width="10%" alignItems="center">
+                                <p>Нет связи</p>
+                                <FilterIcon />
+                            </HFlexBox>
+                            <HFlexBox gap="3px" width="10%" alignItems="center">
+                                <p>Аварии</p>
+                                <FilterIcon />
+                            </HFlexBox>
+                            <HFlexBox gap="3px" width="10%" alignItems="center">
+                                <p>События</p>
+                                <FilterIcon />
+                            </HFlexBox>
+                            <HFlexBox gap="3px" width="20%" alignItems="center">
+                                <p>Время последнего опроса</p>
+                                <FilterIcon />
+                            </HFlexBox>
+                            <HFlexBox width="10%" alignItems="center">
+                                <p onClick={onChangeViewClick}>
+                                    Переключить вид
+                                </p>
+                            </HFlexBox>
+                        </>
+                    )}
                 </HFlexBox>
                 {defaultView &&
                     objects.map(

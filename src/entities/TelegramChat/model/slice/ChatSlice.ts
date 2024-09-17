@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TelegramChatSchema } from "../types/ChatSchema";
 import { fetchChats, fetchMessages } from "../services/telegramChatActions";
-import { buildSlice } from "shared/store";
+import { buildSlice } from "@/shared/store";
 
 const initialState: TelegramChatSchema = {
     isLoading: false,

@@ -1,12 +1,12 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo, useState } from "react";
 import cls from "./ElectroStatistic.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { timeConvert } from "shared/lib/helpers/datetimeConvert";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { timeConvert } from "@/shared/lib/helpers/datetimeConvert";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 
 interface ElectroStatisticProps {
     className?: string;

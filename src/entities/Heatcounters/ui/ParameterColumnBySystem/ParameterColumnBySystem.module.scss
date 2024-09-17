@@ -30,3 +30,17 @@
     row-gap: 2%;
     overflow-y: auto;
 }
+
+
+@media (width <= 768px) {
+    .paramFlexBox {
+        min-height:360px;
+        height:calc(360px + 10%);
+        font-size:2rem;
+        width:100%;
+    }
+
+    .paramBoxHeader {
+        min-height: 40px;
+    }
+}

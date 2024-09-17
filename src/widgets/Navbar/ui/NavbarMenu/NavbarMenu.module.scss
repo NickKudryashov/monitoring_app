@@ -1,0 +1,35 @@
+.navbarMenu {
+    position: absolute;
+    top:40px;
+    height:90%;
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-4);
+    color:var(--subcolor-9);
+    font-size:0.5rem;
+    left:1%;
+    gap:13px;
+    z-index: 100;
+    box-shadow: var(--shadow-redesign);
+}
+
+.menuRow {
+    height:20px;
+    gap:11px;
+    align-items: center;
+    padding-left: 5px;
+}
+
+.icon {
+    color:var(--subcolor-1);
+    width:20px;
+    height:20px;
+}
+
+.firstRow {
+    margin-top: 18px;
+}
+
+.link {
+    text-decoration: none;
+    color:var(--subcolor-9);
+}

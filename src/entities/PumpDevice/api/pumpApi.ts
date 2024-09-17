@@ -1,5 +1,5 @@
 import { url } from "inspector";
-import { rtkApi } from "shared/api/rtkApi";
+import { rtkApi } from "@/shared/api/rtkApi";
 import { PumpDetailInfo, PumpDeviceData, PumpParameter } from "../model/types/pumpDevice";
 
 const pumpDeviceQuery = rtkApi.injectEndpoints({

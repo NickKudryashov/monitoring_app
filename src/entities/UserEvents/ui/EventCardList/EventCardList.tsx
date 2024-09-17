@@ -1,8 +1,8 @@
 import { ReactElement, memo } from "react";
 import cls from "./EventCardList.module.scss";
-import { UserEvent } from "entities/UserEvents/model/types/type";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import classNames from "shared/lib/classNames/classNames";
+import { UserEvent } from "@/entities/UserEvents/model/types/type";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import classNames from "@/shared/lib/classNames/classNames";
 import { EventCard } from "../EventCard/EventCard";
 
 interface EventCardListProps {

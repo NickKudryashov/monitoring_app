@@ -1,7 +1,7 @@
-import { UserEventProcessing } from "entities/UserEvents/model/types/type";
+import { UserEventProcessing } from "@/entities/UserEvents/model/types/type";
 import { ReactElement, memo } from "react";
-import classNames from "shared/lib/classNames/classNames";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import classNames from "@/shared/lib/classNames/classNames";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./EventLogList.module.scss";
 interface EventLogListProps {
     className?: string;

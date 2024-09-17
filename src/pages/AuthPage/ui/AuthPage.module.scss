@@ -1,9 +1,12 @@
 .AuthPage {
     width:100%;
     height:100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+}
+
+.title {
+    font-size: 1.25rem;
+    color:var(--subcolor-1);
+    font-weight: bold;
 }
 
 .navbar  {
@@ -18,14 +21,34 @@
     border-radius: var(--border-radius-type-2);
 }
 
-@media (min-width:1300px) {
+
+@media (width >=1300px) {
     .form {
         width:30%;
     }
 }
 
-@media (max-width:1299px) {
+@media (width <=1299px) {
     .form {
         width:40%;
+    }
+}
+
+@media (width >768px) {
+    .logoIcon {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (width <=768px) {
+    .form {
+        width:85%;
+        height:76%;
+    }
+
+    .logoIcon {
+        width: 48px;
+        height: 48px;
     }
 }

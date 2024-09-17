@@ -7,9 +7,9 @@ import {
     useGetAllObjects,
     useGetSelectedUserObject,
 } from "../../selectors/getAllObjects";
-import { useAppDispatch } from "shared/hooks/hooks";
+import { useAppDispatch } from "@/shared/hooks/hooks";
 import { objectsAllRequest } from "../../reducers/actionCreator";
-import { Select } from "shared/ui/Select/Select";
+import { Select } from "@/shared/ui/Select/Select";
 import { useUserObjectActions } from "../../reducers/reducers";
 
 interface ObjectListProps {

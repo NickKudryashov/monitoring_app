@@ -1,9 +1,9 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo } from "react";
 import cls from "./MockPage.module.scss";
 import type { PropsWithChildren } from "react";
-import { Navbar } from "widgets/Navbar";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { Navbar } from "@/widgets/Navbar";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 interface MockPageProps {
     className?: string;
 }

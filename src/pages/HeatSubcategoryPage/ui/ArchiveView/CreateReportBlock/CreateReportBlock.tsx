@@ -1,16 +1,16 @@
 import { ReactElement, useState } from "react";
 import cls from "./CreateReportBlock.module.scss";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
-import classNames from "shared/lib/classNames/classNames";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
+import classNames from "@/shared/lib/classNames/classNames";
 import { ArchTypeBlock } from "../ArchTypeBlock/ArchTypeBlock";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 import { SystemsBlock } from "../SystemsBlock/SystemsBlock";
-import { HeatDevice } from "entities/Heatcounters";
-import { ArchivesRecord } from "pages/HeatSubcategoryPage/api/api";
-import $api, { API_URL } from "shared/api";
-import { GeneralAnswer } from "features/PageHeader/api/api";
+import { HeatDevice } from "@/entities/Heatcounters";
+import { ArchivesRecord } from "@/pages/HeatSubcategoryPage/api/api";
+import $api, { API_URL } from "@/shared/api";
+import { GeneralAnswer } from "@/features/PageHeader/api/api";
 function CreateReportBlock(props:{deviceData:HeatDevice,archData:ArchivesRecord,generalData:GeneralAnswer}):ReactElement {
     const {deviceData,archData,generalData} = props;
     const [selectedSystem,setSelectedSystem] = useState<number>(deviceData?.systems[0]?.id ?? 0);

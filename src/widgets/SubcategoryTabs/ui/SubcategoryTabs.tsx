@@ -1,9 +1,9 @@
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./SubcategoryTabs.module.scss";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { ReactElement, ReactNode, memo, useEffect } from "react";
-import { useAppDispatch } from "shared/hooks/hooks";
+import { useAppDispatch } from "@/shared/hooks/hooks";
 import { SubcategoryTabsList, TabContentLength } from "../types/type";
 import { tabSliceActions } from "../model/slice/slice";
 import { useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import {
     getTab,
     getTabContentLength,
 } from "../model/selectors/selectors";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 
 interface TabContent {
     [key: number]: ReactElement[];
@@ -30,13 +31,15 @@ const TAB_NAMES = [
     "ГРАФИКИ",
     "МНЕМОСХЕМА",
 ];
+const MOBILE_TAB_NAMES = ["ОБОБЩЕННАЯ ИНФОРМАЦИЯ", "СОБЫТИЯ", "ПАРАМЕТРЫ"];
 export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = memo(
     (props: SubcategoryTabsProps) => {
         const { className = "", content, children } = props;
         const dispatch = useAppDispatch();
         const tab = useSelector(getTab);
         const subTab = useSelector(getSubTab);
-        const tabContentLength = useSelector(getTabContentLength);
+        const isMobile = useMobilDeviceDetect();
+
         useEffect(() => {
             const result: TabContentLength = {
                 0: 0,
@@ -62,9 +65,8 @@ export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = memo(
                 className={classNames(cls.SubcatTabs, {}, [className])}
                 align="flex-start"
                 alignItems="center"
-                width="23%"
             >
-                {TAB_NAMES.map((el, i) => (
+                {(isMobile ? MOBILE_TAB_NAMES : TAB_NAMES).map((el, i) => (
                     <>
                         <AppButon
                             className={classNames(
@@ -73,14 +75,14 @@ export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = memo(
                                     [cls.selectedBtn]: tab === i,
                                     [cls.disabled]: !content[i]?.length,
                                 },
-                                []
+                                [],
                             )}
                             width={"100%"}
                             onClick={() =>
                                 dispatch(
                                     tabSliceActions.setTab(
-                                        i as SubcategoryTabsList
-                                    )
+                                        i as SubcategoryTabsList,
+                                    ),
                                 )
                             }
                             theme={AppButtonTheme.SUBCATEGORY_BUTTON}
@@ -98,11 +100,11 @@ export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = memo(
                                                 [cls.selectedSubTab]:
                                                     tab !== 0 && subTab === i,
                                             },
-                                            []
+                                            [],
                                         )}
                                         onClick={() => {
                                             dispatch(
-                                                tabSliceActions.setSubTab(i)
+                                                tabSliceActions.setSubTab(i),
                                             );
                                         }}
                                     >
@@ -115,5 +117,7 @@ export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = memo(
                 ))}
             </VFlexBox>
         );
-    }
+    },
 );
+
+SubcategoryTabs.displayName = "SubcategoryTabsWidget";

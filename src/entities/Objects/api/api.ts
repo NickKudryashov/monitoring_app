@@ -1,5 +1,5 @@
 import { url } from "inspector";
-import { rtkApi } from "shared/api/rtkApi";
+import { rtkApi } from "@/shared/api/rtkApi";
 import { ObjectResponse } from "../types/types";
 
 const userObjectsApi = rtkApi.injectEndpoints({

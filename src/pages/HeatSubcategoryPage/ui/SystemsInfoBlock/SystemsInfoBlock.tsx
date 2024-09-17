@@ -1,10 +1,10 @@
 import { ReactElement } from "react";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./SystemsInfoBlock.module.scss";
 import { PARAMBOX_MAPPER } from "../ParameterView/ParameterView";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { HeatParameters, HeatSystem } from "entities/Heatcounters";
-import classNames from "shared/lib/classNames/classNames";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { HeatParameters, HeatSystem } from "@/entities/Heatcounters";
+import classNames from "@/shared/lib/classNames/classNames";
 
 
 interface SystemsInfoBLockProps {

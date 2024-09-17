@@ -1,5 +1,5 @@
 import { HeatDevice, HeatParameters } from "../types/type";
-import { rtkApi } from "shared/api/rtkApi";
+import { rtkApi } from "@/shared/api/rtkApi";
 
 const heatDeviceQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({

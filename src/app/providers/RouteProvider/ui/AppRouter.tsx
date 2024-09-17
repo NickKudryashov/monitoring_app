@@ -1,14 +1,14 @@
-import { defaultAuthCheck, getIsAuth, getUserData } from "entities/user";
+import { defaultAuthCheck, getIsAuth, getUserData } from "@/entities/user";
 import { Suspense, useEffect, useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import { useAppDispatch } from "shared/hooks/hooks";
+import { useAppDispatch } from "@/shared/hooks/hooks";
 import { RouteConfigPublic, RouteConfigAuth } from "../config/RouteConfig";
-import { MainLayoutPageLoader } from "pages/MainLayoutPageLoader";
-import { MainLayout } from "shared/ui/MainLayout/MainLayout";
-import { Navbar } from "widgets/Navbar";
-import { Sidebar } from "widgets/Sidebar";
-import { getVersion } from "entities/user/Store/actionCreators";
+import { MainLayoutPageLoader } from "@/pages/MainLayoutPageLoader";
+import { MainLayout } from "@/shared/ui/MainLayout/MainLayout";
+import { Navbar } from "@/widgets/Navbar";
+import { Sidebar } from "@/widgets/Sidebar";
+import { getVersion } from "@/entities/user/Store/actionCreators";
 
 export const AppRouter = () => {
     const isAuth = useSelector(getIsAuth);

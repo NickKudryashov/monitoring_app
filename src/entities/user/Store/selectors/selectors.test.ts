@@ -1,4 +1,4 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import {getIsAuth,getUserName,getVersion} from "./selectors";
 describe("user selector",()=>{
     test("is auth",()=>{

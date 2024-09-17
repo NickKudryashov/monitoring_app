@@ -1,4 +1,4 @@
-import $api from "shared/api";
+import $api from "@/shared/api";
 interface RequestProps {
     start_date:string,
     end_date:string,

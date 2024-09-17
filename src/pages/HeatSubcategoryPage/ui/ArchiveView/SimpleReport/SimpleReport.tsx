@@ -1,15 +1,15 @@
 import { ReactElement, useState } from "react";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./SimpleReport.module.scss";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import classNames from "shared/lib/classNames/classNames";
-import { HeatDevice } from "entities/Heatcounters";
-import { getArchives, getFiles } from "pages/HeatSubcategoryPage/api/api";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
+import classNames from "@/shared/lib/classNames/classNames";
+import { HeatDevice } from "@/entities/Heatcounters";
+import { getArchives, getFiles } from "@/pages/HeatSubcategoryPage/api/api";
 import { ArchTypeBlock } from "../ArchTypeBlock/ArchTypeBlock";
 import { SystemsBlock } from "../SystemsBlock/SystemsBlock";
-import $api, { API_URL } from "shared/api";
+import $api, { API_URL } from "@/shared/api";
 function SimpleReport(props: { deviceData: HeatDevice }): ReactElement {
     const { deviceData } = props;
     const { data } = getArchives(String(deviceData?.id));

@@ -1,24 +1,24 @@
-import { AdministrationPage } from "pages/AdministrationPage";
-import { AuthPage } from "pages/AuthPage/ui/AuthPage";
-import AutoSubcategoryPage from "pages/AutoSubcategoryPage/ui/AutoSubcategoryPage/AutoSubcategoryPage";
-import { CategoryPage } from "pages/CategoryPage";
-import { ElectroSubcategoryPage } from "pages/ElectroSubcategoryPage";
-import { HeatSubcatPage } from "pages/HeatSubcategoryPage";
-import { MapPage } from "pages/MapPage";
-import { MockPage } from "pages/MockPage";
-import { ObjectPage } from "pages/ObjectPage";
-import { ObjectSubcatEditPage } from "pages/ObjectSubcatEditPage";
-import { ObjectDetailPage } from "pages/ObjectsDetailPage";
-import { PumpSubcategoryPage } from "pages/PumpSubcategoryPage";
-import { RegPage } from "pages/RegistrationPage";
-import { SettingsPage } from "pages/SettingsPage";
+import { AdministrationPage } from "@/pages/AdministrationPage";
+import { AuthPage } from "@/pages/AuthPage/ui/AuthPage";
+import AutoSubcategoryPage from "@/pages/AutoSubcategoryPage/ui/AutoSubcategoryPage/AutoSubcategoryPage";
+import { CategoryPage } from "@/pages/CategoryPage";
+import { ElectroSubcategoryPage } from "@/pages/ElectroSubcategoryPage";
+import { HeatSubcatPage } from "@/pages/HeatSubcategoryPage";
+import { MapPage } from "@/pages/MapPage";
+import { MockPage } from "@/pages/MockPage";
+import { ObjectPage } from "@/pages/ObjectPage";
+import { ObjectSubcatEditPage } from "@/pages/ObjectSubcatEditPage";
+import { ObjectDetailPage } from "@/pages/ObjectsDetailPage";
+import { PumpSubcategoryPage } from "@/pages/PumpSubcategoryPage";
+import { RegPage } from "@/pages/RegistrationPage";
+import { SettingsPage } from "@/pages/SettingsPage";
 import { RouteProps } from "react-router-dom";
 import {
     RoutePathPublic,
     AppRoutesAuth,
     AppRoutesPublic,
     RoutePathAuth,
-} from "shared/config/RouteConfig/RouteConfig";
+} from "@/shared/config/RouteConfig/RouteConfig";
 
 export const RouteConfigPublic: Record<string, RouteProps> = {
     [AppRoutesPublic.AUTH]: {

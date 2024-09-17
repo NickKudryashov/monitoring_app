@@ -1,9 +1,9 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo } from "react";
 import cls from "./Card.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 
 interface CardProps {
     className?: string;

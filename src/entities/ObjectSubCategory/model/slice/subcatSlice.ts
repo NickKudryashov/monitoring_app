@@ -1,8 +1,8 @@
 import { PayloadAction, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { ObjectSubCategorySchema, ObjectSubCategoryType } from "../types/ObjectSubCategorySchema";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { SubcategoryAnswer } from "../../api/api";
-import { buildSelector, buildSlice } from "shared/store";
+import { buildSelector, buildSlice } from "@/shared/store";
 
 export const ObjSubcategoryAdapter = createEntityAdapter<ObjectSubCategoryType>({}
 );

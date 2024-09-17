@@ -1,12 +1,12 @@
 import { ReactElement } from "react";
-import { AppButon } from "shared/ui/AppButton/AppButton";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { AppButon } from "@/shared/ui/AppButton/AppButton";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ArchTypeBlock.module.scss";
-import { ArchivesInfo, ArchivesRecord, SystemArchivesInfo } from "pages/HeatSubcategoryPage/api/api";
-import classNames from "shared/lib/classNames/classNames";
-import { Loader } from "shared/ui/Loader/Loader";
+import { ArchivesInfo, ArchivesRecord, SystemArchivesInfo } from "@/pages/HeatSubcategoryPage/api/api";
+import classNames from "@/shared/lib/classNames/classNames";
+import { Loader } from "@/shared/ui/Loader/Loader";
 const ARCH_TYPES:Record<string,string> = {
     hour:"часовой:",day:"суточный:",month:"месячный:"
 };

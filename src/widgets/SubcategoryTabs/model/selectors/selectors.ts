@@ -1,4 +1,4 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 
 export const getTab = (state:StateSchema)=>state.tabs.currentTab;
 export const getSubTab = (state:StateSchema)=>state.tabs.currentSubTab;

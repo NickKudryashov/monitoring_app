@@ -1,29 +1,29 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./PumpSubcategoryPage.module.scss";
 
 import { useState, type PropsWithChildren, useCallback, useMemo, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { DetailView } from "widgets/DetailView";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { Footer } from "shared/ui/Footer/Footer";
-import $api from "shared/api";
-import { EventAnswer } from "shared/types/eventTypes";
-import { PageHeader, getSubcatGeneralInfo } from "features/PageHeader";
-import { getPumpData, getPumpDataDetail, usePumpPoll } from "entities/PumpDevice";
-import { GeneralInfoBlock } from "features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
-import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
-import { SubcategoryTabs } from "widgets/SubcategoryTabs/ui/SubcategoryTabs";
+import { DetailView } from "@/widgets/DetailView";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { Footer } from "@/shared/ui/Footer/Footer";
+import $api from "@/shared/api";
+import { EventAnswer } from "@/shared/types/eventTypes";
+import { PageHeader, getSubcatGeneralInfo } from "@/features/PageHeader";
+import { getPumpData, getPumpDataDetail, usePumpPoll } from "@/entities/PumpDevice";
+import { GeneralInfoBlock } from "@/features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
+import { PumpParameter } from "@/entities/PumpDevice/model/types/pumpDevice";
+import { SubcategoryTabs } from "@/widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { FlexSubcategoryPageWrap } from "shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
-import { getPumpDeviceIdBySystem } from "entities/ObjectSubCategory";
-import { getUserEventsByPump, getUserEventsProcessingByPump } from "entities/UserEvents";
+import { FlexSubcategoryPageWrap } from "@/shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
+import { getPumpDeviceIdBySystem } from "@/entities/ObjectSubCategory";
+import { getUserEventsByPump, getUserEventsProcessingByPump } from "@/entities/UserEvents";
 import { PageMapper } from "../PageMapper/PageMapper";
 import { ParameterLinks } from "../ParameterLinks/ParameterLinks";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { tabSliceActions } from "widgets/SubcategoryTabs";
-import { pumpPageSliceActions } from "pages/PumpSubcategoryPage/model/slice";
-import { MOCK_ID, MOCK_STR_ID } from "shared/lib/util/constants";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { tabSliceActions } from "@/widgets/SubcategoryTabs";
+import { pumpPageSliceActions } from "@/pages/PumpSubcategoryPage/model/slice";
+import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
 
 interface PumpSubcategoryPageProps {
  className?: string;

@@ -1,7 +1,7 @@
 //automatic_parameter_chart/<int:id>
 //heat_parameter_chart/<int:id>
 
-import $api from "shared/api";
+import $api from "@/shared/api";
 
 //pump_parameter_chart/<int:id>
 interface RequestProps {

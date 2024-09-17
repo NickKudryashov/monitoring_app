@@ -1,14 +1,16 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./ObjectCard.module.scss";
 
 import type { PropsWithChildren } from "react";
-import ObjectHouseIcon from "shared/assets/icons/ObjectCardHouseIcon.svg";
-import ObjectSmallHouseIcon from "shared/assets/icons/ObjectCardSmallHouse.svg";
-import ObjectMiddleHouseIcon from "shared/assets/icons/ObjectCardMiddleHouse.svg";
-import ObjectSpecialHouseIcon from "shared/assets/icons/ObjectCardSpecialHouseIcon.svg";
+import ObjectHouseIcon from "@/shared/assets/icons/ObjectCardHouseIcon.svg";
+import ObjectSmallHouseIcon from "@/shared/assets/icons/ObjectCardSmallHouse.svg";
+import ObjectMiddleHouseIcon from "@/shared/assets/icons/ObjectCardMiddleHouse.svg";
+import ObjectSpecialHouseIcon from "@/shared/assets/icons/ObjectCardSpecialHouseIcon.svg";
 interface ObjectCardProps {
     className?: string;
     name: string;
+    address: string;
+    lastUpdate: string;
     onClick?: (e: React.MouseEvent<HTMLElement>) => void;
 }
 const IconMapper: any = {
@@ -18,7 +20,14 @@ const IconMapper: any = {
     4: ObjectSpecialHouseIcon,
 };
 export function ObjectCard(props: PropsWithChildren<ObjectCardProps>) {
-    const { className = "", name, children, onClick } = props;
+    const {
+        className = "",
+        address,
+        name,
+        lastUpdate,
+        children,
+        onClick,
+    } = props;
     const markerIcon = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
     const markerColor = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
     const mods = {
@@ -34,10 +43,10 @@ export function ObjectCard(props: PropsWithChildren<ObjectCardProps>) {
             className={classNames(cls.ObjectCard, mods, [className])}
         >
             <div className={cls.textBlock}>
-                <p className={cls.objectTitle}>Название для теста</p>
+                <p className={cls.objectTitle}>ТИП ОБЪЕКТА</p>
                 <b className={cls.cardContent}>{name}</b>
-                <p>Lorem ipsum произвольный адрес</p>
-                <i className={cls.postfix}>Последняя сессия: --:--:--</i>
+                <p>{address}</p>
+                <i className={cls.postfix}>Обновлен: {lastUpdate}</i>
             </div>
             {<Icon className={cls.icon} />}
             {/* <ObjectHouseIcon className={cls.icon}/> */}

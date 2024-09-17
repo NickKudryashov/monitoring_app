@@ -1,5 +1,5 @@
 import {getByText, render,screen} from "@testing-library/react";
-import { componentRender } from "shared/lib/tests/componentRender/componentRender";
+import { componentRender } from "@/shared/lib/tests/componentRender/componentRender";
 import { AppButon } from "./AppButton";
 describe("ui button",()=>{
     test("checktest",()=>{

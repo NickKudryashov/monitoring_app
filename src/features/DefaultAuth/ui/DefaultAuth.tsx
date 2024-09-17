@@ -1,19 +1,22 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./DefaultAuth.module.scss";
 
 import { PropsWithChildren, useState } from "react";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { defaultLogin, getUserData } from "entities/user/Store/actionCreators";
-import { AppCheckbox } from "shared/ui/AppCheckbox/AppCheckbox";
-import { AppButon, AppButtonTheme } from "shared/ui/AppButton/AppButton";
-import { getIsAuth } from "entities/user";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import {
+    defaultLogin,
+    getUserData,
+} from "@/entities/user/Store/actionCreators";
+import { AppCheckbox } from "@/shared/ui/AppCheckbox/AppCheckbox";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
+import { getIsAuth } from "@/entities/user";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
     RoutePathAuth,
     RoutePathPublic,
-} from "shared/config/RouteConfig/RouteConfig";
+} from "@/shared/config/RouteConfig/RouteConfig";
 
 interface DefaultAuthProps {
     className?: string;
@@ -57,6 +60,7 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
                 placeholder="Пароль"
                 onChange={(e) => setPassword(e.target.value)}
             />
+            <p className={cls.linkToReg}>Забыли пароль?</p>
             <div className={cls.checkboxes}>
                 <div className={cls.textCheckboxH}>
                     <AppCheckbox
@@ -65,7 +69,6 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
                         className={className}
                         label={"Оставаться в системе"}
                     />
-                    <p className={cls.linkToReg}>Забыли пароль?</p>
                 </div>
 
                 <AppCheckbox
@@ -81,7 +84,7 @@ export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
                 theme={AppButtonTheme.DESIGNED_PRIMARY}
                 onClick={() => {
                     dispatch(defaultLogin({ email, password })).then((res) =>
-                        dispatch(getUserData())
+                        dispatch(getUserData()),
                     );
                 }}
             >

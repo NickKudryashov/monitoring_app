@@ -1,10 +1,10 @@
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./SystemCard.module.scss";
 import {
     AutomaticDeviceData,
     AutoParameter,
-} from "entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
+} from "@/entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
 
 interface SystemCardProps {
     params: Record<number, AutoParameter[]>;

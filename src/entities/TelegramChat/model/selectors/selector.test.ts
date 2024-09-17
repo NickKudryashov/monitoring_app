@@ -1,4 +1,4 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { getChatsIsLoading, getTelegramChats,getMessageBuChats } from "./selector";
 import { MessagesByChat, TelegramChat } from "../types/ChatSchema";
 

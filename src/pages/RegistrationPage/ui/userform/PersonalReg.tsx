@@ -1,4 +1,4 @@
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 import cls from "./PersonalReg.module.scss";
 export const PersonalForm = ()=>{
     return (

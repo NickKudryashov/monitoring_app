@@ -1,12 +1,12 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import { memo } from "react";
 import cls from "./MainLayout.module.scss";
 
 import type { PropsWithChildren } from "react";
 import { HFlexBox } from "../FlexBox/HFlexBox/HFlexBox";
 import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { getVersion } from "entities/user";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
+import { getVersion } from "@/entities/user";
 interface MainLayoutProps {
     className?: string;
     navbar: React.ReactNode;

@@ -1,17 +1,17 @@
 // import classNames from 'shared/lib/classNames/classNames';
 // import cls from './AddHeatDevice.module.scss';
 
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { PropsWithChildren, useState } from "react";
 import { useSelector } from "react-redux";
-import $api from "shared/api";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { AppButon } from "shared/ui/AppButton/AppButton";
-import { AppInput, InputThemes } from "shared/ui/AppInput/AppInput";
-import { Modal } from "shared/ui/Modal/Modal";
+import $api from "@/shared/api";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { AppButon } from "@/shared/ui/AppButton/AppButton";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
+import { Modal } from "@/shared/ui/Modal/Modal";
 import cls from "./AddHeatDevice.module.scss";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { getObjectSubcategoryData } from "entities/ObjectSubCategory";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { getObjectSubcategoryData } from "@/entities/ObjectSubCategory";
 interface AddHeatDeviceProps {
     className?: string;
     onClose?: () => void;

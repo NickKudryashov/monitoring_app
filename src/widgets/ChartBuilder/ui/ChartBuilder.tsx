@@ -1,8 +1,8 @@
 import {
     AutoDevParametersComposition,
     AutoParameter,
-} from "entities/AutomaticDevice";
-import { getAutomaticDevice } from "entities/AutomaticDevice/api/AutomaticDeviceApi";
+} from "@/entities/AutomaticDevice";
+import { getAutomaticDevice } from "@/entities/AutomaticDevice/api/AutomaticDeviceApi";
 import {
     BaseChart,
     createPdfByChartId,
@@ -10,12 +10,12 @@ import {
     getHeatParameterForChart,
     getPumpParameterForChart,
     useChartActions,
-} from "entities/Chart";
+} from "@/entities/Chart";
 import {
     AllParametersView,
     HeatParameters,
     getHeatDeviceData,
-} from "entities/Heatcounters";
+} from "@/entities/Heatcounters";
 import {
     SubcatTypes,
     SubcategoryListByObject,
@@ -24,15 +24,15 @@ import {
     getPumpDeviceIdBySystem,
     getSelectedSubcategory,
     useGetSelectedSubcategory,
-} from "entities/ObjectSubCategory";
+} from "@/entities/ObjectSubCategory";
 import {
     getSelectedUserObject,
     ObjectList,
     useGetSelectedUserObject,
-} from "entities/Objects";
-import { PumpParametersComposition, getPumpData } from "entities/PumpDevice";
-import { PumpParameter } from "entities/PumpDevice/model/types/pumpDevice";
-import { GeneralAnswer } from "features/PageHeader/api/api";
+} from "@/entities/Objects";
+import { PumpParametersComposition, getPumpData } from "@/entities/PumpDevice";
+import { PumpParameter } from "@/entities/PumpDevice/model/types/pumpDevice";
+import { GeneralAnswer } from "@/features/PageHeader/api/api";
 import {
     ReactElement,
     memo,
@@ -42,13 +42,13 @@ import {
     useRef,
     useState,
 } from "react";
-import { AppButon } from "shared/ui/AppButton/AppButton";
-import { AppInput } from "shared/ui/AppInput/AppInput";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { Modal } from "shared/ui/Modal/Modal";
+import { AppButon } from "@/shared/ui/AppButton/AppButton";
+import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { Modal } from "@/shared/ui/Modal/Modal";
 import cls from "./ChartBuilder.module.scss";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import {
     getAutoParameters,
     getHeatParameters,
@@ -60,7 +60,7 @@ import { useSelector } from "react-redux";
 import { useChartBuilderActions } from "../model/slice/slice";
 import { SubtabContent, SubtabContentDeleteProps } from "../model/types/type";
 import { dataToString } from "../helpers/reportDataToStrings";
-import { MOCK_ID } from "shared/lib/util/constants";
+import { MOCK_ID } from "@/shared/lib/util/constants";
 interface ChartBuilderProps {
     subcatData?: GeneralAnswer;
 }

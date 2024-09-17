@@ -1,4 +1,4 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema"
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema"
 import { useSelector } from "react-redux"
 
 type Selector<T,Args extends any[]> = (state:StateSchema,...args:Args)=>T

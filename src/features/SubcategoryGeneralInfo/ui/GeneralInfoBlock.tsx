@@ -1,7 +1,7 @@
-import classNames from "shared/lib/classNames/classNames";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import classNames from "@/shared/lib/classNames/classNames";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./GeneralInfoBlock.module.scss";
-import { HFlexBox } from "shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { memo } from "react";
 
 interface GeneralInfoBlockProps {

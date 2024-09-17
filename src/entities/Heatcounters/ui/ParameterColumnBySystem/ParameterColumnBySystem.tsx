@@ -1,9 +1,10 @@
 import { ReactElement, useCallback, useMemo } from "react";
-import { VFlexBox } from "shared/ui/FlexBox/VFlexBox/VFlexBox";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ParameterColumnBySystem.module.scss";
 import { HeatParameterRow } from "../HeatParameterRow/HeatParameterRow";
 import { HeatParameters } from "../../types/type";
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 interface ParameterColumnBySystemProps {
     params: HeatParameters[];
     header: string;
@@ -22,6 +23,7 @@ export function ParameterColumnBySystem(
         onParameterUnClick,
         selectedParametersIDs,
     } = props;
+    const isMobile = useMobilDeviceDetect();
     const preSelected = useCallback(
         (id: number) => {
             return selectedParametersIDs?.includes(id);
@@ -30,8 +32,8 @@ export function ParameterColumnBySystem(
     );
     return (
         <VFlexBox
-            width={"45%"}
-            height={"45%"}
+            width={isMobile ? "90%" : "45%"}
+            height={isMobile ? "auto" : "45%"}
             alignItems="center"
             className={cls.paramFlexBox}
         >
@@ -40,7 +42,7 @@ export function ParameterColumnBySystem(
                 className={classNames(cls.sysHeader, {}, [cls.paramBoxHeader])}
             >{`ПАРАМЕТРЫ КОНТУРА ${header}`}</p>
             {/* </div> */}
-            <VFlexBox className={cls.rows} height="80%">
+            <VFlexBox className={cls.rows} height="80%" align="space-around">
                 {params?.map((elem) => (
                     <HeatParameterRow
                         key={elem.id}

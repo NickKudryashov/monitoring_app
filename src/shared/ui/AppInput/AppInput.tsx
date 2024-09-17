@@ -1,4 +1,4 @@
-import classNames from "shared/lib/classNames/classNames";
+import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./AppInput.module.scss";
 
 import type { InputHTMLAttributes, PropsWithChildren } from "react";

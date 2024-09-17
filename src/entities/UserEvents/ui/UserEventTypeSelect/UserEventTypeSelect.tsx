@@ -1,6 +1,6 @@
 import { getUserEventsTypes } from "../../api/api";
 import { ReactElement, memo, useMemo } from "react";
-import { Select } from "shared/ui/Select/Select";
+import { Select } from "@/shared/ui/Select/Select";
 interface UserEventTypeSelectProps {
     className?: string;
     value: string;

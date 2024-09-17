@@ -21,7 +21,7 @@
     "cypress:open": "cypress open",
     "test:ui:approve": "npx loki approve",
     "test:ui:report": "node scripts/generate-visual-json-report.js && reg-cli --from .loki/report.json --report .loki/report.html",
-    "addAliases": "node scripts/importRefactor.js"
+    "addAliases": "ts-node scripts/importRefactor.ts"
   },
   "keywords": [],
   "author": "",

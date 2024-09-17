@@ -2,16 +2,16 @@ import { memo, useEffect, useMemo } from "react";
 import cls from "./ObjectPage.module.scss";
 
 import type { PropsWithChildren } from "react";
-import { ObjectDetail } from "entities/Objects";
-import { DetailView } from "widgets/DetailView";
+import { ObjectDetail } from "@/entities/Objects";
+import { DetailView } from "@/widgets/DetailView";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { useAppDispatch } from "shared/hooks/hooks";
-import { TelegramChat } from "entities/TelegramChat/model/types/ChatSchema";
-import { Chat, getTelegramChats } from "entities/TelegramChat";
-import { SubcategoryCard } from "entities/ObjectSubCategory";
-import { RoutePathAuth } from "shared/config/RouteConfig/RouteConfig";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { TelegramChat } from "@/entities/TelegramChat/model/types/ChatSchema";
+import { Chat, getTelegramChats } from "@/entities/TelegramChat";
+import { SubcategoryCard } from "@/entities/ObjectSubCategory";
+import { RoutePathAuth } from "@/shared/config/RouteConfig/RouteConfig";
 
 interface ObjectPageProps {
     className?: string;

@@ -1,5 +1,5 @@
-import { StateSchema } from "app/providers/StoreProvider/config/stateSchema";
-import { AppDispatch } from "app/providers/StoreProvider/config/store";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
+import { AppDispatch } from "@/app/providers/StoreProvider/config/store";
 import { AsyncThunkAction, Dispatch } from "@reduxjs/toolkit";
 
 type ThunkActionReturnType<Returned,Args,Rejected> = (args:Args)=>AsyncThunkAction<Returned, Args, {rejectValue:Rejected}>
