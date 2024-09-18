@@ -8,6 +8,7 @@ import {
     ParamRecord,
 } from "../../model/types/AutomaticDeviceTypes";
 import { ParameterRow } from "../ParameterRow/ParameterRow";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 interface ParameterColumnProps {
     params: ParamRecord[];
     header: string;
@@ -32,15 +33,16 @@ export function ParameterColumn(props: ParameterColumnProps): ReactElement {
         fullHeight = false,
         detail = false,
     } = props;
+    const isMobile = useMobilDeviceDetect();
     const preSelected = useCallback(
         (id: number) => {
             return selectedParametersIDs?.includes(id);
         },
-        [selectedParametersIDs]
+        [selectedParametersIDs],
     );
     return (
         <VFlexBox
-            width={fullWidth ? "100%" : "45%"}
+            width={fullWidth || isMobile ? "100%" : "45%"}
             height={fullHeight ? "100%" : "45%"}
             alignItems="center"
             className={cls.paramFlexBox}

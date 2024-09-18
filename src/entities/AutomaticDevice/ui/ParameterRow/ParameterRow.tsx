@@ -3,6 +3,7 @@ import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import cls from "./ParameterRow.module.scss";
 import classNames from "@/shared/lib/classNames/classNames";
 import { AutoParameter } from "@/entities/AutomaticDevice/model/types/AutomaticDeviceTypes";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 interface ParameterRowProps {
     parameter: AutoParameter;
     detailInfo?: boolean;
@@ -26,6 +27,8 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
         setSelected(preSelected);
     }, [preSelected]);
 
+    const isMobile = useMobilDeviceDetect();
+
     const onParameterClickHandler = useCallback(() => {
         if (selected) {
             if (onParameterUnClick) {
@@ -46,7 +49,7 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
             className={classNames(cls.paramRow, { [cls.selected]: selected }, [
                 className,
             ])}
-            alignItems="end"
+            alignItems="center"
             align="space-between"
             data-testid="AutoParameterRow"
             height="55px"
@@ -59,7 +62,7 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
             >
                 <p>{parameter.verbose}</p>
             </div>
-            {detailInfo && (
+            {detailInfo && !isMobile && (
                 <div
                     className={classNames(cls.paramVerboseWrapper, {}, [
                         cls.tagWrap,
@@ -72,8 +75,6 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
                 alignItems="center"
                 align="space-around"
                 className={cls.paramValueWrapper}
-                height="80%"
-                width={"15%"}
             >
                 <p
                     data-testid="AutoParameterRow.ParameterValue"

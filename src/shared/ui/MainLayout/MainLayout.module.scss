@@ -72,3 +72,11 @@
     padding-right: 5px;
     padding-top: 10px;
 }
+
+
+@media screen and (width <= 768px) {
+    .dtlWrapper {
+        margin-left: 0;
+        width:100%;
+    }
+}

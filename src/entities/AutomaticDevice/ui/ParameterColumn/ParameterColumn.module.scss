@@ -5,6 +5,7 @@
     background: var(--subcolor-3);
     border-radius: var(--border-radius-type-3);
     padding-bottom:5px;
+    font-size: 0.75rem;
     font-weight: bold;
     box-shadow: 0 4px 4px 0 #CBD8EF;
 }
@@ -14,7 +15,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font:var(--font-14-px);
     font-weight: bold;
     margin-top:1%;
     width:100%;
@@ -71,8 +71,19 @@
     font-weight: bold;
     height:5%;
     padding-left: 15px;
-    font-size: 0.70vw;
+    font-size: 0.75rem;
     margin-bottom: 7px;
 }
 
 
+@media screen and (width <= 768px) {
+    .paramFlexBox {
+        width:100%;
+        font-size: 0.5rem;
+        margin-top:10px ;
+    }
+
+    .paramBoxHeader {
+        min-height: 40px;
+    }
+}

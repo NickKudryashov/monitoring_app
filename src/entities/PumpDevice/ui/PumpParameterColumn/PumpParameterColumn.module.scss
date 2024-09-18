@@ -1,5 +1,6 @@
 .paramFlexBox {
     // flex:1 0 15%;
+    margin-top: 5px;
     font:var(--font-m-extra-mini);
     color:var(--subcolor-9);
     background: var(--subcolor-3);
@@ -35,4 +36,10 @@
 .rows {
     row-gap: 2%;
     overflow-y: auto;
+}
+
+@media screen and (width <= 768px) {
+    .paramBoxHeader {
+        min-height: 40px;
+    }
 }

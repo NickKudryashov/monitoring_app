@@ -20,3 +20,18 @@
 .previewBox {
     padding-left: 10%;
 }
+
+
+@media screen and (width <= 768px) {
+    .previewBox {
+        min-height: 100px;
+    }
+
+    .preview {
+        font-size:0.5rem;
+    }
+
+    .previewVal{
+        min-height: 20px;
+    }
+}

@@ -1,3 +1,7 @@
+.paramRow {
+    margin-top: 2px;
+}
+
 .selected {
     opacity:0.8;
 }
@@ -22,4 +26,19 @@
     color:rgb(3 22 59 / 70%);;
     width:50%;
     border-radius: var(--border-radius-type-3);
+}
+
+@media screen and (width <= 768px) {
+    .paramRow {
+        min-height: 25px;
+    }
+
+    .paramValueWrapper {
+        min-height:30px;
+        font-size: 0.5rem;
+    } 
+
+    .paramVerboseWrapper {
+        font-size:0.5rem;
+    }
 }

@@ -7,6 +7,7 @@ import classNames from "@/shared/lib/classNames/classNames";
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./DetailParameterTable.module.scss";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 interface DetailParameterProps {
     params?: PumpParameter[];
     errors?: PumpErrorDetail[];
@@ -15,17 +16,18 @@ interface DetailParameterProps {
 }
 export function DetailParameter(props: DetailParameterProps): ReactElement {
     const { header, params, errors, className = "" } = props;
+    const isMobile = useMobilDeviceDetect();
     return (
         <VFlexBox
             height="90%"
-            width="80%"
+            width="100%"
             alignItems="center"
             className={classNames(cls.detail, {}, [className])}
         >
             <p className={classNames(cls.sysHeader, {}, [cls.paramBoxHeader])}>
                 {header}
             </p>
-            <VFlexBox className={cls.rows} height="80%">
+            <VFlexBox className={cls.rows} height={isMobile ? "100%" : "80%"}>
                 {errors &&
                     errors?.map((elem) => (
                         <HFlexBox
@@ -33,6 +35,7 @@ export function DetailParameter(props: DetailParameterProps): ReactElement {
                             key={elem.id}
                             alignItems="end"
                             align="space-around"
+                            className={cls.row}
                         >
                             <HFlexBox
                                 width="70%"
@@ -57,6 +60,7 @@ export function DetailParameter(props: DetailParameterProps): ReactElement {
                             key={elem.id}
                             alignItems="end"
                             align="space-around"
+                            className={cls.row}
                         >
                             <HFlexBox
                                 width="70%"

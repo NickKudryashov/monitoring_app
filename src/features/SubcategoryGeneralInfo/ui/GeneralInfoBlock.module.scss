@@ -53,3 +53,15 @@
     font-weight: bold;
     color:rgb(62 85 128 / 50%);
 }
+
+
+@media screen and (width <= 768px) {
+    .subtitle {
+        font-size: 0.5rem;
+    }
+
+    .generalCardTextWrapper {
+        font-size: 0.5rem;
+        min-height: 21px;
+    }
+}

@@ -3,3 +3,12 @@
     flex-wrap: wrap;
     column-gap:10%;
 }
+
+
+
+
+@media (width <= 768px) {
+    .paramGroups {
+        flex-flow: column nowrap;
+    }
+}

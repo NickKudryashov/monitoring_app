@@ -39,7 +39,7 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
             className={classNames(
                 cls.paramRow,
                 { [cls.selected]: selected },
-                []
+                [],
             )}
             alignItems="end"
             align="space-around"

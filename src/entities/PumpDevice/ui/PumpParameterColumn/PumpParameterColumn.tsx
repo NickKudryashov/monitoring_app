@@ -6,6 +6,7 @@ import { HeatParameters } from "@/entities/Heatcounters";
 import classNames from "@/shared/lib/classNames/classNames";
 import { PumpParameter } from "@/entities/PumpDevice/model/types/pumpDevice";
 import { ParameterRow } from "../ParameterRow/ParameterRow";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 interface PumpParameterColumnProps {
     params: PumpParameter[];
     header: string;
@@ -16,7 +17,7 @@ interface PumpParameterColumnProps {
 }
 
 export function PumpParameterColumn(
-    props: PumpParameterColumnProps
+    props: PumpParameterColumnProps,
 ): ReactElement {
     const {
         header,
@@ -26,15 +27,16 @@ export function PumpParameterColumn(
         selectedParametersIDs,
         fullWidth = false,
     } = props;
+    const isMobile = useMobilDeviceDetect();
     const checkSelected = useCallback(
         (id: number) => {
             return selectedParametersIDs?.includes(id);
         },
-        [selectedParametersIDs]
+        [selectedParametersIDs],
     );
     return (
         <VFlexBox
-            width={fullWidth ? "100%" : "45%"}
+            width={fullWidth || isMobile ? "100%" : "45%"}
             height={fullWidth ? "80%" : "45%"}
             alignItems="center"
             className={cls.paramFlexBox}

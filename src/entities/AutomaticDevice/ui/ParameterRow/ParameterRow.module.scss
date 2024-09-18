@@ -1,8 +1,10 @@
 .paramValueWrapper {
     border-radius: var(--border-radius-type-3);
     background: var(--subcolor-11);
-    font:var(--font-12-px);
-    width:40%;
+
+    // font:var(--font-12-px);
+    width:15%;
+    height:80%;
 }
 
 .valueField {
@@ -30,7 +32,8 @@
 
 .paramRow {
     flex: 1 50px;
-    font-size: 0.70vw;
+
+    // font-size: 0.70vw;
     font-weight: normal;
 }
 
@@ -38,5 +41,18 @@
     width:35%;
     border: 1px solid var(--subcolor-9);
     border-radius: var(--border-radius-type-3);
-    font-size: 0.65vw;
+
+    // font-size: 0.65vw;
+}
+
+
+@media screen and (width <= 768px) {
+    .paramValueWrapper {
+        width:30%;
+        height:100%;
+    }
+
+    .paramRow {
+        flex: 1 20px;
+    }
 }

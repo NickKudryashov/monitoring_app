@@ -46,6 +46,7 @@
     background: var(--subcolor-11);
     font:var(--font-12-px);
     width:40%;
+    height:100%;
     font-size: 0.7vw;
 }
 
@@ -74,4 +75,30 @@
     row-gap: 2%;
     overflow-y: auto;
 
+}
+
+
+@media screen and (width <= 768px) {
+    .paramFlexBox {
+        width: 100%;
+    }
+
+    .row {
+        margin-top: 2px;
+        min-height: 25px;
+    }
+
+    .paramValueWrapper {
+        min-height:30px;
+        font-size: 0.5rem;
+    } 
+
+    .paramVerboseWrapper {
+        font-size:0.5rem;
+        min-height:30px;
+    }
+
+        .paramBoxHeader {
+            min-height: 40px;
+        }
 }

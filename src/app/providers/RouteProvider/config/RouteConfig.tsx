@@ -19,6 +19,7 @@ import {
     AppRoutesPublic,
     RoutePathAuth,
 } from "@/shared/config/RouteConfig/RouteConfig";
+import { AutoSubcatPage } from "@/pages/AutoSubcategoryPage";
 
 export const RouteConfigPublic: Record<string, RouteProps> = {
     [AppRoutesPublic.AUTH]: {
@@ -65,7 +66,7 @@ export const RouteConfigAuth: Record<string, RouteProps> = {
     },
     [AppRoutesAuth.AUTO_SUBCAT]: {
         path: `${RoutePathAuth.auto_subcat}:id`,
-        element: <AutoSubcategoryPage />,
+        element: <AutoSubcatPage />,
     },
     [AppRoutesAuth.PUMP_SUBCAT]: {
         path: `${RoutePathAuth.pump_subcat}:id`,

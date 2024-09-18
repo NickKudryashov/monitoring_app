@@ -1,1 +1,1 @@
-export {};
+export {Adapter as AutoSubcatPage} from './ui/MobileAdapter/MobileAdapter.async' 
