@@ -1,1 +1,1 @@
-export {ElSubcatPageAsync as ElectroSubcategoryPage} from "./ui/ElectroSubcategoryPage.async";
+export {Adapter as ElectroSubcategoryPage} from "./ui/MobileAdapter/MobileAdapter";

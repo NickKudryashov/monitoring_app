@@ -11,6 +11,7 @@ import {
     Dict,
     TopLevelDeviceStatistic,
 } from "@/entities/ElectroDevice/model/types/electroDevice";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 
 interface ElectroCounterDeviceDetailProps {
     className?: string;
@@ -23,6 +24,7 @@ export const ElectroCounterDeviceDetail = memo(
     (props: PropsWithChildren<ElectroCounterDeviceDetailProps>) => {
         const { className = "", dev_id, devname, stat } = props;
         const [currentCan, setCurrentCan] = useState<string>("");
+        const isMobile = useMobilDeviceDetect();
         const { data: counters, isLoading: counterIsLoading } =
             getElectroDeviceCountersByCan({
                 id: dev_id,
@@ -56,7 +58,7 @@ export const ElectroCounterDeviceDetail = memo(
                                 className={classNames(
                                     cls.canHeader,
                                     { [cls.selectedCan]: el === currentCan },
-                                    []
+                                    [],
                                 )}
                             >
                                 <HFlexBox
@@ -71,7 +73,7 @@ export const ElectroCounterDeviceDetail = memo(
                                     </p>
                                 </HFlexBox>
                                 <HFlexBox
-                                    width="40%"
+                                    width={isMobile ? "50%" : "40%"}
                                     alignItems="center"
                                     align="space-around"
                                 >
@@ -99,5 +101,7 @@ export const ElectroCounterDeviceDetail = memo(
                     ))}
             </VFlexBox>
         );
-    }
+    },
 );
+
+ElectroCounterDeviceDetail.displayName = "ElectroCounterDeviceDetail";

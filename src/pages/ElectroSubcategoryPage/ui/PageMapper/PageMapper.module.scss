@@ -1,7 +1,18 @@
 .statistic {
-    height:32%;
+    // height:32%;
+    flex: 1 0 32%
 }
 
 .counters {
-    height:60%;
+    // height:60%;
+    flex: 1 0 60%
+}
+
+
+@media screen and (width <= 768px) {
+    .content {
+        // min-height: 360px;
+        height: 100%;
+        width: 100%;
+    }
 }

@@ -13,12 +13,12 @@ interface GeneralInfoBlockProps {
 }
 
 export const GeneralInfoBlock = memo(function _GeneralInfoBlock(
-    props: GeneralInfoBlockProps
+    props: GeneralInfoBlockProps,
 ): React.ReactElement {
     const { systems, device_type_verbose_name, device_num, address, name } =
         props;
     return (
-        <VFlexBox className={cls.generalDeviceInfoCard} gap="10px">
+        <VFlexBox className={cls.generalDeviceInfoCard} gap="15px">
             <VFlexBox height={"60.5%"} width={"100%"} align="space-between">
                 <p className={cls.subtitle}>Тип объекта:</p>
                 <div

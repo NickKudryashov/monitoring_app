@@ -7,6 +7,7 @@ import { timeConvert } from "@/shared/lib/helpers/datetimeConvert";
 import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 
 interface ElectroStatisticProps {
     className?: string;
@@ -34,12 +35,14 @@ export const ElectroStatistic = memo(
             id,
         } = props;
         const [autoFlag, setAutoFlag] = useState(autoPollMode);
+        const isMobile = useMobilDeviceDetect();
         const mods = {
             [cls.inverted]: !autoFlag,
         };
         return (
             <VFlexBox
                 align="space-between"
+                height="32%"
                 className={classNames(cls.titleBlock, {}, [className])}
             >
                 <HFlexBox
@@ -56,7 +59,7 @@ export const ElectroStatistic = memo(
                     height="78%"
                 >
                     <HFlexBox
-                        width="50%"
+                        width={isMobile ? "100%" : "50%"}
                         align="space-between"
                         gap="30px"
                         height="20%"
@@ -77,7 +80,7 @@ export const ElectroStatistic = memo(
                         </HFlexBox>
                     </HFlexBox>
                     <HFlexBox
-                        width="50%"
+                        width={isMobile ? "100%" : "50%"}
                         align="space-between"
                         gap="30px"
                         height="20%"
@@ -94,7 +97,7 @@ export const ElectroStatistic = memo(
                         </HFlexBox>
                     </HFlexBox>
                     <HFlexBox
-                        width="50%"
+                        width={isMobile ? "100%" : "50%"}
                         align="space-between"
                         gap="30px"
                         height="20%"
@@ -111,7 +114,7 @@ export const ElectroStatistic = memo(
                         </HFlexBox>
                     </HFlexBox>
                     <HFlexBox
-                        width="50%"
+                        width={isMobile ? "100%" : "50%"}
                         align="space-between"
                         gap="30px"
                         height="20%"
@@ -128,5 +131,7 @@ export const ElectroStatistic = memo(
                 </VFlexBox>
             </VFlexBox>
         );
-    }
+    },
 );
+
+ElectroStatistic.displayName = "ElectroStatisticBlock";

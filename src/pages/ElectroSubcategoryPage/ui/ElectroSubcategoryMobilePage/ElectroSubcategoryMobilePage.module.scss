@@ -1,0 +1,33 @@
+.ElectroSubcategoryMobilePage {
+    width: 95%;
+    height: 100%;
+}
+
+.contentBox{
+    // flex: 1 0 85%;
+    height:88%;
+    width:100%;
+    box-sizing: border-box;
+}
+
+.tableContentFlexbox {
+    border: 1px solid var(--subcolor-3);
+    border-radius: var(--border-radius-type-2);
+    height:95%;
+}
+
+.paramTitleBox {
+    padding-top: 20px;
+    background: var(--subcolor-4);
+    font: var(--font-15-px);
+
+    // padding:7px;
+    color:var(--subcolor-9);
+}
+
+.detail {
+    width:100%;
+    overflow-y: auto;
+    height: auto;
+}
+

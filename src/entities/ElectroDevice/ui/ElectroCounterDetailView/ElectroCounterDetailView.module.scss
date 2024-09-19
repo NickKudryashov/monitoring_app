@@ -35,3 +35,19 @@
     border:1px solid rgb(53 94 171 / 20%);
     font-size: 0.6vw;
 }
+
+
+
+@media screen and (width <= 768px) {
+    .counter_line  {
+        font-size: 0.45rem;
+    }
+
+    .valueField {
+        font-size: 0.42rem;
+    }
+
+    .inp {
+        font-size: 0.35rem;
+    }
+}

@@ -19,7 +19,7 @@ export const PageMapper = (props: PageMapperProps): ReactElement => {
     return (
         <>
             {selectedTab === 0 && devData && (
-                <VFlexBox align="space-around">
+                <VFlexBox className={cls.content}>
                     <ElectroStatistic
                         className={cls.statistic}
                         autoPollMode={devData.autopoll}

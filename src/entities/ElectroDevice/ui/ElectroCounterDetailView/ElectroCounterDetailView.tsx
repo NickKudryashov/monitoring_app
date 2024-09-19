@@ -7,6 +7,7 @@ import { ElectroCounter } from "@/entities/ElectroDevice/model/types/electroDevi
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { renameElectroCounter } from "@/entities/ElectroDevice/api/electroDeviceApi";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 
 interface ElectroCounterDetailViewProps {
     className?: string;
@@ -20,7 +21,7 @@ export const ElectroCounterDetailView = memo(
         const [devName, setDevName] = useState(counter.name);
         const [renameCounterMutation] = renameElectroCounter();
         const debouncedEditHandler = useDebounce(renameCounterMutation, 2000);
-
+        const isMobile = useMobilDeviceDetect();
         const editHandler = (name: string, devId: number) => {
             debouncedEditHandler({ id: counter.id, name });
             setDevName(name);
@@ -30,7 +31,7 @@ export const ElectroCounterDetailView = memo(
                 counter.delta_error &&
                 counter?.parameters &&
                 counter?.parameters?.filter(
-                    (el) => el.tag === "A+0" && el.value
+                    (el) => el.tag === "A+0" && el.value,
                 ).length > 0,
         };
         return (
@@ -48,9 +49,11 @@ export const ElectroCounterDetailView = memo(
                     style={{ width: "6%" }}
                     className={cls.rowElement}
                 >{`ID:${counter.inner_id}`}</p>
-                <p style={{ width: "13%" }} className={cls.rowElement}>{`№${
-                    counter.device_num ?? " Н/О"
-                }`}</p>
+                {!isMobile && (
+                    <p style={{ width: "13%" }} className={cls.rowElement}>{`№${
+                        counter.device_num ?? " Н/О"
+                    }`}</p>
+                )}
                 <input
                     style={{ width: "13%" }}
                     className={classNames(cls.rowElement, mods, [cls.inp])}
@@ -68,7 +71,12 @@ export const ElectroCounterDetailView = memo(
                             style={{ width: "15%" }}
                             className={cls.rowElement}
                         >{`${parameter.tag}:`}</b>
-                        <p style={{ width: "70%" }} className={cls.rowElement}>
+                        <p
+                            style={{ width: "70%" }}
+                            className={classNames(cls.rowElement, {}, [
+                                cls.valueField,
+                            ])}
+                        >
                             {parameter.value
                                 ? `${parameter.value}   ${parameter.dimension}`
                                 : "не считано"}
@@ -77,5 +85,7 @@ export const ElectroCounterDetailView = memo(
                 ))}
             </HFlexBox>
         );
-    }
+    },
 );
+
+ElectroCounterDetailView.displayName = "ElectroCounterDetailView";

@@ -20,7 +20,7 @@ import { Loader } from "@/shared/ui/Loader/Loader";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { FlexSubcategoryPageWrap } from "@/shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
 import { getElectroDeviceIdBySystem } from "@/entities/ObjectSubCategory";
-import { PageMapper } from "./PageMapper/PageMapper";
+import { PageMapper } from "../PageMapper/PageMapper";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { tabSliceActions } from "@/widgets/SubcategoryTabs";
 import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
@@ -28,7 +28,7 @@ interface ElectroSubcategoryPageProps {
     className?: string;
 }
 const ElectroSubcategoryPage = (
-    props: PropsWithChildren<ElectroSubcategoryPageProps>
+    props: PropsWithChildren<ElectroSubcategoryPageProps>,
 ) => {
     const { className } = props;
     const { id } = useParams<{ id: string }>();
@@ -39,7 +39,7 @@ const ElectroSubcategoryPage = (
         isLoading,
     } = getSubcatGeneralInfo(id ?? MOCK_STR_ID);
     const { data: elData, isLoading: idIsLoading } = getElectroDeviceIdBySystem(
-        id ?? MOCK_STR_ID
+        id ?? MOCK_STR_ID,
     );
     const {
         data: devData,
@@ -66,7 +66,7 @@ const ElectroSubcategoryPage = (
     }, []);
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>(
-            "subcategory_events/" + id
+            "subcategory_events/" + id,
         );
         return response.data;
     }, [id]);
