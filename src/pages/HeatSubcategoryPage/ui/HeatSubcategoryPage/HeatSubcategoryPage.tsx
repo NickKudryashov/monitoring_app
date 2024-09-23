@@ -7,7 +7,11 @@ import { DetailView } from "@/widgets/DetailView";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { Footer } from "@/shared/ui/Footer/Footer";
-import { getHeatDeviceData, useHeatPoll } from "@/entities/Heatcounters";
+import {
+    getHeatDeviceData,
+    HeatDeviceManualPoll,
+    useHeatPoll,
+} from "@/entities/Heatcounters";
 import { HeatParameters } from "@/entities/Heatcounters/types/type";
 import $api from "@/shared/api";
 import { EventAnswer } from "@/shared/types/eventTypes";
@@ -21,6 +25,7 @@ import { getHeatDeviceIdBySystem } from "@/entities/ObjectSubCategory";
 import { PageTabMapper } from "../PageMapper/PageMapper";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
+import { usePoll } from "@/shared/hooks/useDevicePoll";
 export interface HeatSubcategoryPageProps {
     className?: string;
 }
@@ -49,9 +54,11 @@ const HeatSubcategoryPage = (
         pollingInterval: 15000,
         skip: device?.device === undefined,
     });
-    const poll = useHeatPoll({
+    const [poll, isBusy] = usePoll({
         autoPoll: deviceData?.connection_info.connection_type !== "GSM",
+        pollDevice: HeatDeviceManualPoll.pollDevice,
         id: deviceData?.id ?? MOCK_ID,
+        initialBusy: deviceData?.is_busy,
         onUpdate: () => {
             refetch();
             refetchGeneral();
@@ -76,7 +83,11 @@ const HeatSubcategoryPage = (
     const content = (
         <DetailView onScroll={scrollHandler} className={cls.detail}>
             <FlexSubcategoryPageWrap>
-                <PageHeader poll={poll} generalData={generalData} />
+                <PageHeader
+                    poll={poll}
+                    generalData={generalData}
+                    isBusy={isBusy}
+                />
 
                 <HFlexBox
                     className={cls.contentBox}

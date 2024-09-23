@@ -1,15 +1,11 @@
-import classNames from "@/shared/lib/classNames/classNames";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import cls from "./Footer.module.scss";
 import type { MutableRefObject, PropsWithChildren } from "react";
 import { EventAnswer } from "@/shared/types/eventTypes";
 import { Panel } from "react-resizable-panels";
-import { useInfinityScroll } from "@/shared/hooks/useInfinityScroll";
-import { VFlexBox } from "../FlexBox/VFlexBox/VFlexBox";
 import { useViewportCheck } from "@/shared/hooks/useCheckInViewport";
-import { useSelector } from "react-redux";
-import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
-
+import { VFlexBox } from "../FlexBox/VFlexBox/VFlexBox";
+import classNames from "@/shared/lib/classNames/classNames";
+import cls from "./Footer.module.scss";
 interface FooterProps {
     className?: string;
     pollCallback?: () => Promise<EventAnswer>;
@@ -19,13 +15,13 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
     const { className = "", pollCallback } = props;
     const [events, setEvents] = useState<string[]>([]);
     const intervalRef = useRef<ReturnType<typeof setInterval>>(
-        null
+        null,
     ) as MutableRefObject<ReturnType<typeof setInterval>>;
     const footRef = useRef<HTMLDivElement>(
-        null
+        null,
     ) as MutableRefObject<HTMLDivElement>;
     const wrapRef = useRef<HTMLDivElement>(
-        null
+        null,
     ) as MutableRefObject<HTMLDivElement>;
     const scrollOnLoad = useRef<boolean>(true);
     const inView = useRef<boolean>(true);
@@ -93,3 +89,5 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
         </Panel>
     );
 });
+
+Footer.displayName = "ResizableFooter";

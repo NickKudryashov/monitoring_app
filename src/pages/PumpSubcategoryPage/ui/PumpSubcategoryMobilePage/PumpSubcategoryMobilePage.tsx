@@ -10,6 +10,7 @@ import { PageHeader, getSubcatGeneralInfo } from "@/features/PageHeader";
 import {
     getPumpData,
     getPumpDataDetail,
+    pumpPoll,
     usePumpPoll,
 } from "@/entities/PumpDevice";
 import { GeneralInfoBlock } from "@/features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
@@ -21,6 +22,8 @@ import { ParameterLinks } from "../ParameterLinks/ParameterLinks";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
 import { pumpPageSliceActions } from "../../model/slice";
+import { usePoll } from "@/shared/hooks/useDevicePoll";
+import { FooterWithoutPanel } from "@/shared/ui/FooterWithoutPanel/FooterWithoutPanel";
 
 interface PumpSubcategoryMobilePageProps {
     className?: string;
@@ -55,8 +58,10 @@ const PumpSubcategoryMobilePage = (
         pollingInterval: 15000,
         skip: !device?.device,
     });
-    const poll = usePumpPoll({
+    const [poll, isBusy] = usePoll({
         autoPoll: deviceData?.connection_info.connection_type !== "GSM",
+        pollDevice: pumpPoll,
+        initialBusy: deviceData?.is_busy,
         id: deviceData?.id ?? MOCK_ID,
         onUpdate: () => {
             refetch();
@@ -79,7 +84,7 @@ const PumpSubcategoryMobilePage = (
 
     const content = (
         <VFlexBox className={cls.detail}>
-            <PageHeader poll={poll} generalData={generalData} />
+            <PageHeader poll={poll} generalData={generalData} isBusy={isBusy} />
             <SubcategoryTabs
                 content={{
                     0: [
@@ -120,6 +125,10 @@ const PumpSubcategoryMobilePage = (
                         generalData={generalData}
                     />
                 )}
+            <FooterWithoutPanel
+                className={cls.footer}
+                pollCallback={fetchEvents}
+            />
         </VFlexBox>
     );
 

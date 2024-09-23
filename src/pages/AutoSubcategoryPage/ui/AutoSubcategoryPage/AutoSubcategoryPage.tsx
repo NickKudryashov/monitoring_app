@@ -9,7 +9,7 @@ import cls from "./AutoSubcategoryPage.module.scss";
 import classNames from "@/shared/lib/classNames/classNames";
 import { getAutomaticDevice } from "@/entities/AutomaticDevice/api/AutomaticDeviceApi";
 import $api from "@/shared/api";
-import { useAutoPoll } from "@/entities/AutomaticDevice";
+import { AutoDevicePoll, useAutoPoll } from "@/entities/AutomaticDevice";
 import { GeneralInfoBlock } from "@/features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
 import { SubcategoryTabs } from "@/widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { Footer } from "@/shared/ui/Footer/Footer";
@@ -21,6 +21,7 @@ import { PageMapper } from "../PageMapper/PageMapper";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { tabSliceActions } from "@/widgets/SubcategoryTabs";
 import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
+import { usePoll } from "@/shared/hooks/useDevicePoll";
 interface AutoSubcategoryPageProps {
     className?: string;
 }
@@ -29,12 +30,12 @@ interface AutoParamsDict {
     [key: string]: ParameterGroup[];
 }
 const AutoSubcategoryPage = (
-    props: PropsWithChildren<AutoSubcategoryPageProps>
+    props: PropsWithChildren<AutoSubcategoryPageProps>,
 ) => {
     const { className } = props;
     const { id } = useParams<{ id: string }>();
     const { data: generalData, refetch: refetchGeneral } = getSubcatGeneralInfo(
-        id ?? MOCK_STR_ID
+        id ?? MOCK_STR_ID,
     );
     const { data: dataID, isLoading: isLoadingDataId } =
         getAutoDeviceIdBySystem(id ?? MOCK_STR_ID);
@@ -47,14 +48,16 @@ const AutoSubcategoryPage = (
     });
     const dispatch = useAppDispatch();
 
-    const poll = useAutoPoll({
+    const [poll, isBusy] = usePoll({
         id: devData?.id ?? MOCK_ID,
+        pollDevice: AutoDevicePoll.pollDevice,
+        initialBusy: devData?.is_busy,
         onUpdate: refetchDev,
         autoPoll: devData?.connection_info?.connection_type !== "GSM",
     });
     const fetchEvents = useCallback(async () => {
         const response = await $api.get<EventAnswer>(
-            "subcategory_events/" + id
+            "subcategory_events/" + id,
         );
         return response.data;
     }, [id]);
@@ -76,7 +79,11 @@ const AutoSubcategoryPage = (
     const content = (
         <DetailView onScroll={scrollHandler}>
             <FlexSubcategoryPageWrap>
-                <PageHeader poll={poll} generalData={generalData} />
+                <PageHeader
+                    poll={poll}
+                    generalData={generalData}
+                    isBusy={isBusy}
+                />
 
                 <HFlexBox
                     className={cls.contentBox}
@@ -122,7 +129,7 @@ const AutoSubcategoryPage = (
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
-                                        []
+                                        [],
                                     )}
                                 >
                                     СФОРМИРОВАТЬ ГРАФИК

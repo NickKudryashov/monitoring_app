@@ -7,13 +7,15 @@ import cls from "./AutoSubcategoryMobilePage.module.scss";
 import classNames from "@/shared/lib/classNames/classNames";
 import { getAutomaticDevice } from "@/entities/AutomaticDevice/api/AutomaticDeviceApi";
 import $api from "@/shared/api";
-import { useAutoPoll } from "@/entities/AutomaticDevice";
+import { AutoDevicePoll, useAutoPoll } from "@/entities/AutomaticDevice";
 import { GeneralInfoBlock } from "@/features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
 import { SubcategoryTabs } from "@/widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { getAutoDeviceIdBySystem } from "@/entities/ObjectSubCategory";
 import { PageMapper } from "../PageMapper/PageMapper";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
+import { usePoll } from "@/shared/hooks/useDevicePoll";
+import { FooterWithoutPanel } from "@/shared/ui/FooterWithoutPanel/FooterWithoutPanel";
 interface AutoSubcategoryMobilePageProps {
     className?: string;
 }
@@ -37,8 +39,10 @@ const AutoSubcategoryMobilePage = (
     });
     const dispatch = useAppDispatch();
 
-    const poll = useAutoPoll({
+    const [poll, isBusy] = usePoll({
         id: devData?.id ?? MOCK_ID,
+        pollDevice: AutoDevicePoll.pollDevice,
+        initialBusy: devData?.is_busy,
         onUpdate: refetchDev,
         autoPoll: devData?.connection_info?.connection_type !== "GSM",
     });
@@ -58,7 +62,7 @@ const AutoSubcategoryMobilePage = (
 
     const content = (
         <VFlexBox alignItems="center" className={cls.detail}>
-            <PageHeader poll={poll} generalData={generalData} />
+            <PageHeader poll={poll} generalData={generalData} isBusy={isBusy} />
 
             <SubcategoryTabs
                 content={{
@@ -94,6 +98,10 @@ const AutoSubcategoryMobilePage = (
             />
 
             <PageMapper devData={devData} generalData={generalData} />
+            <FooterWithoutPanel
+                className={cls.footer}
+                pollCallback={fetchEvents}
+            />
         </VFlexBox>
     );
 

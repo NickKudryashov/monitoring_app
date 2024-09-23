@@ -5,33 +5,70 @@ import { GeneralAnswer } from "./api/api";
 import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 import { memo } from "react";
 import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
+import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 
 interface PageHeaderProps {
     generalData: GeneralAnswer | undefined;
     poll?: () => void;
     report?: () => void;
+    isBusy?: boolean;
 }
 
 export const PageHeader = memo(function _PageHeader(
     props: PageHeaderProps,
 ): React.ReactElement {
-    const { generalData, poll = () => {}, report = () => {} } = props;
+    const { generalData, poll = () => {}, report = () => {}, isBusy } = props;
     const isMobile = useMobilDeviceDetect();
     if (isMobile) {
         return (
-            <div
-                className={classNames("", {}, [
-                    cls.headerBox,
-                    cls.headers,
-                    cls.mobileHeader,
-                ])}
-            >
-                <div className={cls.subCatNameWrapper}>
-                    <p className={cls.subsystemNameField}>
-                        {generalData ? generalData.subcat_name : "..."}
-                    </p>
+            <VFlexBox gap="5px">
+                <div
+                    className={classNames("", {}, [
+                        cls.headerBox,
+                        cls.headers,
+                        cls.mobileHeader,
+                    ])}
+                >
+                    <div className={cls.subCatNameWrapper}>
+                        <p className={cls.subsystemNameField}>
+                            {generalData ? generalData.subcat_name : "..."}
+                        </p>
+                    </div>
                 </div>
-            </div>
+                <div
+                    className={classNames("", {}, [
+                        cls.headerBox,
+                        cls.headers,
+                        cls.mobileHeader,
+                        cls.mobilePlate,
+                    ])}
+                >
+                    <div
+                        className={classNames(cls.subCatNameWrapper, {}, [
+                            cls.mobileDateField,
+                        ])}
+                    >
+                        <p>Дата последнего обновления:</p>
+                        <div className={cls.dateField}>
+                            <p>{generalData?.last_update}</p>
+                        </div>
+                    </div>
+                    <AppButon
+                        onClick={poll}
+                        theme={AppButtonTheme.SUBCATEGORY_BUTTON}
+                        disabled={isBusy}
+                        className={classNames(
+                            cls.btns,
+                            {
+                                [cls.busyBtn]: isBusy,
+                            },
+                            [],
+                        )}
+                    >
+                        {isBusy ? "Опрашивается" : "Опросить"}
+                    </AppButon>
+                </div>
+            </VFlexBox>
         );
     }
     return (
@@ -69,9 +106,16 @@ export const PageHeader = memo(function _PageHeader(
                 <AppButon
                     onClick={poll}
                     theme={AppButtonTheme.SUBCATEGORY_BUTTON}
-                    className={cls.btns}
+                    disabled={isBusy}
+                    className={classNames(
+                        cls.btns,
+                        {
+                            [cls.busyBtn]: isBusy,
+                        },
+                        [],
+                    )}
                 >
-                    Опросить
+                    {isBusy ? "Опрашивается" : "Опросить"}
                 </AppButon>
                 <AppButon
                     onClick={report}

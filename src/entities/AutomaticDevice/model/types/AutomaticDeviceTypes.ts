@@ -24,6 +24,7 @@ export interface AutomaticDeviceData {
     subcategory:number;
     autopoll?:boolean;
     interval?:number;
+    is_busy:boolean;
     connection_info:ConnInfo;
     parameters:ParameterGroup[]
 }

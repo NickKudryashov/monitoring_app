@@ -25,6 +25,7 @@ export interface PumpDeviceData {
     subcategory:number;
     autopoll?:boolean;
     interval?:number;
+    is_busy:boolean;
     connection_info:ConnInfo;
     parametersByGroup:Record<string,PumpParameter[]>
 }

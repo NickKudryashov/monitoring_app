@@ -11,3 +11,4 @@ export {HeatParameterRow} from "./ui/HeatParameterRow/HeatParameterRow";
 export {ParameterColumnBySystem} from "./ui/ParameterColumnBySystem/ParameterColumnBySystem";
 export {AllParametersView} from "./ui/AllParametersView/AllParametersView";
 export {request_archives} from "./lib/requestArchives";
+export {ManualPoll as HeatDeviceManualPoll} from './service/HeatDeviceService'

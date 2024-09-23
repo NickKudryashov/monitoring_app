@@ -1,0 +1,18 @@
+.Footer {
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    background: var(--subcolor-4) ;
+    border-radius: var(--border-radius-type-1);
+
+    // height:var(--footer-height);
+    text-align: end;
+    font:var(--font-16-px);
+    color:var(--subcolor-9);
+}
+
+.footerPanel {
+    overflow-y: hidden;
+}

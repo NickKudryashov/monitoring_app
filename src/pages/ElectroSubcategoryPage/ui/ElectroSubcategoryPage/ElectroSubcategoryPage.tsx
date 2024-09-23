@@ -13,6 +13,7 @@ import { SubcategoryTabs } from "@/widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { Footer } from "@/shared/ui/Footer/Footer";
 import {
     downloadXLSFile,
+    ElectroPoll,
     getElectroDeviceData,
     useElectroPoll,
 } from "@/entities/ElectroDevice";
@@ -24,6 +25,7 @@ import { PageMapper } from "../PageMapper/PageMapper";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { tabSliceActions } from "@/widgets/SubcategoryTabs";
 import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
+import { usePoll } from "@/shared/hooks/useDevicePoll";
 interface ElectroSubcategoryPageProps {
     className?: string;
 }
@@ -48,8 +50,10 @@ const ElectroSubcategoryPage = (
     } = getElectroDeviceData(elData?.device ?? MOCK_ID, {
         skip: !elData?.device,
     });
-    const poll = useElectroPoll({
+    const [poll, isBusy] = usePoll({
         id: devData?.id ?? MOCK_ID,
+        pollDevice: ElectroPoll.pollDevice,
+        initialBusy: devData?.is_busy,
         autoPoll: devData?.connection_info.connection_type !== "GSM",
         onUpdate: () => {
             refetchDev();
@@ -82,6 +86,7 @@ const ElectroSubcategoryPage = (
                     poll={poll}
                     report={() => devData && downloadXLSFile(devData)}
                     generalData={generalData}
+                    isBusy={isBusy}
                 />
 
                 <HFlexBox

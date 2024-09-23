@@ -13,6 +13,10 @@
     height: 8.988764044%;
 }
 
+.busyBtn {
+    opacity: 0.8;
+}
+
 
 .subcatNameBox {
     width:23%;
@@ -94,4 +98,25 @@
 
 .objectInfoTextField {
     white-space: nowrap;
+}
+
+.mobilePlate {
+    row-gap:5px;
+}
+
+
+@media (width <= 768px) {
+    .mobileDateField {
+        font-size:0.70rem;
+        white-space: nowrap ;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .btns {
+        width:100%;
+        border:1px solid var(--subcolor-9);
+        border-radius: var(--border-radius-type-3);
+        font-size: 0.7rem;
+    }
 }

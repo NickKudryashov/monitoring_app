@@ -4,3 +4,4 @@ export {ElectroStatistic} from "./ui/ElectroStatisticBlock/ElectroStatistic";
 export {getElectroDeviceData} from "./api/electroDeviceApi";
 export {useElectroPoll} from "./hooks/poll";
 export {downloadXLSFile} from "./helpers/reportDownload";
+export {ManualPoll as ElectroPoll} from './hooks/poll'

@@ -1,11 +1,15 @@
 import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./HeatSubcategoryMobilePage.module.scss";
 
-import { type PropsWithChildren } from "react";
+import { useCallback, type PropsWithChildren } from "react";
 import { useParams } from "react-router-dom";
 import { DetailView } from "@/widgets/DetailView";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { getHeatDeviceData, useHeatPoll } from "@/entities/Heatcounters";
+import {
+    getHeatDeviceData,
+    HeatDeviceManualPoll,
+    useHeatPoll,
+} from "@/entities/Heatcounters";
 import { HeatParameters } from "@/entities/Heatcounters/types/type";
 import { GeneralInfoBlock } from "../../../../features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
 import { PageHeader, getSubcatGeneralInfo } from "@/features/PageHeader";
@@ -13,6 +17,12 @@ import { SubcategoryTabs } from "@/widgets/SubcategoryTabs/ui/SubcategoryTabs";
 import { getHeatDeviceIdBySystem } from "@/entities/ObjectSubCategory";
 import { PageTabMapper } from "../PageMapper/PageMapper";
 import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
+import { usePoll } from "@/shared/hooks/useDevicePoll";
+import { Footer } from "@/shared/ui/Footer/Footer";
+import $api from "@/shared/api";
+import { EventAnswer } from "@/shared/types/eventTypes";
+import { PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { FooterWithoutPanel } from "@/shared/ui/FooterWithoutPanel/FooterWithoutPanel";
 interface HeatSubcategoryMobilePageProps {
     className?: string;
 }
@@ -41,18 +51,27 @@ const HeatSubcategoryMobilePage = (
         pollingInterval: 15000,
         skip: device?.device === undefined,
     });
-    const poll = useHeatPoll({
+    const [poll, isBusy] = usePoll({
         autoPoll: deviceData?.connection_info.connection_type !== "GSM",
+        pollDevice: HeatDeviceManualPoll.pollDevice,
         id: deviceData?.id ?? MOCK_ID,
+        initialBusy: deviceData?.is_busy,
         onUpdate: () => {
             refetch();
             refetchGeneral();
         },
     });
 
+    const fetchEvents = useCallback(async () => {
+        const response = await $api.get<EventAnswer>(
+            "subcategory_events/" + id,
+        );
+        return response.data;
+    }, [id]);
+
     const content = (
         <VFlexBox alignItems="center" className={cls.detail}>
-            <PageHeader poll={poll} generalData={generalData} />
+            <PageHeader poll={poll} generalData={generalData} isBusy={isBusy} />
 
             {/* <VFlexBox
                 className={cls.contentBox}
@@ -121,6 +140,11 @@ const HeatSubcategoryMobilePage = (
                 className={cls.mobileContent}
                 deviceData={deviceData}
                 generalData={generalData}
+            />
+
+            <FooterWithoutPanel
+                className={cls.footer}
+                pollCallback={fetchEvents}
             />
         </VFlexBox>
     );

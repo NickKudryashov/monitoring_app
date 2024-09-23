@@ -7,6 +7,7 @@ import { HFlexBox } from "../FlexBox/HFlexBox/HFlexBox";
 import { useSelector } from "react-redux";
 import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { getVersion } from "@/entities/user";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 interface MainLayoutProps {
     className?: string;
     navbar: React.ReactNode;
