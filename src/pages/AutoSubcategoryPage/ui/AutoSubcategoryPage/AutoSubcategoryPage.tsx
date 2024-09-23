@@ -52,7 +52,10 @@ const AutoSubcategoryPage = (
         id: devData?.id ?? MOCK_ID,
         pollDevice: AutoDevicePoll.pollDevice,
         initialBusy: devData?.is_busy,
-        onUpdate: refetchDev,
+        onUpdate: () => {
+            refetchDev();
+            refetchGeneral();
+        },
         autoPoll: devData?.connection_info?.connection_type !== "GSM",
     });
     const fetchEvents = useCallback(async () => {
