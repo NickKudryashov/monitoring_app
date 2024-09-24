@@ -1,3 +1,5 @@
-export interface EventAnswer {
-    events?:string[];
+interface EventUnit {
+    message:string;
+    id:number
 }
+export type EventAnswer = EventUnit[]

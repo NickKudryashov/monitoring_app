@@ -13,49 +13,52 @@ interface FooterProps {
 
 export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
     const { className = "", pollCallback } = props;
-    const [events, setEvents] = useState<string[]>([]);
+    const [events, setEvents] = useState<EventAnswer>([]);
     const intervalRef = useRef<ReturnType<typeof setInterval>>(
         null,
     ) as MutableRefObject<ReturnType<typeof setInterval>>;
-    const footRef = useRef<HTMLDivElement>(
-        null,
-    ) as MutableRefObject<HTMLDivElement>;
-    const wrapRef = useRef<HTMLDivElement>(
-        null,
-    ) as MutableRefObject<HTMLDivElement>;
+    const footRef =
+        useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
+    const wrapRef =
+        useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
     const scrollOnLoad = useRef<boolean>(true);
-    const inView = useRef<boolean>(true);
-    const setInView = useCallback((arg: boolean) => {
-        inView.current = arg;
-    }, []);
-    useViewportCheck({
-        changeStatus: setInView,
+    // const inView = useRef<boolean>(true);
+    // const setInView = useCallback((arg: boolean) => {
+    //     inView.current = arg;
+    // }, []);
+    const inView = useViewportCheck({
         triggerRef: footRef,
         wrapperRef: wrapRef,
     });
-    const fetchEvents = async () => {
+    const fetchEvents = useCallback(async () => {
         if (!pollCallback) {
             return;
         }
-        const { events } = await pollCallback();
+        const events = await pollCallback();
         if (!events) {
             return;
         }
         setEvents(events);
-        if ((scrollOnLoad.current || inView.current) && footRef.current) {
-            footRef.current.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-                inline: "nearest",
-            });
+        console.log(`Скрол реф ${scrollOnLoad.current} инвью стейт ${inView}`);
+        if (scrollOnLoad.current && footRef.current) {
+            console.log("СКРООЛИМ ФУТЕР");
+            setTimeout(
+                () =>
+                    footRef.current.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                        inline: "nearest",
+                    }),
+                100,
+            );
             scrollOnLoad.current = false;
         }
-    };
+    }, [pollCallback]);
 
     useEffect(() => {
         if (pollCallback) {
             fetchEvents();
-            intervalRef.current = setInterval(fetchEvents, 2000);
+            intervalRef.current = setInterval(fetchEvents, 2500);
 
             return () => {
                 scrollOnLoad.current = true;
@@ -65,7 +68,7 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
                 setEvents([]);
             };
         }
-    }, [pollCallback]);
+    }, [pollCallback, fetchEvents]);
     return (
         <Panel
             style={{ overflowY: "auto" }}
@@ -82,9 +85,9 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
                 ref={wrapRef}
             >
                 {events.map((el, i) => (
-                    <p key={i}>{el}</p>
+                    <p key={el.id}>{el.message}</p>
                 ))}
-                <div ref={footRef} />
+                <div style={{ width: "1px", height: "1px" }} ref={footRef} />
             </VFlexBox>
         </Panel>
     );

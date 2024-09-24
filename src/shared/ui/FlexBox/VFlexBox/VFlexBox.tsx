@@ -1,4 +1,9 @@
-import type { CSSProperties, HTMLProps, PropsWithChildren } from "react";
+import {
+    forwardRef,
+    type CSSProperties,
+    type HTMLProps,
+    type PropsWithChildren,
+} from "react";
 import cls from "./VFlexBox.module.scss";
 import { ALIGNITEMS, GAP, JUSTIFYCONTENT } from "../props";
 import classNames from "@/shared/lib/classNames/classNames";

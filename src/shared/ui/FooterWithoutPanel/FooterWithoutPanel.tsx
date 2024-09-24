@@ -14,7 +14,7 @@ interface FooterWithoutPanelProps {
 export const FooterWithoutPanel = memo(
     (props: PropsWithChildren<FooterWithoutPanelProps>) => {
         const { className = "", pollCallback } = props;
-        const [events, setEvents] = useState<string[]>([]);
+        const [events, setEvents] = useState<EventAnswer>([]);
         const intervalRef = useRef<ReturnType<typeof setInterval>>(
             null,
         ) as MutableRefObject<ReturnType<typeof setInterval>>;
@@ -25,12 +25,7 @@ export const FooterWithoutPanel = memo(
             null,
         ) as MutableRefObject<HTMLDivElement>;
         const scrollOnLoad = useRef<boolean>(true);
-        const inView = useRef<boolean>(true);
-        const setInView = useCallback((arg: boolean) => {
-            inView.current = arg;
-        }, []);
-        useViewportCheck({
-            changeStatus: setInView,
+        const inView = useViewportCheck({
             triggerRef: footRef,
             wrapperRef: wrapRef,
         });
@@ -38,17 +33,21 @@ export const FooterWithoutPanel = memo(
             if (!pollCallback) {
                 return;
             }
-            const { events } = await pollCallback();
+            const events = await pollCallback();
             if (!events) {
                 return;
             }
             setEvents(events);
-            if ((scrollOnLoad.current || inView.current) && footRef.current) {
-                footRef.current.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest",
-                    inline: "nearest",
-                });
+            if (scrollOnLoad.current && footRef.current) {
+                setTimeout(
+                    () =>
+                        footRef.current.scrollIntoView({
+                            behavior: "smooth",
+                            block: "nearest",
+                            inline: "nearest",
+                        }),
+                    100,
+                );
                 scrollOnLoad.current = false;
             }
         };
@@ -75,7 +74,7 @@ export const FooterWithoutPanel = memo(
                 ref={wrapRef}
             >
                 {events.map((el, i) => (
-                    <p key={i}>{el}</p>
+                    <p key={el.id}>{el.message}</p>
                 ))}
                 <div ref={footRef} />
             </VFlexBox>
