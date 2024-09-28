@@ -17,6 +17,13 @@
     box-shadow: var(--shadow-redesign);
 }
 
+.shadow {
+    border: none;
+    box-shadow: var(--shadow-redesign);
+    border-radius: var(--border-radius-type-3);
+    outline: none;
+}
+
 .option {
     // background: var(--inverted-bg-color);
 }

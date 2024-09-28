@@ -41,7 +41,7 @@ export const ParameterRow = (props: ParameterRowProps): ReactElement => {
                 { [cls.selected]: selected },
                 [],
             )}
-            alignItems="end"
+            alignItems="center"
             align="space-around"
         >
             <div className={cls.paramVerboseWrapper}>

@@ -42,7 +42,12 @@ export function ParameterColumnBySystem(
                 className={classNames(cls.sysHeader, {}, [cls.paramBoxHeader])}
             >{`ПАРАМЕТРЫ КОНТУРА ${header}`}</p>
             {/* </div> */}
-            <VFlexBox className={cls.rows} height="80%" align="space-around">
+            <VFlexBox
+                className={cls.rows}
+                height="80%"
+                gap="5px"
+                align="space-around"
+            >
                 {params?.map((elem) => (
                     <HeatParameterRow
                         key={elem.id}

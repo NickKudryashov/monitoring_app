@@ -43,7 +43,8 @@
 .dtlWrapper {
     height: 100%;
     margin-left: 50px;
-    overflow-y: auto;
+
+    // overflow-y: auto;
     box-sizing: border-box;
     width:calc(100% - 50px);
     flex-shrink: 1;
@@ -73,6 +74,11 @@
     padding-top: 10px;
 }
 
+@media screen and (width > 768px) {
+    .dtlWrapper {
+        overflow-y: auto;
+    }
+}
 
 @media screen and (width <= 768px) {
     .dtlWrapper {
@@ -87,6 +93,13 @@
     }
 
     .sidebarwrapper {
-        height:calc(100% - 20px);
+        height:max-content;
     } 
+
+    .MainLayout {
+        max-width: 100%;
+
+        // gap:20px;
+        // justify-content: space-between;
+    }
 }

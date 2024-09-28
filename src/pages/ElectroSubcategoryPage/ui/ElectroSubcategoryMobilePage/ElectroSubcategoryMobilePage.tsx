@@ -100,7 +100,7 @@ const ElectroSubcategoryMobilePage = (
                             }
                             systems={devData?.systemCount}
                             address={generalData?.adress}
-                            name={generalData?.user_object_name}
+                            name={generalData?.abonent}
                         />,
                     ],
                     2: [

@@ -62,7 +62,7 @@ export const ElectroCounterDeviceDetail = memo(
                                 )}
                             >
                                 <HFlexBox
-                                    width="45%"
+                                    width="40%"
                                     gap="10px"
                                     alignItems="center"
                                 >
@@ -73,9 +73,10 @@ export const ElectroCounterDeviceDetail = memo(
                                     </p>
                                 </HFlexBox>
                                 <HFlexBox
-                                    width={isMobile ? "50%" : "40%"}
+                                    width={isMobile ? "60%" : "40%"}
                                     alignItems="center"
-                                    align="space-around"
+                                    gap="5px"
+                                    // align="space-between"
                                 >
                                     <p>{`всего: ${stat[el].count}`}</p>
                                     <p>{`опрошены: ${stat[el].success}`}</p>
@@ -84,7 +85,7 @@ export const ElectroCounterDeviceDetail = memo(
                             </HFlexBox>
                             {el === currentCan && !counterIsLoading && (
                                 <VFlexBox
-                                    height="88%"
+                                    height="75%"
                                     gap="5px"
                                     className={cls.countersField}
                                 >

@@ -41,12 +41,11 @@ export const ElectroStatistic = memo(
         };
         return (
             <VFlexBox
-                align="space-between"
                 height="32%"
                 className={classNames(cls.titleBlock, {}, [className])}
             >
                 <HFlexBox
-                    height="17%"
+                    height="20%"
                     className={cls.headerBlock}
                     align="center"
                     alignItems="center"

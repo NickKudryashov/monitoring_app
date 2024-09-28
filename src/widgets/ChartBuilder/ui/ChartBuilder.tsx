@@ -42,8 +42,8 @@ import {
     useRef,
     useState,
 } from "react";
-import { AppButon } from "@/shared/ui/AppButton/AppButton";
-import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { Modal } from "@/shared/ui/Modal/Modal";
@@ -351,6 +351,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 end_date={endDate}
             />
             <VFlexBox
+                gap="10px"
                 className={classNames(
                     cls.settingsBox,
                     { [cls.collapsed]: panelHide },
@@ -368,6 +369,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                             <p>{"с  "}</p>
                             <AppInput
                                 type="date"
+                                theme={InputThemes.SHADOW}
                                 value={startDate}
                                 onChange={(e) =>
                                     setStartDate((prev) => {
@@ -379,6 +381,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                             <p>{"по  "}</p>
                             <AppInput
                                 type="date"
+                                theme={InputThemes.SHADOW}
                                 value={endDate}
                                 onChange={(e) =>
                                     setEndDate((prev) => {
@@ -394,12 +397,16 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                             preselectedSubcategory={subcatData?.id}
                         />
                         <AppButon
+                            theme={AppButtonTheme.SHADOW}
                             disabled={!(!!startDate && !!endDate)}
                             onClick={() => setParameterModalIsOpen(true)}
                         >
                             Выбрать параметры
                         </AppButon>
-                        <AppButon onClick={pdfCreateClickHandler}>
+                        <AppButon
+                            theme={AppButtonTheme.SHADOW}
+                            onClick={pdfCreateClickHandler}
+                        >
                             В пдф
                         </AppButon>
                         <VFlexBox gap="7px">
@@ -422,6 +429,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                     </>
                 )}
                 <AppButon
+                    theme={AppButtonTheme.SHADOW}
                     className={cls.collapseBtn}
                     onClick={() => setPanelHide((prev) => !prev)}
                 >

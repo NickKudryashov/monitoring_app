@@ -27,7 +27,7 @@
     border:1px solid var(--subcolor-9);
     row-gap:5px;
     width:100%;
-    font-size:0.6rem;
+    font-size:0.8rem;
     border-radius: var(--border-radius-type-3) ;
 }
 
@@ -46,6 +46,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    font-size: 0.6rem;
 }
 
 .sysCountPref {
@@ -135,10 +136,12 @@
         flex: 1 0 85%; /* explanation below */
         height:61.6%;
         font-size:0.55rem;
+        max-height: 250px;
     }
 
     .systemLine {
         height:18%;
+        min-height: 40px;
     }
 }
 

@@ -2,6 +2,7 @@
     color:var(--subcolor-9);
     font:var(--font-14-px);
     font-size: 0.8vw;
+    margin-top: 5px;
 }
 
 .canHeader {
@@ -9,6 +10,7 @@
     box-shadow: var(--sub-shadow-light);
     font-weight: bold;
     background: transparent;
+    font-size: 0.75rem;
     flex-shrink: 0;
 }
 
@@ -41,5 +43,12 @@
 @media screen and (width <= 768px) {
     .main {
         font-size: 0.5rem;
+    }
+
+    .canHeader {
+        margin-top: 5px;
+        min-height: 25px;
+        font-size: 0.6rem;
+        white-space: nowrap;
     }
 }

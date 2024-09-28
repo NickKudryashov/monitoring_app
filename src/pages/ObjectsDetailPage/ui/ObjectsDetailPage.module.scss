@@ -47,3 +47,13 @@
 
 .rowsdata {
 }
+
+@media (width <= 768px) {
+    .detail {
+        gap:0.5%;
+    }
+
+    .filters {
+        font-size: 0.45rem;
+    }  
+}

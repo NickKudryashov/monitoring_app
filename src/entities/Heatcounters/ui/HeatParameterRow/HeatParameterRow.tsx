@@ -6,6 +6,7 @@ import cls from "./HeatParameterRow.module.scss";
 import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 import classNames from "@/shared/lib/classNames/classNames";
 import { editHeatParameterName } from "../../api/heatcountersapi";
+import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 interface HeatParameterRowProps {
     elem: HeatParameters;
     onParameterClick?: (parameter: HeatParameters) => void;
@@ -18,6 +19,7 @@ export const HeatParameterRow = (props: HeatParameterRowProps) => {
     const [selected, setSelected] = useState(preSelected);
     const [edit] = editHeatParameterName();
     const debouncedEdit = useDebounce(edit, 1500);
+    const isMobile = useMobilDeviceDetect();
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setParamName(e.target.value);
         debouncedEdit({ id: elem.id, comment: e.target.value });

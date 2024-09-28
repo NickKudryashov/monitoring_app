@@ -66,28 +66,41 @@
 
 @media screen and (width <= 768px) {
     .paramNameField {
-        font-size: 0.6rem;
+        font-size: 0.7rem;
+        width: 45%;
+        min-height: 15px;
     }
 
     .dimensionField {
-        font-size: 0.55rem;
+        font-size: 0.7rem;
     }
 
     .valueField {
-        font-size: 0.55rem;
+        font-size: 0.7rem;
+        width:45%;
+        min-height: 15px;
     }
 
     .paramVerboseWrapper {
-        font-size: 0.55rem;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        font-size: 0.7rem;
+        width:95%;
+        min-height: 15px;
     }
 
     .inp {
-        font-size: 0.55rem;
+        font-size: 0.7rem;
     }
 
     .paramRow {
-        min-height: 20px;
+        min-height: 30px;
+        width: 95%;
+        padding-top: 3px;
+        padding-bottom: 3px;
     height: calc(15px + 10%);
+    flex-wrap: wrap;
+    box-shadow: var(--shadow-redesign);
 
     }
 

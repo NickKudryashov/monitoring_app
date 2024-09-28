@@ -71,11 +71,11 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
     }, [pollCallback, fetchEvents]);
     return (
         <Panel
-            style={{ overflowY: "auto" }}
+            style={{ overflowY: "hidden" }}
             id={"footer"}
             order={2}
-            defaultSize={20}
-            minSize={20}
+            defaultSize={15}
+            minSize={15}
             maxSize={40}
         >
             <VFlexBox

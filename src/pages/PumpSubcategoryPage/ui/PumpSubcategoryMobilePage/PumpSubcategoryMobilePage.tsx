@@ -96,7 +96,7 @@ const PumpSubcategoryMobilePage = (
                             }
                             systems={0}
                             address={generalData?.adress}
-                            name={generalData?.user_object_name}
+                            name={generalData?.abonent}
                         />,
                     ],
                     1: [

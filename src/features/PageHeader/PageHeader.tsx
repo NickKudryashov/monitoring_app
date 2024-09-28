@@ -40,6 +40,22 @@ export const PageHeader = memo(function _PageHeader(
                         cls.headerBox,
                         cls.headers,
                         cls.mobileHeader,
+                    ])}
+                >
+                    <div className={cls.subCatNameWrapperVbox}>
+                        <p className={cls.subsystemNameField}>
+                            {generalData ? generalData.user_object_name : "..."}
+                        </p>
+                        <p className={cls.subsystemNameField}>
+                            {generalData ? generalData.adress : "..."}
+                        </p>
+                    </div>
+                </div>
+                <div
+                    className={classNames("", {}, [
+                        cls.headerBox,
+                        cls.headers,
+                        cls.mobileHeader,
                         cls.mobilePlate,
                     ])}
                 >

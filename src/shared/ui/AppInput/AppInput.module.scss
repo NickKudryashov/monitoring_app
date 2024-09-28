@@ -36,8 +36,16 @@
     padding-left: 15%;
 }
 
+.shadow {
+    color:var(--subcolor-9);
+    border-radius: var(--border-radius-type-3);
+    border: none;
+    background: white;
+    box-shadow: var(--shadow-redesign);
 
-@media (min-width:1024px) {
+}
+
+@media (width >=1024px) {
     .designed_primary
     {
         width:178px;
@@ -45,7 +53,7 @@
     }
 }
 
-@media (max-width:1024px) {
+@media (width <=1024px) {
     .designed_primary
     {
         width:120px;

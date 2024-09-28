@@ -10,6 +10,7 @@
     color:white;
     border-radius: var(--border-radius-type-4);
     text-align: center;
+    padding-top: 0.1%;
 }
 
 .previewName {
@@ -33,5 +34,6 @@
 
     .previewVal{
         min-height: 20px;
+        padding-top:1%;
     }
 }

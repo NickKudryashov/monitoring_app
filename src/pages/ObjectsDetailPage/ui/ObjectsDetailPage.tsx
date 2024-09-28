@@ -61,17 +61,20 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
     if (objects) {
         content = (
             <DetailView className={cls.detail}>
-                <HFlexBox height="2%" width="35%"></HFlexBox>
+                {!isMobile && <HFlexBox height="2%" width="35%"></HFlexBox>}
                 <HFlexBox
-                    height="2%"
+                    height={isMobile ? "1%" : "2%"}
                     className={cls.filters}
                     alignItems="center"
-                    gap="7px"
-                    align="center"
-                    width="54%"
+                    gap="3px"
+                    align={isMobile ? "space-around" : "center"}
+                    width={isMobile ? "100%" : "54%"}
                 >
-                    {!isMobile && (
+                    {
                         <>
+                            <HFlexBox width="20%" alignItems="center">
+                                <p>Очистить фильтры</p>
+                            </HFlexBox>
                             <HFlexBox gap="3px" width="10%" alignItems="center">
                                 <p>Нет связи</p>
                                 <FilterIcon />
@@ -84,17 +87,16 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                                 <p>События</p>
                                 <FilterIcon />
                             </HFlexBox>
-                            <HFlexBox gap="3px" width="20%" alignItems="center">
-                                <p>Время последнего опроса</p>
-                                <FilterIcon />
+                            <HFlexBox gap="3px" width="15%" alignItems="center">
+                                <p>Показать всё</p>
                             </HFlexBox>
-                            <HFlexBox width="10%" alignItems="center">
+                            <HFlexBox width="15%" alignItems="center">
                                 <p onClick={onChangeViewClick}>
                                     Переключить вид
                                 </p>
                             </HFlexBox>
                         </>
-                    )}
+                    }
                 </HFlexBox>
                 {defaultView &&
                     objects.map(

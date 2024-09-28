@@ -55,25 +55,27 @@
     .titleBlock {
         font-size: 0.65rem;
         height: auto;
+        min-height: 150px;
     }
 
     .headerBlock {
-        font-size: 0.6rem;
+        font-size: 0.7rem;
         min-height: 30px;
     }
     
     .data {
-        font-size: 0.45rem;
+        font-size: 0.6rem;
         justify-content: space-between;
+        min-height: 100px;
     }
     
     .field {
-        font-size: 0.45rem;
+        font-size: 0.6rem;
     
     }
 
     .item {
-        font-size: 0.5rem;
+        font-size: 0.6rem;
     }
 
 

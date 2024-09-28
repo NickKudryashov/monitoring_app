@@ -42,20 +42,19 @@ export const ElectroCounterDetailView = memo(
                 className={classNames(cls.counter_line, mods, [className])}
             >
                 <b
-                    style={{ width: "13%" }}
+                    style={{ width: isMobile ? "19%" : "13%" }}
                     className={cls.rowElement}
                 >{`${counter.device_type_verbose_name}`}</b>
                 <p
-                    style={{ width: "6%" }}
+                    style={{ width: isMobile ? "19%" : "6%" }}
                     className={cls.rowElement}
                 >{`ID:${counter.inner_id}`}</p>
-                {!isMobile && (
-                    <p style={{ width: "13%" }} className={cls.rowElement}>{`№${
-                        counter.device_num ?? " Н/О"
-                    }`}</p>
-                )}
+                <p
+                    style={{ width: isMobile ? "19%" : "13%" }}
+                    className={cls.rowElement}
+                >{`№${counter.device_num ?? " Н/О"}`}</p>
                 <input
-                    style={{ width: "13%" }}
+                    style={{ width: isMobile ? "23%" : "13%" }}
                     className={classNames(cls.rowElement, mods, [cls.inp])}
                     value={devName}
                     onChange={(e) => editHandler(e.target.value, counter.id)}
@@ -63,8 +62,9 @@ export const ElectroCounterDetailView = memo(
                 {counter.parameters?.map((parameter) => (
                     <HFlexBox
                         alignItems="center"
-                        align="space-between"
-                        width="15.7%"
+                        align={isMobile ? "flex-start" : "space-between"}
+                        width={isMobile ? "30%" : "15.7%"}
+                        gap="7px"
                         key={parameter.id}
                     >
                         <b

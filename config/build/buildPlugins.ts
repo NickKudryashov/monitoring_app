@@ -8,7 +8,8 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 export function buildPLugins({paths,api,isDev}:BuildOptions):webpack.WebpackPluginInstance[]{
     const plugins =  [
         new HTMLWebpackPlugin({
-            template:paths.html
+            template:paths.html,
+            favicon: paths.src+"/shared/assets/icons/LogoIcon.svg"
         }),
         new webpack.ProgressPlugin(),
         new MiniCssExtractPlugin({

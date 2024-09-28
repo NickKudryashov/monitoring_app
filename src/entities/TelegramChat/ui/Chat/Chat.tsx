@@ -16,7 +16,7 @@ import { useDebounce } from "@/shared/hooks/useDebounce";
 import { Modal } from "@/shared/ui/Modal/Modal";
 import { Loader } from "@/shared/ui/Loader/Loader";
 import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
-import { AppInput } from "@/shared/ui/AppInput/AppInput";
+import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 import {
     getChatsIsLoading,
     getMessageBuChats,
@@ -174,6 +174,36 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
             >
                 <img className={cls.maxPhoto} src={imagePath} />
             </Modal>
+            <div className={cls.chatBtns}>
+                <AppButon
+                    className={cls.btn}
+                    theme={AppButtonTheme.SHADOW}
+                    onClick={() => setShowMedia(!showMedia)}
+                >
+                    {showMedia ? "Выключить медиа" : "Включить медиа"}
+                </AppButon>
+                <AppButon
+                    className={cls.btn}
+                    theme={AppButtonTheme.SHADOW}
+                    onClick={() => setAllMediaModal(true)}
+                >
+                    {"Показать все медиа"}
+                </AppButon>
+                <AppInput
+                    type="date"
+                    width={"200px"}
+                    theme={InputThemes.SHADOW}
+                    value={currentDate}
+                    onChange={(e) => setCurrentDate(e.target.value)}
+                />
+                <AppButon
+                    className={cls.btn}
+                    theme={AppButtonTheme.SHADOW}
+                    onClick={() => setCurrentDate("")}
+                >
+                    {"Сбросить дату"}
+                </AppButon>
+            </div>
             <div className={cls.chatBox}>
                 {/* {`Доступен чат: ${currentChat.title}`} */}
                 {currentChat &&
@@ -242,7 +272,11 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                                                     }
                                                 />
                                             )}
-                                            {el.text && <b>{el.text}</b>}
+                                            {el.text && (
+                                                <p className={cls.text_message}>
+                                                    {el.text}
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
                                 )}
@@ -250,34 +284,6 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                     ))}
                 {isLoading && <Loader />}
                 <div ref={triggerRef} />
-            </div>
-            <div className={cls.chatBtns}>
-                <AppButon
-                    className={cls.btn}
-                    theme={AppButtonTheme.SHADOW}
-                    onClick={() => setShowMedia(!showMedia)}
-                >
-                    {showMedia ? "Выключить медиа" : "Включить медиа"}
-                </AppButon>
-                <AppButon
-                    className={cls.btn}
-                    theme={AppButtonTheme.SHADOW}
-                    onClick={() => setAllMediaModal(true)}
-                >
-                    {"Показать все медиа"}
-                </AppButon>
-                <AppInput
-                    type="date"
-                    value={currentDate}
-                    onChange={(e) => setCurrentDate(e.target.value)}
-                />
-                <AppButon
-                    className={cls.btn}
-                    theme={AppButtonTheme.SHADOW}
-                    onClick={() => setCurrentDate("")}
-                >
-                    {"Сбросить дату"}
-                </AppButon>
             </div>
         </div>
     );

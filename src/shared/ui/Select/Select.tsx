@@ -7,9 +7,16 @@ export interface SelectOption<T extends string> {
     content: string;
 }
 
+export const SelectTheme = {
+    SHADOW: "shadow",
+} as const;
+
+export type SelectTheme = (typeof SelectTheme)[keyof typeof SelectTheme];
+
 interface SelectProps<T extends string> {
     className?: string;
     label?: string;
+    theme?: SelectTheme;
     options?: SelectOption<T>[];
     value?: T;
     onChange?: (value: T) => void;
@@ -17,7 +24,15 @@ interface SelectProps<T extends string> {
 }
 
 export const Select = <T extends string>(props: SelectProps<T>) => {
-    const { className = "", label, options, onChange, value, readonly } = props;
+    const {
+        className = "",
+        label,
+        options,
+        onChange,
+        value,
+        readonly,
+        theme = SelectTheme.SHADOW,
+    } = props;
 
     const onChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
         if (onChange) {
@@ -36,7 +51,7 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
                     {opt.content}
                 </option>
             )),
-        [options]
+        [options],
     );
 
     return (
@@ -44,7 +59,7 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
             {label && <span className={cls.label}>{`${label}`}</span>}
             <select
                 disabled={readonly}
-                className={cls.select}
+                className={classNames(cls.select, {}, [cls[theme]])}
                 value={value}
                 onChange={onChangeHandler}
             >

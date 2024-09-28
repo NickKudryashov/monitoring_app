@@ -18,7 +18,7 @@ export const GeneralInfoBlock = memo(function _GeneralInfoBlock(
     const { systems, device_type_verbose_name, device_num, address, name } =
         props;
     return (
-        <VFlexBox className={cls.generalDeviceInfoCard} gap="15px">
+        <VFlexBox className={cls.generalDeviceInfoCard}>
             <VFlexBox height={"60.5%"} width={"100%"} align="space-between">
                 <p className={cls.subtitle}>Тип объекта:</p>
                 <div
@@ -48,7 +48,7 @@ export const GeneralInfoBlock = memo(function _GeneralInfoBlock(
 
             <HFlexBox
                 className={cls.generalCardItems}
-                height={"10.5%"}
+                height={"17.5%"}
                 align="space-between"
             >
                 <VFlexBox width={"43%"}>
@@ -74,7 +74,7 @@ export const GeneralInfoBlock = memo(function _GeneralInfoBlock(
             </HFlexBox>
             <HFlexBox
                 className={cls.generalCardItems}
-                height={"10.5%"}
+                height={"17.5%"}
                 align="space-between"
             >
                 <VFlexBox width={"43%"}>

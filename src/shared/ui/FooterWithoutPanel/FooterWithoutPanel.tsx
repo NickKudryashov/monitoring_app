@@ -72,6 +72,7 @@ export const FooterWithoutPanel = memo(
                 className={classNames(cls.Footer, {}, [className])}
                 alignItems="start"
                 ref={wrapRef}
+                width="100%"
             >
                 {events.map((el, i) => (
                     <p key={el.id}>{el.message}</p>

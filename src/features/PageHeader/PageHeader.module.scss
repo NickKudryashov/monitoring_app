@@ -96,14 +96,32 @@
     padding:5px;
 }
 
+.subCatNameWrapperVbox {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: var(--border-radius-type-1);
+    width:100%;
+    height:40%;
+    padding:5px;
+}
+
 .objectInfoTextField {
     white-space: nowrap;
 }
 
 .mobilePlate {
-    row-gap:5px;
+    display: flex;
+    flex-direction: column;
+    row-gap:7px;
 }
 
+.vbox {
+    .subCatObjInfoWrapper {
+        flex-direction: column;
+    }
+}
 
 @media (width <= 768px) {
     .mobileDateField {

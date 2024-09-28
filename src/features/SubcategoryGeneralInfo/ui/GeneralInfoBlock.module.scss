@@ -1,6 +1,8 @@
 .generalDeviceInfoCard {
     background: var(--subcolor-4);
-    padding-top: 4%;
+
+    // padding-top: 4%;
+    gap:5px;
 
     // padding:7px;
     color:var(--subcolor-9);
@@ -58,11 +60,16 @@
 
 @media screen and (width <= 768px) {
     .subtitle {
-        font-size: 0.5rem;
+        font-size: 0.7rem;
     }
 
     .generalCardTextWrapper {
-        font-size: 0.5rem;
+        font-size: 0.75rem;
         min-height: 21px;
+    }
+
+    .generalDeviceInfoCard {
+        padding-top: 0;
+        gap:0;
     }
 }

@@ -109,12 +109,11 @@
 
 @media screen and (width <= 768px) {
     .ObjectCard {
-        width:75%;
+        width:100%;
         flex: 1 0 20%; /* explanation below */
         flex-basis: 20%;
         font-size: 0.5rem;
         max-height:80px;
-        max-width: 220px;
     }
 
     .objectTitle {

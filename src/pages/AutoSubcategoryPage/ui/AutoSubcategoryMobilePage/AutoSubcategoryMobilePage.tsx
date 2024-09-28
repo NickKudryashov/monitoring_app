@@ -78,7 +78,7 @@ const AutoSubcategoryMobilePage = (
                             }
                             systems={devData?.system_count}
                             address={generalData?.adress}
-                            name={generalData?.user_object_name}
+                            name={generalData?.abonent}
                         />,
                     ],
                     1: [

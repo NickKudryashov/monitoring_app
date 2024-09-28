@@ -44,7 +44,7 @@
     height:var(--tab-height);
     font:var(--font-s);
     box-shadow: 0 2px rgb(0 0 0 / 20%);
-    background: rgb(185 183 183 / 56.8%);
+    background: white;
     border:none;
     border-radius: 5px;
     cursor: pointer;
@@ -52,6 +52,11 @@
     position: relative;
 
 }
+
+.shadow_btn:hover {
+    opacity: 0.8;
+}
+
 
 .shadow_btn::after {
     content: "";
@@ -87,7 +92,7 @@
     border-radius: var(--border-radius-type-1);
 }
 
-@media (min-width:1024px) {
+@media (width >=1024px) {
     .designed_outline
     {
         width:111px;
@@ -96,7 +101,7 @@
     }
 }
 
-@media (max-width:1024px) {
+@media (width <=1024px) {
     .designed_outline
     {
         width:100px;

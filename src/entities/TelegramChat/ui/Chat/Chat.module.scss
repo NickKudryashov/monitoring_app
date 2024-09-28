@@ -1,10 +1,13 @@
 .Chat {
-    width:60%;
+    width:100%;
     height:90%;
     display: flex;
-    margin-top: 20px;
     flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+    margin-top: 20px;
     margin-right: 10px;
+    gap:10px
 
     // background: rgb(98 147 221 / 54.8%);
 }
@@ -12,16 +15,12 @@
 
 .chatBox {
     display: flex;
-    overflow-y: auto;
-    width:700px;
+    width:50%;
     height: 95%;
     flex-direction: column;
 
     // background:url('../../assets/chat.png');
-    background:gray;
-    border-radius: 20px;
     padding:10px;
-    box-shadow: 0 5px 10px 2px rgb(34 60 80 / 30%);
     margin-right: 10%;
 
 }
@@ -37,13 +36,20 @@
 }
 
 .msg {
-    background: rgb(255 255 255 / 80.4%);
+    // background: rgb(255 255 255 / 80.4%);
+    color:var(--subcolor-9);
     margin:5px;
     padding:5px;
     padding-bottom: 5px;
     border-radius: 10px;
     width:fit-content;
+
+}
+
+.text_message {
     box-shadow: 0 5px 10px 2px rgb(34 60 80 / 30%);
+    border-radius: var(--border-radius-type-3);
+    padding:5px;
 
 }
 
@@ -52,6 +58,7 @@
     max-height:300px;
     width: auto;
     height: auto;
+    background: transparent;
 }
 
 .maxPhotoBox {
@@ -78,10 +85,35 @@
 
 .dateMarker {
     background: rgb(255 255 255 / 80.4%);
+    box-shadow: 0 5px 10px 2px rgb(34 60 80 / 30%);
     font-weight: bold;
     text-align: center;
     width:max-content;
     margin-left: 40%;
     padding:3px;
     border-radius: 10px;
+    color:var(--subcolor-9)
 } 
+
+@media (width > 768px) {
+    .chatBox {
+        overflow-y: auto;
+    }
+}
+
+@media (width <= 768px) {
+    .Chat {
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    .chatBox {
+        width:95%;
+
+    }
+
+    .chatBtns {
+        align-items: center;
+    }
+}

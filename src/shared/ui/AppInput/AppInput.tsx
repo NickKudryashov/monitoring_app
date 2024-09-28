@@ -7,6 +7,7 @@ import { Field, Input, Label } from "@headlessui/react";
 export enum InputThemes {
     AUTH = "auth",
     DEFAULT = "default",
+    SHADOW = "shadow",
     OUTLINE = "outline",
     CLEAR = "clear",
     DESIGNED_PRIMARY = "designed_primary",

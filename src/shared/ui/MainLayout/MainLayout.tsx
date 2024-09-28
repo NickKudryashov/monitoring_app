@@ -35,3 +35,4 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
         </div>
     );
 });
+MainLayout.displayName = "MainLayout";

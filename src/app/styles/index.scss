@@ -56,6 +56,13 @@ body {
     border: 10px solid var(--subcolor-1);
 }
 
+// @media screen and (width <= 768px) {
+//     *::-webkit-scrollbar {
+//         width: 0;
+//         height:24%;
+//     }
+// }
+
 // * {
 //     scrollbar-width: thin;
 //     scrollbar-color: blue orange;
