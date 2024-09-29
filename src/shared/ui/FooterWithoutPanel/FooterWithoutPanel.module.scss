@@ -6,15 +6,25 @@
     overscroll-behavior-y: contain;
     background: var(--subcolor-4) ;
     border-radius: var(--border-radius-type-1);
-    margin-top:10px;
+    margin-top:15px;
     max-height: 100px;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
 
     // height:var(--footer-height);
     text-align: end;
     font:var(--font-16-px);
+    font-size: 0.7rem;
     color:var(--subcolor-9);
 }
 
 .footerPanel {
     overflow-y: hidden;
+}
+
+.trigger {
+    width:15px;
+    height:15px;
+
+    // border: 2px solid red;
 }

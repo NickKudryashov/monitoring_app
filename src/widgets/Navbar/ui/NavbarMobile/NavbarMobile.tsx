@@ -2,18 +2,16 @@ import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./NavbarMobile.module.scss";
 import LogoIcon from "@/shared/assets/icons/NavbarMobileLogoIcon.svg";
 import { PropsWithChildren, useCallback, useState } from "react";
-import { useAppDispatch } from "@/shared/hooks/hooks";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getUserName } from "@/entities/user";
+import { getUserName, useUserActions } from "@/entities/user";
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import MenuIcon from "@/shared/assets/icons/NavbarMobileMenuIcon.svg";
-import ProfileIcon from "@/shared/assets/icons/NavbarMobileProfileIcon.svg";
 import EventsIcon from "@/shared/assets/icons/NavbarMobileEventsIcon.svg";
-import MessageIcon from "@/shared/assets/icons/NavbarMobileMessageIcon.svg";
 import { NavbarMenu } from "../NavbarMenu/NavbarMenu";
-
+import ExitIcon from "@/shared/assets/icons/ExitIcon.svg";
+import { useAppDispatch } from "@/shared/hooks/hooks";
 interface NavbarProps {
     className?: string;
     isAuth?: boolean;
@@ -31,8 +29,7 @@ export function MobileNavbar(props: PropsWithChildren<NavbarProps>) {
     const email = useSelector(getUserName);
     const [showEvents, setShowEvents] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
-    const navigate = useNavigate();
-
+    const { logout } = useUserActions();
     const toggleMenuHandler = useCallback(() => {
         setShowMenu((prev) => !prev);
     }, []);
@@ -43,21 +40,19 @@ export function MobileNavbar(props: PropsWithChildren<NavbarProps>) {
 
     return (
         <HFlexBox
-            height="35px"
             className={classNames(cls.Navbar, {}, [className])}
             align="space-around"
             alignItems="center"
+            height="40px"
         >
             <VFlexBox
                 alignItems="center"
                 height="fit-content"
                 width="fit-content"
+                onClick={toggleMenuHandler}
             >
                 <p>МЕНЮ</p>
-                <MenuIcon
-                    onClick={toggleMenuHandler}
-                    className={cls.menuIcon}
-                />
+                <MenuIcon className={cls.menuIcon} />
             </VFlexBox>
             <VFlexBox
                 alignItems="center"
@@ -67,7 +62,7 @@ export function MobileNavbar(props: PropsWithChildren<NavbarProps>) {
                 <p>Тип компании</p>
                 <p>Название компании</p>
             </VFlexBox>
-            <LogoIcon />
+            <LogoIcon className={cls.logoIcon} />
             <VFlexBox
                 alignItems="center"
                 height="fit-content"
@@ -76,9 +71,8 @@ export function MobileNavbar(props: PropsWithChildren<NavbarProps>) {
                 <p>{email}</p>
                 <p>Должность</p>
             </VFlexBox>
-            <MessageIcon />
             <EventsIcon />
-            <ProfileIcon />
+            <ExitIcon onClick={() => logout()} className={cls.icon} />
             {showMenu && <NavbarMenu onClose={closeMenuHandler} />}
         </HFlexBox>
     );

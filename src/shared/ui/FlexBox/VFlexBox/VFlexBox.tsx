@@ -1,5 +1,7 @@
 import {
+    ForwardedRef,
     forwardRef,
+    ReactElement,
     type CSSProperties,
     type HTMLProps,
     type PropsWithChildren,
@@ -17,34 +19,42 @@ interface VFlexBoxProps extends HTMLProps<HTMLDivElement> {
     height?: string;
 }
 
-export function VFlexBox(props: PropsWithChildren<VFlexBoxProps>) {
-    const {
-        className = "",
-        name,
-        children,
-        align,
-        gap,
-        alignItems,
-        width,
-        height,
-        ...propss
-    } = props;
+export const VFlexBox = forwardRef(
+    (
+        props: PropsWithChildren<VFlexBoxProps>,
+        ref: ForwardedRef<HTMLDivElement>,
+    ) => {
+        const {
+            className = "",
+            name,
+            children,
+            align,
+            gap,
+            alignItems,
+            width,
+            height,
+            ...propss
+        } = props;
 
-    const styleProps: CSSProperties = {
-        gap: gap,
-        justifyContent: align,
-        alignItems: alignItems,
-        width,
-        height,
-    };
+        const styleProps: CSSProperties = {
+            gap: gap,
+            justifyContent: align,
+            alignItems: alignItems,
+            width,
+            height,
+        };
 
-    return (
-        <div
-            className={classNames(cls.VFlexBox, {}, [className])}
-            style={height ? { ...styleProps, height } : styleProps}
-            {...propss}
-        >
-            {children}
-        </div>
-    );
-}
+        return (
+            <div
+                ref={ref}
+                className={classNames(cls.VFlexBox, {}, [className])}
+                style={height ? { ...styleProps, height } : styleProps}
+                {...propss}
+            >
+                {children}
+            </div>
+        );
+    },
+);
+
+VFlexBox.displayName = "VStack";

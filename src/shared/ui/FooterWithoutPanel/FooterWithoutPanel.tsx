@@ -25,10 +25,6 @@ export const FooterWithoutPanel = memo(
             null,
         ) as MutableRefObject<HTMLDivElement>;
         const scrollOnLoad = useRef<boolean>(true);
-        const inView = useViewportCheck({
-            triggerRef: footRef,
-            wrapperRef: wrapRef,
-        });
         const fetchEvents = async () => {
             if (!pollCallback) {
                 return;
@@ -38,16 +34,20 @@ export const FooterWithoutPanel = memo(
                 return;
             }
             setEvents(events);
-            if (scrollOnLoad.current && footRef.current) {
-                setTimeout(
-                    () =>
-                        footRef.current.scrollIntoView({
+            if (
+                (scrollOnLoad.current ||
+                    wrapRef.current.scrollHeight - wrapRef.current.scrollTop <=
+                        101) &&
+                footRef.current
+            ) {
+                setTimeout(() => {
+                    if (wrapRef.current) {
+                        wrapRef.current.scrollTo({
+                            top: wrapRef.current.scrollHeight,
                             behavior: "smooth",
-                            block: "nearest",
-                            inline: "nearest",
-                        }),
-                    100,
-                );
+                        });
+                    }
+                }, 100);
                 scrollOnLoad.current = false;
             }
         };
@@ -77,7 +77,7 @@ export const FooterWithoutPanel = memo(
                 {events.map((el, i) => (
                     <p key={el.id}>{el.message}</p>
                 ))}
-                <div ref={footRef} />
+                <div className={cls.trigger} ref={footRef} />
             </VFlexBox>
         );
     },

@@ -90,10 +90,13 @@
         font-size: 0.5rem;
         padding-right: 5px;
         padding-top: 10px;
+        display: inline-block;
     }
 
     .sidebarwrapper {
-        height:max-content;
+        flex: 1 0 auto;
+        align-items: stretch; 
+        height:100%;
     } 
 
     .MainLayout {

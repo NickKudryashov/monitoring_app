@@ -67,35 +67,37 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                     className={cls.filters}
                     alignItems="center"
                     gap="3px"
-                    align={isMobile ? "space-around" : "center"}
-                    width={isMobile ? "100%" : "54%"}
+                    align={isMobile ? "flex-end" : "center"}
+                    width={isMobile ? "100%" : "51%"}
                 >
                     {
-                        <>
-                            <HFlexBox width="20%" alignItems="center">
+                        <HFlexBox width="100%" align="flex-end">
+                            <HFlexBox width="25%" alignItems="center">
                                 <p>Очистить фильтры</p>
                             </HFlexBox>
-                            <HFlexBox gap="3px" width="10%" alignItems="center">
+                            <HFlexBox gap="3px" width="15%" alignItems="center">
                                 <p>Нет связи</p>
                                 <FilterIcon />
                             </HFlexBox>
-                            <HFlexBox gap="3px" width="10%" alignItems="center">
+                            <HFlexBox gap="3px" width="13%" alignItems="center">
                                 <p>Аварии</p>
                                 <FilterIcon />
                             </HFlexBox>
-                            <HFlexBox gap="3px" width="10%" alignItems="center">
+                            <HFlexBox gap="3px" width="15%" alignItems="center">
                                 <p>События</p>
                                 <FilterIcon />
                             </HFlexBox>
                             <HFlexBox gap="3px" width="15%" alignItems="center">
                                 <p>Показать всё</p>
                             </HFlexBox>
-                            <HFlexBox width="15%" alignItems="center">
-                                <p onClick={onChangeViewClick}>
-                                    Переключить вид
-                                </p>
-                            </HFlexBox>
-                        </>
+                            {!isMobile && (
+                                <HFlexBox width="15%" alignItems="center">
+                                    <p onClick={onChangeViewClick}>
+                                        Переключить вид
+                                    </p>
+                                </HFlexBox>
+                            )}
+                        </HFlexBox>
                     }
                 </HFlexBox>
                 {defaultView &&

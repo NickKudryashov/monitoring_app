@@ -1,5 +1,7 @@
 .HeatSubcategoryMobilePage {
     width:95%;
+    min-height: 100%;
+    overflow-anchor: none;
 }
 
 .subcatTabs {
@@ -28,5 +30,5 @@
     height:150px;
     font-size: 0.65rem;
     text-align: start;
-    margin-top: 5px;
+    margin-top: 15px;
 }

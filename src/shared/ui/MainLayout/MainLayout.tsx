@@ -31,7 +31,7 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
                     </div>
                 </div>
             </div>
-            <p className={cls.version}>{version}</p>
+            {/* <p className={cls.version}>{version}</p> */}
         </div>
     );
 });

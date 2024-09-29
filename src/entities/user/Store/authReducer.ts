@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserData } from "../Models/User";
 import { DefaultAuthCheckResponse, DefaultAuthResponse, } from "../types/types";
 import { defaultAuthCheck, defaultLogin, getUserData, getVersion } from "./actionCreators";
+import { buildSlice } from "@/shared/store";
 
 export interface UserState {
     isAuth:boolean;
@@ -21,7 +22,7 @@ const initialState:UserState = {
 };
 
 
-export const userSlice = createSlice({
+export const userSlice = buildSlice({
     name:"user",
     initialState,
     reducers: {
@@ -61,5 +62,7 @@ export const userSlice = createSlice({
 });
 
 // export const userReducer = userSlice.reducer;
-export const {reducer:userReducer} = userSlice;
-export const {actions:userActions} = userSlice;
+export const {reducer:userReducer,
+                actions:userActions,
+                useActions:useUserActions
+} = userSlice;

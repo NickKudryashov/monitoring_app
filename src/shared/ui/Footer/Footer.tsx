@@ -39,18 +39,20 @@ export const Footer = memo((props: PropsWithChildren<FooterProps>) => {
             return;
         }
         setEvents(events);
-        console.log(`Скрол реф ${scrollOnLoad.current} инвью стейт ${inView}`);
-        if (scrollOnLoad.current && footRef.current) {
-            console.log("СКРООЛИМ ФУТЕР");
-            setTimeout(
-                () =>
-                    footRef.current.scrollIntoView({
+        if (
+            (scrollOnLoad.current ||
+                wrapRef.current.scrollHeight - wrapRef.current.scrollTop <=
+                    101) &&
+            footRef.current
+        ) {
+            setTimeout(() => {
+                if (wrapRef.current) {
+                    wrapRef.current.scrollTo({
+                        top: wrapRef.current.scrollHeight,
                         behavior: "smooth",
-                        block: "nearest",
-                        inline: "nearest",
-                    }),
-                100,
-            );
+                    });
+                }
+            }, 100);
             scrollOnLoad.current = false;
         }
     }, [pollCallback]);

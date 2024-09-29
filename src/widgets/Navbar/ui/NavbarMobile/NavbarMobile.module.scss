@@ -2,10 +2,21 @@
     background: var(--subcolor-1);
     font: var(--font-14-px);
     font-size: 0.375em;
-    height:35px;
+    height:45px;
+    min-height:35px;
     width:100%;
 }
 
 .menuIcon {
+    color:white;
+}
+
+.logoIcon {
+    align-self: center;
+}
+
+.icon {
+    width:18px;
+    height:18px;
     color:white;
 }

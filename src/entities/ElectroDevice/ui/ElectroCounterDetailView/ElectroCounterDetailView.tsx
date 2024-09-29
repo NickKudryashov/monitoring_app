@@ -71,8 +71,7 @@ export const ElectroCounterDetailView = memo(
                             style={{ width: "15%" }}
                             className={cls.rowElement}
                         >{`${parameter.tag}:`}</b>
-                        <p
-                            style={{ width: "70%" }}
+                        <div
                             className={classNames(cls.rowElement, {}, [
                                 cls.valueField,
                             ])}
@@ -80,7 +79,7 @@ export const ElectroCounterDetailView = memo(
                             {parameter.value
                                 ? `${parameter.value}   ${parameter.dimension}`
                                 : "не считано"}
-                        </p>
+                        </div>
                     </HFlexBox>
                 ))}
             </HFlexBox>

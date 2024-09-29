@@ -17,7 +17,6 @@ export const useViewportCheck = ({triggerRef,wrapperRef}:ViewportCheckProps):boo
         })
     ,[wrapperRef]); 
     useEffect(()=>{
-        // console.log("INF SCROLL");
         const observer = new IntersectionObserver(([entry])=>{
             setInView(entry.isIntersecting);
         }, options);

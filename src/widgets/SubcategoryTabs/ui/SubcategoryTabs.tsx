@@ -2,7 +2,7 @@ import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./SubcategoryTabs.module.scss";
 import classNames from "@/shared/lib/classNames/classNames";
-import { ReactElement, ReactNode, memo, useEffect } from "react";
+import { Fragment, ReactElement, ReactNode, memo, useEffect } from "react";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { SubcategoryTabsList, TabContentLength } from "../types/type";
 import { tabSliceActions } from "../model/slice/slice";
@@ -67,7 +67,7 @@ export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = memo(
                 alignItems="center"
             >
                 {(isMobile ? MOBILE_TAB_NAMES : TAB_NAMES).map((el, i) => (
-                    <>
+                    <Fragment key={el}>
                         <AppButon
                             className={classNames(
                                 cls.btns,
@@ -93,7 +93,7 @@ export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = memo(
                             <VFlexBox gap="10px" className={cls.paramTitleBox}>
                                 {content[tab]?.map((el, i) => (
                                     <div
-                                        key={i}
+                                        key={el.key}
                                         className={classNames(
                                             "",
                                             {
@@ -113,7 +113,7 @@ export const SubcategoryTabs: React.FC<SubcategoryTabsProps> = memo(
                                 ))}
                             </VFlexBox>
                         )}
-                    </>
+                    </Fragment>
                 ))}
             </VFlexBox>
         );

@@ -37,6 +37,11 @@
     font-size: 0.6vw;
 }
 
+.valueField {
+    border-radius: var(--border-radius-type-3);
+    background: var(--subcolor-11);
+    width:82%;
+}
 
 
 @media screen and (width <= 768px) {
