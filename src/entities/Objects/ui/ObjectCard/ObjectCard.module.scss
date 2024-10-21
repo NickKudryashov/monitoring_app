@@ -3,6 +3,7 @@
     display:flex;
     flex: 1 0 21%; /* explanation below */
     font:var(--font-m-mini);
+    max-width:600px;
 
     // flex-direction: column;
     justify-content: space-between;
