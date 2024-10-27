@@ -7,7 +7,7 @@ interface MessagesFetchProps {
     start_datetime?:string;
 }
 
-const telegramChatQuery = rtkApi.injectEndpoints({
+export const telegramChatQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
         getMessagesByChat:build.query<{messages:TelegramMessage[],stop:boolean},MessagesFetchProps>({
             query: ({chat_id,...rest}) =>{

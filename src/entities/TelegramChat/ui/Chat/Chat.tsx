@@ -23,7 +23,7 @@ import {
     getTelegramChats,
     useGetTelegramChats,
 } from "../../model/selectors/selector";
-import { useGetTelegramMessages } from "../../api/api";
+import { telegramChatQuery, useGetTelegramMessages } from "../../api/api";
 const STATIC = __IS_DEV__ ? "http://localhost" : "https://avs.eco";
 interface ChatProps {
     className?: string;
@@ -44,6 +44,8 @@ const returnDate = (date: string): string => {
     return day;
 };
 
+const CURRENT_DATE = new Date().toJSON().slice(0, 10);
+
 export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const { className = "", obj_id } = props;
     const dispatch = useAppDispatch();
@@ -60,13 +62,14 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const [allMediaModal, setAllMediaModal] = useState(false);
     const stopFetch = useRef<boolean>(false);
     const [imagePath, setImagePath] = useState("");
-    const [currentDate, setCurrentDate] = useState("");
+    const [currentDate, setCurrentDate] = useState(CURRENT_DATE);
     const [currentChat, setCurrentChat] = useState<TelegramChat | null>();
     const { setIsLoading } = useTelegramChatActions();
     const {
         data: messages,
         isLoading: messagesLoading,
         isSuccess,
+        refetch,
     } = useGetTelegramMessages(
         {
             chat_id: currentChat?.id || 0,
@@ -76,12 +79,20 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
         { skip: currentChat === undefined || stopFetch.current },
     );
     useEffect(() => {
-        setIsLoading(true);
+        dispatch(telegramChatQuery.util.resetApiState());
+        // if (isSuccess) {
+        //     refetch();
+        // }
+    }, [currentDate]);
+    useEffect(() => {
         stopFetch.current = false;
-        setStartOffset(0);
         if (chatAvailable) {
             const temp = chats.filter((el) => el.objects.includes(obj_id))[0];
+            setStartOffset(0);
             setCurrentChat(temp);
+            if (isSuccess) {
+                refetch();
+            }
         }
     }, [currentChat?.id, dispatch, obj_id, currentDate]);
     const photoClickHandler = (path: string | undefined) => {
