@@ -1,5 +1,5 @@
 import classNames from "@/shared/lib/classNames/classNames";
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import cls from "./ElectroStatistic.module.scss";
 
 import type { PropsWithChildren } from "react";
@@ -8,6 +8,7 @@ import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
+import { editAutopollSettings } from "../../api/electroDeviceApi";
 
 interface ElectroStatisticProps {
     className?: string;
@@ -35,10 +36,17 @@ export const ElectroStatistic = memo(
             id,
         } = props;
         const [autoFlag, setAutoFlag] = useState(autoPollMode);
+        const [subMutation] = editAutopollSettings();
         const isMobile = useMobilDeviceDetect();
         const mods = {
             [cls.inverted]: !autoFlag,
         };
+        const autoPollHandler = useCallback(() => {
+            if (autoFlag !== undefined) {
+                subMutation({ id: id, autopoll_flag: !autoFlag });
+                setAutoFlag((prev) => !prev);
+            }
+        }, [id, autoFlag]);
         return (
             <VFlexBox
                 height="32%"
@@ -104,11 +112,11 @@ export const ElectroStatistic = memo(
                         <p className={cls.item}>ВЫКЛЮЧИТЬ АВТООПРОС</p>
                         <HFlexBox width="33%" height="70%">
                             <HFlexBox
-                                onClick={() => setAutoFlag((prev) => !prev)}
+                                onClick={autoPollHandler}
                                 width="50%"
                                 className={classNames(cls.field, mods, [])}
                             >
-                                {autoPollMode ?? "не задан"}
+                                {autoFlag ? "вкл" : "выкл"}
                             </HFlexBox>
                         </HFlexBox>
                     </HFlexBox>

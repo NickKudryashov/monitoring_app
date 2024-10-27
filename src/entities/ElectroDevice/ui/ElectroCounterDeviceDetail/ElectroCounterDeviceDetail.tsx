@@ -62,7 +62,7 @@ export const ElectroCounterDeviceDetail = memo(
                                 )}
                             >
                                 <HFlexBox
-                                    width="40%"
+                                    width="50%"
                                     gap="10px"
                                     alignItems="center"
                                 >

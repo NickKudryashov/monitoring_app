@@ -22,12 +22,10 @@ export function ObjectDetail(props: PropsWithChildren<ObjectDetailProps>) {
     return (
         <div className={cls.wrap}>
             <div className={classNames(cls.ObjectDetail, {}, [className])}>
-                {obj ? (
+                {obj && (
                     <b
                         className={cls.title}
                     >{`${obj.name} общая информация:`}</b>
-                ) : (
-                    <Loader />
                 )}
                 {children}
             </div>

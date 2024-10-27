@@ -30,6 +30,7 @@ TelegramChat[],
 interface FetchMessagesProps {
     chat_id:number;
     offset:number;
+    start_datetime?:string;
 }
 
 
@@ -37,11 +38,11 @@ export const fetchMessages = createAsyncThunk<
 MessagesResponse,
 FetchMessagesProps,
  ThunkConfig<string>
->("get/telegramMessages", async ({chat_id,offset=0}, thunkApi) => {
+>("get/telegramMessages", async ({chat_id,offset=0,start_datetime=''}, thunkApi) => {
     const { dispatch, extra, rejectWithValue, getState } = thunkApi;
 
     try {
-        const response = await $api.post<TelegramMessage[]>("chat/messages/"+chat_id,{start:offset});
+        const response = await $api.post<TelegramMessage[]>("chat/messages/"+chat_id,{start:offset,start_datetime:start_datetime});
         if (!response.data) throw new Error();
 
         return {chat_id,messages:response.data};

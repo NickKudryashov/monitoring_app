@@ -67,11 +67,14 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                     className={cls.filters}
                     alignItems="center"
                     gap="3px"
-                    align={isMobile ? "flex-end" : "center"}
+                    align={isMobile ? "flex-end" : "space-between"}
                     width={isMobile ? "100%" : "51%"}
                 >
                     {
-                        <HFlexBox width="100%" align="flex-end">
+                        <HFlexBox
+                            width="100%"
+                            align={isMobile ? "space-between" : "flex-end"}
+                        >
                             <HFlexBox width="25%" alignItems="center">
                                 <p>Очистить фильтры</p>
                             </HFlexBox>

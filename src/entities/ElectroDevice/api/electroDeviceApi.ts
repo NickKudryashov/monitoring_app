@@ -27,6 +27,13 @@ const electroDevicesQuery = rtkApi.injectEndpoints({
                 method: "PUT",
                 body: patch,
             }),
+        }),
+        editAutopollSettings:build.mutation<void,{id:number,autopoll_flag:boolean}>({
+            query:({id,...patch})=>({
+                url: `electro/${id}/edit`,
+                method: "POST",
+                body: patch,
+            }),
         })
     }),
     overrideExisting: false,
@@ -35,3 +42,4 @@ const electroDevicesQuery = rtkApi.injectEndpoints({
 export const getElectroDeviceData = electroDevicesQuery.useGetElectroDeviceDataQuery;
 export const getElectroDeviceCountersByCan = electroDevicesQuery.useGetElectroCountersByCanQuery;
 export const renameElectroCounter = electroDevicesQuery.useEditElectrocounterNameMutation;
+export const editAutopollSettings = electroDevicesQuery.useEditAutopollSettingsMutation;
