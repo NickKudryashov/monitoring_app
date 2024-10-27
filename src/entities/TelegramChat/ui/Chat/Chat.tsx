@@ -93,7 +93,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     };
     const scrollCallback = useCallback(() => {
         if (!messagesLoading && currentChat?.id && chatAvailable) {
-            setStartOffset((prev) => prev + 25);
+            setStartOffset((prev) => prev + 18);
             if (messages?.stop) {
                 stopFetch.current = true;
             }
