@@ -17,13 +17,16 @@ const telegramChatQuery = rtkApi.injectEndpoints({
                     body:rest
                 };
             },
+            serializeQueryArgs: ({endpointName}) => {
+                return endpointName
+            },
             // Always merge incoming data to the cache entry
             merge: (currentCache, newItems,{arg}) => {
                 currentCache.messages.push(...newItems.messages)
             },
             // Refetch when the page arg changes
             forceRefetch({ currentArg, previousArg }) {
-                return (currentArg?.start_datetime !== previousArg?.start_datetime) || (currentArg?.chat_id !== previousArg?.chat_id)
+                return currentArg!==previousArg
             },
         }),
     }),
