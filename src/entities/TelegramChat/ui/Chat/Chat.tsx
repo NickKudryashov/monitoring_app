@@ -96,7 +96,6 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
             setStartOffset((prev) => prev + 25);
             if (messages?.stop) {
                 stopFetch.current = true;
-                alert("остановили");
             }
             wrapRef.current.scrollTop -= 50;
         }
