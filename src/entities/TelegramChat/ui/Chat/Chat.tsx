@@ -94,7 +94,6 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const scrollCallback = () => {
         console.log(!isLoading, currentChat?.id, chatAvailable, stop);
         if (!isLoading && currentChat?.id && chatAvailable && !stop) {
-            console.log("Изменили оффсет");
             dispatch(
                 fetchMessages({
                     chat_id: currentChat?.id,

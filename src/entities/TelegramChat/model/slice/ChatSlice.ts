@@ -39,7 +39,6 @@ export const telegramChatSlice = buildSlice({
                 state.isLoading = false;
                 state.messages = state.messages.concat(action.payload.messages)
                 state.stop = action.payload.stop
-                console.log('поймали стоп: ',action.payload.stop,state.stop)
             });
         // .addCase(fetchMessages.pending, (state) => {
         //     state.isLoading = true;
