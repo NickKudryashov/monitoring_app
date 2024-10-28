@@ -5,8 +5,8 @@ import { MessagesByChat, TelegramChat, TelegramMessage } from "../types/ChatSche
 
 
 interface MessagesResponse {
-    chat_id:number;
     messages:TelegramMessage[];
+    stop:boolean
 }
 
 export const fetchChats = createAsyncThunk<
@@ -42,10 +42,10 @@ FetchMessagesProps,
     const { dispatch, extra, rejectWithValue, getState } = thunkApi;
 
     try {
-        const response = await $api.post<TelegramMessage[]>("chat/messages/"+chat_id,{start:offset,start_datetime:start_datetime});
-        if (!response.data) throw new Error();
+        const response = await $api.post<MessagesResponse>("chat/messages/"+chat_id,{offset:offset,start_datetime:start_datetime});
+        // if (!response.data) throw new Error();
 
-        return {chat_id,messages:response.data};
+        return {stop:response.data.stop,messages:response.data.messages};
     } catch (error) {
         console.log(error);
         return rejectWithValue("ERROR");

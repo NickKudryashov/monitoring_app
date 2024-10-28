@@ -6,7 +6,9 @@ import { buildSlice } from "@/shared/store";
 const initialState: TelegramChatSchema = {
     isLoading: false,
     chats:[],
-    messagesByChat:{}
+    messagesByChat:{},
+    messages:[],
+    stop:false
 };
 
 export const telegramChatSlice = buildSlice({
@@ -15,6 +17,11 @@ export const telegramChatSlice = buildSlice({
     reducers: {
         setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
             state.isLoading = payload;
+        },
+        clearMessages: (state) => {
+            state.messages = [];
+            state.isLoading = false
+            state.stop = false
         }
     },
     extraReducers: (builder) => {
@@ -30,14 +37,9 @@ export const telegramChatSlice = buildSlice({
             })
             .addCase(fetchMessages.fulfilled, (state, action) => {
                 state.isLoading = false;
-                const {chat_id,messages} = action.payload;
-                // console.log(messages);
-                if (state.messagesByChat[chat_id]?.length){
-                    state.messagesByChat[chat_id]=state.messagesByChat[chat_id].concat(messages);
-                }
-                else {
-                    state.messagesByChat[chat_id]=[...messages];
-                }
+                state.messages = state.messages.concat(action.payload.messages)
+                state.stop = action.payload.stop
+                console.log('поймали стоп: ',action.payload.stop,state.stop)
             });
         // .addCase(fetchMessages.pending, (state) => {
         //     state.isLoading = true;

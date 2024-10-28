@@ -1,5 +1,5 @@
 import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
-import { getChatsIsLoading, getTelegramChats,getMessageBuChats } from "./selector";
+import { getChatsIsLoading, getTelegramChats } from "./selector";
 import { MessagesByChat, TelegramChat } from "../types/ChatSchema";
 
 const MOCK_CHATS:TelegramChat[] = [
@@ -65,13 +65,13 @@ describe("tg chats",()=>{
 });
 
 
-describe("tg messages by chat",()=>{
-    test("positive",()=>{
-        const state:DeepPartial<StateSchema> = {chats:{chats:MOCK_CHATS,messagesByChat:msgs}};
-        expect(getMessageBuChats(state as StateSchema)).toEqual(msgs);
-    });
-    test("empty",()=>{
-        const state:DeepPartial<StateSchema> = {chats:{isLoading:true,chats:MOCK_CHATS}};
-        expect(getMessageBuChats(state as StateSchema)).toBeUndefined();
-    });
-});
+// describe("tg messages by chat",()=>{
+//     test("positive",()=>{
+//         const state:DeepPartial<StateSchema> = {chats:{chats:MOCK_CHATS,messagesByChat:msgs}};
+//         expect(getMessageBuChats(state as StateSchema)).toEqual(msgs);
+//     });
+//     test("empty",()=>{
+//         const state:DeepPartial<StateSchema> = {chats:{isLoading:true,chats:MOCK_CHATS}};
+//         expect(getMessageBuChats(state as StateSchema)).toBeUndefined();
+//     });
+// });

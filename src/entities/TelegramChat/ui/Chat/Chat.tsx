@@ -19,11 +19,11 @@ import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
 import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 import {
     getChatsIsLoading,
-    getMessageBuChats,
-    getTelegramChats,
+    getMessages,
+    getStop,
     useGetTelegramChats,
 } from "../../model/selectors/selector";
-import { telegramChatQuery, useGetTelegramMessages } from "../../api/api";
+import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 const STATIC = __IS_DEV__ ? "http://localhost" : "https://avs.eco";
 interface ChatProps {
     className?: string;
@@ -50,9 +50,9 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const { className = "", obj_id } = props;
     const dispatch = useAppDispatch();
     const isLoading = useSelector(getChatsIsLoading);
+    const stop = useSelector((state: StateSchema) => state.chats.stop);
     const chats = useGetTelegramChats();
-    const messagesById = useSelector(getMessageBuChats);
-    const [startOffset, setStartOffset] = useState(0);
+    const messages = useSelector(getMessages);
     const chatArray = chats.filter((el) => el.objects.includes(obj_id));
     const chatAvailable = chatArray.length;
     const wrapRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -61,37 +61,26 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
     const [photoModal, setPhotoModal] = useState(false);
     const [allMediaModal, setAllMediaModal] = useState(false);
     const stopFetch = useRef<boolean>(false);
+    const offset = useRef(0);
     const [imagePath, setImagePath] = useState("");
     const [currentDate, setCurrentDate] = useState(CURRENT_DATE);
     const [currentChat, setCurrentChat] = useState<TelegramChat | null>();
-    const { setIsLoading } = useTelegramChatActions();
-    const {
-        data: messages,
-        isLoading: messagesLoading,
-        isSuccess,
-        refetch,
-    } = useGetTelegramMessages(
-        {
-            chat_id: currentChat?.id || 0,
-            offset: startOffset,
-            start_datetime: currentDate,
-        },
-        { skip: currentChat === undefined || stopFetch.current },
-    );
     useEffect(() => {
-        dispatch(telegramChatQuery.util.resetApiState());
-        // if (isSuccess) {
-        //     refetch();
-        // }
-    }, [currentDate]);
-    useEffect(() => {
+        dispatch(chatActions.clearMessages());
+        offset.current = 0;
         stopFetch.current = false;
         if (chatAvailable) {
             const temp = chats.filter((el) => el.objects.includes(obj_id))[0];
-            setStartOffset(0);
             setCurrentChat(temp);
-            if (isSuccess) {
-                refetch();
+            if (currentChat?.id) {
+                dispatch(
+                    fetchMessages({
+                        chat_id: currentChat?.id,
+                        offset: offset.current,
+                        start_datetime: currentDate,
+                    }),
+                );
+                offset.current += 18;
             }
         }
     }, [currentChat?.id, dispatch, obj_id, currentDate]);
@@ -102,23 +91,22 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
         setImagePath(path);
         setPhotoModal(true);
     };
-    const scrollCallback = useCallback(() => {
-        if (!messagesLoading && currentChat?.id && chatAvailable) {
-            setStartOffset((prev) => prev + 18);
+    const scrollCallback = () => {
+        console.log(!isLoading, currentChat?.id, chatAvailable, stop);
+        if (!isLoading && currentChat?.id && chatAvailable && !stop) {
             console.log("Изменили оффсет");
-            if (messages?.stop) {
-                stopFetch.current = true;
-            }
+            dispatch(
+                fetchMessages({
+                    chat_id: currentChat?.id,
+                    offset: offset.current,
+                    start_datetime: currentDate,
+                }),
+            );
+            offset.current += 18;
+
             wrapRef.current.scrollTop -= 50;
         }
-    }, [
-        chatAvailable,
-        currentChat?.id,
-        currentDate,
-        dispatch,
-        isLoading,
-        startOffset,
-    ]);
+    };
     const debouncedScrollCallback = useDebounce(scrollCallback, 1000);
     useInfinityScroll({
         callback: debouncedScrollCallback,
@@ -144,8 +132,8 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                 onClose={() => setAllMediaModal(false)}
             >
                 <div className={cls.allMedia}>
-                    {messages?.messages &&
-                        messages?.messages.map((el, i) => (
+                    {messages &&
+                        messages.map((el, i) => (
                             <div key={el.message_id}>
                                 <div className={cls.msg} key={el.message_id}>
                                     {el.photo && showMedia && (
@@ -210,11 +198,11 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                 </AppButon>
             </div>
             <div className={cls.chatBox}>
-                {messages?.messages &&
-                    messages?.messages.map((el, i) => (
+                {messages &&
+                    messages.map((el, i) => (
                         <div key={el.message_id}>
                             {checkMessageToRender(el, currentDate) &&
-                                messages.messages[i] &&
+                                messages[i] &&
                                 el.message_datetime && (
                                     <div>
                                         {i === 0 && (
@@ -225,13 +213,12 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                                             </p>
                                         )}
                                         {i !== 0 &&
-                                            messages.messages[i - 1] &&
+                                            messages[i - 1] &&
                                             returnDay(
-                                                messages.messages[i]
-                                                    .message_datetime,
+                                                messages[i].message_datetime,
                                             ) !==
                                                 returnDay(
-                                                    messages.messages[i - 1]
+                                                    messages[i - 1]
                                                         .message_datetime,
                                                 ) && (
                                                 <p className={cls.dateMarker}>
@@ -280,7 +267,7 @@ export const Chat = memo((props: PropsWithChildren<ChatProps>) => {
                                 )}
                         </div>
                     ))}
-                {messagesLoading && <Loader />}
+                {isLoading && <Loader />}
                 <div ref={triggerRef} />
             </div>
         </div>
