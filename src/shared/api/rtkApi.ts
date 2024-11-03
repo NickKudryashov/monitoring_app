@@ -11,7 +11,7 @@ const baseQuery = fetchBaseQuery({
     },
 }
 );
-
+export type Tags = "Subcats" | "HeatDevice" | "Upcols" | "Downcols" | "ReportParameters" | "HeatPeriods" | "HeatReportFiles" | "UserEvents" | "UserObjects"
 interface Error {
     message?:string;
 }
@@ -40,7 +40,7 @@ const baseQueryWithReauth: BaseQueryFn<
 // Define a service using a base URL and expected endpoints
 export const rtkApi = createApi({
     reducerPath: "baseApi",
-    tagTypes:["Subcats","HeatDevice","Upcols","Downcols","ReportParameters","HeatPeriods","HeatReportFiles","UserEvents"],
+    tagTypes:["Subcats","HeatDevice","Upcols","Downcols","ReportParameters","HeatPeriods","HeatReportFiles","UserEvents",'UserObjects'],
     baseQuery: baseQueryWithReauth,
     endpoints: () => ({}),    
 });

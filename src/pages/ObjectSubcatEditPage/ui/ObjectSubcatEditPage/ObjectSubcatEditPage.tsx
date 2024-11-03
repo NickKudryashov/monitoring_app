@@ -1,10 +1,9 @@
-import { PropsWithChildren, useEffect, useMemo, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import cls from "./ObjectSubcatEditPage.module.scss";
 import classNames from "@/shared/lib/classNames/classNames";
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { useAppDispatch } from "@/shared/hooks/hooks";
-import { objectsAllRequest } from "@/entities/Objects";
 import { PageHeader } from "../PageHeader/PageHeader";
 import EditIcon from "@/shared/assets/icons/SubcatEditIcon.svg";
 import DeleteIcon from "@/shared/assets/icons/SubcatDeleteIcon.svg";
@@ -48,7 +47,7 @@ const TEMP_SUB_VERB = {
 //     [K in typeof TEMP]:string;
 // }
 
-const mapIcon = (subcat_type: typeof TEMP[number]) => {
+const mapIcon = (subcat_type: (typeof TEMP)[number]) => {
     switch (subcat_type) {
         case "auto_node":
             return <AutoIcon />;
@@ -61,10 +60,10 @@ const mapIcon = (subcat_type: typeof TEMP[number]) => {
     }
 };
 
-type ObjAll = { [K in typeof TEMP[number]]: SubcategoryAnswer[] };
+type ObjAll = { [K in (typeof TEMP)[number]]: SubcategoryAnswer[] };
 type Obj = {};
 const ObjectSubcatEditPage = (
-    props: PropsWithChildren<ObjectSubcatEditPageProps>
+    props: PropsWithChildren<ObjectSubcatEditPageProps>,
 ) => {
     const { className } = props;
     const [objID, setObjId] = useState("");
@@ -74,10 +73,7 @@ const ObjectSubcatEditPage = (
     const [toggleMutation] = toggleSubcat();
     const [addSubcat] = addNewSubcategory();
     const { data: objectData, isLoading: objectIsLoading } =
-        getObjectSubcategoryData(Number(objID));
-    useEffect(() => {
-        dispatch(objectsAllRequest());
-    }, []);
+        getObjectSubcategoryData({ id: Number(objID) });
 
     const addSubcatHandler = (subtype: keyof typeof TEMP_SUB_VERB) => {
         const namePostfix =
@@ -151,13 +147,13 @@ const ObjectSubcatEditPage = (
                                                     {objectData?.data.filter(
                                                         (sys) =>
                                                             sys.subcategory_type ===
-                                                            subtype
+                                                            subtype,
                                                     )?.length ?? 0}
                                                 </p>
                                                 <LittlePlusIcon
                                                     onClick={() =>
                                                         addSubcatHandler(
-                                                            subtype
+                                                            subtype,
                                                         )
                                                     }
                                                 />
@@ -169,7 +165,7 @@ const ObjectSubcatEditPage = (
                                     objectData.data &&
                                     objectData.data.filter(
                                         (sys) =>
-                                            sys.subcategory_type === subtype
+                                            sys.subcategory_type === subtype,
                                     ) && (
                                         <HFlexBox height="5%">
                                             <HFlexBox width="60%" />
@@ -206,7 +202,8 @@ const ObjectSubcatEditPage = (
                                     objectData.data
                                         .filter(
                                             (sys) =>
-                                                sys.subcategory_type === subtype
+                                                sys.subcategory_type ===
+                                                subtype,
                                         )
                                         .map((el) => (
                                             <HFlexBox

@@ -28,7 +28,7 @@
 }
 
 .altViewPlate {
-    overflow-y: auto;
+    // overflow-y: auto;
 }
 
 .objRow {
@@ -46,6 +46,10 @@
 }
 
 .rowsdata {
+}
+
+.selectedFilter {
+    text-decoration:underline;
 }
 
 @media (width <= 768px) {

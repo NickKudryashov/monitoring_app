@@ -6,8 +6,7 @@ import $api from "@/shared/api";
 import { Modal } from "@/shared/ui/Modal/Modal";
 import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 import { AppButon } from "@/shared/ui/AppButton/AppButton";
-import { useAppDispatch } from "@/shared/hooks/hooks";
-import { ObjectResponse, objectsAllRequest } from "@/entities/Objects";
+import { ObjectResponse } from "@/entities/Objects";
 
 interface EditObjectProps {
     className?: string;
@@ -21,7 +20,6 @@ export function EditObject(props: PropsWithChildren<EditObjectProps>) {
     const url = `objects/${object.id}`;
     const [name, setName] = useState(object.name);
     const req = $api.put;
-    const dispatch = useAppDispatch();
 
     const addHandler = async () => {
         const body = {
@@ -30,7 +28,6 @@ export function EditObject(props: PropsWithChildren<EditObjectProps>) {
             id: object.id,
         };
         await req(url, body);
-        dispatch(objectsAllRequest());
         if (onClose) {
             onClose();
         }

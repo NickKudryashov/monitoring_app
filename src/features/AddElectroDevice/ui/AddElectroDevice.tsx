@@ -30,14 +30,14 @@ export const AddElectroDeviceContent = memo(
         const { className = "", isOpen, onClose, lazy } = props;
         const { objects } = useSelector((state: StateSchema) => state.objects);
         const [selectedObj, setSelectedObj] = useState(
-            String(objects ? objects[0]?.id : "")
+            String(objects ? objects[0]?.id : ""),
         );
-        const { data, isLoading, refetch } = getObjectSubcategoryData(
-            Number(selectedObj)
-        );
+        const { data, isLoading, refetch } = getObjectSubcategoryData({
+            id: Number(selectedObj),
+        });
         const [selectedSubcat, setSelectedSubcat] = useState("-1");
         const [connectionProtocol, setConenctionProtocol] = useState(
-            DeviceConnection.TCP
+            DeviceConnection.TCP,
         );
         const [name, setName] = useState("");
         const [dnum, setDnum] = useState("");
@@ -130,7 +130,7 @@ export const AddElectroDeviceContent = memo(
                                     <option key={obj.id} value={obj.id}>
                                         {obj.name}
                                     </option>
-                                )
+                                ),
                         )}
                     </select>
                     <input
@@ -164,7 +164,7 @@ export const AddElectroDeviceContent = memo(
                 </VFlexBox>
             </Modal>
         );
-    }
+    },
 );
 
 export const AddElectroDevice = memo(
@@ -175,5 +175,8 @@ export const AddElectroDevice = memo(
         } else {
             return <AddElectroDeviceContent {...props} />;
         }
-    }
+    },
 );
+
+AddElectroDeviceContent.displayName = "AddElectroContent";
+AddElectroDevice.displayName = "AddElectroDevice";

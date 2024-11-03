@@ -17,6 +17,7 @@ interface MainLayoutProps {
 
 export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
     const { className = "", DetailView, navbar, sidebar, children } = props;
+    const isMobile = useMobilDeviceDetect();
     const version = useSelector(getVersion);
     return (
         <div className={classNames(cls.MainLayout, {}, [className])}>
@@ -31,7 +32,7 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
                     </div>
                 </div>
             </div>
-            {/* <p className={cls.version}>{version}</p> */}
+            {!isMobile && <p className={cls.version}>{version}</p>}
         </div>
     );
 });

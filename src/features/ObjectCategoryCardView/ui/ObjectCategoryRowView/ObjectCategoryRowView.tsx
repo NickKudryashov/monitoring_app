@@ -19,6 +19,7 @@ import {
 import { ROUTE_MAPPER } from "@/shared/lib/helpers/subcategoryTypeMapper";
 import { getSelectedSystemCard } from "@/features/ObjectCategoryCardView/model/selectors/selectors";
 import { LoaderCircle } from "@/shared/ui/LoaderCircle/LoaderCircle";
+import { useCalcParams } from "../../hooks/useCalcParams";
 interface ObjectCategoryRowViewProps {
     className?: string;
     openedID: number;
@@ -29,7 +30,7 @@ interface ObjectCategoryRowViewProps {
     id: number;
 }
 export function ObjectCategoryRowView(
-    props: PropsWithChildren<ObjectCategoryRowViewProps>
+    props: PropsWithChildren<ObjectCategoryRowViewProps>,
 ) {
     const {
         className = "",
@@ -40,7 +41,11 @@ export function ObjectCategoryRowView(
         last_update,
         abonent,
     } = props;
-    const { data, isLoading, refetch } = getObjectSubcategoryData(id);
+    const calcParams = useCalcParams();
+    const { data, isLoading, refetch } = getObjectSubcategoryData({
+        id,
+        ...calcParams,
+    });
 
     useEffect(() => {
         refetch();
@@ -61,11 +66,11 @@ export function ObjectCategoryRowView(
             [cls.greenmarker]:
                 data?.data[index].status === SubcategoryStatus.success,
         }),
-        [data]
+        [data],
     );
     const dragStartHandler = (
         e: React.DragEvent<HTMLDivElement>,
-        el: SubcategoryAnswer
+        el: SubcategoryAnswer,
     ) => {
         // console.log("старт на ",el.name,el.user_object);
         dispatch(subcatCardSliceActions.setItem(el));
@@ -78,7 +83,7 @@ export function ObjectCategoryRowView(
     };
     const dropHandler = (
         e: React.DragEvent<HTMLDivElement>,
-        el: SubcategoryAnswer
+        el: SubcategoryAnswer,
     ) => {
         e.preventDefault();
         const success =
@@ -89,7 +94,9 @@ export function ObjectCategoryRowView(
         }
         dispatch(subcatCardSliceActions.removeItem());
     };
-
+    if (data?.data.length === 0) {
+        return null;
+    }
     return (
         <>
             {data && (
@@ -137,7 +144,7 @@ export function ObjectCategoryRowView(
                                     className={classNames(
                                         "",
                                         calculateMods(i),
-                                        [cls.row]
+                                        [cls.row],
                                     )}
                                     draggable={true}
                                     onDragStart={(e) => dragStartHandler(e, el)}

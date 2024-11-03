@@ -1,7 +1,5 @@
-import { objectsAllRequest } from "@/entities/Objects";
 import { PropsWithChildren, useState } from "react";
 import $api from "@/shared/api";
-import { useAppDispatch } from "@/shared/hooks/hooks";
 import { AppButon } from "@/shared/ui/AppButton/AppButton";
 import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 import { Modal } from "@/shared/ui/Modal/Modal";
@@ -18,7 +16,6 @@ export function AddObject(props: PropsWithChildren<AddObjectProps>) {
     const [address, setSelectedAdress] = useState("");
     const [name, setName] = useState("");
     const [objType, setObjType] = useState("");
-    const dispatch = useAppDispatch();
 
     const addHandler = async () => {
         const body = {
@@ -27,7 +24,6 @@ export function AddObject(props: PropsWithChildren<AddObjectProps>) {
             address,
         };
         await $api.post("objects/add", body);
-        dispatch(objectsAllRequest());
         if (onClose) {
             onClose();
         }

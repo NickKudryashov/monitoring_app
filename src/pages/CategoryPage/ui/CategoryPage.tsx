@@ -1,15 +1,11 @@
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./CategoryPage.module.scss";
 import { DetailView } from "@/widgets/DetailView";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
-import { useAppDispatch } from "@/shared/hooks/hooks";
 import { Loader } from "@/shared/ui/Loader/Loader";
-import { ObjectCard, objectsAllRequest } from "@/entities/Objects";
+import { getAllObjects, ObjectCard } from "@/entities/Objects";
 import { RoutePathAuth } from "@/shared/config/RouteConfig/RouteConfig";
-import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 
 export interface CategoryPageProps {
     className?: string;
@@ -18,13 +14,9 @@ export interface CategoryPageProps {
 const CategoryPage = memo((props: CategoryPageProps) => {
     const { className = "" } = props;
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
     let content;
-    useEffect(() => {
-        dispatch(objectsAllRequest());
-    }, []);
 
-    const { objects } = useSelector((state: StateSchema) => state.objects);
+    const { data: objects } = getAllObjects({});
 
     if (objects) {
         content = (

@@ -1,8 +1,14 @@
 import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./ObjectCategoryView.module.scss";
 
-import { PropsWithChildren, useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+    PropsWithChildren,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { RoutePathAuth } from "@/shared/config/RouteConfig/RouteConfig";
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
@@ -20,23 +26,33 @@ import {
 import { ROUTE_MAPPER } from "@/shared/lib/helpers/subcategoryTypeMapper";
 import { getSelectedSystemCard } from "../../model/selectors/selectors";
 import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
+import { useCalcParams } from "../../hooks/useCalcParams";
+import { editUserObject } from "@/entities/Objects";
 interface ObjectCategoryViewProps {
     className?: string;
     adress: string;
     abonent: string;
     last_update: string;
+    visible: boolean;
     id: number;
 }
 
 export function ObjectCategoryView(
     props: PropsWithChildren<ObjectCategoryViewProps>,
 ) {
-    const { className = "", id, adress, last_update, abonent } = props;
-    const { data, isLoading, refetch } = getObjectSubcategoryData(id);
+    const { className = "", id, adress, last_update, abonent, visible } = props;
+
+    const calcParams = useCalcParams();
+    const { data, isLoading, refetch } = getObjectSubcategoryData({
+        id,
+        ...calcParams,
+    });
+
     useEffect(() => {
         refetch();
     }, []);
     const [editOrder, { isLoading: isUpdating }] = editSubcatOrder();
+    const [editMutation] = editUserObject();
     const dispatch = useAppDispatch();
     const isMobile = useMobilDeviceDetect();
     const selectedItem = useSelector(getSelectedSystemCard);
@@ -81,6 +97,10 @@ export function ObjectCategoryView(
         dispatch(subcatCardSliceActions.removeItem());
     };
 
+    if (data?.data.length === 0) {
+        return null;
+    }
+
     return (
         <VFlexBox
             className={classNames(cls.ObjectCategoryView, {}, [className])}
@@ -96,6 +116,13 @@ export function ObjectCategoryView(
                 </b>
                 <b style={{ height: "47%" }} className={cls.addr}>
                     {adress}
+                </b>
+                <b
+                    onClick={() => editMutation({ id, visible: !visible })}
+                    style={{ height: "47%" }}
+                    className={cls.addr}
+                >
+                    {visible ? "Скрыть" : "Показать"}
                 </b>
                 {/* {
                     data &&

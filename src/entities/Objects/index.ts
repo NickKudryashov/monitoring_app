@@ -7,6 +7,6 @@ import { ObjectDetail } from "./ui/ObjectDetail/ObjectDetail";
 import { ObjectItem,objectState } from "./reducers/reducers";
 export {objectReducer,objectsAllRequest,ObjectCard,objectSlice,ObjectDetail,objectsDelRequest,userObjectActions};
 export type {ObjectResponse,ObjectItem,objectState};
-export {getUserObjectData} from "./api/api";
-export {getAllObjects,getSelectedUserObject,useGetAllObjects,useGetSelectedUserObject} from "./selectors/getAllObjects";
+export {getUserObjectData,getAllObjects,editUserObject} from "./api/api";
+export {getSelectedUserObject,useGetAllObjects,useGetSelectedUserObject} from "./selectors/getAllObjects";
 export {ObjectList} from "./ui/ObjectList/ObjectList";

@@ -1,13 +1,12 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import classNames from "@/shared/lib/classNames/classNames";
 import cls from "./ObjectsDetailPage.module.scss";
 import { DetailView } from "@/widgets/DetailView";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { Loader } from "@/shared/ui/Loader/Loader";
-import { objectsAllRequest } from "@/entities/Objects";
+import { getAllObjects } from "@/entities/Objects";
 import {
     ObjectCategoryRowView,
     ObjectCategoryView,
@@ -15,7 +14,6 @@ import {
 import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import FilterIcon from "@/shared/assets/icons/FilterIcon.svg";
-import ViewChangeIcon from "@/shared/assets/icons/ViewChangeIcon.svg";
 import { getNavbarSearchValue } from "@/widgets/Navbar";
 import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 export interface ObjectsDetailPageProps {
@@ -24,13 +22,21 @@ export interface ObjectsDetailPageProps {
 
 const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
     const { className = "" } = props;
+    const [searchParams, setSearchParams] = useSearchParams();
     const [defaultView, setDefaultView] = useState(
         !localStorage.getItem("view"),
     );
+    const showAll = useMemo(() => {
+        const showAllParam = searchParams.get("showAll");
+        if (showAllParam) {
+            return { ...searchParams, showAll: showAllParam };
+        }
+        return { ...searchParams, showAll: undefined };
+    }, [searchParams]);
+    const { data: objects } = getAllObjects(showAll);
     const [openedID, setOpened] = useState<number>(0);
     const searchVal = useSelector(getNavbarSearchValue);
     const isMobile = useMobilDeviceDetect();
-    const dispatch = useAppDispatch();
     let content;
     const onChangeViewClick = () => {
         // Handle both, `ctrl` and `meta`.
@@ -49,14 +55,16 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
             }
         });
     };
-    // if (!id) {
-    //     navigate(RoutePathAuth.main);
-    // }
-    useEffect(() => {
-        dispatch(objectsAllRequest());
-    }, []);
 
-    const { objects } = useSelector((state: StateSchema) => state.objects);
+    const showAllFitlerHandler = useCallback(() => {
+        setSearchParams((prev) => ({
+            ...prev,
+            showAll: "1",
+        }));
+    }, []);
+    const showAllClearFitlerHandler = useCallback(() => {
+        setSearchParams({});
+    }, []);
 
     if (objects) {
         content = (
@@ -75,10 +83,32 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                             width="100%"
                             align={isMobile ? "space-between" : "flex-end"}
                         >
-                            <HFlexBox width="25%" alignItems="center">
+                            <HFlexBox
+                                onClick={showAllClearFitlerHandler}
+                                width="25%"
+                                alignItems="center"
+                            >
                                 <p>Очистить фильтры</p>
                             </HFlexBox>
-                            <HFlexBox gap="3px" width="15%" alignItems="center">
+                            <HFlexBox
+                                onClick={() =>
+                                    setSearchParams((prev) => ({
+                                        ...prev,
+                                        no_answer: "1",
+                                    }))
+                                }
+                                gap="3px"
+                                width="15%"
+                                alignItems="center"
+                                className={classNames(
+                                    "",
+                                    {
+                                        [cls.selectedFilter]:
+                                            !!searchParams.get("no_answer"),
+                                    },
+                                    [],
+                                )}
+                            >
                                 <p>Нет связи</p>
                                 <FilterIcon />
                             </HFlexBox>
@@ -86,11 +116,34 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                                 <p>Аварии</p>
                                 <FilterIcon />
                             </HFlexBox>
-                            <HFlexBox gap="3px" width="15%" alignItems="center">
+                            <HFlexBox
+                                onClick={() =>
+                                    setSearchParams((prev) => ({
+                                        ...prev,
+                                        events: "1",
+                                    }))
+                                }
+                                gap="3px"
+                                width="15%"
+                                alignItems="center"
+                                className={classNames(
+                                    "",
+                                    {
+                                        [cls.selectedFilter]:
+                                            !!searchParams.get("events"),
+                                    },
+                                    [],
+                                )}
+                            >
                                 <p>События</p>
                                 <FilterIcon />
                             </HFlexBox>
-                            <HFlexBox gap="3px" width="15%" alignItems="center">
+                            <HFlexBox
+                                onClick={showAllFitlerHandler}
+                                gap="3px"
+                                width="15%"
+                                alignItems="center"
+                            >
                                 <p>Показать всё</p>
                             </HFlexBox>
                             {!isMobile && (
@@ -112,6 +165,7 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                                     .toLocaleLowerCase()
                                     .includes(searchVal)) && (
                                 <ObjectCategoryView
+                                    visible={el.visible}
                                     abonent={el.abonent}
                                     last_update={el.last_update}
                                     key={el.id}

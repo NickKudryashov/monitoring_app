@@ -11,4 +11,5 @@ export interface ObjectResponse {
     pids_with_ids?:PidsIds
     cats:number[]
     last_update:string;
+    visible:boolean;
 }

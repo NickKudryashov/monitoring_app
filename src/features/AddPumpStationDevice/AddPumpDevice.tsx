@@ -55,11 +55,11 @@ export const AddPumpDevice = memo(
         const [dnum, setDnum] = useState("");
         const [name, setName] = useState("");
         const [selectedObj, setSelectedObj] = useState("-1");
-        const { data, isLoading, refetch } = getObjectSubcategoryData(
-            Number(selectedObj)
-        );
+        const { data, isLoading, refetch } = getObjectSubcategoryData({
+            id: Number(selectedObj),
+        });
         const [connectionProtocol, setConenctionProtocol] = useState(
-            DeviceConnection.TCP
+            DeviceConnection.TCP,
         );
         const [ip, setIp] = useState("");
         const [port, setPort] = useState("");
@@ -156,7 +156,7 @@ export const AddPumpDevice = memo(
                                     <option key={obj.id} value={obj.id}>
                                         {obj.name}
                                     </option>
-                                )
+                                ),
                         )}
                     </select>
                     <select
@@ -200,5 +200,7 @@ export const AddPumpDevice = memo(
                 </div>
             </Modal>
         );
-    }
+    },
 );
+
+AddPumpDevice.displayName = "AddPumpForm";

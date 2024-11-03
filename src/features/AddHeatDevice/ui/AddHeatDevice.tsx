@@ -42,9 +42,9 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
 
     const [selectedObj, setSelectedObj] = useState("-1");
     const [selectedSubcat, setSelectedSubcat] = useState("-1");
-    const { data, isLoading, refetch } = getObjectSubcategoryData(
-        Number(selectedObj)
-    );
+    const { data, isLoading, refetch } = getObjectSubcategoryData({
+        id: Number(selectedObj),
+    });
     const [name, setName] = useState("");
     const [deviceNum, setDeviceNum] = useState("");
     const [deviceType, setDeviceType] = useState(TEROSS_TYPE);
@@ -52,10 +52,10 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const [port, setPort] = useState("");
     const [phone, setPhone] = useState("");
     const [connectionProtocol, setConenctionProtocol] = useState(
-        DeviceConnection.TCP
+        DeviceConnection.TCP,
     );
     const [systems, setSystems] = useState<{ name: string; index: number }[]>(
-        []
+        [],
     );
 
     const [systemCount, setSystemCount] = useState("-1");
@@ -99,7 +99,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                     return { ...sys, name };
                 }
                 return { ...sys };
-            })
+            }),
         );
     };
 
@@ -195,7 +195,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                                 <option key={obj.id} value={obj.id}>
                                     {obj.name}
                                 </option>
-                            )
+                            ),
                     )}
                 </select>
                 <select value={systemCount} onChange={systemsChanged}>
@@ -214,7 +214,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                             theme={InputThemes.OUTLINE}
                             value={sys.name}
                             onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
+                                e: React.ChangeEvent<HTMLInputElement>,
                             ) => changeSysName(sys.index, e.target.value)}
                         />
                     </div>

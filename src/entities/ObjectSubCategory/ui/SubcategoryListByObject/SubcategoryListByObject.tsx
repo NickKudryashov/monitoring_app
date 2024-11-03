@@ -20,9 +20,12 @@ export const SubcategoryListByObject = (
     const selectedSubcat = useGetSelectedSubcategory();
     const { clearSelection, selectSubcategory } = useObjSubcatActions();
     const { data: subcatData, isLoading: isLoadingSubcat } =
-        getObjectSubcategoryData(objectID, {
-            skip: !objectID,
-        });
+        getObjectSubcategoryData(
+            { id: objectID },
+            {
+                skip: !objectID,
+            },
+        );
 
     useEffect(() => {
         clearSelection();

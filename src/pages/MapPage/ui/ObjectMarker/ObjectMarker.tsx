@@ -13,7 +13,7 @@ import classNames from "@/shared/lib/classNames/classNames";
 export const ObjectMarker = (props: { id: number }): ReactElement => {
     const { id } = props;
     const { data: userObjectData } = getUserObjectData(id);
-    const { data: subcatData } = getObjectSubcategoryData(id);
+    const { data: subcatData } = getObjectSubcategoryData({ id });
     const navigate = useNavigate();
     return (
         <VFlexBox gap="7px" className={cls.baloon}>
@@ -36,7 +36,7 @@ export const ObjectMarker = (props: { id: number }): ReactElement => {
                             [cls.greenmarker]:
                                 el.status === SubcategoryStatus.success,
                         },
-                        []
+                        [],
                     )}
                 >
                     <p>{el.name}</p>
