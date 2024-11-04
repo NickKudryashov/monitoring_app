@@ -50,7 +50,7 @@ export const usePoll = (props:PollHookProps):[()=>Promise<void>,boolean] =>{
         setIsBusy(initialBusy)
     },[initialBusy])
     useEffect(()=>{
-        if(!pollFlag.current && autoPoll){
+        if(!pollFlag.current && autoPoll && id && id!==0){
             poll();
             const delay = 60000;
             loop_ref.current = setInterval(poll,delay);
@@ -71,7 +71,7 @@ export const usePoll = (props:PollHookProps):[()=>Promise<void>,boolean] =>{
 
     
     const  poll =  async ()=>{
-        if (timer_ref.current) {
+        if (timer_ref.current || !id) {
             return;
         }
         setIsBusy(true)
