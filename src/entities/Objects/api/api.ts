@@ -34,7 +34,15 @@ const userObjectsApi = rtkApi.injectEndpoints({
                 method: "PUT",
                 body: patch,
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: "UserObjects", id }],
+            invalidatesTags: (result, error, { id }) => [{ type: "UserObjects", id}],
+        }),
+        createObject:build.mutation<ObjectResponse, Partial<ObjectResponse> & Pick<ObjectResponse, "name" | 'abonent' | 'address' >>({
+            query:({...patch})=>({
+                url: `objects/add`,
+                method: "POST",
+                body: patch,
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: "UserObjects", id:'LIST'}],
         })
     }),
     overrideExisting: false,
@@ -43,3 +51,4 @@ const userObjectsApi = rtkApi.injectEndpoints({
 export const getUserObjectData = userObjectsApi.useGetObjectInfoQuery;
 export const getAllObjects = userObjectsApi.useGetAllObjectsQuery;
 export const editUserObject = userObjectsApi.useEditObjectMutation
+export const createUserObject = userObjectsApi.useCreateObjectMutation

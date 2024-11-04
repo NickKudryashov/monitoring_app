@@ -12,6 +12,7 @@ import { Modal } from "@/shared/ui/Modal/Modal";
 import cls from "./AddHeatDevice.module.scss";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { getObjectSubcategoryData } from "@/entities/ObjectSubCategory";
+import { getAllObjects } from "@/entities/Objects";
 interface AddHeatDeviceProps {
     className?: string;
     onClose?: () => void;
@@ -38,7 +39,7 @@ const ST20_238 = "st20_238";
 const ST20_239 = "st20_239";
 export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const { className, isOpen, onClose } = props;
-    const { objects } = useSelector((state: StateSchema) => state.objects);
+    const { data: objects } = getAllObjects({});
 
     const [selectedObj, setSelectedObj] = useState("-1");
     const [selectedSubcat, setSelectedSubcat] = useState("-1");
@@ -176,7 +177,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                     <option disabled={true} value="-1">
                         Выберите объект
                     </option>
-                    {objects.map((obj) => (
+                    {objects?.map((obj) => (
                         <option key={obj.id} value={obj.id}>
                             {obj.name}
                         </option>

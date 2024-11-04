@@ -4,6 +4,7 @@ import { AppButon } from "@/shared/ui/AppButton/AppButton";
 import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
 import { Modal } from "@/shared/ui/Modal/Modal";
 import cls from "./AddObject.module.scss";
+import { createUserObject } from "@/entities/Objects";
 interface AddObjectProps {
     className?: string;
     onClose?: () => void;
@@ -13,6 +14,7 @@ const MOCK_TYPES = ["МЦД", "Детский сад", "Школы", "ИП"];
 export function AddObject(props: PropsWithChildren<AddObjectProps>) {
     const { isOpen, onClose } = props;
     const [abonent, setSelectedAbonent] = useState("");
+    const [createObj] = createUserObject();
     const [address, setSelectedAdress] = useState("");
     const [name, setName] = useState("");
     const [objType, setObjType] = useState("");
@@ -23,7 +25,7 @@ export function AddObject(props: PropsWithChildren<AddObjectProps>) {
             abonent,
             address,
         };
-        await $api.post("objects/add", body);
+        createObj(body);
         if (onClose) {
             onClose();
         }

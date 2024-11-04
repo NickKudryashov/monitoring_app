@@ -10,6 +10,7 @@ import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { Modal } from "@/shared/ui/Modal/Modal";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { getObjectSubcategoryData } from "@/entities/ObjectSubCategory";
+import { getAllObjects } from "@/entities/Objects";
 
 interface AddPumpDeviceProps {
     className?: string;
@@ -50,7 +51,7 @@ export const AddPumpDevice = memo(
     (props: PropsWithChildren<AddPumpDeviceProps>) => {
         const { className = "", isOpen, onClose, lazy = true } = props;
         const [devType, setDevType] = useState(AVAILABLE_TYPE);
-        const { objects } = useSelector((state: StateSchema) => state.objects);
+        const { data: objects } = getAllObjects({});
         const [selectedSubcat, setSelectedSubcat] = useState("-1");
         const [dnum, setDnum] = useState("");
         const [name, setName] = useState("");
@@ -68,7 +69,7 @@ export const AddPumpDevice = memo(
         if (!isOpen && lazy) {
             return null;
         }
-        objects.length === 0 && console.log("пусто");
+        objects?.length === 0 && console.log("пусто");
         const addRequest = async (data: AddRequestProps) => {
             const response = await $api.post("pump", data);
             if (response.status !== 200) {
@@ -137,7 +138,7 @@ export const AddPumpDevice = memo(
                         <option disabled={true} value="-1">
                             Выберите объект
                         </option>
-                        {objects.map((obj) => (
+                        {objects?.map((obj) => (
                             <option key={obj.id} value={obj.id}>
                                 {obj.name}
                             </option>

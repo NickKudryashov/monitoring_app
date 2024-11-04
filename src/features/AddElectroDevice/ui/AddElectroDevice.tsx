@@ -10,6 +10,7 @@ import $api from "@/shared/api";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { getObjectSubcategoryData } from "@/entities/ObjectSubCategory";
+import { getAllObjects } from "@/entities/Objects";
 
 interface AddElectroDeviceProps {
     className?: string;
@@ -28,7 +29,7 @@ const DeviceConnection = {
 export const AddElectroDeviceContent = memo(
     (props: PropsWithChildren<AddElectroDeviceProps>) => {
         const { className = "", isOpen, onClose, lazy } = props;
-        const { objects } = useSelector((state: StateSchema) => state.objects);
+        const { data: objects } = getAllObjects({});
         const [selectedObj, setSelectedObj] = useState(
             String(objects ? objects[0]?.id : ""),
         );
@@ -111,7 +112,7 @@ export const AddElectroDeviceContent = memo(
                         <option disabled={true} value="-1">
                             Выберите объект
                         </option>
-                        {objects.map((obj) => (
+                        {objects?.map((obj) => (
                             <option key={obj.id} value={obj.id}>
                                 {obj.name}
                             </option>

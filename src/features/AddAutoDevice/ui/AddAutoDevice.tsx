@@ -11,6 +11,7 @@ import { useAppDispatch } from "@/shared/hooks/hooks";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { getObjectSubcategoryData } from "@/entities/ObjectSubCategory";
 import { getAutomaticDeviceTypes } from "@/entities/AutomaticDevice";
+import { getAllObjects } from "@/entities/Objects";
 
 interface AddPumpDeviceProps {
     className?: string;
@@ -55,7 +56,7 @@ export const AddAutoDevice = memo(
         const { className = "", isOpen, onClose, lazy = true } = props;
         const [devType, setDevType] = useState<string>("-1");
         const [sysCount, setSysCount] = useState<number>(1);
-        const { objects } = useSelector((state: StateSchema) => state.objects);
+        const { data: objects } = getAllObjects({});
         const [selectedSubcat, setSelectedSubcat] = useState("-1");
         const [dnum, setDnum] = useState("");
         const [name, setName] = useState("");
@@ -75,7 +76,7 @@ export const AddAutoDevice = memo(
         if (!isOpen && lazy) {
             return null;
         }
-        objects.length === 0 && console.log("пусто");
+        objects?.length === 0 && console.log("пусто");
         const addRequest = async (data: AddRequestProps) => {
             const response = await $api.post("automatic_device/add", data);
             if (response.status !== 200) {
@@ -146,7 +147,7 @@ export const AddAutoDevice = memo(
                             <option disabled={true} value="-1">
                                 Выберите объект
                             </option>
-                            {objects.map((obj) => (
+                            {objects?.map((obj) => (
                                 <option key={obj.id} value={obj.id}>
                                     {obj.name}
                                 </option>
