@@ -21,9 +21,10 @@
 }
 
 .cardHeader {
-    display: flex;
+    // display: flex;
     font-weight: bold;
-    flex-direction: column;
+
+    // flex-direction: column;
     border:1px solid var(--subcolor-9);
     row-gap:5px;
     width:100%;
@@ -64,6 +65,11 @@
     align-items: center;
     justify-content: flex-start;
     row-gap: 4%;
+}
+
+.icon {
+    width: 15px;
+    height:15px;
 }
 
 .systemLine {
@@ -116,8 +122,18 @@
 @media (width<=1790px)
 {
     .ObjectCategoryView {
-        font-size:0.7rem;
+        font-size:0.6rem;
     }
+
+    .cardHeader {
+        font-size: 0.65rem;
+    }
+
+    .systemsBox {
+        font-size: 0.55rem;
+    }
+
+
 
 }
 
@@ -125,6 +141,13 @@
 {
     .ObjectCategoryView {
         font-size:0.6rem;
+        flex: 1 0 20%; /* explanation below */
+        max-width:220px ;
+    }
+
+    .systemLine {
+        height:22%;
+        min-height: 22%;
     }
 
 }
@@ -134,6 +157,7 @@
 {
     .ObjectCategoryView {
         flex: 1 0 85%; /* explanation below */
+        min-width: 85%;
         height:61.6%;
         font-size:0.55rem;
         max-height: 250px;

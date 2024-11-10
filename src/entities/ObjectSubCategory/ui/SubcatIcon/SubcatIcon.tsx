@@ -24,5 +24,6 @@ export const SubcatIcon = memo(
                 )}
             </>
         );
-    }
+    },
 );
+SubcatIcon.displayName = "SubcatIcon";

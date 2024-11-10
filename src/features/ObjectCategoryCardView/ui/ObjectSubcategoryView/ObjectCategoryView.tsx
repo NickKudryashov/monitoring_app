@@ -28,6 +28,8 @@ import { getSelectedSystemCard } from "../../model/selectors/selectors";
 import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
 import { useCalcParams } from "../../hooks/useCalcParams";
 import { editUserObject } from "@/entities/Objects";
+import EyeIcon from "@/shared/assets/icons/EyeVisible.svg";
+import EyeDisableIcon from "@/shared/assets/icons/EyeDisable.svg";
 interface ObjectCategoryViewProps {
     className?: string;
     adress: string;
@@ -108,22 +110,37 @@ export function ObjectCategoryView(
             <VFlexBox
                 alignItems="center"
                 align="space-around"
+                gap="5px"
                 height="20%"
                 className={cls.cardHeader}
             >
-                <b style={{ height: "47%" }} className={cls.objType}>
-                    {abonent}
-                </b>
-                <b style={{ height: "47%" }} className={cls.addr}>
-                    {adress}
-                </b>
-                <b
+                <HFlexBox align="center" alignItems="center" gap="7px">
+                    <b className={cls.objType}>{abonent}</b>
+                    {visible ? (
+                        <EyeIcon
+                            className={cls.icon}
+                            onClick={() =>
+                                editMutation({ id, visible: !visible })
+                            }
+                        />
+                    ) : (
+                        <EyeDisableIcon
+                            className={cls.icon}
+                            onClick={() =>
+                                editMutation({ id, visible: !visible })
+                            }
+                        />
+                    )}
+                </HFlexBox>
+                <b className={cls.addr}>{adress}</b>
+
+                {/* <div
                     onClick={() => editMutation({ id, visible: !visible })}
                     style={{ height: "47%" }}
                     className={cls.addr}
                 >
-                    {visible ? "Скрыть" : "Показать"}
-                </b>
+                    {visible ? <EyeIcon /> : <EyeDisableIcon />}
+                </div> */}
                 {/* {
                     data &&
                     <p className={cls.sysCountPref}>{`Количество систем: ${data.count}`}</p>

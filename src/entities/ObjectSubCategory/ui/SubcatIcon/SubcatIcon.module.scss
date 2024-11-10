@@ -5,7 +5,18 @@
     width:30px;
     height:30px;
     opacity: 0.85;
+    max-height: 80%;
 }
+
+
+@media (width<=1590px)
+{
+    .icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
 
 
 
