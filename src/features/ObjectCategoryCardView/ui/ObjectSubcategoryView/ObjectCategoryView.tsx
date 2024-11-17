@@ -36,29 +36,46 @@ interface ObjectCategoryViewProps {
     abonent: string;
     last_update: string;
     visible: boolean;
+    searchParams: URLSearchParams;
     id: number;
 }
 
 export function ObjectCategoryView(
     props: PropsWithChildren<ObjectCategoryViewProps>,
 ) {
-    const { className = "", id, adress, last_update, abonent, visible } = props;
-
-    const calcParams = useCalcParams();
+    const {
+        className = "",
+        id,
+        adress,
+        last_update,
+        abonent,
+        visible,
+        searchParams,
+    } = props;
+    const params = useMemo(() => {
+        const evs = searchParams.get("events");
+        const no_answer = searchParams.get("no_answer");
+        if (evs) {
+            return { events: evs };
+        } else if (no_answer) {
+            return { no_answer: no_answer };
+        } else return {};
+    }, [searchParams]);
     const { data, isLoading, refetch } = getObjectSubcategoryData({
         id,
-        ...calcParams,
+        ...params,
     });
 
     useEffect(() => {
         refetch();
-    }, []);
+    }, [params]);
     const [editOrder, { isLoading: isUpdating }] = editSubcatOrder();
     const [editMutation] = editUserObject();
     const dispatch = useAppDispatch();
     const isMobile = useMobilDeviceDetect();
     const selectedItem = useSelector(getSelectedSystemCard);
     const navigate = useNavigate();
+    console.log(searchParams.get("events"));
     const onSubcatClick = (el: SubcategoryAnswer) => {
         return ROUTE_MAPPER[el.subcategory_type] + el.id;
     };

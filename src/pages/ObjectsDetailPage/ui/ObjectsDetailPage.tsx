@@ -165,6 +165,7 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                                     .toLocaleLowerCase()
                                     .includes(searchVal)) && (
                                 <ObjectCategoryView
+                                    searchParams={searchParams}
                                     visible={el.visible}
                                     abonent={el.abonent}
                                     last_update={el.last_update}
@@ -212,6 +213,7 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                                         .toLocaleLowerCase()
                                         .includes(searchVal)) && (
                                     <ObjectCategoryRowView
+                                        searchParams={searchParams}
                                         last_update={el.last_update}
                                         className={cls.objRow}
                                         key={el.id}

@@ -22,11 +22,10 @@ import {
     getAutoDeviceIdBySystem,
     getHeatDeviceIdBySystem,
     getPumpDeviceIdBySystem,
-    getSelectedSubcategory,
     useGetSelectedSubcategory,
 } from "@/entities/ObjectSubCategory";
 import {
-    getSelectedUserObject,
+    getUserObjectData,
     ObjectList,
     useGetSelectedUserObject,
 } from "@/entities/Objects";
@@ -67,7 +66,10 @@ interface ChartBuilderProps {
 
 export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
     const { subcatData } = props;
-    const selectedObject = useGetSelectedUserObject();
+    const [objID, setObjID] = useState<number | null>(null);
+    const { data: userObjectData } = getUserObjectData(objID ?? 0, {
+        skip: !objID,
+    });
     const selectedSubcat = useGetSelectedSubcategory();
     const selectedHeatParamaters = useSelector(getHeatParameters);
     const selectedAutoParamaters = useSelector(getAutoParameters);
@@ -133,7 +135,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
 
     const heatParameterClickHandler = useCallback(
         async (parameter: HeatParameters) => {
-            if (!selectedSubcat || !selectedObject || !heatDevice) {
+            if (!selectedSubcat || !objID || !heatDevice || !userObjectData) {
                 return;
             }
             const parameterNameVerb = `${parameter.verbose_name} ${parameter.tag}`;
@@ -142,7 +144,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 id: parameter.id,
                 name: parameterNameVerb,
                 subcat_id: selectedSubcat.id,
-                user_object_id: selectedObject.id,
+                user_object_id: objID,
             });
             const parameterDataset = await getHeatParameterForChart({
                 startDate: startDate,
@@ -150,7 +152,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 id: parameter.id,
             });
             addChartData({
-                userObjectData: selectedObject,
+                userObjectData: userObjectData,
                 system: {
                     systemInfo: {
                         ...selectedSubcat,
@@ -170,11 +172,11 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 id: parameter.id,
             });
         },
-        [endDate, heatDevice, selectedObject, selectedSubcat, startDate],
+        [endDate, heatDevice, userObjectData, selectedSubcat, startDate, objID],
     );
     const pumpParameterClickHandler = useCallback(
         async (parameter: PumpParameter) => {
-            if (!selectedSubcat || !selectedObject || !pumpDevice) {
+            if (!selectedSubcat || !objID || !pumpDevice || !userObjectData) {
                 return;
             }
             const parameterNameVerb = parameter.verbose_name;
@@ -182,7 +184,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 id: parameter.id,
                 name: parameter.verbose_name,
                 subcat_id: selectedSubcat.id,
-                user_object_id: selectedObject.id,
+                user_object_id: objID,
             });
             const parameterDataset = await getPumpParameterForChart({
                 startDate: startDate,
@@ -190,7 +192,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 id: parameter.id,
             });
             addChartData({
-                userObjectData: selectedObject,
+                userObjectData: userObjectData,
                 system: {
                     systemInfo: {
                         ...selectedSubcat,
@@ -211,11 +213,11 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 id: parameter.id,
             });
         },
-        [endDate, pumpDevice, selectedObject, selectedSubcat, startDate],
+        [endDate, pumpDevice, userObjectData, selectedSubcat, startDate, objID],
     );
     const autoParameterClickHandler = useCallback(
         async (parameter: AutoParameter) => {
-            if (!selectedSubcat || !selectedObject || !autoDevice) {
+            if (!selectedSubcat || !objID || !autoDevice || !userObjectData) {
                 return;
             }
             const parameterNameVerb = parameter.tag;
@@ -223,7 +225,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 id: parameter.id,
                 name: parameter.tag,
                 subcat_id: selectedSubcat.id,
-                user_object_id: selectedObject.id,
+                user_object_id: objID,
             });
             const parameterDataset = await getAutoParameterForChart({
                 startDate: startDate,
@@ -231,7 +233,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 id: parameter.id,
             });
             addChartData({
-                userObjectData: selectedObject,
+                userObjectData: userObjectData,
                 system: {
                     systemInfo: {
                         ...selectedSubcat,
@@ -252,7 +254,7 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                 id: parameter.id,
             });
         },
-        [selectedSubcat, selectedObject, autoDevice, startDate, endDate],
+        [selectedSubcat, userObjectData, autoDevice, startDate, endDate, objID],
     );
 
     const getParametersIdByHeatSubtype = useMemo(() => {
@@ -391,9 +393,12 @@ export const ChartBuilder = memo((props: ChartBuilderProps): ReactElement => {
                                 }
                             />
                         </HFlexBox>
-                        <ObjectList selectedObject={subcatData?.user_object} />
+                        <ObjectList
+                            selectedObject={subcatData?.user_object}
+                            onSelectObjectProp={setObjID}
+                        />
                         <SubcategoryListByObject
-                            objectID={selectedObject ? selectedObject.id : 0}
+                            objectID={objID ?? 0}
                             preselectedSubcategory={subcatData?.id}
                         />
                         <AppButon

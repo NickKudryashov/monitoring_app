@@ -27,6 +27,7 @@ interface ObjectCategoryRowViewProps {
     adress: string;
     abonent: string;
     last_update: string;
+    searchParams: URLSearchParams;
     id: number;
 }
 export function ObjectCategoryRowView(
@@ -40,11 +41,11 @@ export function ObjectCategoryRowView(
         setOpened,
         last_update,
         abonent,
+        searchParams,
     } = props;
-    const calcParams = useCalcParams();
     const { data, isLoading, refetch } = getObjectSubcategoryData({
         id,
-        ...calcParams,
+        ...searchParams,
     });
 
     useEffect(() => {

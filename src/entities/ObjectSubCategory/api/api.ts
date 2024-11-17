@@ -62,11 +62,11 @@ const objectSubcategoryEntityQuery = rtkApi.injectEndpoints({
                 };
             },
         }),
-        getObjectSubcategorys: build.query<ObjectAnswer,{id:number,no_answer?:string,event?:string}>({
-            query: ({id, event,no_answer}) => {
+        getObjectSubcategorys: build.query<ObjectAnswer,{id:number,no_answer?:string,events?:string}>({
+            query: ({id, events,no_answer}) => {
                 return {
                     url:"subcategory/"+id,
-                    params:{event,no_answer}
+                    params:{events,no_answer}
                 };
             },
             providesTags: (result) =>

@@ -5,28 +5,26 @@ import { useUserObjectActions } from "../../reducers/reducers";
 import { getAllObjects } from "../../api/api";
 
 interface ObjectListProps {
-    onSelectObject?: (objectID: number) => void;
+    onSelectObjectProp?: (objectID: number) => void;
     selectedObject?: number;
 }
 
 export const ObjectList = (props: ObjectListProps): ReactElement => {
-    const { selectedObject } = props;
+    const { selectedObject, onSelectObjectProp } = props;
     const { data: objects } = getAllObjects({});
     const objectSelectedState = useGetSelectedUserObject();
-    const { clearSelectObject, selectObject } = useUserObjectActions();
+
     useEffect(() => {
-        return () => {
-            clearSelectObject();
-        };
-    }, []);
-    useEffect(() => {
-        if (selectedObject) {
-            selectObject(selectedObject);
+        if (selectedObject && onSelectObjectProp) {
+            onSelectObjectProp(selectedObject);
         }
     }, [selectedObject, objects]);
-    const onSelectObject = useCallback((val: string) => {
-        selectObject(Number(val));
-    }, []);
+    const onSelectObject = useCallback(
+        (val: string) => {
+            onSelectObjectProp?.(Number(val));
+        },
+        [onSelectObjectProp],
+    );
     const options = useMemo(
         () =>
             objects

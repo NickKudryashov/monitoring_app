@@ -53,6 +53,8 @@ export const EventEditor = memo(
         const [eventTitle, setEventTitle] = useState<string>(
             event?.title ?? "",
         );
+        const [objID, setObjID] = useState<number | null>(null);
+        const [subcatSetSubcatID, setSubcatID] = useState<number | null>(null);
         const [eventMessage, setEventMessage] = useState<string>(
             event?.description ?? "",
         );
@@ -166,9 +168,12 @@ export const EventEditor = memo(
                 <HFlexBox align="space-between" height="90%">
                     {isError && error && "data" in error && <p>{}</p>}
                     <VFlexBox align="space-between" width="35%">
-                        <ObjectList selectedObject={subcatData?.user_object} />
+                        <ObjectList
+                            onSelectObjectProp={setObjID}
+                            selectedObject={subcatData?.user_object}
+                        />
                         <SubcategoryListByObject
-                            objectID={selectedObject?.id ?? 0}
+                            objectID={objID ?? 0}
                             preselectedSubcategory={subcatData?.id}
                         />
                         <UserEventTypeSelect
