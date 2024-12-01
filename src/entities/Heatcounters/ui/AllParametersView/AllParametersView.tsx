@@ -24,6 +24,7 @@ export const AllParametersView = memo(
                     heatDevice?.systems?.map((system) => (
                         <ParameterColumnBySystem
                             key={system.id}
+                            id={system.id}
                             params={system.parameters}
                             header={system.name}
                             onParameterClick={onParameterClick}

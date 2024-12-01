@@ -215,6 +215,7 @@ export const EventEditor = memo(
                                 <AllParametersView
                                     heatDevice={heatDevice}
                                     onParameterClick={heatParameterClickHandler}
+                                    className={cls.heats}
                                 />
                             )}
                         {selectedSubcat?.subcategory_type ===

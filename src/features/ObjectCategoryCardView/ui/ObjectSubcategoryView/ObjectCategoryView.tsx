@@ -126,12 +126,17 @@ export function ObjectCategoryView(
         >
             <VFlexBox
                 alignItems="center"
-                align="space-around"
+                align="center"
                 gap="5px"
                 height="20%"
                 className={cls.cardHeader}
             >
-                <HFlexBox align="center" alignItems="center" gap="7px">
+                <HFlexBox
+                    height={"40%"}
+                    align="center"
+                    alignItems="center"
+                    gap="7px"
+                >
                     <b className={cls.objType}>{abonent}</b>
                     {visible ? (
                         <EyeIcon

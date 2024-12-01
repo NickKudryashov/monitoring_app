@@ -1,13 +1,14 @@
 import classNames from "@/shared/lib/classNames/classNames";
 import { memo } from "react";
 import cls from "./MainLayout.module.scss";
-
+import CookieConsent from "react-cookie-consent";
 import type { PropsWithChildren } from "react";
 import { HFlexBox } from "../FlexBox/HFlexBox/HFlexBox";
 import { useSelector } from "react-redux";
 import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
 import { getVersion } from "@/entities/user";
 import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
+import { AppButon } from "../AppButton/AppButton";
 interface MainLayoutProps {
     className?: string;
     navbar: React.ReactNode;
@@ -32,6 +33,14 @@ export const MainLayout = memo((props: PropsWithChildren<MainLayoutProps>) => {
                     </div>
                 </div>
             </div>
+            <CookieConsent
+                buttonText={"Подтверждаю"}
+                buttonStyle={{ borderRadius: 5, background: "white" }}
+                style={{ background: "#355EAB", opacity: 0.8 }}
+            >
+                Пользуясь данным веб-ресурсом вы даете согласие на использование
+                ваших персональных данных и файлов cookies
+            </CookieConsent>
             {!isMobile && <p className={cls.version}>{version}</p>}
         </div>
     );

@@ -1,6 +1,6 @@
 import { HeatDevice, HeatParameters } from "../types/type";
 import { rtkApi } from "@/shared/api/rtkApi";
-
+// rename_heat_system/<int:system_id>
 const heatDeviceQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
         getHeatDevice: build.query<HeatDevice,number>({
@@ -27,6 +27,14 @@ const heatDeviceQuery = rtkApi.injectEndpoints({
                 body: patch,
             }),
             invalidatesTags: (result, error, { id,device }) => [{ type: "HeatDevice", device }],
+        }),
+        editHeatSystemName:build.mutation<void, {system_id:number,name:string}>({
+            query:({name,system_id})=>({
+                url: `rename_heat_system/${system_id}`,
+                method: "POST",
+                body: {name},
+            }),
+            invalidatesTags: (result, error, {}) => [{ type: "HeatDevice", id:'LIST' }],
         })
     }),
     overrideExisting: false,
@@ -34,3 +42,4 @@ const heatDeviceQuery = rtkApi.injectEndpoints({
 
 export const getHeatDeviceData = heatDeviceQuery.useGetHeatDeviceQuery;
 export const editHeatParameterName = heatDeviceQuery.useEditHeatParameterNameMutation;
+export const editHeatSystemName = heatDeviceQuery.useEditHeatSystemNameMutation;

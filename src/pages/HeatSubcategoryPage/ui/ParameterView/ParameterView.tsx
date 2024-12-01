@@ -26,11 +26,12 @@ export function ParameterView(props: ParameterViewProps): React.ReactElement {
                 align="flex-start"
                 alignItems="center"
             >
-                {Object?.values(params ?? {})?.map((el, i) => (
+                {Object?.keys(params ?? {})?.map((el, i) => (
                     <ParameterColumnBySystem
                         key={i}
-                        params={el.parameters}
-                        header={el.systemName}
+                        params={params[Number(el)]?.parameters}
+                        header={params[Number(el)]?.systemName}
+                        id={Number(el)}
                     />
                 ))}
             </VFlexBox>
@@ -42,11 +43,12 @@ export function ParameterView(props: ParameterViewProps): React.ReactElement {
             align="flex-start"
             alignItems="start"
         >
-            {Object?.values(params ?? {})?.map((el, i) => (
+            {Object?.keys(params ?? {})?.map((el, i) => (
                 <ParameterColumnBySystem
                     key={i}
-                    params={el.parameters}
-                    header={el.systemName}
+                    params={params[Number(el)]?.parameters}
+                    header={params[Number(el)]?.systemName}
+                    id={Number(el)}
                 />
             ))}
             {/* <ConfigParameterColumn configParameters={configParameters} /> */}
