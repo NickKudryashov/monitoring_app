@@ -28,8 +28,12 @@ export const ConnectionTypeForm = ({
             </Form.Item>
             <Form.Item
                 required
+                dependencies={['connection_type']}
                 rules={[
-                    { required: true, message: 'Обязательное поле' },
+                    {
+                        required: conType !== 'GSM',
+                        message: 'Обязательное поле',
+                    },
                     {
                         message: 'Неверный IP адрес',
                         validator: (_, val: string) => {
@@ -53,8 +57,12 @@ export const ConnectionTypeForm = ({
             </Form.Item>
             <Form.Item
                 required
+                dependencies={['connection_type']}
                 rules={[
-                    { required: true, message: 'Обязательное поле' },
+                    {
+                        required: conType !== 'GSM',
+                        message: 'Обязательное поле',
+                    },
                     {
                         message: 'Неверный порт',
                         validator: (_, val: string) => {
@@ -79,11 +87,15 @@ export const ConnectionTypeForm = ({
 
             <Form.Item
                 required
+                dependencies={['connection_type']}
                 hidden={conType !== 'GSM'}
                 name={'phonenumber'}
                 label='Номер телефона'
                 rules={[
-                    { required: true, message: 'Обязательное поле' },
+                    {
+                        required: conType === 'GSM',
+                        message: 'Обязательное поле',
+                    },
 
                     {
                         message: 'Неверный номер телефона',
@@ -95,7 +107,7 @@ export const ConnectionTypeForm = ({
                                 /^[8]{1}[-\s\.]?[9][(0-9)]{2}[-\s\.]?[0-9]{7}$/.test(
                                     val,
                                 ) ||
-                                val === ''
+                                !val
                             ) {
                                 return Promise.resolve()
                             }

@@ -74,9 +74,29 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
             device_type: device_type,
             systems: syss?.map((el, i) => ({ index: i, name: el })),
         }
-        await $api.post('device/add', body)
-        message.success('Успешно')
+        const response = await $api.post('device/add', body)
+        if (response.status === 200) {
+            message.success('Успешно')
+        } else {
+            message.error('Неудачно')
+        }
     }
+
+    const finishClickHandler = async () => {
+        try {
+            const result = await form.validateFields()
+            console.log(result)
+            if (form.getFieldValue('systems')?.length) {
+                onFinish()
+            } else {
+                message.error('Укажите системы для прибора')
+            }
+        } catch (e) {
+            console.log(e)
+            message.error('Заполните поля корректно')
+        }
+    }
+
     return (
         <>
             <Form.Item
@@ -164,19 +184,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                 )}
             </Form.List>
             <Form.Item>
-                <Button
-                    onClick={() =>
-                        form.getFieldValue('systems')?.length
-                            ? form
-                                  .validateFields()
-                                  .catch(() => {})
-
-                                  .then(() => onFinish())
-                            : message.error('Укажите системы для прибора')
-                    }
-                >
-                    Добавить
-                </Button>
+                <Button onClick={finishClickHandler}>Добавить</Button>
             </Form.Item>
         </>
     )
