@@ -6,13 +6,21 @@ import $api from "@/shared/api";
 import { AppInput } from "@/shared/ui/AppInput/AppInput";
 import { useSelector } from "react-redux";
 import { StateSchema } from "@/app/providers/StoreProvider/config/stateSchema";
-import { Modal } from "@/shared/ui/Modal/Modal";
 import { useAppDispatch } from "@/shared/hooks/hooks";
 import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
 import { getObjectSubcategoryData } from "@/entities/ObjectSubCategory";
 import { getAutomaticDeviceTypes } from "@/entities/AutomaticDevice";
 import { getAllObjects } from "@/entities/Objects";
-
+import { Button, Flex, Form, Input, Modal, Result, Select, Tooltip, Typography } from "antd";
+import { useForm } from "antd/es/form/Form";
+import {
+    ClearOutlined,
+    CloseCircleOutlined,
+    MinusCircleOutlined,
+    PlusOutlined,
+} from "@ant-design/icons";
+import useModal from "antd/es/modal/useModal";
+import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
 interface AddPumpDeviceProps {
     className?: string;
     isOpen?: boolean;
@@ -54,17 +62,25 @@ const DeviceConnection = {
 export const AddAutoDevice = memo(
     (props: PropsWithChildren<AddPumpDeviceProps>) => {
         const { className = "", isOpen, onClose, lazy = true } = props;
+        const [form] = Form.useForm();
         const [devType, setDevType] = useState<string>("-1");
         const [sysCount, setSysCount] = useState<number>(1);
-        const { data: objects } = getAllObjects({});
+        const { data: objects, isLoading: isObjectsLoading } = getAllObjects(
+            {},
+        );
+        const [addAutoModal, setAutoModal] = useState(false);
+
         const [selectedSubcat, setSelectedSubcat] = useState("-1");
         const [dnum, setDnum] = useState("");
         const [name, setName] = useState("");
         const [selectedObj, setSelectedObj] = useState("-1");
+        const obj = Form.useWatch("object", form);
+        const conType = Form.useWatch("connection_type", form);
         const { data, isLoading, refetch } = getObjectSubcategoryData({
-            id: Number(selectedObj),
+            id: Number(obj),
         });
-        const { data: devTypes } = getAutomaticDeviceTypes();
+        const { data: devTypes, isLoading: isDevTypesLoading } =
+            getAutomaticDeviceTypes();
         const [connectionProtocol, setConenctionProtocol] = useState(
             DeviceConnection.TCP,
         );
@@ -73,10 +89,6 @@ export const AddAutoDevice = memo(
         const [slave, setSlave] = useState("");
         const [preset, setPreset] = useState("231");
         const dispatch = useAppDispatch();
-        if (!isOpen && lazy) {
-            return null;
-        }
-        objects?.length === 0 && console.log("пусто");
         const addRequest = async (data: AddRequestProps) => {
             const response = await $api.post("automatic_device/add", data);
             if (response.status !== 200) {
@@ -109,120 +121,186 @@ export const AddAutoDevice = memo(
         };
 
         return (
+            <VFlexBox>
+            <HFlexBox
+                onClick={() => setAutoModal(true)}
+                className={cls.feature}
+                align={"center"}
+                alignItems="center"
+                height={"100%%"}
+                width={"100%%"}
+            >
+                <p>Добавить автоматику</p>
+            </HFlexBox>
             <Modal
-                isOpen={isOpen}
-                onClose={onClose}
+                open={addAutoModal}
+                closeIcon={null}
+                okButtonProps={undefined}
+                onCancel={()=>setAutoModal(false)}
+                onOk={()=>setAutoModal(false)}
+                footer={[]}
+                okText={'Создать'}
+                destroyOnClose
+                cancelText={'Отмена'}
                 className={classNames(cls.AddAutoDevice, {}, [className])}
             >
-                <VFlexBox>
-                    <div className={cls.AddPumpDevice}>
-                        <AppInput
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Имя прибора"
-                        />
-                        <AppInput
-                            value={dnum}
-                            onChange={(e) => setDnum(e.target.value)}
-                            placeholder="Номер прибора"
-                        />
-                        <select
-                            value={devType}
-                            onChange={(e) => setDevType(e.target.value)}
+                <Flex vertical>
+                    <Form
+                        style={{ userSelect: "none" }}
+                        form={form}
+                        onFinish={() => alert("asdas")}
+                        onError={() => alert("eror")}
+                        labelCol={{ span: 10 }}
+                        labelAlign="left"
+                        wrapperCol={{ span: 14 }}
+                    >
+                        <Form.Item required label="Имя прибора" name={"device_name"}>
+                            <Input
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </Form.Item>
+                        <Form.Item required label="Номер прибора" name="device_num">
+                            <Input
+                                value={dnum}
+                                onChange={(e) => setDnum(e.target.value)}
+                            />
+                        </Form.Item>
+                        <Form.Item required label="Тип прибора" name="device_type">
+                            <Select
+                                options={devTypes?.map((el) => ({
+                                    label: el.verbose,
+                                    value: el.devtype,
+                                }))}
+                                loading={isDevTypesLoading}
+                            />
+                        </Form.Item>
+                        <Form.Item required label="Выбор объекта" name="object">
+                            <Select
+                                options={objects?.map((el) => ({
+                                    label: el.name,
+                                    value: el.id,
+                                }))}
+                                loading={isObjectsLoading}
+                            />
+                        </Form.Item>
+                        <Form.Item required label="Выбор системы" name="subcat">
+                            <Tooltip title={!obj ? "Выберите объект для выбора системы" : null}>
+                            <Select
+                                disabled={!obj}
+                                options={data?.data?.map((el) => ({
+                                    label: el.name,
+                                    value: el.id,
+                                }))}
+                                loading={isLoading}
+                            />
+                            </Tooltip>
+                        </Form.Item>
+                        <Form.Item required
+                            label="Тип соединения"
+                            name="connection_type"
                         >
-                            <option disabled={true} value="-1">
-                                Тип прибора
-                            </option>
-                            {devTypes &&
-                                devTypes.map((el) => (
-                                    <option key={el.devtype} value={el.devtype}>
-                                        {el.verbose}
-                                    </option>
-                                ))}
-                        </select>
-                        <select
-                            value={selectedObj}
-                            onChange={(e) => setSelectedObj(e.target.value)}
+                            <Select
+                                options={[
+                                    {
+                                        label: DeviceConnection.TCP,
+                                        value: DeviceConnection.TCP,
+                                    },
+                                    {
+                                        label: DeviceConnection.UDP,
+                                        value: DeviceConnection.UDP,
+                                    },
+                                    {
+                                        label: 'GSM',
+                                        value: 'gsm',
+                                    },
+                                ]}
+                            />
+                        </Form.Item>
+
+                        {conType!=='gsm' && 
+                        <>
+                        <Form.Item 
+                            label={"IP"}
+                            required
                         >
-                            <option disabled={true} value="-1">
-                                Выберите объект
-                            </option>
-                            {objects?.map((obj) => (
-                                <option key={obj.id} value={obj.id}>
-                                    {obj.name}
-                                </option>
-                            ))}
-                        </select>
-                        <select
-                            value={selectedSubcat}
-                            onChange={(e) => setSelectedSubcat(e.target.value)}
+                            <Input placeholder="IP" />
+                        </Form.Item>
+                        <Form.Item
+                            label={"Порт"}
+                            required
                         >
-                            <option disabled={true} value="-1">
-                                Выберите подкатегорию
-                            </option>
-                            {data?.data.map(
-                                (obj) =>
-                                    obj.user_object === Number(selectedObj) && (
-                                        <option key={obj.id} value={obj.id}>
-                                            {obj.name}
-                                        </option>
-                                    ),
-                            )}
-                        </select>
-                        <select
-                            value={connectionProtocol}
-                            onChange={(e) =>
-                                setConenctionProtocol(e.target.value)
-                            }
+                            <Input
+                                placeholder="Порт"
+                               
+                            />
+                        </Form.Item>
+                        </>}
+                        {conType==='gsm' && 
+                        <>
+                        <Form.Item
+                        shouldUpdate
+                        name='phnum'
+                        required
+                            label={"Номер телефона"}
+                            rules={[{required:conType==='gsm',message:'Обязательное поле'}]}
+
                         >
-                            <option value={DeviceConnection.TCP}>
-                                {DeviceConnection.TCP}
-                            </option>
-                            <option value={DeviceConnection.UDP}>
-                                {DeviceConnection.UDP}
-                            </option>
-                        </select>
-                        <select
-                            value={preset}
-                            onChange={(e) => setPreset(e.target.value)}
+                            <Input />
+                        </Form.Item>
+                        </>}
+                        {/* <Form.Item label={"IP адрес"} name={"ip"}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label={"Порт"} name="port">
+                            <Input
+                                value={port}
+                                onChange={(e) => setPort(e.target.value)}
+                                placeholder="Порт"
+                            />
+                        </Form.Item> */}
+                        <Form.Item
+                            label="Выбор шаблона прибора"
+                            name="template"
+                            required
                         >
-                            <option disabled={true} value="-1">
-                                Выберите пресет параметров (Danfoss)
-                            </option>
-                            <option value="231">231/331</option>
-                            <option value="361">361</option>
-                            <option value="368">368</option>
-                        </select>
-                        <AppInput
-                            value={sysCount}
-                            onChange={(e) =>
-                                setSysCount(Number(e.target.value))
-                            }
-                            label="Количество систем"
-                            type="number"
-                        />
-                        <AppInput
-                            value={ip}
-                            onChange={(e) => setIp(e.target.value)}
-                            placeholder="IP адрес"
-                        />
-                        <AppInput
-                            value={port}
-                            onChange={(e) => setPort(e.target.value)}
-                            placeholder="Порт"
-                        />
-                        <AppInput
-                            value={slave}
-                            onChange={(e) => setSlave(e.target.value)}
-                            placeholder="Slave адрес"
-                        />
-                        <button onClick={() => accept()}>Добавить</button>
-                        <button onClick={() => onClose && onClose()}>
-                            Отмена
-                        </button>
-                    </div>
-                </VFlexBox>
+                            <Select
+                                options={[
+                                    { label: "231", value: "231" },
+                                    { label: "361", value: "361" },
+                                    { label: "368", value: "368" },
+                                ]}
+                            />
+                        </Form.Item>
+
+                        <Form.Item label="Slave адрес" name="slave"
+                            >
+                            <Input
+                                allowClear={true}
+                                value={slave}
+                                onChange={(e) => setSlave(e.target.value)}
+                                placeholder="Slave адрес"
+                            />
+                        </Form.Item>
+                        <Form.Item>
+                            <Flex gap='small'>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                            >
+                                Добавить
+                                </Button>
+                                <Button
+                                onClick={()=>setAutoModal(false)}
+                            >
+                                Отмена
+                                </Button>
+                                </Flex>
+                        </Form.Item>
+                    </Form>
+                </Flex>
             </Modal>
+            </VFlexBox>
         );
     },
 );

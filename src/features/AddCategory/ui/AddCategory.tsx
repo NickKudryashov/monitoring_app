@@ -1,93 +1,67 @@
 // import classNames from 'shared/lib/classNames/classNames';
 // import cls from './AddCategory.module.scss';
 
-import { PropsWithChildren, useEffect, useState } from "react";
-import { useAppDispatch } from "@/shared/hooks/hooks";
-import { AppButon } from "@/shared/ui/AppButton/AppButton";
-import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
-import { Modal } from "@/shared/ui/Modal/Modal";
-import cls from "./AddCategory.module.scss";
-import { getAllObjects } from "@/entities/Objects";
+import { PropsWithChildren, useEffect, useState } from 'react'
+import { useAppDispatch } from '@/shared/hooks/hooks'
+import cls from './AddCategory.module.scss'
+import { getAllObjects } from '@/entities/Objects'
 import {
     addNewSubcategory,
     getSubcategoryTypes,
-} from "@/entities/ObjectSubCategory";
-interface AddCategoryProps {
-    className?: string;
-    onClose?: () => void;
-    isOpen?: boolean;
-    edit?: boolean;
-    id?: number;
+} from '@/entities/ObjectSubCategory'
+import {
+    App,
+    Button,
+    Form,
+    Input,
+    Modal,
+    Select,
+    SelectProps,
+    Tooltip,
+} from 'antd'
+import { FormInstance, useForm } from 'antd/es/form/Form'
+interface FormProps {
+    name: string
+    user_object: number
+    subcategory_type: string
 }
 
-export function AddCategory(props: PropsWithChildren<AddCategoryProps>) {
-    const { className, isOpen, onClose, edit, id } = props;
-    const { data: objects } = getAllObjects({});
-    const { data: subCatTypes } = getSubcategoryTypes();
-    const [addSubcategory] = addNewSubcategory();
-    const [selectedObj, setSelectedObj] = useState("0");
-    const [selectedType, setSelectedType] = useState("0");
-    const [name, setName] = useState("");
-    const dispatch = useAppDispatch();
-    console.log(subCatTypes);
+export function AddCategory({ form }: { form: FormInstance }) {
+    const { data: objects } = getAllObjects({})
+    const [open, setIsOpen] = useState(false)
+    const { message } = App.useApp()
+    const { data: subCatTypes } = getSubcategoryTypes()
+    const [addSubcategory] = addNewSubcategory()
 
-    useEffect(() => {
-        setSelectedObj("0");
-        setSelectedType("0");
-    }, []);
-
-    const addHandler = async () => {
-        addSubcategory({
-            name: name,
-            user_object: Number(selectedObj),
-            subcategory_type: selectedType,
-        });
-
-        onClose && onClose();
-    };
+    const onFinish = () => {
+        const { name, subcategory_type, user_object } = form.getFieldsValue()
+        addSubcategory({ name, subcategory_type, user_object })
+            .unwrap()
+            .then(() => message.success('Система добавлена'))
+            .catch(() => message.error('Не удалось добавить систему'))
+    }
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <div className={cls.AddCategory}>
-                Добавить новую подкатегорию:
-                <AppInput
-                    theme={InputThemes.OUTLINE}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Название подкатегории"
+        <>
+            <Form.Item name={'name'} label={'Название системы'}>
+                <Input />
+            </Form.Item>
+            <Form.Item
+                required
+                rules={[{ required: true, message: 'Обязательное поле' }]}
+                name={'subcategory_type'}
+                label={'Тип системы'}
+            >
+                <Select
+                    options={Object.keys(subCatTypes ?? {}).map((el) => ({
+                        label: subCatTypes?.[el],
+                        value: el,
+                    }))}
                 />
-                <select
-                    value={selectedObj}
-                    onChange={(e) => setSelectedObj(e.target.value)}
-                >
-                    <option disabled value={"0"}>
-                        {"Выберите объект"}
-                    </option>
-                    )
-                    {objects &&
-                        objects.map((el) => (
-                            <option key={el.id} value={el.id}>
-                                {el.name}
-                            </option>
-                        ))}
-                </select>
-                <select
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
-                >
-                    <option disabled value={"0"}>
-                        {"Выберите тип"}
-                    </option>
-                    )
-                    {subCatTypes &&
-                        Object.keys(subCatTypes).map((el) => (
-                            <option key={el} value={el}>
-                                {subCatTypes[el]}
-                            </option>
-                        ))}
-                </select>
-                <AppButon onClick={addHandler}>OK</AppButon>
-            </div>
-        </Modal>
-    );
+            </Form.Item>
+            <Form.Item>
+                <Button onClick={() => onFinish()}>Добавить</Button>
+            </Form.Item>
+        </>
+    )
 }

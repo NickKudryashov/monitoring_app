@@ -7,7 +7,8 @@ import { BrowserRouter } from "react-router-dom";
 import "./app/styles/index.scss";
 import { MapContextProvider } from "@/shared/lib/components/MapProvider/MapProvider";
 import { createRoot } from "react-dom/client";
-
+import {App as AntdApp} from 'antd'
+import { AntProvier } from "./app/providers/AntProvider/AntProvider";
 // render(
 //     <StoreProvider>
 //         <BrowserRouter>
@@ -29,6 +30,8 @@ const root = createRoot(container);
 
 // Initial render
 root.render(
+    <AntdApp>
+        <AntProvier>
     <StoreProvider>
         <BrowserRouter>
             <MapContextProvider>
@@ -38,4 +41,6 @@ root.render(
             </MapContextProvider>
         </BrowserRouter>
     </StoreProvider>
+    </AntProvier>
+    </AntdApp>
 );

@@ -1,73 +1,64 @@
-import { PropsWithChildren, useState } from "react";
-import $api from "@/shared/api";
-import { AppButon } from "@/shared/ui/AppButton/AppButton";
-import { AppInput, InputThemes } from "@/shared/ui/AppInput/AppInput";
-import { Modal } from "@/shared/ui/Modal/Modal";
-import cls from "./AddObject.module.scss";
-import { createUserObject } from "@/entities/Objects";
+import { PropsWithChildren, useState } from 'react'
+import $api from '@/shared/api'
+import { AppButon } from '@/shared/ui/AppButton/AppButton'
+import { AppInput, InputThemes } from '@/shared/ui/AppInput/AppInput'
+import cls from './AddObject.module.scss'
+import { createUserObject } from '@/entities/Objects'
+import { App, Button, Form, Input, Modal, Select } from 'antd'
+import { FormInstance, useForm } from 'antd/es/form/Form'
 interface AddObjectProps {
-    className?: string;
-    onClose?: () => void;
-    isOpen?: boolean;
+    className?: string
+    form: FormInstance
 }
-const MOCK_TYPES = ["МЦД", "Детский сад", "Школы", "ИП"];
-export function AddObject(props: PropsWithChildren<AddObjectProps>) {
-    const { isOpen, onClose } = props;
-    const [abonent, setSelectedAbonent] = useState("");
-    const [createObj] = createUserObject();
-    const [address, setSelectedAdress] = useState("");
-    const [name, setName] = useState("");
-    const [objType, setObjType] = useState("");
+interface FormProps {
+    object_name: string
+    address: string
+    abonent: string
+}
 
-    const addHandler = async () => {
-        const body = {
-            name,
-            abonent,
-            address,
-        };
-        createObj(body);
-        if (onClose) {
-            onClose();
-        }
-    };
+export function AddObject({ form }: PropsWithChildren<AddObjectProps>) {
+    const [opened, setIsOpened] = useState(false)
+    const { message } = App.useApp()
+    const [createObj] = createUserObject()
+    const onFinish = () => {
+        const abonent = form.getFieldValue('abonent')
+        const address = form.getFieldValue('address')
+        const name = form.getFieldValue('object_name')
+        createObj({ abonent, address, name })
+            .unwrap()
+            .then(() => message.success('Объект успешно добавлен'))
+            .catch(() => message.error('Не удалось добавить объект'))
+    }
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <div className={cls.AddObject}>
-                Добавить новый объект:
-                <AppInput
-                    theme={InputThemes.OUTLINE}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Название объекта"
-                />
-                <AppInput
-                    theme={InputThemes.OUTLINE}
-                    value={address}
-                    onChange={(e) => setSelectedAdress(e.target.value)}
-                    placeholder="Адрес"
-                />
-                <AppInput
-                    theme={InputThemes.OUTLINE}
-                    value={abonent}
-                    onChange={(e) => setSelectedAbonent(e.target.value)}
-                    placeholder="Абонент"
-                />
-                <select
-                    value={objType}
-                    onChange={(e) => setObjType(e.target.value)}
-                >
-                    <option disabled value={""}>
-                        {"Тип объекта:"}
-                    </option>
-                    {MOCK_TYPES.map((cat) => (
-                        <option key={cat} value={cat}>
-                            {cat}
-                        </option>
-                    ))}
-                </select>
-                <AppButon onClick={addHandler}>OK</AppButon>
-            </div>
-        </Modal>
-    );
+        <>
+            <Form.Item
+                rules={[{ required: true, message: 'Обязательное поле' }]}
+                required
+                name={'object_name'}
+                label='Название объекта'
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                rules={[{ required: true, message: 'Обязательное поле' }]}
+                required
+                name='address'
+                label='Адрес'
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                rules={[{ required: true, message: 'Обязательное поле' }]}
+                required
+                name='abonent'
+                label='Абонент'
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item>
+                <Button onClick={onFinish}>Добавить</Button>
+            </Form.Item>
+        </>
+    )
 }
