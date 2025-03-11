@@ -24,11 +24,18 @@ interface FormProps {
     name: string
     user_object: number
     subcategory_type: string
+    onFinishForm?: (arg: boolean) => void
 }
 
-export function AddCategory({ form }: { form: FormInstance }) {
+export function AddCategory({
+    form,
+    onFinishForm,
+}: {
+    form: FormInstance
+    onFinishForm: (arg: boolean) => void
+}) {
     const { data: objects } = getAllObjects({})
-    const [open, setIsOpen] = useState(false)
+    const [finished, setFinished] = useState(false)
     const { message } = App.useApp()
     const { data: subCatTypes } = getSubcategoryTypes()
     const [addSubcategory] = addNewSubcategory()
@@ -37,10 +44,16 @@ export function AddCategory({ form }: { form: FormInstance }) {
         const { name, subcategory_type, user_object } = form.getFieldsValue()
         addSubcategory({ name, subcategory_type, user_object })
             .unwrap()
-            .then(() => message.success('Система добавлена'))
+            .then((data) => {
+                message.success('Система добавлена')
+                form.setFieldValue('subcat', data.id)
+                onFinishForm && onFinishForm(false)
+            })
             .catch(() => message.error('Не удалось добавить систему'))
     }
-
+    if (finished) {
+        return null
+    }
     return (
         <>
             <Form.Item name={'name'} label={'Название системы'}>
