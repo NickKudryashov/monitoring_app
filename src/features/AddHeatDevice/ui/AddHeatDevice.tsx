@@ -85,7 +85,6 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const finishClickHandler = async () => {
         try {
             const result = await form.validateFields()
-            console.log(result)
             if (form.getFieldValue('systems')?.length) {
                 onFinish()
             } else {

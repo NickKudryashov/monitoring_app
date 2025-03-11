@@ -2,6 +2,7 @@ import { getAutomaticDeviceTypes } from '@/entities/AutomaticDevice'
 import {
     Button,
     Card,
+    Drawer,
     Flex,
     Form,
     Input,
@@ -13,21 +14,12 @@ import {
 import { useForm } from 'antd/es/form/Form'
 import { useMemo, useState } from 'react'
 import { AddCategory } from '../AddCategory'
-import { getAllObjects } from '@/entities/Objects'
+import { createUserObject, getAllObjects } from '@/entities/Objects'
 import { AddObject } from '../AddObject'
 import { getObjectSubcategoryData } from '@/entities/ObjectSubCategory'
-import { current } from '@reduxjs/toolkit'
 import { ConnectionTypeForm } from '../ConnectionTypeForm/ConnectionTypeForm'
 import { AddHeatDevice } from '../AddHeatDevice'
-
-const heatTypes = [
-    { value: 'teross', label: 'Теросс-ТМ' },
-    { value: 'st10_229', label: 'ВТЭ-1П140(141) тип 229' },
-    { value: 'st10_234', label: 'ВТЭ-1П140(141) тип 234' },
-    { value: 'st10_236', label: 'ВТЭ-1П140(141) тип 236' },
-    { value: 'st20_238', label: 'ВТЭ-2П14хМ тип 238' },
-    { value: 'st20_239', label: 'ВТЭ-2П15хМ тип 239' },
-]
+import { ModalDrawer } from '@/shared/newUi/ModalDrawer/ModalDrawer'
 
 const electroTypes = [
     { value: 'um_31', label: 'УМ-31 GPRS' },
@@ -65,20 +57,16 @@ export interface FormProps {
 
 export const AddDevice = () => {
     const [form] = useForm<FormProps>()
-    // const form = Form.useFormInstance<FormProps>()
     const [open, setOpen] = useState(false)
     const [showObjectAdd, setShowObjectAdd] = useState(false)
     const [showSubcatAdd, setShowSubcatAdd] = useState(false)
     const { data: objects } = getAllObjects({})
     const selectedObject = Form.useWatch('user_object', form)
     const selectedSubcat = Form.useWatch('subcat', form)
-    const vendor = Form.useWatch('vendor', form)
-    const devnum = Form.useWatch('devnum', form)
     const selected_dtype = Form.useWatch('selected_dev_type', form)
-    const conType = Form.useWatch('con_type', form)
-    const ip = Form.useWatch('ip', form)
-    const port = Form.useWatch('port', form)
-    const phone = Form.useWatch('phonenumber', form)
+    const [createObj, { data: addObjectData }] = createUserObject({
+        fixedCacheKey: 'ADDOBJ',
+    })
     const {
         data: subcats,
         isLoading,
@@ -101,18 +89,21 @@ export const AddDevice = () => {
             >
                 Добавить прибор
             </Button>
-            <Modal
+            <ModalDrawer
+                height={'70%'}
                 okButtonProps={{ style: { display: 'none' } }}
                 onCancel={() => setOpen(false)}
                 title={'Добавить прибор'}
                 open={open}
+                placement='bottom'
+                onClose={() => setOpen(false)}
                 cancelText={'Закрыть'}
                 width={'45%'}
-                style={{ minWidth: '800px' }}
+                minFullsizeWidth='800px'
             >
                 <Flex style={{ width: '100%' }} gap={'small'}>
                     <Form
-                        style={{ width: '70%' }}
+                        style={{ width: '100%', maxWidth: '750px' }}
                         initialValues={{ connection_type: 'TCP' }}
                         onFinish={onFinish}
                         labelAlign='left'
@@ -144,7 +135,7 @@ export const AddDevice = () => {
                                     onSelect={() => setStep(1)}
                                     showSearch
                                     optionFilterProp='label'
-                                />
+                                ></Select>
                             </Form.Item>
                             <Form.Item name='add_object'>
                                 <Flex gap='small'>
@@ -160,7 +151,12 @@ export const AddDevice = () => {
                                     </Typography.Link>
                                 </Flex>
                             </Form.Item>
-                            {showObjectAdd && <AddObject form={form} />}
+                            {showObjectAdd && (
+                                <AddObject
+                                    onFormFinish={setShowObjectAdd}
+                                    form={form}
+                                />
+                            )}
                         </Card>
                         {selectedObject && (
                             <Card
@@ -200,7 +196,12 @@ export const AddDevice = () => {
                                     </Flex>
                                 </Form.Item>
 
-                                {showSubcatAdd && <AddCategory form={form} />}
+                                {showSubcatAdd && (
+                                    <AddCategory
+                                        onFinishForm={setShowSubcatAdd}
+                                        form={form}
+                                    />
+                                )}
                             </Card>
                         )}
                         <Card
@@ -248,19 +249,8 @@ export const AddDevice = () => {
                             />
                         </Card>
                     </Form>
-                    <Steps
-                        style={{ width: '20%' }}
-                        size='small'
-                        direction='vertical'
-                        current={step}
-                        items={[
-                            { title: 'Выберите объект' },
-                            { title: 'Выберите систему' },
-                            { title: 'Заполните подробные данные' },
-                        ]}
-                    />
                 </Flex>
-            </Modal>
+            </ModalDrawer>
         </>
     )
 }
