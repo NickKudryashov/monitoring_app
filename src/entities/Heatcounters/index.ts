@@ -12,3 +12,4 @@ export {ParameterColumnBySystem} from "./ui/ParameterColumnBySystem/ParameterCol
 export {AllParametersView} from "./ui/AllParametersView/AllParametersView";
 export {request_archives} from "./lib/requestArchives";
 export {ManualPoll as HeatDeviceManualPoll} from './service/HeatDeviceService'
+export {useEditConnectionInfoMutation as useEditHeatConnectionInfoMutation,useGetHeatConnectionInfoQuery} from './api/heatcountersapi'

@@ -11,3 +11,4 @@ export {PumpParameterColumn} from "./ui/PumpParameterColumn/PumpParameterColumn"
 export {Preview as PumpPreview} from "./ui/Preview/Preview";
 export {ParametersComposition as PumpParametersComposition} from "./ui/ParametersComposition/ParametersComposition";
 export {pumpPoll} from './service/pollService'
+export {useEditPumpConnectionInfoMutation,useGetPumpConnectionInfoQuery} from './api/pumpApi'

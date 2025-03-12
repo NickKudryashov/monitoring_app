@@ -1,3 +1,4 @@
+import { GSMConnection, InternetConnection } from "@/shared/types/connectionTypes";
 import { HeatDevice, HeatParameters } from "../types/type";
 import { rtkApi } from "@/shared/api/rtkApi";
 // rename_heat_system/<int:system_id>
@@ -35,7 +36,22 @@ const heatDeviceQuery = rtkApi.injectEndpoints({
                 body: {name},
             }),
             invalidatesTags: (result, error, {}) => [{ type: "HeatDevice", id:'LIST' }],
-        })
+        }),
+        editConnectionInfo:build.mutation<void, (GSMConnection | InternetConnection) & {system_id:number}>({
+            query:({system_id,...body})=>({
+                url: `heat/connection/${system_id}`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: (result, error, {}) => [{ type: "HeatDevice", id:'LIST' }],
+        }),
+        getHeatConnectionInfo: build.query<GSMConnection | InternetConnection,number>({
+            query: (id) => {
+                return {
+                    url:`heat/connection/${id}`,
+                };
+            },
+        }),
     }),
     overrideExisting: false,
 });
@@ -43,3 +59,4 @@ const heatDeviceQuery = rtkApi.injectEndpoints({
 export const getHeatDeviceData = heatDeviceQuery.useGetHeatDeviceQuery;
 export const editHeatParameterName = heatDeviceQuery.useEditHeatParameterNameMutation;
 export const editHeatSystemName = heatDeviceQuery.useEditHeatSystemNameMutation;
+export const {useEditConnectionInfoMutation,useGetHeatConnectionInfoQuery} = heatDeviceQuery

@@ -1,6 +1,7 @@
 import { url } from "inspector";
 import { rtkApi } from "@/shared/api/rtkApi";
 import { ElectroCounter, GetDeviceQuery } from "../model/types/electroDevice";
+import { GSMConnection, InternetConnection } from "@/shared/types/connectionTypes";
 
 const electroDevicesQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -34,8 +35,24 @@ const electroDevicesQuery = rtkApi.injectEndpoints({
                 method: "POST",
                 body: patch,
             }),
-        })
+        }),
+        editElectroConnectionInfo:build.mutation<void, (GSMConnection | InternetConnection) & {system_id:number}>({
+            query:({system_id,...body})=>({
+                url: `electro/connection/${system_id}`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: (result, error, {}) => [{ type: "HeatDevice", id:'LIST' }],
+        }),
+        getElectroConnectionInfo: build.query<GSMConnection | InternetConnection,number>({
+            query: (id) => {
+                return {
+                    url:`electro/connection/${id}`,
+                };
+            },
+        }),
     }),
+
     overrideExisting: false,
 });
 
@@ -43,3 +60,4 @@ export const getElectroDeviceData = electroDevicesQuery.useGetElectroDeviceDataQ
 export const getElectroDeviceCountersByCan = electroDevicesQuery.useGetElectroCountersByCanQuery;
 export const renameElectroCounter = electroDevicesQuery.useEditElectrocounterNameMutation;
 export const editAutopollSettings = electroDevicesQuery.useEditAutopollSettingsMutation;
+export const {useEditElectroConnectionInfoMutation,useGetElectroConnectionInfoQuery} = electroDevicesQuery

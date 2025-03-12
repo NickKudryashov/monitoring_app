@@ -1,6 +1,7 @@
 import { url } from "inspector";
 import { rtkApi } from "@/shared/api/rtkApi";
 import { PumpDetailInfo, PumpDeviceData, PumpParameter } from "../model/types/pumpDevice";
+import { GSMConnection, InternetConnection } from "@/shared/types/connectionTypes";
 
 const pumpDeviceQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -30,9 +31,25 @@ const pumpDeviceQuery = rtkApi.injectEndpoints({
                 };
             },
         }),
+        editPumpConnectionInfo:build.mutation<void, (GSMConnection | InternetConnection) & {system_id:number}>({
+                    query:({system_id,...body})=>({
+                        url: `pump/connection/${system_id}`,
+                        method: "POST",
+                        body,
+                    }),
+                    invalidatesTags: (result, error, {}) => [{ type: "HeatDevice", id:'LIST' }],
+                }),
+                getPumpConnectionInfo: build.query<GSMConnection | InternetConnection,number>({
+                    query: (id) => {
+                        return {
+                            url:`pump/connection/${id}`,
+                        };
+                    },
+                }),
     }),
     overrideExisting: false,
 });
 
 export const getPumpData = pumpDeviceQuery.useGetPumpDataQuery;
 export const getPumpDataDetail = pumpDeviceQuery.useGetPumpDataDetailQuery;
+export const {useEditPumpConnectionInfoMutation,useGetPumpConnectionInfoQuery} = pumpDeviceQuery

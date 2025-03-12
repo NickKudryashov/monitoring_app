@@ -56,7 +56,11 @@ export function AddCategory({
     }
     return (
         <>
-            <Form.Item name={'name'} label={'Название системы'}>
+            <Form.Item
+                rules={[{ required: true, message: 'Обязательное поле' }]}
+                name={'name'}
+                label={'Название системы'}
+            >
                 <Input />
             </Form.Item>
             <Form.Item

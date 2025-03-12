@@ -1,29 +1,36 @@
-import cls from "./PageHeader.module.scss";
-import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
-import classNames from "@/shared/lib/classNames/classNames";
-import { GeneralAnswer } from "./api/api";
-import { AppButon, AppButtonTheme } from "@/shared/ui/AppButton/AppButton";
-import { memo } from "react";
-import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
-import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
+import cls from './PageHeader.module.scss'
+import { HFlexBox } from '@/shared/ui/FlexBox/HFlexBox/HFlexBox'
+import classNames from '@/shared/lib/classNames/classNames'
+import { GeneralAnswer } from './api/api'
+import { AppButon, AppButtonTheme } from '@/shared/ui/AppButton/AppButton'
+import { memo, ReactNode } from 'react'
+import { useMobilDeviceDetect } from '@/shared/hooks/useMobileDeviceDetect'
+import { VFlexBox } from '@/shared/ui/FlexBox/VFlexBox/VFlexBox'
 
 interface PageHeaderProps {
-    generalData: GeneralAnswer | undefined;
-    poll?: () => void;
-    report?: () => void;
-    isBusy?: boolean;
+    generalData: GeneralAnswer | undefined
+    poll?: () => void
+    report?: () => void
+    isBusy?: boolean
+    Settings?: ReactNode
 }
 
 export const PageHeader = memo(function _PageHeader(
     props: PageHeaderProps,
 ): React.ReactElement {
-    const { generalData, poll = () => {}, report = () => {}, isBusy } = props;
-    const isMobile = useMobilDeviceDetect();
+    const {
+        generalData,
+        poll = () => {},
+        report = () => {},
+        isBusy,
+        Settings,
+    } = props
+    const isMobile = useMobilDeviceDetect()
     if (isMobile) {
         return (
-            <VFlexBox gap="5px">
+            <VFlexBox gap='5px'>
                 <div
-                    className={classNames("", {}, [
+                    className={classNames('', {}, [
                         cls.headerBox,
                         cls.headers,
                         cls.mobileHeader,
@@ -31,12 +38,12 @@ export const PageHeader = memo(function _PageHeader(
                 >
                     <div className={cls.subCatNameWrapper}>
                         <p className={cls.subsystemNameField}>
-                            {generalData ? generalData.subcat_name : "..."}
+                            {generalData ? generalData.subcat_name : '...'}
                         </p>
                     </div>
                 </div>
                 <div
-                    className={classNames("", {}, [
+                    className={classNames('', {}, [
                         cls.headerBox,
                         cls.headers,
                         cls.mobileHeader,
@@ -44,15 +51,15 @@ export const PageHeader = memo(function _PageHeader(
                 >
                     <div className={cls.subCatNameWrapperVbox}>
                         <p className={cls.subsystemNameField}>
-                            {generalData ? generalData.user_object_name : "..."}
+                            {generalData ? generalData.user_object_name : '...'}
                         </p>
                         <p className={cls.subsystemNameField}>
-                            {generalData ? generalData.adress : "..."}
+                            {generalData ? generalData.adress : '...'}
                         </p>
                     </div>
                 </div>
                 <div
-                    className={classNames("", {}, [
+                    className={classNames('', {}, [
                         cls.headerBox,
                         cls.headers,
                         cls.mobileHeader,
@@ -81,31 +88,31 @@ export const PageHeader = memo(function _PageHeader(
                             [],
                         )}
                     >
-                        {isBusy ? "Опрашивается" : "Опросить"}
+                        {isBusy ? 'Опрашивается' : 'Опросить'}
                     </AppButon>
                 </div>
             </VFlexBox>
-        );
+        )
     }
     return (
         <HFlexBox
             className={cls.headerBox}
-            height={"5%"}
-            align="space-between"
-            alignItems="center"
-            gap={"5px"}
+            height={'5%'}
+            align='space-between'
+            alignItems='center'
+            gap={'5px'}
         >
             <div className={classNames(cls.subcatNameBox, {}, [cls.headers])}>
                 <div className={cls.subCatNameWrapper}>
                     <p className={cls.subsystemNameField}>
-                        {generalData ? generalData.subcat_name : "..."}
+                        {generalData ? generalData.subcat_name : '...'}
                     </p>
                 </div>
             </div>
             <HFlexBox
-                width="27%"
-                align="space-around"
-                alignItems="center"
+                width='27%'
+                align='space-around'
+                alignItems='center'
                 className={cls.subcatObjectInfoTextGroup}
             >
                 <p>Дата последнего обновления:</p>
@@ -114,10 +121,10 @@ export const PageHeader = memo(function _PageHeader(
                 </div>
             </HFlexBox>
             <HFlexBox
-                width="20%"
-                height="40%"
-                align="space-around"
-                alignItems="center"
+                width='20%'
+                height='40%'
+                align='space-around'
+                alignItems='center'
             >
                 <AppButon
                     onClick={poll}
@@ -131,7 +138,7 @@ export const PageHeader = memo(function _PageHeader(
                         [],
                     )}
                 >
-                    {isBusy ? "Опрашивается" : "Опросить"}
+                    {isBusy ? 'Опрашивается' : 'Опросить'}
                 </AppButon>
                 <AppButon
                     onClick={report}
@@ -142,5 +149,5 @@ export const PageHeader = memo(function _PageHeader(
                 </AppButon>
             </HFlexBox>
         </HFlexBox>
-    );
-});
+    )
+})

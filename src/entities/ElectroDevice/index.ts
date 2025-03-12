@@ -5,3 +5,4 @@ export {getElectroDeviceData} from "./api/electroDeviceApi";
 export {useElectroPoll} from "./hooks/poll";
 export {downloadXLSFile} from "./helpers/reportDownload";
 export {ManualPoll as ElectroPoll} from './hooks/poll'
+export {useEditElectroConnectionInfoMutation,useGetElectroConnectionInfoQuery} from './api/electroDeviceApi'

@@ -5,3 +5,5 @@ export type {AutoParameter,ParameterGroup,AutomaticDeviceData} from "./model/typ
 export {ParameterComposition as AutoDevParametersComposition} from "./ui/ParameterComposition/ParameterComposition";
 export {getAutomaticDeviceTypes} from "./api/AutomaticDeviceApi";
 export {ManualPoll as AutoDevicePoll} from './model/service/pollService'
+export {useEditAutoConnectionInfoMutation
+    ,useGetAutoConnectionInfoQuery} from './api/AutomaticDeviceApi'

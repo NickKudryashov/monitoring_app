@@ -1,5 +1,5 @@
-import classNames from "@/shared/lib/classNames/classNames";
-import cls from "./PumpSubcategoryPage.module.scss";
+import classNames from '@/shared/lib/classNames/classNames'
+import cls from './PumpSubcategoryPage.module.scss'
 
 import {
     useState,
@@ -7,56 +7,57 @@ import {
     useCallback,
     useMemo,
     useEffect,
-} from "react";
-import { useParams } from "react-router-dom";
-import { DetailView } from "@/widgets/DetailView";
-import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { Footer } from "@/shared/ui/Footer/Footer";
-import $api from "@/shared/api";
-import { EventAnswer } from "@/shared/types/eventTypes";
-import { PageHeader, getSubcatGeneralInfo } from "@/features/PageHeader";
+} from 'react'
+import { useParams } from 'react-router-dom'
+import { DetailView } from '@/widgets/DetailView'
+import { VFlexBox } from '@/shared/ui/FlexBox/VFlexBox/VFlexBox'
+import { HFlexBox } from '@/shared/ui/FlexBox/HFlexBox/HFlexBox'
+import { Footer } from '@/shared/ui/Footer/Footer'
+import $api from '@/shared/api'
+import { EventAnswer } from '@/shared/types/eventTypes'
+import { PageHeader, getSubcatGeneralInfo } from '@/features/PageHeader'
 import {
     getPumpData,
     getPumpDataDetail,
     pumpPoll,
     usePumpPoll,
-} from "@/entities/PumpDevice";
-import { GeneralInfoBlock } from "@/features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
-import { PumpParameter } from "@/entities/PumpDevice/model/types/pumpDevice";
-import { SubcategoryTabs } from "@/widgets/SubcategoryTabs/ui/SubcategoryTabs";
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { FlexSubcategoryPageWrap } from "@/shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
-import { getPumpDeviceIdBySystem } from "@/entities/ObjectSubCategory";
+} from '@/entities/PumpDevice'
+import { GeneralInfoBlock } from '@/features/SubcategoryGeneralInfo/ui/GeneralInfoBlock'
+import { PumpParameter } from '@/entities/PumpDevice/model/types/pumpDevice'
+import { SubcategoryTabs } from '@/widgets/SubcategoryTabs/ui/SubcategoryTabs'
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
+import { FlexSubcategoryPageWrap } from '@/shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap'
+import { getPumpDeviceIdBySystem } from '@/entities/ObjectSubCategory'
 import {
     getUserEventsByPump,
     getUserEventsProcessingByPump,
-} from "@/entities/UserEvents";
-import { PageMapper } from "../PageMapper/PageMapper";
-import { ParameterLinks } from "../ParameterLinks/ParameterLinks";
-import { useAppDispatch } from "@/shared/hooks/hooks";
-import { tabSliceActions } from "@/widgets/SubcategoryTabs";
-import { pumpPageSliceActions } from "@/pages/PumpSubcategoryPage/model/slice";
-import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
-import { usePoll } from "@/shared/hooks/useDevicePoll";
+} from '@/entities/UserEvents'
+import { PageMapper } from '../PageMapper/PageMapper'
+import { ParameterLinks } from '../ParameterLinks/ParameterLinks'
+import { useAppDispatch } from '@/shared/hooks/hooks'
+import { tabSliceActions } from '@/widgets/SubcategoryTabs'
+import { pumpPageSliceActions } from '@/pages/PumpSubcategoryPage/model/slice'
+import { MOCK_ID, MOCK_STR_ID } from '@/shared/lib/util/constants'
+import { usePoll } from '@/shared/hooks/useDevicePoll'
+import { PumpForm } from '@/widgets/ConnectionForm/PumpForm/PumpForm'
 
 interface PumpSubcategoryPageProps {
-    className?: string;
+    className?: string
 }
 
-export type ParametersDict = Record<string, PumpParameter[]>;
+export type ParametersDict = Record<string, PumpParameter[]>
 
 const PumpSubcategoryPage = (
     props: PropsWithChildren<PumpSubcategoryPageProps>,
 ) => {
-    const { className } = props;
-    const { id } = useParams<{ id: string }>();
+    const { className } = props
+    const { id } = useParams<{ id: string }>()
     const { data: generalData, refetch: refetchGeneral } = getSubcatGeneralInfo(
         id ?? MOCK_STR_ID,
-    );
+    )
     const { data: device, isLoading: isLoadingDevices } =
-        getPumpDeviceIdBySystem(id ?? MOCK_STR_ID);
-    const dispatch = useAppDispatch();
+        getPumpDeviceIdBySystem(id ?? MOCK_STR_ID)
+    const dispatch = useAppDispatch()
     const {
         data: deviceData,
         isLoading: isDevLoading,
@@ -64,7 +65,7 @@ const PumpSubcategoryPage = (
     } = getPumpData(device?.device ?? MOCK_ID, {
         pollingInterval: 15000,
         skip: !device?.device,
-    });
+    })
     const {
         data: deviceDataDetail,
         isLoading: isDevDetailLoading1,
@@ -72,47 +73,46 @@ const PumpSubcategoryPage = (
     } = getPumpDataDetail(device?.device ?? MOCK_ID, {
         pollingInterval: 15000,
         skip: !device?.device,
-    });
+    })
     const [poll, isBusy] = usePoll({
-        autoPoll: deviceData?.connection_info.connection_type !== "GSM",
+        autoPoll: deviceData?.connection_info.connection_type !== 'GSM',
         pollDevice: pumpPoll,
         initialBusy: deviceData?.is_busy,
         id: deviceData?.id ?? MOCK_ID,
         onUpdate: () => {
-            refetch();
-            refetchGeneral();
-            refetchDetail();
+            refetch()
+            refetchGeneral()
+            refetchDetail()
         },
-    });
+    })
     const fetchEvents = useCallback(async () => {
-        const response = await $api.get<EventAnswer>(
-            "subcategory_events/" + id,
-        );
-        return response.data;
-    }, [id]);
+        const response = await $api.get<EventAnswer>('subcategory_events/' + id)
+        return response.data
+    }, [id])
 
     useEffect(() => {
         return () => {
-            dispatch(pumpPageSliceActions.clearParameterSubgroup());
-        };
-    }, []);
+            dispatch(pumpPageSliceActions.clearParameterSubgroup())
+        }
+    }, [])
 
     const scrollHandler = useCallback(
         (isScrollDown: boolean) => {
             if (isLoadingDevices || isDevLoading || isDevDetailLoading1) {
-                return;
+                return
             }
             if (!isScrollDown) {
-                dispatch(tabSliceActions.moveUp());
+                dispatch(tabSliceActions.moveUp())
             } else {
-                dispatch(tabSliceActions.moveDown());
+                dispatch(tabSliceActions.moveDown())
             }
         },
         [isLoadingDevices, isDevLoading, isDevDetailLoading1],
-    );
+    )
 
     const content = (
         <DetailView className={cls.detail} onScroll={scrollHandler}>
+            <PumpForm id={Number(id)} />
             <FlexSubcategoryPageWrap>
                 <PageHeader
                     poll={poll}
@@ -122,14 +122,14 @@ const PumpSubcategoryPage = (
 
                 <HFlexBox
                     className={cls.contentBox}
-                    gap="5px"
-                    align="space-between"
+                    gap='5px'
+                    align='space-between'
                 >
                     <SubcategoryTabs
                         content={{
                             0: [
                                 <GeneralInfoBlock
-                                    key={"general"}
+                                    key={'general'}
                                     device_num={deviceData?.device_num}
                                     device_type_verbose_name={
                                         deviceData?.device_type_verbose_name
@@ -140,13 +140,13 @@ const PumpSubcategoryPage = (
                                 />,
                             ],
                             1: [
-                                <p key={"events_1"} className={cls.paramTitle}>
+                                <p key={'events_1'} className={cls.paramTitle}>
                                     СПИСОК СОБЫТИЙ
                                 </p>,
-                                <p key={"events_2"} className={cls.paramTitle}>
+                                <p key={'events_2'} className={cls.paramTitle}>
                                     ЛОГ СОБЫТИЙ
                                 </p>,
-                                <p key={"events_3"} className={cls.paramTitle}>
+                                <p key={'events_3'} className={cls.paramTitle}>
                                     ДОБАВИТЬ СОБЫТИЕ
                                 </p>,
                             ],
@@ -155,7 +155,7 @@ const PumpSubcategoryPage = (
                             }),
                             4: [
                                 <p
-                                    key={"graph_1"}
+                                    key={'graph_1'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -167,12 +167,12 @@ const PumpSubcategoryPage = (
                             ],
                         }}
                     />
-                    <VFlexBox width={"70%"} gap={"15px"}>
-                        <VFlexBox gap={"10px"}>
+                    <VFlexBox width={'70%'} gap={'15px'}>
+                        <VFlexBox gap={'10px'}>
                             <VFlexBox className={cls.tableContentFlexbox}>
                                 <PanelGroup
-                                    direction="vertical"
-                                    autoSaveId="example"
+                                    direction='vertical'
+                                    autoSaveId='example'
                                 >
                                     <Panel defaultSize={75}>
                                         {deviceData &&
@@ -197,13 +197,13 @@ const PumpSubcategoryPage = (
                 </HFlexBox>
             </FlexSubcategoryPageWrap>
         </DetailView>
-    );
+    )
 
     return (
         <div className={classNames(cls.PumpSubcategoryPage, {}, [])}>
             {content}
         </div>
-    );
-};
+    )
+}
 
-export default PumpSubcategoryPage;
+export default PumpSubcategoryPage

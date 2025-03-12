@@ -1,51 +1,52 @@
-import classNames from "@/shared/lib/classNames/classNames";
-import cls from "./HeatSubcategoryPage.module.scss";
+import classNames from '@/shared/lib/classNames/classNames'
+import cls from './HeatSubcategoryPage.module.scss'
 
-import { type PropsWithChildren, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import { DetailView } from "@/widgets/DetailView";
-import { VFlexBox } from "@/shared/ui/FlexBox/VFlexBox/VFlexBox";
-import { HFlexBox } from "@/shared/ui/FlexBox/HFlexBox/HFlexBox";
-import { Footer } from "@/shared/ui/Footer/Footer";
+import { type PropsWithChildren, useCallback } from 'react'
+import { useParams } from 'react-router-dom'
+import { DetailView } from '@/widgets/DetailView'
+import { VFlexBox } from '@/shared/ui/FlexBox/VFlexBox/VFlexBox'
+import { HFlexBox } from '@/shared/ui/FlexBox/HFlexBox/HFlexBox'
+import { Footer } from '@/shared/ui/Footer/Footer'
 import {
     getHeatDeviceData,
     HeatDeviceManualPoll,
     useHeatPoll,
-} from "@/entities/Heatcounters";
-import { HeatParameters } from "@/entities/Heatcounters/types/type";
-import $api from "@/shared/api";
-import { EventAnswer } from "@/shared/types/eventTypes";
-import { GeneralInfoBlock } from "../../../../features/SubcategoryGeneralInfo/ui/GeneralInfoBlock";
-import { PageHeader, getSubcatGeneralInfo } from "@/features/PageHeader";
-import { SubcategoryTabs } from "@/widgets/SubcategoryTabs/ui/SubcategoryTabs";
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { FlexSubcategoryPageWrap } from "@/shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap";
-import { tabSliceActions } from "@/widgets/SubcategoryTabs";
-import { getHeatDeviceIdBySystem } from "@/entities/ObjectSubCategory";
-import { PageTabMapper } from "../PageMapper/PageMapper";
-import { useAppDispatch } from "@/shared/hooks/hooks";
-import { MOCK_ID, MOCK_STR_ID } from "@/shared/lib/util/constants";
-import { usePoll } from "@/shared/hooks/useDevicePoll";
+} from '@/entities/Heatcounters'
+import { HeatParameters } from '@/entities/Heatcounters/types/type'
+import $api from '@/shared/api'
+import { EventAnswer } from '@/shared/types/eventTypes'
+import { GeneralInfoBlock } from '../../../../features/SubcategoryGeneralInfo/ui/GeneralInfoBlock'
+import { PageHeader, getSubcatGeneralInfo } from '@/features/PageHeader'
+import { SubcategoryTabs } from '@/widgets/SubcategoryTabs/ui/SubcategoryTabs'
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
+import { FlexSubcategoryPageWrap } from '@/shared/ui/FlexBox/FlexSubcategoryPageWrap/FlexSubcategoryPageWrap'
+import { tabSliceActions } from '@/widgets/SubcategoryTabs'
+import { getHeatDeviceIdBySystem } from '@/entities/ObjectSubCategory'
+import { PageTabMapper } from '../PageMapper/PageMapper'
+import { useAppDispatch } from '@/shared/hooks/hooks'
+import { MOCK_ID, MOCK_STR_ID } from '@/shared/lib/util/constants'
+import { usePoll } from '@/shared/hooks/useDevicePoll'
+import { HeatForm } from '@/widgets/ConnectionForm/HeatForm/HeatForm'
 export interface HeatSubcategoryPageProps {
-    className?: string;
+    className?: string
 }
 interface SystemParameters {
-    parameters: HeatParameters[];
-    systemName: string;
+    parameters: HeatParameters[]
+    systemName: string
 }
-export type ParametersDict = Record<number, SystemParameters>;
+export type ParametersDict = Record<number, SystemParameters>
 
 const HeatSubcategoryPage = (
     props: PropsWithChildren<HeatSubcategoryPageProps>,
 ) => {
-    const { className } = props;
-    const { id } = useParams<{ id: string }>();
+    const { className } = props
+    const { id } = useParams<{ id: string }>()
 
     const { data: generalData, refetch: refetchGeneral } = getSubcatGeneralInfo(
         id ?? MOCK_STR_ID,
-    );
+    )
     const { data: device, isLoading: isLoadingDevices } =
-        getHeatDeviceIdBySystem(id ?? MOCK_STR_ID, { skip: id === undefined });
+        getHeatDeviceIdBySystem(id ?? MOCK_STR_ID, { skip: id === undefined })
     const {
         data: deviceData,
         isLoading: isDevLoading,
@@ -53,52 +54,51 @@ const HeatSubcategoryPage = (
     } = getHeatDeviceData(device?.device ?? MOCK_ID, {
         pollingInterval: 15000,
         skip: device?.device === undefined,
-    });
+    })
     const [poll, isBusy] = usePoll({
-        autoPoll: deviceData?.connection_info.connection_type !== "GSM",
+        autoPoll: deviceData?.connection_info.connection_type !== 'GSM',
         pollDevice: HeatDeviceManualPoll.pollDevice,
         id: deviceData?.id ?? MOCK_ID,
         initialBusy: deviceData?.is_busy,
         onUpdate: () => {
-            refetch();
-            refetchGeneral();
+            refetch()
+            refetchGeneral()
         },
-    });
-    const dispatch = useAppDispatch();
+    })
+    const dispatch = useAppDispatch()
     const fetchEvents = useCallback(async () => {
-        const response = await $api.get<EventAnswer>(
-            "subcategory_events/" + id,
-        );
-        return response.data;
-    }, [id]);
+        const response = await $api.get<EventAnswer>('subcategory_events/' + id)
+        return response.data
+    }, [id])
 
     const scrollHandler = useCallback((isScrollDown: boolean) => {
         if (!isScrollDown) {
-            dispatch(tabSliceActions.moveUp());
+            dispatch(tabSliceActions.moveUp())
         } else {
-            dispatch(tabSliceActions.moveDown());
+            dispatch(tabSliceActions.moveDown())
         }
-    }, []);
+    }, [])
 
     const content = (
         <DetailView onScroll={scrollHandler} className={cls.detail}>
             <FlexSubcategoryPageWrap>
                 <PageHeader
+                    Settings={<HeatForm id={Number(id)} />}
                     poll={poll}
                     generalData={generalData}
                     isBusy={isBusy}
                 />
-
+                <HeatForm id={Number(id)} />
                 <HFlexBox
                     className={cls.contentBox}
-                    gap="5px"
-                    align="space-between"
+                    gap='5px'
+                    align='space-between'
                 >
                     <SubcategoryTabs
                         content={{
                             0: [
                                 <GeneralInfoBlock
-                                    key={"general"}
+                                    key={'general'}
                                     device_num={deviceData?.device_num}
                                     device_type_verbose_name={
                                         deviceData?.device_type_verbose_name
@@ -110,7 +110,7 @@ const HeatSubcategoryPage = (
                             ],
                             1: [
                                 <p
-                                    key={"events_1"}
+                                    key={'events_1'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -120,7 +120,7 @@ const HeatSubcategoryPage = (
                                     СПИСОК СОБЫТИЙ
                                 </p>,
                                 <p
-                                    key={"events_2"}
+                                    key={'events_2'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -130,7 +130,7 @@ const HeatSubcategoryPage = (
                                     ЛОГ СОБЫТИЙ
                                 </p>,
                                 <p
-                                    key={"events_3"}
+                                    key={'events_3'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -142,7 +142,7 @@ const HeatSubcategoryPage = (
                             ],
                             2: [
                                 <p
-                                    key={"parameters_1"}
+                                    key={'parameters_1'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -152,7 +152,7 @@ const HeatSubcategoryPage = (
                                     ТЕПЛОВЫЕ СХЕМЫ И ФОРМУЛЫ
                                 </p>,
                                 <p
-                                    key={"parameters_2"}
+                                    key={'parameters_2'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -162,7 +162,7 @@ const HeatSubcategoryPage = (
                                     МГНОВЕННЫЕ ПАРАМЕТРЫ
                                 </p>,
                                 <p
-                                    key={"parameters_3"}
+                                    key={'parameters_3'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -172,7 +172,7 @@ const HeatSubcategoryPage = (
                                     НАКОПЛЕННЫЕ ПАРАМЕТРЫ
                                 </p>,
                                 <p
-                                    key={"parameters_4"}
+                                    key={'parameters_4'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -184,7 +184,7 @@ const HeatSubcategoryPage = (
                             ],
                             3: [
                                 <p
-                                    key={"archives_1"}
+                                    key={'archives_1'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -194,7 +194,7 @@ const HeatSubcategoryPage = (
                                     СНЯТЬ АРХИВ
                                 </p>,
                                 <p
-                                    key={"archives_2"}
+                                    key={'archives_2'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -204,7 +204,7 @@ const HeatSubcategoryPage = (
                                     СФОРМИРОВАТЬ АРХИВ
                                 </p>,
                                 <p
-                                    key={"archives_3"}
+                                    key={'archives_3'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -214,7 +214,7 @@ const HeatSubcategoryPage = (
                                     НАСТРОЙКА ФОРМИРОВАНИЯ АРХИВА
                                 </p>,
                                 <p
-                                    key={"archives_4"}
+                                    key={'archives_4'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -226,7 +226,7 @@ const HeatSubcategoryPage = (
                             ],
                             4: [
                                 <p
-                                    key={"graph_1"}
+                                    key={'graph_1'}
                                     className={classNames(
                                         cls.paramTitle,
                                         {},
@@ -238,12 +238,12 @@ const HeatSubcategoryPage = (
                             ],
                         }}
                     />
-                    <VFlexBox width={"70%"} gap={"15px"}>
-                        <VFlexBox gap={"5px"}>
+                    <VFlexBox width={'70%'} gap={'15px'}>
+                        <VFlexBox gap={'5px'}>
                             <VFlexBox className={cls.tableContentFlexbox}>
                                 <PanelGroup
-                                    direction="vertical"
-                                    autoSaveId="example"
+                                    direction='vertical'
+                                    autoSaveId='example'
                                 >
                                     <Panel defaultSize={75}>
                                         <PageTabMapper
@@ -260,13 +260,13 @@ const HeatSubcategoryPage = (
                 </HFlexBox>
             </FlexSubcategoryPageWrap>
         </DetailView>
-    );
+    )
 
     return (
         <div className={classNames(cls.HeatSubcategoryPage, {}, [])}>
             {content}
         </div>
-    );
-};
+    )
+}
 
-export { HeatSubcategoryPage };
+export { HeatSubcategoryPage }

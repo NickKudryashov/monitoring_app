@@ -1,6 +1,7 @@
 import { url } from "inspector";
 import { rtkApi } from "@/shared/api/rtkApi";
 import { AutomaticDeviceData, ParameterGroup } from "../model/types/AutomaticDeviceTypes";
+import { GSMConnection, InternetConnection } from "@/shared/types/connectionTypes";
 
 interface TypeResponseFragment {
     devtype:string;
@@ -49,10 +50,26 @@ const automaticDeviceQuery = rtkApi.injectEndpoints({
                 const result:TypeResponseFragment[] = Object.keys(resp).map((el)=>({devtype:el,verbose:resp[el]}));
                 return result;
             },
-        })
+        }),
+        editAutoConnectionInfo:build.mutation<void, (GSMConnection | InternetConnection) & {system_id:number}>({
+            query:({system_id,...body})=>({
+                url: `auto/connection/${system_id}`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: (result, error, {}) => [{ type: "HeatDevice", id:'LIST' }],
+        }),
+        getAutoConnectionInfo: build.query<GSMConnection | InternetConnection,number>({
+            query: (id) => {
+                return {
+                    url:`auto/connection/${id}`,
+                };
+            },
+        }),
     }),
     overrideExisting: false,
 });
 
 export const getAutomaticDevice = automaticDeviceQuery.useGetAutomaticDeviceDataQuery;
 export const getAutomaticDeviceTypes = automaticDeviceQuery.useGetAvailableAutoDevTypesQuery;
+export const {useEditAutoConnectionInfoMutation,useGetAutoConnectionInfoQuery} = automaticDeviceQuery

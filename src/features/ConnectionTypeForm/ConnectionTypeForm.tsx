@@ -3,8 +3,10 @@ import { Form, FormInstance, FormProps, Input, Select } from 'antd'
 export const ConnectionTypeForm = ({
     form,
     hidden,
+    resetOnContype,
 }: {
     form: FormInstance
+    resetOnContype?: boolean
     hidden: boolean
 }) => {
     const conType = Form.useWatch('connection_type', form)
@@ -17,6 +19,7 @@ export const ConnectionTypeForm = ({
                 <Select
                     defaultValue={'TCP'}
                     onSelect={() =>
+                        resetOnContype &&
                         form.resetFields(['ip', 'port', 'phonenumber'])
                     }
                     options={[
