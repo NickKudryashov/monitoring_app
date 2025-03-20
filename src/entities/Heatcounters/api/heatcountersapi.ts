@@ -1,62 +1,76 @@
-import { GSMConnection, InternetConnection } from "@/shared/types/connectionTypes";
-import { HeatDevice, HeatParameters } from "../types/type";
-import { rtkApi } from "@/shared/api/rtkApi";
+import { GSMConnection, InternetConnection } from '@/shared/types/connectionTypes'
+import { CreateProps, HeatDevice, HeatParameters } from '../types/type'
+import { rtkApi } from '@/shared/api/rtkApi'
 // rename_heat_system/<int:system_id>
 const heatDeviceQuery = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        getHeatDevice: build.query<HeatDevice,number>({
+        getHeatDevice: build.query<HeatDevice, number>({
             query: (id) => {
                 return {
-                    url:`device/${id}`,
-                };
+                    url: `device/${id}`,
+                }
             },
             providesTags: (result) =>
-            // is result available?
+                // is result available?
                 result
                     ? // successful query
-                    [
-                        { type: "HeatDevice", id: result.id},
-                        { type: "HeatDevice", id: "LIST" },
-                    ]
+                      [
+                          { type: 'HeatDevice', id: result.id },
+                          { type: 'HeatDevice', id: 'LIST' },
+                      ]
                     : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
-                    [{ type: "HeatDevice", id: "LIST" }],
+                      [{ type: 'HeatDevice', id: 'LIST' }],
         }),
-        editHeatParameterName:build.mutation<HeatParameters, Partial<HeatParameters> & Pick<HeatParameters, "id">>({
-            query:({id,...patch})=>({
+        editHeatParameterName: build.mutation<
+            HeatParameters,
+            Partial<HeatParameters> & Pick<HeatParameters, 'id'>
+        >({
+            query: ({ id, ...patch }) => ({
                 url: `heat_parameter/${id}`,
-                method: "POST",
+                method: 'POST',
                 body: patch,
             }),
-            invalidatesTags: (result, error, { id,device }) => [{ type: "HeatDevice", device }],
+            invalidatesTags: (result, error, { id, device }) => [{ type: 'HeatDevice', device }],
         }),
-        editHeatSystemName:build.mutation<void, {system_id:number,name:string}>({
-            query:({name,system_id})=>({
-                url: `rename_heat_system/${system_id}`,
-                method: "POST",
-                body: {name},
+        createDevice: build.mutation<void, CreateProps>({
+            query: (body) => ({
+                url: `device/add`,
+                method: 'POST',
+                body: body,
             }),
-            invalidatesTags: (result, error, {}) => [{ type: "HeatDevice", id:'LIST' }],
         }),
-        editConnectionInfo:build.mutation<void, (GSMConnection | InternetConnection) & {system_id:number}>({
-            query:({system_id,...body})=>({
+        editHeatSystemName: build.mutation<void, { system_id: number; name: string }>({
+            query: ({ name, system_id }) => ({
+                url: `rename_heat_system/${system_id}`,
+                method: 'POST',
+                body: { name },
+            }),
+            invalidatesTags: (result, error, {}) => [{ type: 'HeatDevice', id: 'LIST' }],
+        }),
+        editConnectionInfo: build.mutation<
+            void,
+            (GSMConnection | InternetConnection) & { system_id: number }
+        >({
+            query: ({ system_id, ...body }) => ({
                 url: `heat/connection/${system_id}`,
-                method: "POST",
+                method: 'POST',
                 body,
             }),
-            invalidatesTags: (result, error, {}) => [{ type: "HeatDevice", id:'LIST' }],
+            invalidatesTags: (result, error, {}) => [{ type: 'HeatDevice', id: 'LIST' }],
         }),
-        getHeatConnectionInfo: build.query<GSMConnection | InternetConnection,number>({
+        getHeatConnectionInfo: build.query<GSMConnection | InternetConnection, number>({
             query: (id) => {
                 return {
-                    url:`heat/connection/${id}`,
-                };
+                    url: `heat/connection/${id}`,
+                }
             },
         }),
     }),
     overrideExisting: false,
-});
+})
 
-export const getHeatDeviceData = heatDeviceQuery.useGetHeatDeviceQuery;
-export const editHeatParameterName = heatDeviceQuery.useEditHeatParameterNameMutation;
-export const editHeatSystemName = heatDeviceQuery.useEditHeatSystemNameMutation;
-export const {useEditConnectionInfoMutation,useGetHeatConnectionInfoQuery} = heatDeviceQuery
+export const getHeatDeviceData = heatDeviceQuery.useGetHeatDeviceQuery
+export const editHeatParameterName = heatDeviceQuery.useEditHeatParameterNameMutation
+export const editHeatSystemName = heatDeviceQuery.useEditHeatSystemNameMutation
+export const { useEditConnectionInfoMutation, useGetHeatConnectionInfoQuery, useCreateDeviceMutation } =
+    heatDeviceQuery

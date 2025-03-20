@@ -1,46 +1,56 @@
-import { configureStore, ReducersMapObject } from "@reduxjs/toolkit";
-import { objectReducer } from "@/entities/Objects";
-import { userReducer } from "@/entities/user";
-import { StateSchema } from "./stateSchema";
-import { chatReducer } from "@/entities/TelegramChat";
-import { objSubCategoryReducer } from "@/entities/ObjectSubCategory";
-import { rtkApi } from "@/shared/api/rtkApi";
-import { subcatCardSliceReducer } from "@/features/ObjectCategoryCardView";
-import { archiveEventsReducer } from "@/entities/ArchiveEvent";
-import { navbarReducer } from "@/widgets/Navbar";
-import { tabSliceReducer } from "@/widgets/SubcategoryTabs";
-import { pumpPageSliceReducer } from "@/pages/PumpSubcategoryPage";
-import { chartReducer } from "@/entities/Chart";
-import { chartBuilderReducer } from "@/widgets/ChartBuilder";
+import {
+    configureStore,
+    isRejectedWithValue,
+    Middleware,
+    MiddlewareAPI,
+    ReducersMapObject,
+} from '@reduxjs/toolkit'
+import { objectReducer } from '@/entities/Objects'
+import { userReducer } from '@/entities/user'
+import { StateSchema } from './stateSchema'
+import { chatReducer } from '@/entities/TelegramChat'
+import { objSubCategoryReducer } from '@/entities/ObjectSubCategory'
+import { rtkApi } from '@/shared/api/rtkApi'
+import { subcatCardSliceReducer } from '@/features/ObjectCategoryCardView'
+import { archiveEventsReducer } from '@/entities/ArchiveEvent'
+import { navbarReducer } from '@/widgets/Navbar'
+import { tabSliceReducer } from '@/widgets/SubcategoryTabs'
+import { pumpPageSliceReducer } from '@/pages/PumpSubcategoryPage'
+import { chartReducer } from '@/entities/Chart'
+import { chartBuilderReducer } from '@/widgets/ChartBuilder'
 
+export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
+    // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
+    if (isRejectedWithValue(action)) {
+        console.warn('We got a rejected action!')
+    }
 
-
-export function createReduxStore(initialState?:DeepPartial<StateSchema>) {
-    const rootReducer:ReducersMapObject<StateSchema>= {
-        user:userReducer,
-        objects:objectReducer,
-        chats:chatReducer,
-        objSubCat:objSubCategoryReducer,
-        subcatCards:subcatCardSliceReducer,
-        archiveEvents:archiveEventsReducer,
-        navbar:navbarReducer,
-        tabs:tabSliceReducer,
-        pumpPage:pumpPageSliceReducer,
-        chart:chartReducer,
-        chartBuilder:chartBuilderReducer,
-        [rtkApi.reducerPath]:rtkApi.reducer
-
-    };
-    return configureStore({
-        reducer:rootReducer,
-        devTools:__IS_DEV__,
-        preloadedState:initialState as StateSchema,
-        middleware:(getDefaultMiddleware)=>
-            getDefaultMiddleware().concat(rtkApi.middleware),
-    });
+    return next(action)
 }
 
+export function createReduxStore(initialState?: DeepPartial<StateSchema>) {
+    const rootReducer: ReducersMapObject<StateSchema> = {
+        user: userReducer,
+        objects: objectReducer,
+        chats: chatReducer,
+        objSubCat: objSubCategoryReducer,
+        subcatCards: subcatCardSliceReducer,
+        archiveEvents: archiveEventsReducer,
+        navbar: navbarReducer,
+        tabs: tabSliceReducer,
+        pumpPage: pumpPageSliceReducer,
+        chart: chartReducer,
+        chartBuilder: chartBuilderReducer,
+        [rtkApi.reducerPath]: rtkApi.reducer,
+    }
+    return configureStore({
+        reducer: rootReducer,
+        devTools: __IS_DEV__,
+        preloadedState: initialState as StateSchema,
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(rtkApi.middleware),
+    })
+}
 
 export type RootState = ReturnType<typeof createReduxStore>
 export type AppStore = ReturnType<typeof createReduxStore>
-export type AppDispatch = ReturnType<typeof createReduxStore>["dispatch"]
+export type AppDispatch = ReturnType<typeof createReduxStore>['dispatch']

@@ -3,13 +3,11 @@
 @import 'themes/dark';
 @import 'themes/normal';
 
-
 body {
     font: var(--font-m);
     font-size: 100%;
     color: var(--font-color);
 }
-
 
 .app {
     font: var(--font-m);
@@ -17,13 +15,13 @@ body {
     background: white;
 
     // min-height:100%;
-    width:100vw;
-    height:100vh;
+    width: 100vw;
+    height: 100vh;
 }
 
 .page-wrapper {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     flex-grow: 1;
 }
 
@@ -33,17 +31,14 @@ body {
     height: 100vh;
 }
 
-
 *::-webkit-scrollbar {
     width: 7px;
-    height:24%;
+    height: 24%;
 }
 
 *::-webkit-scrollbar-track {
     background: transparent;
 }
-
-
 
 ::-webkit-scrollbar-track-piece:start {
     background: transparent;
@@ -51,20 +46,21 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: var(--subcolor-9);    /* цвет плашки */
-    border-radius: var(--border-radius-type-2);       /* закругления плашки */
+    background-color: var(--subcolor-9); /* цвет плашки */
+    border-radius: var(--border-radius-type-2); /* закругления плашки */
     border: 10px solid var(--subcolor-1);
 }
 
-// @media screen and (width <= 768px) {
-//     *::-webkit-scrollbar {
-//         width: 0;
-//         height:24%;
-//     }
-// }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
 
-// * {
-//     scrollbar-width: thin;
-//     scrollbar-color: blue orange;
-// }
-
+input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: white !important;
+    color: fieldtext !important;
+}

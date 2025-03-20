@@ -90,7 +90,7 @@ export const AddDevice = () => {
                 Добавить прибор
             </Button>
             <ModalDrawer
-                height={'70%'}
+                height={'90%'}
                 okButtonProps={{ style: { display: 'none' } }}
                 onCancel={() => setOpen(false)}
                 title={'Добавить прибор'}

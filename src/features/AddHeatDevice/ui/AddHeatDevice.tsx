@@ -16,6 +16,7 @@ import { getAllObjects } from '@/entities/Objects'
 import { Button, Form, FormInstance, Input, message, Select } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { FormProps } from '@/features/AddDevice/AddDevice'
+import { useCreateDeviceMutation as useCreateHeatcounter } from '@/entities/Heatcounters'
 interface AddHeatDeviceProps {
     className?: string
     onClose?: () => void
@@ -44,6 +45,7 @@ const ST20_238 = 'st20_238'
 const ST20_239 = 'st20_239'
 export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
     const { className, isOpen, onClose, form, hidden } = props
+    const [create, {}] = useCreateHeatcounter()
     if (hidden) {
         return null
     }
@@ -74,8 +76,9 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
             device_type: device_type,
             systems: syss?.map((el, i) => ({ index: i, name: el })),
         }
-        const response = await $api.post('device/add', body)
-        if (response.status === 200) {
+        const response = await create(body)
+        console.log(response)
+        if ('data' in response) {
             message.success('Успешно')
         } else {
             message.error('Неудачно')
@@ -138,13 +141,8 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                             <Button
                                 type='dashed'
                                 onClick={() => {
-                                    console.log(
-                                        form.getFieldValue('systems')?.length,
-                                    )
-                                    ;(form.getFieldValue('systems')?.length ??
-                                        0) <= 3
-                                        ? add()
-                                        : () => {}
+                                    console.log(form.getFieldValue('systems')?.length)
+                                    ;(form.getFieldValue('systems')?.length ?? 0) <= 3 ? add() : () => {}
                                 }}
                                 style={{ width: '60%' }}
                                 icon={<PlusOutlined />}
@@ -167,11 +165,7 @@ export function AddHeatDevice(props: PropsWithChildren<AddHeatDeviceProps>) {
                                     <Input
                                         style={{ width: '60%' }}
                                         suffix={
-                                            <MinusCircleOutlined
-                                                onClick={() =>
-                                                    remove(fields.length - 1)
-                                                }
-                                            />
+                                            <MinusCircleOutlined onClick={() => remove(fields.length - 1)} />
                                         }
                                     />
                                 </Form.Item>
