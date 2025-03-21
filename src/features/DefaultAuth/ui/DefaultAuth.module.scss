@@ -1,97 +1,23 @@
-.DefaultAuth {
+.mainLayout {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 7% 3.5% 3.5%;
-    font-size: 0.875em;
-    color: var(--subcolor-9);
-    border-radius: var(--border-radius-type-3);
+    box-shadow: rgba(0, 0, 0, 0.2) 4px 2px 8px 8px;
+    align-self: center;
 }
 
-.formHeader {
-    margin-bottom: 1.5%;
-    color: var(--subcolor-1);
-    font-size: 1em;
-    font-weight: bold;
+.mobileBackground {
+    background: linear-gradient(-45deg, #b9b6f7, #23a6d5, #23d5ab);
+    animation: gradient 15s ease infinite;
 }
 
-.textRow {
-    display: flex;
-}
-
-.linkToReg {
-    color: var(--subcolor-9);
-    cursor: pointer;
-    margin-right: 3px;
-    align-self: flex-end;
-}
-
-.authInp {
-    // font:var(--font-m);
-    font-size: 0, 77777777777em;
-    background: transparent;
-    border: 1px solid var(--subcolor-1);
-    border-radius: var(--border-radius-type-3);
-    margin-top: 3%;
-    width: 100%;
-    height: 8%;
-}
-
-.textCheckboxH {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    column-gap: 10px;
-}
-
-.checkboxes {
-    margin-top: 2%;
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    font-size: 1em;
-}
-
-.confirmButton {
-    margin-top: 4%;
-    width: 70%;
-    font-family: var(--font-family-sub-1);
-    height: 8%;
-    font-weight: 600;
-    letter-spacing: 2px;
-    font-size: 1em;
-    border: none;
-    border-radius: var(--border-radius-type-3);
-}
-
-.regRef {
-    margin-top: 5%;
-    padding-top: 1%;
-    text-decoration: none;
-    user-select: none;
-    width: 55%;
-    border-top: 1px solid var(--subcolor-1);
-
-    // font:var(--font-m);
-    font-size: 0.875em;
-    color: var(--subcolor-9);
-    text-align: center;
-    cursor: pointer;
-}
-
-@media (width <= 768px) {
-    .DefaultAuth {
-        font-size: 0.625rem;
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
     }
-
-    .formHeader {
-        font-size: 1.125rem;
+    50% {
+        background-position: 100% 50%;
     }
-}
-
-.registerGradient {
-    background: white;
+    100% {
+        background-position: 0% 50%;
+    }
 }
