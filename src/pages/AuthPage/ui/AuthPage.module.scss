@@ -17,25 +17,35 @@
 
 .small {
     width: 25%;
-    height: 57%;
+    height: 60%;
 
-    min-height: 330px;
-    min-width: 220px;
+    min-height: 370px;
+    min-width: 300px;
+    transition: 1s all;
+    // transform: scaleX(0);
 }
 
 .big {
     width: 24%;
     height: 65%;
 
-    min-height: 360px;
-    min-width: 250px;
+    min-height: 400px;
+    min-width: 300px;
+    // transform: scaleX(0);
+}
+
+.opening {
+    transform: scaleX(1);
+}
+.closing {
+    transform: scaleX(0);
 }
 
 .registerGradient {
     background: linear-gradient(-45deg, #ee7752, #b9b6f7, #23a6d5, #23d5ab);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
-    max-width: 500px;
+    // max-width: 500px;
 
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -61,4 +71,11 @@
     height: 50%;
     max-width: 340px;
     min-height: 335px;
+}
+
+.mobileRegForm {
+    width: 90%;
+    height: 80%;
+    max-width: 340px;
+    min-height: 400px;
 }

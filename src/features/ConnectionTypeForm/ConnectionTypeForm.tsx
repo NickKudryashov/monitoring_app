@@ -1,3 +1,5 @@
+import { ipValidator } from '@/shared/lib/validators/ipValidator'
+import { phoneNumberValidator } from '@/shared/lib/validators/phoneNumberValidator'
 import { Form, FormInstance, FormProps, Input, Select } from 'antd'
 
 export const ConnectionTypeForm = ({
@@ -18,10 +20,7 @@ export const ConnectionTypeForm = ({
             <Form.Item name={'connection_type'} label='Тип соединения'>
                 <Select
                     defaultValue={'TCP'}
-                    onSelect={() =>
-                        resetOnContype &&
-                        form.resetFields(['ip', 'port', 'phonenumber'])
-                    }
+                    onSelect={() => resetOnContype && form.resetFields(['ip', 'port', 'phonenumber'])}
                     options={[
                         { label: 'TCP', value: 'TCP' },
                         { label: 'UDP', value: 'UDP' },
@@ -39,17 +38,7 @@ export const ConnectionTypeForm = ({
                     },
                     {
                         message: 'Неверный IP адрес',
-                        validator: (_, val: string) => {
-                            if (
-                                /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$/.test(
-                                    val,
-                                ) ||
-                                !val
-                            ) {
-                                return Promise.resolve()
-                            }
-                            return Promise.reject()
-                        },
+                        validator: ipValidator,
                     },
                 ]}
                 hidden={conType === 'GSM'}
@@ -68,17 +57,7 @@ export const ConnectionTypeForm = ({
                     },
                     {
                         message: 'Неверный порт',
-                        validator: (_, val: string) => {
-                            if (
-                                /^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/.test(
-                                    val,
-                                ) ||
-                                !val
-                            ) {
-                                return Promise.resolve()
-                            }
-                            return Promise.reject()
-                        },
+                        validator: phoneNumberValidator,
                     },
                 ]}
                 hidden={conType === 'GSM'}
@@ -104,12 +83,8 @@ export const ConnectionTypeForm = ({
                         message: 'Неверный номер телефона',
                         validator: (_, val: string) => {
                             if (
-                                /^[\+(][7]{1}[-\s\.]?[9][(0-9)]{2}[-\s\.]?[0-9]{7}$/.test(
-                                    val,
-                                ) ||
-                                /^[8]{1}[-\s\.]?[9][(0-9)]{2}[-\s\.]?[0-9]{7}$/.test(
-                                    val,
-                                ) ||
+                                /^[\+(][7]{1}[-\s\.]?[9][(0-9)]{2}[-\s\.]?[0-9]{7}$/.test(val) ||
+                                /^[8]{1}[-\s\.]?[9][(0-9)]{2}[-\s\.]?[0-9]{7}$/.test(val) ||
                                 !val
                             ) {
                                 return Promise.resolve()
