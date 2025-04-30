@@ -1,33 +1,42 @@
-import { defaultLogin } from '@/entities/user'
+import { CompanyAccountData, defaultLogin, PersonalAccountData, useRegisterMutation } from '@/entities/user'
 import { useAppDispatch } from '@/shared/hooks/hooks'
 import { useMobilDeviceDetect } from '@/shared/hooks/useMobileDeviceDetect'
 import { emailValidator } from '@/shared/lib/validators/emailValidator'
 import { phoneNumberValidator } from '@/shared/lib/validators/phoneNumberValidator'
 import { ADDON_COLOR } from '@/shared/newUi/styles'
-import { App, Button, Flex, Form, Input, InputProps, Space, Typography } from 'antd'
+import { App, Button, DatePicker, Flex, Form, Input, InputProps, Space, Typography } from 'antd'
 import { useForm } from 'antd/es/form/Form'
+import { stat } from 'fs'
 import { useEffect, useMemo, useState } from 'react'
 
 export const RegForm = () => {
     const dispatch = useAppDispatch()
+    const { message, notification } = App.useApp()
     const isMobile = useMobilDeviceDetect()
-    const [form] = useForm()
+    const [form] = useForm<PersonalAccountData | CompanyAccountData>()
     const [personalReg, setPersonalReg] = useState(true)
-    const { notification } = App.useApp()
+    const [register, { isSuccess, isUninitialized, status }] = useRegisterMutation()
     const pass = Form.useWatch('password', form)
     const loginHandler = () => {
-        dispatch(
-            defaultLogin({ email: form.getFieldValue('email'), password: form.getFieldValue('password') }),
-        )
-            .unwrap()
-            .catch((data) => notification.error({ message: 'Не удалось войти' }))
+        const values = form.getFieldsValue()
+        if (personalReg) register({ ...values, personal_account: true } as PersonalAccountData)
+        if (!personalReg) register({ ...values, personal_account: false } as CompanyAccountData)
     }
     useEffect(() => {
         form.resetFields()
     }, [])
+    useEffect(() => {
+        if (status === 'fulfilled') {
+            notification.success({ message: 'Успешно. Подтвердите свой email открыв ссылку из письма' })
+        }
+        if (status === 'rejected') {
+            message.error('Неудачно')
+        }
+    }, [status])
     const msg = useMemo(() => {
         return personalReg ? 'Вы юридическое лицо?' : 'Вы физическое лицо?'
     }, [personalReg])
+
     return (
         <Flex vertical style={{ width: '90%', height: isMobile ? '80%' : '70%' }} justify='space-between'>
             <Space
@@ -47,12 +56,18 @@ export const RegForm = () => {
                         textDecoration: 'underline',
                         whiteSpace: 'nowrap',
                     }}
-                    onClick={() => setPersonalReg((prev) => !prev)}
+                    onClick={() =>
+                        setPersonalReg((prev) => {
+                            form.setFieldValue('personal_account', !prev)
+                            return !prev
+                        })
+                    }
                 >
                     Нажмите сюда
                 </Typography>
             </Space>
             <Form
+                initialValues={{ personal_account: true }}
                 onFinish={loginHandler}
                 form={form}
                 layout='vertical'
@@ -86,6 +101,13 @@ export const RegForm = () => {
                             <CustomInput placeholder='Отчество' />
                         </Form.Item>
                         <Form.Item
+                            rules={[{ required: true, message: 'Введите дату рождения' }]}
+                            name='birth_date'
+                            label={null}
+                        >
+                            <DatePicker format={'DD.MM.YYYY'} placeholder='Дата рождения' />
+                        </Form.Item>
+                        <Form.Item
                             rules={[{ required: true, message: 'Введите место проживания' }]}
                             name='location'
                             label={null}
@@ -93,7 +115,7 @@ export const RegForm = () => {
                             <CustomInput placeholder='Место проживания' />
                         </Form.Item>
                         <Form.Item
-                            name='phone'
+                            name='phonenumber'
                             rules={[
                                 { message: 'Некорректный номер телефона', validator: phoneNumberValidator },
                                 { required: true, message: 'Введите номер телефона' },
@@ -191,15 +213,12 @@ export const RegForm = () => {
                         <Form.Item label={null}>
                             <CustomInput placeholder='Повторите пароль' type='password' />
                         </Form.Item>
-                        <Form.Item label={null}>
-                            <CustomInput placeholder='Промокод' />
-                        </Form.Item>
                     </>
                 )}
+                <Button style={{ width: '100%' }} htmlType='submit' type='primary'>
+                    Регистрация
+                </Button>
             </Form>
-            <Button style={{ width: '100%' }} htmlType='submit' type='primary'>
-                Регистрация
-            </Button>
         </Flex>
     )
 }
