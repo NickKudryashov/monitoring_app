@@ -1,6 +1,7 @@
 import { CompanyAccountData, defaultLogin, PersonalAccountData, useRegisterMutation } from '@/entities/user'
 import { useAppDispatch } from '@/shared/hooks/hooks'
 import { useMobilDeviceDetect } from '@/shared/hooks/useMobileDeviceDetect'
+import { innValidator, kppValidator } from '@/shared/lib/validators/digitsValidator'
 import { emailValidator } from '@/shared/lib/validators/emailValidator'
 import { phoneNumberValidator } from '@/shared/lib/validators/phoneNumberValidator'
 import { ADDON_COLOR } from '@/shared/newUi/styles'
@@ -114,107 +115,132 @@ export const RegForm = () => {
                         >
                             <CustomInput placeholder='Место проживания' />
                         </Form.Item>
-                        <Form.Item
-                            name='phonenumber'
-                            rules={[
-                                { message: 'Некорректный номер телефона', validator: phoneNumberValidator },
-                                { required: true, message: 'Введите номер телефона' },
-                            ]}
-                            label={null}
-                        >
-                            <CustomInput placeholder='Телефон' />
-                        </Form.Item>
-                        <Form.Item
-                            name='email'
-                            rules={[
-                                { message: 'Некорректный email', validator: emailValidator },
-
-                                { required: true, message: 'Введите email' },
-                            ]}
-                            label={null}
-                        >
-                            <CustomInput placeholder='Email' />
-                        </Form.Item>
-                        <Form.Item
-                            rules={[{ required: true, message: 'Введите имя пользователя' }]}
-                            name='username'
-                            label={null}
-                        >
-                            <CustomInput placeholder='Имя пользователя' />
-                        </Form.Item>
-                        <Form.Item
-                            name='password'
-                            rules={[{ required: true, message: 'Введите пароль' }]}
-                            label={null}
-                        >
-                            <CustomInput
-                                onPaste={(e) => e.preventDefault()}
-                                onCopy={(e) => e.preventDefault()}
-                                placeholder='Пароль'
-                                type='password'
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            rules={[
-                                { required: true, message: 'Повторите пароль' },
-                                {
-                                    message: 'Пароли не совпадают',
-                                    validator: (_, val: string) =>
-                                        val === pass || !val ? Promise.resolve() : Promise.reject(),
-                                },
-                            ]}
-                            name='repeat_password'
-                            label={null}
-                        >
-                            <CustomInput
-                                onPaste={(e) => e.preventDefault()}
-                                onCopy={(e) => e.preventDefault()}
-                                placeholder='Повторите пароль'
-                                type='password'
-                            />
-                        </Form.Item>
-                        <Form.Item label={null}>
-                            <CustomInput onPaste={(e) => e.preventDefault()} placeholder='Промокод' />
-                        </Form.Item>
                     </>
                 )}
                 {!personalReg && (
                     <>
-                        <Form.Item label={null}>
+                        <Form.Item name='full_name' label={null}>
                             <CustomInput placeholder='Полное наименование организации' />
                         </Form.Item>
-                        <Form.Item label={null}>
+                        <Form.Item
+                            rules={[
+                                {
+                                    message: 'Неверный ИНН',
+                                    validator: innValidator,
+                                },
+                                { required: true, message: 'Обязательное поле' },
+                            ]}
+                            name='inn'
+                            label={null}
+                        >
                             <CustomInput placeholder='ИНН' />
                         </Form.Item>
-                        <Form.Item label={null}>
+                        <Form.Item
+                            rules={[
+                                {
+                                    message: 'Неверный КПП',
+                                    validator: kppValidator,
+                                },
+                                { required: true, message: 'Обязательное поле' },
+                            ]}
+                            name='kpp'
+                            label={null}
+                        >
                             <CustomInput placeholder='КПП' />
                         </Form.Item>
-                        <Form.Item label={null}>
+                        <Form.Item
+                            rules={[{ required: true, message: 'Обязательное поле' }]}
+                            name='employer_name'
+                            label={null}
+                        >
                             <CustomInput placeholder='ФИО' />
                         </Form.Item>
-                        <Form.Item label={null}>
+                        <Form.Item
+                            rules={[{ required: true, message: 'Обязательное поле' }]}
+                            name='employer_profession'
+                            label={null}
+                        >
                             <CustomInput placeholder='Должность' />
                         </Form.Item>
-                        <Form.Item label={null}>
+                        <Form.Item
+                            rules={[{ required: true, message: 'Обязательное поле' }]}
+                            name='official_adress'
+                            label={null}
+                        >
                             <CustomInput placeholder='Юридический адрес' />
                         </Form.Item>
-                        <Form.Item label={null}>
-                            <CustomInput placeholder='Телефон' />
-                        </Form.Item>
-                        <Form.Item label={null}>
-                            <CustomInput placeholder='Email' />
-                        </Form.Item>
-                        <Form.Item label={null}>
-                            <CustomInput placeholder='Имя пользователя' />
-                        </Form.Item>
-                        <Form.Item label={null}>
-                            <CustomInput placeholder='Пароль' type='password' />
-                        </Form.Item>
-                        <Form.Item label={null}>
-                            <CustomInput placeholder='Повторите пароль' type='password' />
+                        <Form.Item
+                            rules={[{ required: true, message: 'Обязательное поле' }]}
+                            name='actual_adress'
+                            label={null}
+                        >
+                            <CustomInput placeholder='Фактический адрес' />
                         </Form.Item>
                     </>
                 )}
+                <Form.Item
+                    name='phonenumber'
+                    rules={[
+                        { message: 'Некорректный номер телефона', validator: phoneNumberValidator },
+                        { required: true, message: 'Введите номер телефона' },
+                    ]}
+                    label={null}
+                >
+                    <CustomInput placeholder='Телефон' />
+                </Form.Item>
+                <Form.Item
+                    name='email'
+                    rules={[
+                        { message: 'Некорректный email', validator: emailValidator },
+
+                        { required: true, message: 'Введите email' },
+                    ]}
+                    label={null}
+                >
+                    <CustomInput placeholder='Email' />
+                </Form.Item>
+                <Form.Item
+                    rules={[{ required: true, message: 'Введите имя пользователя' }]}
+                    name='username'
+                    label={null}
+                >
+                    <CustomInput placeholder='Имя пользователя' />
+                </Form.Item>
+
+                <Form.Item label={null}>
+                    <CustomInput onPaste={(e) => e.preventDefault()} placeholder='Промокод' />
+                </Form.Item>
+                <Form.Item
+                    name='password'
+                    rules={[{ required: true, message: 'Введите пароль' }]}
+                    label={null}
+                >
+                    <CustomInput
+                        onPaste={(e) => e.preventDefault()}
+                        onCopy={(e) => e.preventDefault()}
+                        placeholder='Пароль'
+                        type='password'
+                    />
+                </Form.Item>
+                <Form.Item
+                    rules={[
+                        { required: true, message: 'Повторите пароль' },
+                        {
+                            message: 'Пароли не совпадают',
+                            validator: (_, val: string) =>
+                                val === pass || !val ? Promise.resolve() : Promise.reject(),
+                        },
+                    ]}
+                    name='repeat_password'
+                    label={null}
+                >
+                    <CustomInput
+                        onPaste={(e) => e.preventDefault()}
+                        onCopy={(e) => e.preventDefault()}
+                        placeholder='Повторите пароль'
+                        type='password'
+                    />
+                </Form.Item>
                 <Button style={{ width: '100%' }} htmlType='submit' type='primary'>
                     Регистрация
                 </Button>
