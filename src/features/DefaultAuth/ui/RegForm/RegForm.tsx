@@ -206,10 +206,6 @@ export const RegForm = () => {
                 >
                     <CustomInput placeholder='Имя пользователя' />
                 </Form.Item>
-
-                <Form.Item label={null}>
-                    <CustomInput onPaste={(e) => e.preventDefault()} placeholder='Промокод' />
-                </Form.Item>
                 <Form.Item
                     name='password'
                     rules={[{ required: true, message: 'Введите пароль' }]}
