@@ -1,22 +1,42 @@
-import { useAppDispatch } from '@/shared/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/hooks'
 import { App, Button, Flex, Form, FormInstance, Input, Typography } from 'antd'
 import { defaultLogin, getUserData } from '@/entities/user/Store/actionCreators'
 import { useMobilDeviceDetect } from '@/shared/hooks/useMobileDeviceDetect'
 import { ADDON_COLOR } from '@/shared/newUi/styles'
 import { UnlockFilled, UserOutlined } from '@ant-design/icons'
 import { useForm } from 'antd/es/form/Form'
+import { useEffect } from 'react'
+import { getIsAuth } from '@/entities/user'
+import { useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { StateSchema } from '@/app/providers/StoreProvider/config/stateSchema'
 
 export const AuthForm = () => {
     const dispatch = useAppDispatch()
     const isMobile = useMobilDeviceDetect()
     const [form] = useForm()
+    const isAuth = useSelector(getIsAuth)
+    const userData = useSelector((state: StateSchema) => state.user.userdata)
+    const { state } = useLocation()
     const { notification } = App.useApp()
-    const loginHandler = () => {
-        dispatch(
-            defaultLogin({ email: form.getFieldValue('email'), password: form.getFieldValue('password') }),
-        )
-            .unwrap()
-            .catch((data) => notification.error({ message: 'Не удалось войти' }))
+    const navigate = useNavigate()
+    const loginHandler = async () => {
+        try {
+            dispatch(
+                defaultLogin({
+                    email: form.getFieldValue('email'),
+                    password: form.getFieldValue('password'),
+                }),
+            ).unwrap()
+            if (userData?.is_active === false && isAuth) {
+                notification.warning({
+                    message: 'Аккаунт не активирован, пройдите по ссылке в вашей почте',
+                    key: 'notActive',
+                })
+            }
+        } catch {
+            notification.error({ message: 'Не удалось войти' })
+        }
     }
     return (
         <Form

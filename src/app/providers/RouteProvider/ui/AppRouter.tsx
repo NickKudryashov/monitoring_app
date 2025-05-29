@@ -1,56 +1,68 @@
-import { defaultAuthCheck, getIsAuth, getUserData } from "@/entities/user";
-import { Suspense, useEffect, useLayoutEffect } from "react";
-import { useSelector } from "react-redux";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/shared/hooks/hooks";
-import { RouteConfigPublic, RouteConfigAuth } from "../config/RouteConfig";
-import { MainLayoutPageLoader } from "@/pages/MainLayoutPageLoader";
-import { MainLayout } from "@/shared/ui/MainLayout/MainLayout";
-import { Navbar } from "@/widgets/Navbar";
-import { Sidebar } from "@/widgets/Sidebar";
-import { getVersion } from "@/entities/user/Store/actionCreators";
-import { useMobilDeviceDetect } from "@/shared/hooks/useMobileDeviceDetect";
-import { RoutePathPublic } from "@/shared/config/RouteConfig/RouteConfig";
+import { defaultAuthCheck, getIsAuth, getUserData } from '@/entities/user'
+import { Suspense, useEffect, useLayoutEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '@/shared/hooks/hooks'
+import { RouteConfigPublic, RouteConfigAuth } from '../config/RouteConfig'
+import { MainLayoutPageLoader } from '@/pages/MainLayoutPageLoader'
+import { MainLayout } from '@/shared/ui/MainLayout/MainLayout'
+import { Navbar } from '@/widgets/Navbar'
+import { Sidebar } from '@/widgets/Sidebar'
+import { getVersion } from '@/entities/user/Store/actionCreators'
+import { useMobilDeviceDetect } from '@/shared/hooks/useMobileDeviceDetect'
+import { RoutePathAuth, RoutePathPublic } from '@/shared/config/RouteConfig/RouteConfig'
+import { StateSchema } from '../../StoreProvider/config/stateSchema'
+import { App } from 'antd'
+import { userActions } from '@/entities/user/Store/authReducer'
+import { Link } from 'react-router-dom'
+import ActivatePage from '@/pages/ActivatePage/ActivatePage'
+import { AuthPage } from '@/pages/AuthPage/ui/AuthPage'
 
 export const AppRouter = () => {
-    const isAuth = useSelector(getIsAuth);
-    const dispatch = useAppDispatch();
-    const isMobile = useMobilDeviceDetect();
-    const navigate = useNavigate();
+    const isAuth = useSelector(getIsAuth)
+    const dispatch = useAppDispatch()
+    const isMobile = useMobilDeviceDetect()
+    const navigate = useNavigate()
+    const isActive = useSelector((state: StateSchema) => state.user.userdata?.is_active)
+    const { notification } = App.useApp()
     useEffect(() => {
-        dispatch(defaultAuthCheck());
-        dispatch(getUserData());
-        dispatch(getVersion());
-        if (!isAuth && isMobile) {
-            navigate(RoutePathPublic.auth);
+        if (!isAuth) {
+            dispatch(defaultAuthCheck())
         }
-    }, [dispatch]);
+        dispatch(getUserData())
+
+        dispatch(getVersion())
+    }, [isAuth])
+    if (!isAuth && isMobile) {
+        navigate(RoutePathPublic.auth)
+    }
 
     return (
         <Suspense fallback={<MainLayoutPageLoader />}>
             <Routes>
-                {Object.values(
-                    isAuth ? RouteConfigAuth : RouteConfigPublic,
-                ).map(({ path, element }) => (
-                    <Route
-                        key={path}
-                        path={path}
-                        element={
-                            <div className="page-wrapper">
-                                {isAuth ? (
+                {isAuth &&
+                    isActive &&
+                    Object.values(RouteConfigAuth).map(({ path, element }) => (
+                        <Route
+                            key={path}
+                            path={path}
+                            element={
+                                <div className='page-wrapper'>
                                     <MainLayout
                                         navbar={<Navbar />}
                                         sidebar={<Sidebar />}
                                         DetailView={element}
                                     />
-                                ) : (
-                                    element
-                                )}
-                            </div>
-                        }
-                    />
-                ))}
+                                </div>
+                            }
+                        />
+                    ))}
+                {isAuth && !isActive && <Route path='*' element={<AuthPage />} />}
+                {!isAuth &&
+                    Object.values(RouteConfigPublic).map(({ path, element }) => (
+                        <Route key={path} path={path} element={element} />
+                    ))}
             </Routes>
         </Suspense>
-    );
-};
+    )
+}

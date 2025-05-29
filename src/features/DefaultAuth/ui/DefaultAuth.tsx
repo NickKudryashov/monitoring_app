@@ -9,6 +9,7 @@ import { RoutePathAuth } from '@/shared/config/RouteConfig/RouteConfig'
 import { Flex, Typography } from 'antd'
 import { ADDON_COLOR } from '@/shared/newUi/styles'
 import { useMobilDeviceDetect } from '@/shared/hooks/useMobileDeviceDetect'
+import { StateSchema } from '@/app/providers/StoreProvider/config/stateSchema'
 
 interface DefaultAuthProps {
     className?: string
@@ -21,9 +22,10 @@ interface DefaultAuthProps {
 export function DefaultAuth(props: PropsWithChildren<DefaultAuthProps>) {
     const { className = '', title, children, authSelected, changeMode } = props
     const isAuth = useSelector(getIsAuth)
+    const active = useSelector((state: StateSchema) => state.user.is_active)
     const isMobile = useMobilDeviceDetect()
     const navigate = useNavigate()
-    if (isAuth) {
+    if (isAuth && active) {
         navigate(RoutePathAuth.main)
     }
     return (

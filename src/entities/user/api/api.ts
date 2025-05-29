@@ -1,4 +1,5 @@
 import { rtkApi } from '@/shared/api/rtkApi'
+import { GSMConnection, InternetConnection } from '@/shared/types/connectionTypes'
 
 export interface PersonalAccountData {
     username: string
@@ -40,8 +41,25 @@ export const userApi = rtkApi.injectEndpoints({
                 }
             },
         }),
+        activateQuery: build.query<GSMConnection | InternetConnection, { access: string; refresh: string }>({
+            query: ({ access, refresh }) => {
+                return {
+                    url: `verify-email/`,
+                    params: { access, refresh },
+                }
+            },
+        }),
+        sendEmail: build.mutation<{}, { access: string; refresh: string }>({
+            query: ({ access, refresh }) => {
+                return {
+                    url: `send_email/`,
+                    params: { access, refresh },
+                    method: 'POST',
+                }
+            },
+        }),
     }),
     overrideExisting: false,
 })
 
-export const { useRegisterMutation } = userApi
+export const { useRegisterMutation, useActivateQueryQuery, useSendEmailMutation } = userApi

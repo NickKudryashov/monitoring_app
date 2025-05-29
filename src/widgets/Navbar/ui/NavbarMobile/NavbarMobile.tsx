@@ -12,6 +12,7 @@ import EventsIcon from '@/shared/assets/icons/NavbarMobileEventsIcon.svg'
 import { NavbarMenu } from '../NavbarMenu/NavbarMenu'
 import ExitIcon from '@/shared/assets/icons/ExitIcon.svg'
 import { useAppDispatch } from '@/shared/hooks/hooks'
+import { RoutePathPublic } from '@/shared/config/RouteConfig/RouteConfig'
 interface NavbarProps {
     className?: string
     isAuth?: boolean
@@ -30,6 +31,7 @@ export function MobileNavbar(props: PropsWithChildren<NavbarProps>) {
     const [showEvents, setShowEvents] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const { logout } = useUserActions()
+    const navigate = useNavigate()
     const toggleMenuHandler = useCallback(() => {
         setShowMenu((prev) => !prev)
     }, [])
@@ -56,25 +58,23 @@ export function MobileNavbar(props: PropsWithChildren<NavbarProps>) {
                 <p>МЕНЮ</p>
                 <MenuIcon className={cls.menuIcon} />
             </VFlexBox>
-            <VFlexBox
-                alignItems='center'
-                height='fit-content'
-                width='fit-content'
-            >
+            <VFlexBox alignItems='center' height='fit-content' width='fit-content'>
                 <p>Тип компании</p>
                 <p>Название компании</p>
             </VFlexBox>
             <LogoIcon className={cls.logoIcon} />
-            <VFlexBox
-                alignItems='center'
-                height='fit-content'
-                width='fit-content'
-            >
+            <VFlexBox alignItems='center' height='fit-content' width='fit-content'>
                 <p>{email}</p>
                 <p>Должность</p>
             </VFlexBox>
             <EventsIcon />
-            <ExitIcon onClick={() => logout()} className={cls.icon} />
+            <ExitIcon
+                onClick={() => {
+                    navigate('/')
+                    logout()
+                }}
+                className={cls.icon}
+            />
         </HFlexBox>
     )
 }

@@ -2,18 +2,18 @@
     display: flex;
     justify-content: space-around;
     overflow: hidden;
-    width:100%;
+    width: 100%;
 
     // height: var(--main-content-height);
-    height:100%;
+    height: 100%;
     padding-top: 10px;
     padding-left: calc(100% * 0.05);
     padding-right: calc(100% * 0.05);
 }
 
 .MainPage {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -22,8 +22,8 @@
 .sidebarwrapper {
     display: flex;
     box-sizing: border-box;
-    width:100%;
-    height:var(--main-content-height);
+    width: 100%;
+    height: var(--main-content-height);
 
     // height:100%;
 }
@@ -31,30 +31,20 @@
 .listWithGeneral {
     display: flex;
     flex-direction: column;
-    width:25% ;
-    height:100%;
+    width: 25%;
+    height: 100%;
     padding-top: calc(var(--tab-height) + 10px);
-
 }
 
-.detail {
-    width:100%;
-    height:100%;
-    // border:1px solid black;
-    border-left: none;
-
-}
-
-.map{
-    width:100%;
-    height:100%;
-
+.map {
+    width: 100%;
+    height: 100%;
 }
 .toDevice {
-    overflow:auto;
+    overflow: auto;
 }
 
-.nodeCont{
+.nodeCont {
     display: flex;
     flex-direction: column;
 
@@ -64,13 +54,13 @@
 .generalInfoBtn {
     background: transparent;
     border: 1px solid black;
-    font:var(--font-s);
-    height:var(--tab-height);
-    width:100%;
+    font: var(--font-s);
+    height: var(--tab-height);
+    width: 100%;
 
     // border-top-right-radius:25px;
     cursor: pointer;
 
     // margin-left:1px;
-    padding:3px;
+    padding: 3px;
 }
