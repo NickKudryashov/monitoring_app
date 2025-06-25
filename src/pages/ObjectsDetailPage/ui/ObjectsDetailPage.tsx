@@ -145,7 +145,8 @@ const ObjectsDetailPage = memo((props: ObjectsDetailPageProps) => {
                         (el) =>
                             (!searchVal ||
                                 el.address.toLowerCase().includes(searchVal) ||
-                                el.abonent.toLocaleLowerCase().includes(searchVal)) && (
+                                el.abonent.toLocaleLowerCase().includes(searchVal)) &&
+                            el.enabled && (
                                 <ObjectCategoryView
                                     enabled={el.enabled}
                                     searchParams={searchParams}

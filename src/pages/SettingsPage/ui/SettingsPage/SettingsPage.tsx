@@ -89,7 +89,7 @@ const SettingsPage = (props: PropsWithChildren<SettingsPageProps>) => {
                                                 {objectData?.enabled ? 'Включен' : 'Выключен'}
                                             </Tag>
                                             <Switch
-                                                defaultChecked={objectData?.enabled}
+                                                checked={objectData?.enabled}
                                                 style={{ maxWidth: '40px' }}
                                                 onChange={(checked) =>
                                                     toggleObject({ id: selectedObj, enabled: checked })
