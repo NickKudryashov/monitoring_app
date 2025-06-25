@@ -1,30 +1,28 @@
 .detail {
     // width:75%;
     display: flex;
-    gap:3%;
-    width:90%;
-    height:100%;
-
+    gap: 3%;
+    width: 90%;
+    height: 100%;
+    text-decoration: none;
     // border:1px solid black;
     border-left: none;
     flex-wrap: wrap;
-
 }
 
 .ObjectsDetailPage {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
 }
 
 .altView {
-    font:var(--font-12-px);
+    font: var(--font-12-px);
     font-size: 0.62vw;
-    color:rgb(53 94 171 / 32%);
+    color: rgb(53 94 171 / 32%);
     padding-left: 3.3%;
 
     // min-height: 6%;
     white-space: nowrap;
-
 }
 
 .altViewPlate {
@@ -37,10 +35,9 @@
     // min-height: 10%;
 }
 
-
 .filters {
     font-size: 0.7vw;
-    color:rgb(53 94 171 / 50%);
+    color: rgb(53 94 171 / 50%);
     white-space: nowrap;
     cursor: pointer;
 }
@@ -49,17 +46,16 @@
 }
 
 .selectedFilter {
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
 @media (width <= 768px) {
     .detail {
-        gap:10px;
+        gap: 10px;
         align-items: start;
-
     }
 
     .filters {
         font-size: 0.6rem;
-    }  
+    }
 }

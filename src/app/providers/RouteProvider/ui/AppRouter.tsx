@@ -33,9 +33,9 @@ export const AppRouter = () => {
 
         dispatch(getVersion())
     }, [isAuth])
-    if (!isAuth && isMobile) {
-        navigate(RoutePathPublic.auth)
-    }
+    // if (!isAuth && isMobile) {
+    //     navigate(RoutePathPublic.auth)
+    // }
 
     return (
         <Suspense fallback={<MainLayoutPageLoader />}>

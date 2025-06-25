@@ -24,6 +24,8 @@ import { useCalcParams } from '../../hooks/useCalcParams'
 import { editUserObject } from '@/entities/Objects'
 import EyeIcon from '@/shared/assets/icons/EyeVisible.svg'
 import EyeDisableIcon from '@/shared/assets/icons/EyeDisable.svg'
+import { Switch } from 'antd/lib'
+import { Typography } from 'antd'
 interface ObjectCategoryViewProps {
     className?: string
     adress: string
@@ -31,11 +33,12 @@ interface ObjectCategoryViewProps {
     last_update: string
     visible: boolean
     searchParams: URLSearchParams
+    enabled: boolean
     id: number
 }
 
 export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewProps>) {
-    const { className = '', id, adress, last_update, abonent, visible, searchParams } = props
+    const { className = '', id, adress, last_update, abonent, visible, searchParams, enabled } = props
     const params = useMemo(() => {
         const evs = searchParams.get('events')
         const no_answer = searchParams.get('no_answer')
@@ -90,7 +93,7 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
         dispatch(subcatCardSliceActions.removeItem())
     }
 
-    if (data?.data.length === 0) {
+    if (data?.data.filter((el) => el.enabled).length === 0 || data?.data.length === 0) {
         return null
     }
 
@@ -98,7 +101,7 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
         <VFlexBox className={classNames(cls.ObjectCategoryView, {}, [className])}>
             <VFlexBox alignItems='center' align='center' gap='5px' height='20%' className={cls.cardHeader}>
                 <HFlexBox height={'40%'} align='center' alignItems='center' gap='7px'>
-                    <b className={cls.objType}>{abonent}</b>
+                    <Typography className={cls.objType}>{abonent}</Typography>
                     {visible ? (
                         <EyeIcon
                             className={cls.icon}
@@ -111,7 +114,7 @@ export function ObjectCategoryView(props: PropsWithChildren<ObjectCategoryViewPr
                         />
                     )}
                 </HFlexBox>
-                <b className={cls.addr}>{adress}</b>
+                <Typography className={cls.addr}>{adress}</Typography>
 
                 {/* <div
                     onClick={() => editMutation({ id, visible: !visible })}
