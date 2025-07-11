@@ -26,6 +26,7 @@ export type Tags =
     | 'HeatReportFiles'
     | 'UserEvents'
     | 'UserObjects'
+    | 'GsmTasks'
 interface Error {
     message?: string
 }
@@ -64,6 +65,7 @@ export const rtkApi = createApi({
         'HeatReportFiles',
         'UserEvents',
         'UserObjects',
+        'GsmTasks',
     ],
     baseQuery: baseQueryWithReauth,
     endpoints: () => ({}),

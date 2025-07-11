@@ -58,8 +58,18 @@ export const userApi = rtkApi.injectEndpoints({
                 }
             },
         }),
+        checkPassword: build.mutation<{ valid: boolean }, { password: string }>({
+            query: (body) => {
+                return {
+                    url: `user/check_password`,
+                    method: 'POST',
+                    body,
+                }
+            },
+        }),
     }),
     overrideExisting: false,
 })
 
-export const { useRegisterMutation, useActivateQueryQuery, useSendEmailMutation } = userApi
+export const { useRegisterMutation, useActivateQueryQuery, useSendEmailMutation, useCheckPasswordMutation } =
+    userApi

@@ -8,3 +8,4 @@ export { useUserActions } from './Store/authReducer'
 
 export { useRegisterMutation, useActivateQueryQuery, useSendEmailMutation } from './api/api'
 export type { CompanyAccountData, PersonalAccountData } from './api/api'
+export { RequiredPassword } from './ui/RequirePassword/RequirePassword'
