@@ -32,7 +32,7 @@ export const GSMTaksList = memo(() => {
             >
                 <List
                     header={<Typography.Title level={4}>Список активных GSM задач</Typography.Title>}
-                    dataSource={mockData}
+                    dataSource={data?.tasks}
                     rowKey={(item) => item.id}
                     renderItem={(item) => (
                         <List.Item>
