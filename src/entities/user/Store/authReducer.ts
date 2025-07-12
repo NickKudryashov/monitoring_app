@@ -36,7 +36,7 @@ export const userSlice = buildSlice({
             state.userdata = undefined
         },
         activate(state) {
-            state.userdata = { is_active: true }
+            state.userdata = { is_active: true, banned: false, comment: '', superuser: false }
         },
     },
     extraReducers: (builder) => {

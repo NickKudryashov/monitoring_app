@@ -1,54 +1,58 @@
-import { url } from "inspector";
-import { rtkApi, Tags } from "@/shared/api/rtkApi";
-import { ObjectResponse } from "../types/types";
+import { url } from 'inspector'
+import { rtkApi } from '@/shared/api/rtkApi'
+import { ObjectResponse } from '../types/types'
 
 const userObjectsApi = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        getObjectInfo:build.query<ObjectResponse,number>({
-            query: (id) =>{
+        getObjectInfo: build.query<ObjectResponse, number>({
+            query: (id) => {
                 return {
-                    url:`objects/${id}`,
+                    url: `objects/${id}`,
                 }
             },
-            providesTags: (result) => [({type: "UserObjects" as Tags, id: result?.id})]
+            providesTags: (result) => [{ type: 'UserObjects' as const, id: result?.id }],
         }),
-        getAllObjects:build.query<ObjectResponse[],{showAll?:string}>({
-            query: ({showAll}) =>{
+        getAllObjects: build.query<ObjectResponse[], { showAll?: string }>({
+            query: ({ showAll }) => {
                 return {
-                    url:`objects`,
-                    params:{showAll}
-                };
+                    url: `objects`,
+                    params: { showAll },
+                }
             },
-            providesTags: (result) =>{
-                    if (result) {
-                        return [   
-                            ...result.map((el)=>({type: "UserObjects" as Tags, id: el.id})),
-                            { type: "UserObjects", id: "LIST" }
-                        ]
-                    }
-                    return [{ type: "UserObjects", id: "LIST" }]},
+            providesTags: (result) => {
+                if (result) {
+                    return [
+                        ...result.map((el) => ({ type: 'UserObjects' as const, id: el.id })),
+                        { type: 'UserObjects', id: 'LIST' },
+                    ]
+                }
+                return [{ type: 'UserObjects', id: 'LIST' }]
+            },
         }),
-        editObject:build.mutation<ObjectResponse, Partial<ObjectResponse> & Pick<ObjectResponse, "id">>({
-            query:({id,...patch})=>({
+        editObject: build.mutation<ObjectResponse, Partial<ObjectResponse> & Pick<ObjectResponse, 'id'>>({
+            query: ({ id, ...patch }) => ({
                 url: `objects/${id}`,
-                method: "PUT",
+                method: 'PUT',
                 body: patch,
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: "UserObjects", id}],
+            invalidatesTags: (result, error, { id }) => [{ type: 'UserObjects', id }],
         }),
-        createObject:build.mutation<ObjectResponse, Partial<ObjectResponse> & Pick<ObjectResponse, "name" | 'abonent' | 'address' >>({
-            query:({...patch})=>({
+        createObject: build.mutation<
+            ObjectResponse,
+            Partial<ObjectResponse> & Pick<ObjectResponse, 'name' | 'abonent' | 'address'>
+        >({
+            query: ({ ...patch }) => ({
                 url: `objects/add`,
-                method: "POST",
+                method: 'POST',
                 body: patch,
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: "UserObjects", id:'LIST'}],
-        })
+            invalidatesTags: (result, error, { id }) => [{ type: 'UserObjects', id: 'LIST' }],
+        }),
     }),
     overrideExisting: false,
-});
+})
 
-export const getUserObjectData = userObjectsApi.useGetObjectInfoQuery;
-export const getAllObjects = userObjectsApi.useGetAllObjectsQuery;
+export const getUserObjectData = userObjectsApi.useGetObjectInfoQuery
+export const getAllObjects = userObjectsApi.useGetAllObjectsQuery
 export const editUserObject = userObjectsApi.useEditObjectMutation
 export const createUserObject = userObjectsApi.useCreateObjectMutation

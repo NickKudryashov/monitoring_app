@@ -28,6 +28,12 @@ export interface CompanyAccountData {
     official_adress: string
     actual_adress: string
 }
+interface User {
+    id: number
+    comment?: string
+    banned: boolean
+}
+
 type Args = PersonalAccountData | CompanyAccountData
 export const userApi = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -67,9 +73,43 @@ export const userApi = rtkApi.injectEndpoints({
                 }
             },
         }),
+        editUser: build.mutation<void, { id: number; comment?: string; banned?: boolean }>({
+            query: ({ id, ...rest }) => {
+                return {
+                    url: `user/manage/${id}`,
+                    method: 'POST',
+                    body: rest,
+                }
+            },
+            invalidatesTags: () => [{ type: 'UserList', id: 'LIST' }],
+        }),
+        deleteUser: build.mutation<void, Pick<User, 'id'>>({
+            query: ({ id }) => {
+                return {
+                    url: `user/manage/${id}`,
+                    method: 'delete',
+                }
+            },
+            invalidatesTags: () => [{ type: 'UserList', id: 'LIST' }],
+        }),
+        userListQuery: build.query<User[], void>({
+            query: () => {
+                return {
+                    url: `user/manage`,
+                }
+            },
+            providesTags: () => [{ type: 'UserList', id: 'LIST' }],
+        }),
     }),
     overrideExisting: false,
 })
 
-export const { useRegisterMutation, useActivateQueryQuery, useSendEmailMutation, useCheckPasswordMutation } =
-    userApi
+export const {
+    useRegisterMutation,
+    useActivateQueryQuery,
+    useSendEmailMutation,
+    useCheckPasswordMutation,
+    useDeleteUserMutation,
+    useEditUserMutation,
+    useUserListQueryQuery,
+} = userApi

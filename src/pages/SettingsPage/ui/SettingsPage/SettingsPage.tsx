@@ -11,6 +11,7 @@ import { getObjectSubcategoryData, toggleSubcat } from '@/entities/ObjectSubCate
 import { ModalDrawer } from '@/shared/newUi/ModalDrawer/ModalDrawer'
 import { ToggleObject } from '@/features/ToggleObject/ui/ToggleObject'
 import { GSMTaksList } from '@/features/GsmList/ui/GsmList'
+import { Permissions } from '@/entities/user/ui/Permissions/Permissions'
 interface SettingsPageProps {
     className?: string
 }
@@ -37,7 +38,11 @@ const SettingsPage = (props: PropsWithChildren<SettingsPageProps>) => {
                 <Card type='inner' className={cls.card} title={'Системы и приборы'}>
                     <AddDevice />
                 </Card>
-                <Card type='inner' className={cls.card} title={'Пользователи'} />
+                <Card type='inner' className={cls.card} title={'Пользователи'}>
+                    <Permissions>
+                        <Button type='primary'>Управление пользователями</Button>
+                    </Permissions>
+                </Card>
                 <Card type='inner' className={cls.card} title={'Быстрое добавление'} />
                 <Card type='inner' className={cls.card} title={'Задачи'}>
                     <GSMTaksList />

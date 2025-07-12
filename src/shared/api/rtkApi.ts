@@ -16,17 +16,6 @@ const baseQuery = fetchBaseQuery({
         return headers
     },
 })
-export type Tags =
-    | 'Subcats'
-    | 'HeatDevice'
-    | 'Upcols'
-    | 'Downcols'
-    | 'ReportParameters'
-    | 'HeatPeriods'
-    | 'HeatReportFiles'
-    | 'UserEvents'
-    | 'UserObjects'
-    | 'GsmTasks'
 interface Error {
     message?: string
 }
@@ -66,6 +55,7 @@ export const rtkApi = createApi({
         'UserEvents',
         'UserObjects',
         'GsmTasks',
+        'UserList',
     ],
     baseQuery: baseQueryWithReauth,
     endpoints: () => ({}),
