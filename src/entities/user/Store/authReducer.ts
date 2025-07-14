@@ -69,9 +69,9 @@ export const userSlice = buildSlice({
             .addCase(getVersion.fulfilled.type, (state, action: PayloadAction<string>) => {
                 state.version = action.payload
             })
-        // .addMatcher(userApi.endpoints.activateQuery.matchFulfilled, (state) => {
-        //     state.userdata = { is_active: true }
-        // })
+            .addMatcher(userApi.endpoints.userInfo.matchFulfilled, (state, data) => {
+                state.userdata = data.payload
+            })
     },
 })
 

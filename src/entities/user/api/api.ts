@@ -1,5 +1,6 @@
 import { rtkApi } from '@/shared/api/rtkApi'
 import { GSMConnection, InternetConnection } from '@/shared/types/connectionTypes'
+import { UserData } from '../Models/User'
 
 export interface PersonalAccountData {
     username: string
@@ -28,10 +29,12 @@ export interface CompanyAccountData {
     official_adress: string
     actual_adress: string
 }
-interface User {
+export interface User {
     id: number
     comment?: string
     banned: boolean
+    username: string
+    email: string
 }
 
 type Args = PersonalAccountData | CompanyAccountData
@@ -47,6 +50,15 @@ export const userApi = rtkApi.injectEndpoints({
                 }
             },
         }),
+        userInfo: build.query<UserData, void>({
+            query: () => {
+                return {
+                    url: `user/`,
+                }
+            },
+            providesTags: () => [{ type: 'UserList', id: 'LIST' }],
+        }),
+
         activateQuery: build.query<GSMConnection | InternetConnection, { access: string; refresh: string }>({
             query: ({ access, refresh }) => {
                 return {
@@ -81,18 +93,38 @@ export const userApi = rtkApi.injectEndpoints({
                     body: rest,
                 }
             },
+            async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+                // Находим эндпоинт, который мы хотим обновить - userListQuery
+                const patchResult = dispatch(
+                    userApi.util.updateQueryData('userListQuery', undefined, (draft) => {
+                        // `draft` - это текущие данные в кэше, в твоем случае это { users: User[] }
+                        // Находим нужного пользователя в массиве
+                        const user = draft.users.find((user) => user.id === id)
+                        if (user) {
+                            // Обновляем поля пользователя данными из нашего patch-запроса
+                            Object.assign(user, patch)
+                        }
+                    }),
+                )
+                try {
+                    await queryFulfilled
+                } catch {
+                    // Если мутация провалилась - откатываем наши оптимистичные изменения
+                    patchResult.undo()
+                }
+            },
             invalidatesTags: () => [{ type: 'UserList', id: 'LIST' }],
         }),
         deleteUser: build.mutation<void, Pick<User, 'id'>>({
             query: ({ id }) => {
                 return {
                     url: `user/manage/${id}`,
-                    method: 'delete',
+                    method: 'DELETE',
                 }
             },
             invalidatesTags: () => [{ type: 'UserList', id: 'LIST' }],
         }),
-        userListQuery: build.query<User[], void>({
+        userListQuery: build.query<{ users: User[] }, void>({
             query: () => {
                 return {
                     url: `user/manage`,
@@ -112,4 +144,5 @@ export const {
     useDeleteUserMutation,
     useEditUserMutation,
     useUserListQueryQuery,
+    useUserInfoQuery,
 } = userApi

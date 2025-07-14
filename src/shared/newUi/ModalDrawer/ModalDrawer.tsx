@@ -9,13 +9,7 @@ interface CustomProps {
 type PropsMixin = DrawerProps & ModalProps & CustomProps
 
 export const ModalDrawer = (props: PropsMixin) => {
-    const {
-        children,
-        minMobileWidth = '',
-        minFullsizeWidth = '',
-        style,
-        ...rest
-    } = props
+    const { children, minMobileWidth = '', minFullsizeWidth = '', style, ...rest } = props
     const isMobile = useMobilDeviceDetect()
     if (isMobile)
         return (

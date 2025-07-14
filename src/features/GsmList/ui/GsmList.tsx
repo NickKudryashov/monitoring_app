@@ -25,7 +25,7 @@ export const GSMTaksList = memo(() => {
                 open={listVisible}
                 closable={false}
                 footer={null}
-                height={700}
+                height={500}
                 placement='bottom'
                 onCancel={() => setListVisible(false)}
                 onClose={() => setListVisible(false)}
