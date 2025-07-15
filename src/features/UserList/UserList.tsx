@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { UserRow } from './UserRow'
 
 export const UserList = () => {
-    const [visible, setVisible] = useState(true)
+    const [visible, setVisible] = useState(false)
     const { data } = useUserListQueryQuery()
     return (
         <Permissions>

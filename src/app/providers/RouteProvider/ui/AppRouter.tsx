@@ -12,7 +12,7 @@ import { getVersion } from '@/entities/user/Store/actionCreators'
 import { useMobilDeviceDetect } from '@/shared/hooks/useMobileDeviceDetect'
 import { RoutePathAuth, RoutePathPublic } from '@/shared/config/RouteConfig/RouteConfig'
 import { StateSchema } from '../../StoreProvider/config/stateSchema'
-import { App, Result } from 'antd'
+import { App, Result, Typography } from 'antd'
 import { userActions } from '@/entities/user/Store/authReducer'
 import { Link } from 'react-router-dom'
 import ActivatePage from '@/pages/ActivatePage/ActivatePage'
@@ -39,7 +39,14 @@ export const AppRouter = () => {
     // if (!isAuth && isMobile) {
     //     navigate(RoutePathPublic.auth)
     // }
-    if (isAuth && banned) return <Result title={'Ваш аккаунт заблокирован'} subTitle={comment} />
+    if (isAuth && banned)
+        return (
+            <Result title={'Ваш аккаунт заблокирован'} style={{ width: '100%', height: '100%' }}>
+                <Typography.Title level={4} style={{ textAlign: 'center' }}>
+                    {comment}
+                </Typography.Title>
+            </Result>
+        )
     return (
         <Suspense fallback={<MainLayoutPageLoader />}>
             <Routes>
