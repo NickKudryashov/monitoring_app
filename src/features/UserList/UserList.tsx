@@ -25,7 +25,7 @@ export const UserList = () => {
                 open={visible}
                 closable={false}
                 footer={null}
-                height={500}
+                height={350}
                 placement='bottom'
                 onCancel={() => setVisible(false)}
                 onClose={() => setVisible(false)}
