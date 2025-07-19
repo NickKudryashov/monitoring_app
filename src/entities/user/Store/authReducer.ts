@@ -54,7 +54,7 @@ export const userSlice = buildSlice({
                 (state, action: PayloadAction<DefaultAuthCheckResponse>) => {
                     state.isAuth = true
                     localStorage.setItem('access_token', action.payload.access)
-                    localStorage.setItem('refresh_token', action.payload.refresh)
+                    // localStorage.setItem('refresh_token', action.payload.refresh)
                 },
             )
             .addCase(
